@@ -5,6 +5,7 @@
 {% endblock %}
 {% block body %}
     <div class="row" style="margin-top: 40px">
+        {{ form_start(form) }}
         <div class="col-md-4"><h4>This E-mail is just to recover your password.</h4>
             We will not sent any unsolicited E-mail. Our customers privacy is our most highest concern. </div>
         <div class="col-md-4">
@@ -23,5 +24,6 @@
             <div style="height: 40px"></div>
         </div>
         <div class="col-md-4"></div>
+        {{ form_end(form) }}
     </div>
 {% endblock %}

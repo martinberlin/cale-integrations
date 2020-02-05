@@ -5,6 +5,7 @@
 {% endblock %}
 {% block body %}
     <div class="row">
+        {{ form_start(form) }}
         <div class="col-md-4"></div>
         <div class="col-md-4">
             <h3>Login</h3>
@@ -21,5 +22,6 @@
             <a href="{{ path('register') }}">Register here</a>
         </div>
         <div class="col-md-4"></div>
+        {{ form_end(form) }}
     </div>
 {% endblock %}
