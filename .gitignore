@@ -1,0 +1,16 @@
+###> symfony/framework-bundle ###
+.env
+.idea
+/public/bundles/
+/public/log
+/var/
+/vendor/
+# Test JSON for import
+/public/dev/demo-mantis-api.json
+###< symfony/framework-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###

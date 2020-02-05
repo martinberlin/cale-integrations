@@ -1,0 +1,2 @@
+#index:
+#    controller: App\Controller\HomeController
