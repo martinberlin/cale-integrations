@@ -64,7 +64,7 @@ class User implements UserInterface
     /**
      * @return string
      */
-    public function getEmail(): string
+    public function getEmail():?string
     {
         return $this->email;
     }
@@ -84,7 +84,7 @@ class User implements UserInterface
     /**
      * @return string
      */
-    public function getPassword(): string
+    public function getPassword():?string
     {
         return $this->password;
     }

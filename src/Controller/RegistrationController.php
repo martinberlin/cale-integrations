@@ -2,7 +2,6 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\RegistrationFormType;
 use App\Form\UserRegistrationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,7 +24,9 @@ class RegistrationController extends AbstractController
         EntityManagerInterface $entityManager,
         SessionInterface $session
     ) {
+
         $user = new User();
+        //dump($user);exit();
         $form = $this->createForm(UserRegistrationType::class, $user);
         $form->handleRequest($request);
 
@@ -41,7 +42,7 @@ class RegistrationController extends AbstractController
             $tokenStorage->setToken($token);
             $session->set('_security_main', serialize($token));
 
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render(

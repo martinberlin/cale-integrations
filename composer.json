@@ -15,6 +15,7 @@
         "symfony/orm-pack": "dev-master",
         "symfony/profiler-pack": "dev-master",
         "symfony/security-bundle": "5.1.*",
+        "symfony/swiftmailer-bundle": "^3.4@dev",
         "symfony/twig-pack": "dev-master",
         "symfony/validator": "5.1.*",
         "symfony/yaml": "5.1.*"

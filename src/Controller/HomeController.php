@@ -10,9 +10,9 @@ use Symfony\Component\HttpFoundation\Response;
 class HomeController
 {
     /**
-     * @Route("/")
+     * @Route("/", name="home")
      */
-    public function test()
+    public function index()
     {
         $number = random_int(0, 100);
 
