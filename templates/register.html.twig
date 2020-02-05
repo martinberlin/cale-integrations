@@ -6,18 +6,17 @@
 {% block body %}
     <div class="row" style="margin-top: 40px">
         {{ form_start(form) }}
-        <div class="col-md-4"><h4>This E-mail is just to recover your password.</h4>
+        <div class="col-md-4" style="margin-top: 1.3em"><h4>This E-mail is just to recover your password.</h4>
             We will not sent any unsolicited E-mail. Our customers privacy is our most highest concern. </div>
         <div class="col-md-4">
             <h3>Register an account</h3>
             <p>To be notified about the Eink display manager launch</p>
             {{ form_errors(form) }}
-            {{ form_label(form.email) }}
-            {{ form_widget(form.email) }}
+            {{ form_row(form.email) }}
 
-            {{ form_label(form.plainPassword.first) }}
+            {{ form_label(form.plainPassword.first, 'Password') }}
             {{ form_widget(form.plainPassword.first,{'attr': { 'class': 'form-control' }}) }}
-            {{ form_label(form.plainPassword.second) }}
+            {{ form_label(form.plainPassword.second, 'Repeat password') }}
             {{ form_widget(form.plainPassword.second,{'attr': { 'class': 'form-control' }}) }}
 <br>
             {{ form_widget(form.submit) }}

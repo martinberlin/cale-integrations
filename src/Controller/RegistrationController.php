@@ -43,7 +43,7 @@ class RegistrationController extends AbstractController
             $tokenStorage->setToken($token);
             $session->set('_security_main', serialize($token));
 
-            return $this->redirectToRoute('thanks');
+            return $this->redirectToRoute('thanks', [], 302);
         }
 
         return $this->render(
