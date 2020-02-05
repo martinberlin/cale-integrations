@@ -22,7 +22,7 @@ h1,h2,h3,h4,h5,strong,b { color: #111 }
 h1 { letter-spacing: -2px }
 h2 { letter-spacing: -3px; font-size: 56px; font-weight: bold }
 h3:not(.popover-title) {
-  font-size: 32px;
+  font-size: 25px;
   font-weight: bold;
   letter-spacing: -2px;
 }
