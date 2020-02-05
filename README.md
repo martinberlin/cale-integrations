@@ -6,14 +6,15 @@ To configure a pool of APIs and deliver customized layouts.
 
 ## API Pool includes
 
-Codename | API
-gcale      Google calendar
-darksky    Darksky weather
-timetree   Shared calendar
+    Codename | API
+    gcale      Google calendar
+    darksky    Darksky weather
+    timetree   Shared calendar
 
 ## Technologies used
 
 PHP / Symfony 5 recipes 
+Doctrine Object relational mapping
 
 ### Initial install 
 
