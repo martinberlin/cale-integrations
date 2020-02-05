@@ -8,7 +8,14 @@
         <div class="col-md-4"></div>
         <div class="col-md-4">
             <h3>Login</h3>
-        {{ form(form) }}
+            {{ form_errors(form) }}
+            {{ form_label(form._username) }}
+            {{ form_widget(form._username) }}
+
+            {{ form_label(form._password) }}
+            {{ form_widget(form._password) }}
+            <br>
+            {{ form_widget(form.submit) }}
 
             <div style="height: 40px"></div>
             <a href="{{ path('register') }}">Register here</a>

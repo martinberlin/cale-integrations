@@ -14,6 +14,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class RegistrationController extends AbstractController
 {
+
     /**
      * @Route("/register", name="register", methods={"GET", "POST"})
      */
@@ -42,7 +43,7 @@ class RegistrationController extends AbstractController
             $tokenStorage->setToken($token);
             $session->set('_security_main', serialize($token));
 
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('thanks');
         }
 
         return $this->render(
