@@ -1,12 +1,42 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome baby!{% endblock %}</title>
+<!--[if gte IE 10 | !IE ]><!--> <html lang="en"> <!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>{% block title %}CALE Integrations{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
+        <!-- Bootstrap 3 core CSS -->
+        <link href="./css/bootstrap.min.css" rel="stylesheet">
+        <link href="./css/theme.css" rel="stylesheet">
+        <link href="./css/prism.css" rel="stylesheet">
+    <script src="./js/polyfill.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+
+    <![endif]-->
     </head>
     <body>
+    {% include "partials/navbar.html.twig" %}
+    {% block carousel %}{% endblock %}
+        <div id="main-container" class="container">
+            <div id="container-content-column" class="col-sm-12" style="margin-top: 4em" data-target="#side-nav" data-offset="80">
+
+            <div class="row">
+                <div class="col-md-12">
         {% block body %}{% endblock %}
+                </div>
+            </div>
+
+            </div>
+        </div>
+
+    <script type="text/javascript" src="./js/prism.js"></script>
+    <script type="text/javascript" src="./js/bootstrap-native.js"></script>
+
+    <script type="text/javascript" src="./js/engine/common.js"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

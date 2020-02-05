@@ -1,5 +1,17 @@
 {% extends 'base.html.twig' %}
 
+{% block carousel %}
+    {% include "partials/carousel.html.twig" %}
+{% endblock %}
 {% block body %}
-    {{ form(form) }}
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <h2>Login</h2>
+        {{ form(form) }}
+<div style="height: 40px"></div>
+            <a href="{{ path('register') }}">Register here</a>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
 {% endblock %}
