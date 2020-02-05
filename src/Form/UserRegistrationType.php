@@ -18,9 +18,21 @@ class UserRegistrationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email', EmailType::class)
-            ->add('plainPassword', RepeatedType::class, ['type' => PasswordType::class])
-            ->add('submit', SubmitType::class);
+            ->add('email', EmailType::class,
+                [
+                    'attr' => ['class' => 'form-control']
+                ])
+            ->add('plainPassword', RepeatedType::class,
+                [
+                    'type' => PasswordType::class,
+                    'attr' => ['class' => 'form-control']
+
+                ])
+            ->add('submit', SubmitType::class,
+                [
+                    'attr' => ['class' => 'btn btn-primary']
+                ]
+                );
     }
 
     /**
