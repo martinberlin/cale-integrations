@@ -14,6 +14,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
         activeCaption.classList.add('slide');
     });
 
-    //var caleCarousel = new Carousel(mainSlider);
+    var caleCarousel = new Carousel(mainSlider);
 });
 
