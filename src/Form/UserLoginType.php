@@ -17,4 +17,8 @@ class UserLoginType extends AbstractType
             ->add('submit', SubmitType::class);
     }
 
+    public function getBlockPrefix()
+    {
+        return "";
+    }
 }

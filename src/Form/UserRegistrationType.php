@@ -31,4 +31,8 @@ class UserRegistrationType extends AbstractType
         $resolver->setDefaults(['data_class' => User::class]);
     }
 
+    public function getBlockPrefix()
+    {
+        return "";
+    }
 }
