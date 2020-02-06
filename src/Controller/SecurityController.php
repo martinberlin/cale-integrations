@@ -26,4 +26,9 @@ class SecurityController extends AbstractController
             ]
         );
     }
+
+    /**
+     * @Route("/logout", name="logout", methods={"GET", "POST"})
+     */
+    public function logout() {}
 }

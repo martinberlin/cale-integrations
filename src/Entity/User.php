@@ -51,7 +51,7 @@ class User implements UserInterface
      *
      * @ORM\Column(type="array")
      */
-    private $roles = ['ROLE_USER'];
+    private $roles = [];
 
     /**
      * @return mixed

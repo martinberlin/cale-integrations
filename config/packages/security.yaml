@@ -16,17 +16,20 @@ security:
             security: false
         main:
             pattern: ^/
+            anonymous: true
             form_login:
                 provider: app_users
                 login_path: login
                 check_path: login
+                default_target_path: /backend
             logout:
                 path:   /logout
                 target: /
-            anonymous:    true
+
     access_control:
+        - { path: '^/backend', roles: [ROLE_USER,ROLE_ADMIN] }
         - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/reset_password, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/backend, role: ROLE_USER }
+

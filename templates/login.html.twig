@@ -1,8 +1,21 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+<style>
+    #myCarousel.carousel {
+        height: 300px;
+    }
+    #myCarousel .item {
+        height: 300px; width: 100%;
+        background-color: #333;
+    }
+</style>
+{% endblock stylesheets %}
+
 {% block carousel %}
     {% include "partials/carousel.html.twig" %}
-{% endblock %}
+{% endblock carousel %}
+
 {% block body %}
     <div class="row">
         {{ form_start(form) }}
@@ -24,4 +37,8 @@
         <div class="col-md-4"></div>
         {{ form_end(form) }}
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="./js/engine/common.js"></script>
 {% endblock %}
