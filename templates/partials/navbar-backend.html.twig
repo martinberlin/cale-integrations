@@ -8,7 +8,7 @@
             </button>
 
             <span class="visible-lg-inline-block" style="margin-top: -2em">
-                    <a href="#" data-toggle="tooltip" data-placement="bottom" class="navbar-brand" title="CALE">
+                    <a href="{{ path('b_home') }}" data-toggle="tooltip" data-placement="bottom" class="navbar-brand" title="CALE">
                     <h3 style="color:white">
                             <div class="row">
                                 <div class="col-md-3">
@@ -24,7 +24,8 @@
         </div>
         <nav id="bs-navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li>List users</li>
+                <li>
+                    <a  href="{{ path('b_users') }}">List users</a></li>
 
                 <li class="dropdown"><a href="#" data-toggle="dropdown" aria-expanded="false">User <span
                                 class="caret"></span></a>

@@ -10,6 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="app_user")
  * @UniqueEntity("email")
+ * @ORM\HasLifecycleCallbacks
  */
 class User implements UserInterface
 {
@@ -47,11 +48,53 @@ class User implements UserInterface
     protected $passwordRequestToken;
 
     /**
+     * @var \DateTime
+     * @ORM\Column(type="datetime")
+     */
+    protected $created;
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $updated;
+
+    /**
      * @var array $roles
      *
      * @ORM\Column(type="array")
      */
     private $roles = [];
+
+    public function __construct() {
+        // we set up "created"+"modified"
+        $this->setCreated(new \DateTime());
+        if ($this->getUpdated() == null) {
+            $this->setUpdated(new \DateTime());
+        }
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateModifiedDatetime() {
+        // update the modified time
+        $this->setUpdated(new \DateTime());
+    }
+
+    public function setCreated(\DateTime $dateTime = null) {
+        $this->created = $dateTime;
+    }
+    public function setUpdated(\DateTime $dateTime = null) {
+        $this->uddated = $dateTime;
+    }
+
+    public function getUpdated() {
+        return $this->updated;
+    }
+    public function getCreated() {
+        return $this->created;
+    }
 
     /**
      * @return mixed

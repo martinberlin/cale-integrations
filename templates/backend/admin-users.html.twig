@@ -1,0 +1,25 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+{% block body %}
+  <h3>Users</h3>
+
+  <table style="border-spacing:4px;width: 50%">
+    <thead>
+    </tr>
+      <th>ID</th>
+      <th>Email</th>
+      <th>Created</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for user in users %}
+      <tr style="border:1px #1b6d85 dashed">
+        <td>{{ user.id }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.created|date("D d.m.Y") }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}
