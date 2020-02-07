@@ -118,15 +118,12 @@
         "version": "2.2.3"
     },
     "php": {
-        "version": "7.3"
+        "version": "7.2"
     },
     "psr/cache": {
         "version": "1.0.x-dev"
     },
     "psr/container": {
-        "version": "1.0.x-dev"
-    },
-    "psr/event-dispatcher": {
         "version": "1.0.x-dev"
     },
     "psr/log": {
@@ -167,6 +164,9 @@
         "files": [
             "bin/console"
         ]
+    },
+    "symfony/debug": {
+        "version": "v4.4.4"
     },
     "symfony/debug-bundle": {
         "version": "4.1",
