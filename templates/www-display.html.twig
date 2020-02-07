@@ -34,9 +34,14 @@
         </thead>
         <tbody>
         {% for d in displays %}
+        {% if d.classname == 'GDEW029T5' %}
+            {% set h = 150 %}
+        {% else %}
+            {% set h = 200 %}
+        {% endif %}
             <tr style="border:1px #1b6d85 dashed">
                 <td>&nbsp;<b>{{ d.className }}</b><br>
-                <img height="200" src="/assets/display/{{ d.className }}.jpg">
+                <img height="{{ h }}" src="/assets/display/{{ d.className }}.jpg">
                 </td>
                 <td>{{ d.name }}</td>
                 <td>{{ d.brand }}</td>
