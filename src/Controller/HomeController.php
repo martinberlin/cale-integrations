@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use App\Repository\DisplayRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +18,21 @@ class HomeController extends AbstractController
     public function index()
     {
         return $this->redirectToRoute('register', [], 301);
+    }
+
+
+    /**
+     * @Route("/eink-displays", name="displays")
+     */
+    public function displays(DisplayRepository $displayRepository)
+    {
+        $displays = $displayRepository->findAll();
+        return $this->render(
+            'www-display.html.twig',
+        [
+            'displays' => $displays
+        ]
+        );
     }
 
     /**
