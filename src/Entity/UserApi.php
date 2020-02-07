@@ -35,7 +35,13 @@ class UserApi
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=130)
+     * @ORM\Column(type="string", length=130, nullable=true)
      */
     protected $accessToken;
+
+    /**
+     * @var string
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    protected $isConfigured;
 }

@@ -6,6 +6,7 @@
         "php": "^7.2.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "doctrine/doctrine-fixtures-bundle": "^3.3@dev",
         "sensio/framework-extra-bundle": "^5.5@dev",
         "symfony/console": "5.1.*",
         "symfony/dotenv": "5.1.*",
