@@ -24,9 +24,8 @@
         </tr>
         <th>gxEPD Class name</th>
         <th>Name</th>
-        <th>Brand</th>
         <th>Resolution</th>
-        <th>Size in mm</th>
+        <th>Size (mm)</th>
         <th>Grays</th>
         <th>Refresh time</th>
         <th>URLs</th>
@@ -41,10 +40,10 @@
         {% endif %}
             <tr style="border:1px #1b6d85 dashed">
                 <td>&nbsp;<b>{{ d.className }}</b><br>
-                <img height="{{ h }}" src="/assets/display/{{ d.className }}.jpg">
+                <img height="{{ h }}" src="/assets/display/{{ d.className }}.jpg"><br>
+                    &nbsp;<small>{{ d.brand }}</small>
                 </td>
                 <td>{{ d.name }}</td>
-                <td>{{ d.brand }}</td>
                 <td>W:{{ d.width }} H:{{ d.height }}</td>
                 <td>{{ d.activeSize }}</td>
                 <td>{{ d.grayLevels }}</td>
