@@ -4,6 +4,10 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    # ex.             http://calendar.fasani.de/screenshot/cale.php?u=http://calendar.fasani.de/paulina&w=400&h=300&d=1
+    screenshot_host: 'http://calendar.fasani.de'
+    screenshot_path: '/cale.php?u=[url]&w=[width]&h=[height]&b=[brightness]&d=[bitdepth]&c=[compressed]'
+    screenshot_parts: ['url','width','height','brightness','bitdepth','compressed']
 
 services:
     # default configuration for services in *this* file
