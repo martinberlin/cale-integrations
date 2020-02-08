@@ -21,16 +21,10 @@ class IntegrationApi
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="UserApi")
+     * @ORM\JoinColumn(name="user_api_id", referencedColumnName="id")
      */
-    protected $user;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Api")
-     * @ORM\JoinColumn(name="api_id", referencedColumnName="id")
-     */
-    protected $api;
+    protected $userApi;
 
     /**
      * @var string
@@ -39,14 +33,10 @@ class IntegrationApi
     protected $name;
 
     /**
-     * @var integer
-     * @ORM\Column(type="integer")
-     */
-    protected $maxResults;
-
-    /**
+     * Skeleton forms starting from Api->getRequestParameters()
      * @var string
-     * @ORM\Column(type="string", length=60)
+     * @ORM\Column(type="string", length=255)
      */
-    protected $orderBy;
+    protected $jsonSettings;
+
 }

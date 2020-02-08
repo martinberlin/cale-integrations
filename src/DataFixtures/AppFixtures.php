@@ -46,6 +46,7 @@ class AppFixtures extends Fixture
         $api->setUrl('https://api.darksky.net/forecast/[token]/[latitude],[longitude]');
         $api->setRequestParameters(json_encode($requestParams));
         $api->setResponseType('json');
+        $api->setIsLocationApi(true);
         $manager->persist($api);
         $manager->flush();
     }

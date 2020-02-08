@@ -15,13 +15,18 @@ class UserApi
 {
     /**
      * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     protected $user;
 
     /**
-     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Api")
      * @ORM\JoinColumn(name="api_id", referencedColumnName="id")
      */

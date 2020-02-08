@@ -50,6 +50,18 @@ class Api
     protected $responseType;
 
     /**
+     * @var string
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    protected $isLocationApi;
+
+    function __construct()
+    {
+        $this->isLocationApi = false;
+    }
+
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -157,4 +169,22 @@ class Api
         return $this;
     }
 
+
+    /**
+     * @return boolean
+     */
+    public function isLocationApi(): bool
+    {
+        return $this->isLocationApi;
+    }
+
+    /**
+     * @param boolean
+     * @return Api
+     */
+    public function setIsLocationApi(bool $l): Api
+    {
+        $this->isLocationApi = $l;
+        return $this;
+    }
 }
