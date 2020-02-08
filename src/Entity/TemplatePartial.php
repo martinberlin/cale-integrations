@@ -6,10 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ScreenContentRepository")
- * @ORM\Table(name="screen_partial")
+ * @ORM\Entity(repositoryClass="App\Repository\TemplatePartialRepository")
+ * @ORM\Table(name="template_partial")
  */
-class ScreenPartial implements Sortable
+class TemplatePartial implements Sortable
 {
     /**
      * @ORM\Id
@@ -18,18 +18,19 @@ class ScreenPartial implements Sortable
      */
     protected $id;
 
-    /**
-     * Many partials have one screen. This is the owning side.
-     * @ORM\ManyToOne(targetEntity="Screen", inversedBy="partials")
-     * @ORM\JoinColumn(name="screen_id", referencedColumnName="uuid")
-     */
-    private $screen;
 
     /**
      * @ORM\ManyToOne(targetEntity="IntegrationApi")
-     * @ORM\JoinColumn(name="screen_intapi_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="template_intapi_id", referencedColumnName="id")
      */
     protected $integrationApi;
+
+    /**
+     * Many template_partial have one template. This is the owning side.
+     * @ORM\ManyToOne(targetEntity="Template", inversedBy="partials")
+     * @ORM\JoinColumn(name="template_id", referencedColumnName="id")
+     */
+    protected $template;
 
     /**
      * @var string

@@ -35,22 +35,16 @@ class Screen implements Created
     protected $display;
 
     /**
+     * One Screen has many templates. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="Template", mappedBy="screen")
+     */
+    private $template;
+
+    /**
      * @var string
      * @ORM\Column(type="string", length=130, nullable=true)
      */
     protected $name;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=130, nullable=true)
-     */
-    protected $template;
-
-    /**
-     * One Screen has many partials. This is the inverse side.
-     * @ORM\OneToMany(targetEntity="ScreenPartial", mappedBy="screen")
-     */
-    private $partials;
 
     /**
      * @var \DateTime
@@ -152,34 +146,4 @@ class Screen implements Created
         $this->template = $template;
     }
 
-    public function addPartial(ScreenPartial $partial): self
-    {
-        if (!$this->partials->contains($partial)) {
-            $this->partials[] = $partial;
-        }
-        return $this;
-    }
-
-    public function removePartial(ScreenPartial $partial): self
-    {
-        if ($this->partials->contains($partial)) {
-            $this->partials->removeElement($partial);
-        }
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPartials()
-    {
-        return $this->partials;
-    }
-
-    /**
-     * @param mixed $partials
-     */
-    public function setPartials($partials)
-    {
-        $this->partials = $partials;
-    }
 }
