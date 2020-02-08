@@ -61,6 +61,22 @@ class ScreenPartial implements Sortable
     }
 
     /**
+     * @param Screen
+     */
+    public function setScreen(Screen $screen)
+    {
+        $this->screen = $screen;
+    }
+
+    /**
+     * @return Screen
+     */
+    public function getScreen()
+    {
+        return $this->screen;
+    }
+
+    /**
      * @param mixed $id
      */
     public function setId($id)

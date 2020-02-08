@@ -1,6 +1,7 @@
 <?php
 namespace App\Entity;
 
+use App\Entity\Model\Created;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -11,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity("uuid")
  * @ORM\HasLifecycleCallbacks
  */
-class Screen
+class Screen implements Created
 {
     /**
      * The internal primary identity key.
@@ -51,11 +52,134 @@ class Screen
      */
     private $partials;
 
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="datetime")
+     */
+    protected $created;
+
     function __construct()
     {
         $this->uuid = uniqid();
         $this->partials = new ArrayCollection();
+        $this->setCreated(new \DateTime());
     }
 
+    public function getCreated() {
+        return $this->created;
+    }
+    public function setCreated(\DateTime $dateTime = null) {
+        $this->created = $dateTime;
+    }
 
+    /**
+     * @return mixed
+     */
+    public function getUuid()
+    {
+        return $this->uuid;
+    }
+
+    /**
+     * @param mixed $uuid
+     */
+    public function setUuid($uuid)
+    {
+        $this->uuid = $uuid;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDisplay()
+    {
+        return $this->display;
+    }
+
+    /**
+     * @param mixed $display
+     */
+    public function setDisplay($display)
+    {
+        $this->display = $display;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTemplate(): string
+    {
+        return $this->template;
+    }
+
+    /**
+     * @param string $template
+     */
+    public function setTemplate(string $template)
+    {
+        $this->template = $template;
+    }
+
+    public function addPartial(ScreenPartial $partial): self
+    {
+        if (!$this->partials->contains($partial)) {
+            $this->partials[] = $partial;
+        }
+        return $this;
+    }
+
+    public function removePartial(ScreenPartial $partial): self
+    {
+        if ($this->partials->contains($partial)) {
+            $this->partials->removeElement($partial);
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPartials()
+    {
+        return $this->partials;
+    }
+
+    /**
+     * @param mixed $partials
+     */
+    public function setPartials($partials)
+    {
+        $this->partials = $partials;
+    }
 }

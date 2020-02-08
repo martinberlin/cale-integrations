@@ -1,6 +1,7 @@
 <?php
 namespace App\Entity;
 
+use App\Entity\Model\Created;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -12,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @UniqueEntity("email")
  * @ORM\HasLifecycleCallbacks
  */
-class User implements UserInterface
+class User implements UserInterface, Created
 {
     /**
      * @ORM\Id
@@ -82,6 +83,9 @@ class User implements UserInterface
         $this->setUpdated(new \DateTime());
     }
 
+    public function getCreated() {
+        return $this->created;
+    }
     public function setCreated(\DateTime $dateTime = null) {
         $this->created = $dateTime;
     }
@@ -92,9 +96,7 @@ class User implements UserInterface
     public function getUpdated() {
         return $this->updated;
     }
-    public function getCreated() {
-        return $this->created;
-    }
+
 
     /**
      * @return mixed

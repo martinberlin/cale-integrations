@@ -7,8 +7,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\IntegrationApiRepository")
  * @ORM\Table(name="app_int_api")
- * @UniqueEntity("urlName")
- * @ORM\HasLifecycleCallbacks
  */
 class IntegrationApi
 {
