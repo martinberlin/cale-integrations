@@ -21,7 +21,7 @@ class IntegrationApi implements Language, Location
 
     /**
      * @ORM\ManyToOne(targetEntity="UserApi")
-     * @ORM\JoinColumn(name="user_api_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_api_id", referencedColumnName="uuid")
      */
     protected $userApi;
 

@@ -11,16 +11,18 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * An User can implement the same api 2 times, but with different accessToken's
  * @ORM\Entity(repositoryClass="App\Repository\UserApiRepository")
  * @ORM\Table(name="app_user_api")
+ * @UniqueEntity("uuid")
  * @ORM\HasLifecycleCallbacks
  */
 class UserApi implements Created
 {
     /**
+     * The internal primary identity key.
+     *
      * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="uuid", type="string", length=40, unique=true)
      */
-    protected $id;
+    protected $uuid;
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
@@ -66,6 +68,7 @@ class UserApi implements Created
 
     function __construct()
     {
+        $this->uuid = uniqid();
         $this->setIsConfigured(false);
         $this->setCreated(new \DateTime());
     }

@@ -1,8 +1,10 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\IntegrationApi;
 use App\Entity\UserApi;
 use App\Form\Api\ApiConfigureSelectionType;
+use App\Form\Api\IntegrationWeatherType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -49,15 +51,10 @@ class BackendController extends AbstractController
     /**
      * @Route("/api/configure", name="b_api_configure")
      */
-    public function apiConfigure(UserRepository $userRepository, Request $request, EntityManagerInterface $entityManager)
+    public function apiConfigure(Request $request, EntityManagerInterface $entityManager)
     {
-        $languages = $this->getParameter('api_languages');
-
         $userApi = new UserApi();
-        $form = $this->createForm(ApiConfigureSelectionType::class, $userApi,
-            [
-                'languages' => array_flip($languages)
-            ]);
+        $form = $this->createForm(ApiConfigureSelectionType::class, $userApi);
         $form->handleRequest($request);
         $error = "";
 
@@ -78,9 +75,49 @@ class BackendController extends AbstractController
         return $this->render(
             'backend/api/admin-configure-api.html.twig',
             [
-                'title' => 'Api configurator',
+                'title' => 'Api configurator. Step 1',
                 'form' => $form->createView()
             ]
         );
     }
+
+    /**
+     * @Route("/api/customize", name="b_api_customize_step2")
+     */
+    public function apiCustomize(Request $request, EntityManagerInterface $entityManager)
+    {
+        $languages = $this->getParameter('api_languages');
+        $user = $this->getUser();
+
+        $api = new IntegrationApi();
+        $form = $this->createForm(IntegrationWeatherType::class, $api,
+            [
+                'languages' => array_flip($languages)
+            ]);
+        $form->handleRequest($request);
+        $error = "";
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            //$api->setUserApi($this->getUser());
+            try {
+                $entityManager->persist($api);
+                $entityManager->flush();
+            } catch (\Exception $e) {
+                $error = $e->getMessage();
+                $this->addFlash('error', $error);
+            }
+            if ($error === '') {
+                $this->addFlash('success', 'API is now customized');
+            }
+        }
+
+        return $this->render(
+            'backend/api/admin-configure-api.html.twig',
+            [
+                'title' => 'Api configurator. Step 1',
+                'form' => $form->createView()
+            ]
+        );
+    }
+
 }
