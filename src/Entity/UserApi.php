@@ -5,13 +5,11 @@ use App\Entity\Model\Created;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-// Disable unique for testing with same darksky Api
-// @UniqueEntity("accessToken")
 /**
  * An User can implement the same api 2 times, but with different accessToken's
  * @ORM\Entity(repositoryClass="App\Repository\UserApiRepository")
  * @ORM\Table(name="app_user_api")
- * @UniqueEntity("uuid")
+ * @UniqueEntity("accessToken",message="This access token is already used")
  * @ORM\HasLifecycleCallbacks
  */
 class UserApi implements Created
@@ -103,15 +101,7 @@ class UserApi implements Created
      */
     public function getId()
     {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
+        return $this->uuid;
     }
 
     /**

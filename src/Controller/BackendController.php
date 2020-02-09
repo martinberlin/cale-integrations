@@ -75,7 +75,7 @@ class BackendController extends AbstractController
 
                 // todo: think about smarter way to do this
                 if ($userApi->getApi()->isLocationApi()) {
-                    $this->redirectToRoute('b_api_customize_location',
+                   return $this->redirectToRoute('b_api_customize_location',
                         [
                          'uuid' => $userApi->getId()
                         ]);
@@ -107,6 +107,7 @@ class BackendController extends AbstractController
         if ($userApi->getUser() !== $this->getUser()){
             throw $this->createNotFoundException("You don't have access to API $uuid");
         }
+
         $api = $intApiRepository->findOneBy(['userApi'=>$userApi]);
         if ($api instanceof IntegrationApi === false) {
             $api = new IntegrationApi();
