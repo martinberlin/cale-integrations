@@ -156,7 +156,7 @@ class IntegrationApi implements Language, Location
      *
      * @return User
      */
-    public function setLanguage(string $l): User
+    public function setLanguage(string $l): IntegrationApi
     {
         $this->language = $l;
         return $this;
@@ -165,7 +165,7 @@ class IntegrationApi implements Language, Location
     /**
      * @return string
      */
-    public function getJsonSettings(): string
+    public function getJsonSettings():?string
     {
         return $this->jsonSettings;
     }

@@ -61,6 +61,29 @@ class Api
      */
     protected $documentationUrl;
 
+    /**
+     * Placeholder for all additional settings that are sent in the request. Advanced customization
+     * @var string
+     * @ORM\Column(type="string", length=255)
+     */
+    protected $defaultJsonSettings;
+
+    /**
+     * @return string
+     */
+    public function getDefaultJsonSettings():?string
+    {
+        return $this->defaultJsonSettings;
+    }
+
+    /**
+     * @param string $jsonSettings
+     */
+    public function setDefaultJsonSettings(string $jsonSettings)
+    {
+        $this->defaultJsonSettings = $jsonSettings;
+    }
+
     function __construct()
     {
         $this->isLocationApi = false;
@@ -72,17 +95,7 @@ class Api
      */
     public function getId()
     {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     * @return Api
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-        return $this;
+        return $this->uuid;
     }
 
     /**

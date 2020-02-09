@@ -1,10 +1,11 @@
 <?php
 namespace App\Form\Api;
 
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class IntegrationWeatherType extends IntegrationApiType
+class IntegrationWeatherApiType extends IntegrationApiType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -26,6 +27,12 @@ class IntegrationWeatherType extends IntegrationApiType
                         'placeholder' => '13.404954',
                         'class' => 'form-control'
                     ]
+                ])
+
+            ->add('submit', SubmitType::class,
+                [
+                    'label' => 'Configure API',
+                    'attr' => ['class' => 'btn btn-primary', 'style' => 'margin-top:2em']
                 ])
         ;
     }

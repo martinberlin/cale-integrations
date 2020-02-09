@@ -189,7 +189,7 @@ class UserApi implements Created
     /**
      * @param string $isConfigured
      */
-    public function setIsConfigured(string $isConfigured)
+    public function setIsConfigured(bool $isConfigured)
     {
         $this->isConfigured = $isConfigured;
     }

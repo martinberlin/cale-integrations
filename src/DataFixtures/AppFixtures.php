@@ -46,6 +46,8 @@ class AppFixtures extends Fixture
         $api->setUrlName('weather-darksky');
         $api->setName('Darksky weather forecasts');
         $api->setUrl('https://api.darksky.net/forecast/[token]/[latitude],[longitude]');
+        // Additional advanced settings that are sent in the URL
+        $api->setDefaultJsonSettings('{"exclude":"currently,minutely,alerts,flags","units":"si"}');
         $api->setDocumentationUrl('https://darksky.net/dev/docs');
         $api->setRequestParameters(json_encode($requestParams));
         $api->setResponseType('json');

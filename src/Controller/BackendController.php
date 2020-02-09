@@ -4,7 +4,8 @@ namespace App\Controller;
 use App\Entity\IntegrationApi;
 use App\Entity\UserApi;
 use App\Form\Api\ApiConfigureSelectionType;
-use App\Form\Api\IntegrationWeatherType;
+use App\Form\Api\IntegrationWeatherApiType;
+use App\Repository\UserApiRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -69,6 +70,14 @@ class BackendController extends AbstractController
             }
             if ($error === '') {
                 $this->addFlash('success', 'API is connected with your user');
+
+                // todo: think about smarter way to do this
+                if ($userApi->getApi()->isLocationApi()) {
+                    $this->redirectToRoute('b_api_customize_location',
+                        [
+                         'uuid' => $userApi->getId()
+                        ]);
+                }
             }
         }
 
@@ -82,15 +91,27 @@ class BackendController extends AbstractController
     }
 
     /**
-     * @Route("/api/customize", name="b_api_customize_step2")
+     * @Route("/api/customize/location/{uuid}", name="b_api_customize_location")
      */
-    public function apiCustomize(Request $request, EntityManagerInterface $entityManager)
+    public function apiCustomizeLocation($uuid, Request $request,UserApiRepository $userApiRepository, EntityManagerInterface $entityManager)
     {
         $languages = $this->getParameter('api_languages');
-        $user = $this->getUser();
+        $userApi = $userApiRepository->findOneBy(['uuid'=>$uuid]);
+        if (!$userApi instanceof UserApi){
+            throw $this->createNotFoundException("$uuid is not a valid API definition");
+        }
+        if ($userApi->getUser() !== $this->getUser()){
+            throw $this->createNotFoundException("You don't have access to API $uuid");
+        }
 
         $api = new IntegrationApi();
-        $form = $this->createForm(IntegrationWeatherType::class, $api,
+        if ($this->getUser()->getLanguage()!=="") {
+          $api->setLanguage($this->getUser()->getLanguage());
+        }
+
+        $api->setJsonSettings($userApi->getApi()->getDefaultJsonSettings());
+
+        $form = $this->createForm(IntegrationWeatherApiType::class, $api,
             [
                 'languages' => array_flip($languages)
             ]);
@@ -98,23 +119,27 @@ class BackendController extends AbstractController
         $error = "";
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //$api->setUserApi($this->getUser());
+            $api->setUserApi($userApi);
+
             try {
                 $entityManager->persist($api);
-                $entityManager->flush();
+
             } catch (\Exception $e) {
                 $error = $e->getMessage();
                 $this->addFlash('error', $error);
             }
             if ($error === '') {
-                $this->addFlash('success', 'API is now customized');
+                $userApi->setIsConfigured(true);
+                $entityManager->persist($userApi);
+                $entityManager->flush();
+                $this->addFlash('success', 'Location API is now customized');
             }
         }
 
         return $this->render(
             'backend/api/admin-configure-api.html.twig',
             [
-                'title' => 'Api configurator. Step 1',
+                'title' => 'Api customize location Api. Step 2',
                 'form' => $form->createView()
             ]
         );
