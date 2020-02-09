@@ -14,6 +14,11 @@
             {{ form_errors(form) }}
             {{ form_row(form.firstname) }}
 
+            {{ form_label(form.language) }}
+            <p>We will set this language as default for API communication so you get the data in your language</p>
+            {{ form_widget(form.language) }}
+
+            <br><br><p>This is what is used for login</p>
             {{ form_row(form.email) }}
 
             {{ form_label(form.plainPassword.first, 'Password') }}

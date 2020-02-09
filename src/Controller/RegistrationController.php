@@ -25,8 +25,13 @@ class RegistrationController extends AbstractController
         EntityManagerInterface $entityManager,
         SessionInterface $session
     ) {
+        $languages = $this->getParameter('api_languages');
+
         $user = new User();
-        $form = $this->createForm(UserRegistrationType::class, $user);
+        $form = $this->createForm(UserRegistrationType::class, $user,
+            [
+                'languages' => array_flip($languages)
+            ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

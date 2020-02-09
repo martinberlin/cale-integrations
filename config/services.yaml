@@ -8,6 +8,51 @@ parameters:
     screenshot_host: 'http://calendar.fasani.de'
     screenshot_path: '/cale.php?u=[url]&w=[width]&h=[height]&b=[brightness]&d=[bitdepth]&c=[compressed]'
     screenshot_parts: ['url','width','height','brightness','bitdepth','compressed']
+    api_languages:
+        en: English
+        de: German
+        es: Spanish
+        ca: Catalan
+        fr: French
+        hr: Croatian
+        cs: Czech
+        da: Danish
+        el: Greek
+        ar: Arabic
+        eo: Esperanto
+        et: Estonian
+        fi: Finnish
+        he: Hebrew
+        hi: Hindi
+        hu: Hungarian
+        id: Indonesian
+        is: Icelandic
+        it: Italian
+        ja: Japanese
+        ka: Georgian
+        kn: Kannada
+        ko: Korean
+        lv: Latvian
+        ml: Malayam
+        mr: Marathi
+        nb: Norwegian Bokmål
+        nl: Dutch
+        no: Norwegian Bokmål (alias for nb)
+        pa: Punjabi
+        pl: Polish
+        pt: Portuguese
+        ro: Romanian
+        ru: Russian
+        sk: Slovak
+        sl: Slovenian
+        sr: Serbian
+        sv: Swedish
+        ta: Tamil
+        te: Telugu
+        tr: Turkish
+        uk: Ukrainian
+        ur: Urdu
+        zh: simplified Chinese
 
 services:
     # default configuration for services in *this* file
