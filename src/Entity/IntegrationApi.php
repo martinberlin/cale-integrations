@@ -1,6 +1,8 @@
 <?php
 namespace App\Entity;
 
+use App\Entity\Model\Language;
+use App\Entity\Model\Location;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -8,7 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass="App\Repository\IntegrationApiRepository")
  * @ORM\Table(name="app_int_api")
  */
-class IntegrationApi
+class IntegrationApi implements Language, Location
 {
     /**
      * @ORM\Id
@@ -30,6 +32,27 @@ class IntegrationApi
     protected $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="latitude", type="decimal", precision=20, scale=16, nullable=true)
+     */
+    private $latitude;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="longitude", type="decimal", precision=20, scale=16, nullable=true)
+     */
+    private $longitude;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=2, nullable=true)
+     */
+    protected $language;
+
+    /**
+     * Placeholder for all additional settings
      * Skeleton forms starting from Api->getRequestParameters()
      * @var string
      * @ORM\Column(type="string", length=255)
@@ -82,6 +105,61 @@ class IntegrationApi
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLatitude():?string
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * @param string $l
+     * @return IntegrationApi
+     */
+    public function setLatitude(string $l)
+    {
+        $this->latitude = $l;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLongitude():?string
+    {
+        return $this->longitude;
+    }
+
+    /**
+     * @param string $l
+     * @return IntegrationApi
+     */
+    public function setLongitude(string $l)
+    {
+        $this->longitude = $l;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLanguage():?string
+    {
+        return $this->language;
+    }
+
+    /**
+     * @param string $l
+     *
+     * @return User
+     */
+    public function setLanguage(string $l): User
+    {
+        $this->language = $l;
+        return $this;
     }
 
     /**

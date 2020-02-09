@@ -2,6 +2,7 @@
 namespace App\Entity;
 
 use App\Entity\Model\Created;
+use App\Entity\Model\Language;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -13,7 +14,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @UniqueEntity("email")
  * @ORM\HasLifecycleCallbacks
  */
-class User implements UserInterface, Created
+class User implements UserInterface, Language, Created
 {
     /**
      * @ORM\Id
@@ -61,6 +62,12 @@ class User implements UserInterface, Created
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $passwordRequestToken;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=2)
+     */
+    protected $language;
 
     /**
      * @var \DateTime
@@ -137,6 +144,25 @@ class User implements UserInterface, Created
     {
         $this->email = $email;
 
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLanguage():?string
+    {
+        return $this->language;
+    }
+
+    /**
+     * @param string $l
+     *
+     * @return User
+     */
+    public function setLanguage(string $l): User
+    {
+        $this->language = $l;
         return $this;
     }
 
