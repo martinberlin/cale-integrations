@@ -32,6 +32,20 @@ class User implements UserInterface, Created
     /**
      * @var string
      *
+     * @ORM\Column(type="string", length=100)
+     */
+    protected $firstname;
+
+    /**
+     * @var string | Used in the route  website/{user.name}/my_screen
+     *
+     * @ORM\Column(type="string", length=30, nullable=true)
+     */
+    protected $name;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="password", type="string", length=100)
      */
     protected $password;
@@ -83,12 +97,6 @@ class User implements UserInterface, Created
         $this->setUpdated(new \DateTime());
     }
 
-    public function getCreated() {
-        return $this->created;
-    }
-    public function setCreated(\DateTime $dateTime = null) {
-        $this->created = $dateTime;
-    }
     public function setUpdated(\DateTime $dateTime = null) {
         $this->uddated = $dateTime;
     }
@@ -98,6 +106,12 @@ class User implements UserInterface, Created
     }
 
 
+    public function getCreated() {
+        return $this->created;
+    }
+    public function setCreated(\DateTime $dateTime = null) {
+        $this->created = $dateTime;
+    }
     /**
      * @return mixed
      */
@@ -123,6 +137,44 @@ class User implements UserInterface, Created
     {
         $this->email = $email;
 
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstname():?string
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * @param string $f
+     *
+     * @return User
+     */
+    public function setFirstname(string $f): User
+    {
+        $this->firstname = $f;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName():?string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $u
+     *
+     * @return User
+     */
+    public function setName(string $u): User
+    {
+        $this->name = $u;
         return $this;
     }
 

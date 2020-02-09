@@ -12,6 +12,8 @@
             <h3>Register an account</h3>
             <p>To be notified about the Eink display manager launch</p>
             {{ form_errors(form) }}
+            {{ form_row(form.firstname) }}
+
             {{ form_row(form.email) }}
 
             {{ form_label(form.plainPassword.first, 'Password') }}

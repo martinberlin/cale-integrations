@@ -7,6 +7,7 @@
     <thead>
     </tr>
       <th>ID</th>
+      <th>First</th>
       <th>Email</th>
       <th>Created</th>
     </tr>
@@ -15,6 +16,7 @@
     {% for user in users %}
       <tr style="border:1px #1b6d85 dashed">
         <td>{{ user.id }}</td>
+        <td>{{ user.firstname }}</td>
         <td>{{ user.email }}</td>
         <td>{{ user.created|date("D d.m.Y") }}</td>
       </tr>
