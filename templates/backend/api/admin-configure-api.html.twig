@@ -4,7 +4,6 @@
     <div class="row">
 
         <div class="col-md-12">
-            <h3>Api configurator</h3>
             {{ form_start(form) }}
             {{ form_errors(form) }}
             {{ form_end(form) }}
@@ -19,7 +18,6 @@
     let token = document.getElementById('accessToken');
 
     api.onchange = function() {
-
         if (api.value > 1) {
             token.style.visibility = 'visible';
         } else {

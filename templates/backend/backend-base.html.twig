@@ -30,7 +30,19 @@
 
             <div class="row">
                 <div class="col-md-12">
-        {% block body %}{% endblock %}
+                    <h3>{{ title }}</h3>
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    {% for message in app.flashes('error') %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
+                    {% block body %}{% endblock %}
                 </div>
             </div>
 

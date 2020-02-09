@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\UserApi;
 use App\Form\Api\ApiConfigureSelectionType;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,7 +22,10 @@ class BackendController extends AbstractController
     public function home()
     {
         return $this->render(
-            'backend/admin-home.html.twig'
+            'backend/admin-home.html.twig',
+            [
+                'title' => 'Admin dashboard'
+            ]
         );
     }
 
@@ -36,6 +40,7 @@ class BackendController extends AbstractController
         return $this->render(
             'backend/admin-users.html.twig',
             [
+                'title' => 'List users',
                 'users' => $users
             ]
         );
@@ -44,9 +49,8 @@ class BackendController extends AbstractController
     /**
      * @Route("/api/configure", name="b_api_configure")
      */
-    public function apiConfigure(UserRepository $userRepository, Request $request)
+    public function apiConfigure(UserRepository $userRepository, Request $request, EntityManagerInterface $entityManager)
     {
-        $user = $this->getUser();
         $languages = $this->getParameter('api_languages');
 
         $userApi = new UserApi();
@@ -55,16 +59,27 @@ class BackendController extends AbstractController
                 'languages' => array_flip($languages)
             ]);
         $form->handleRequest($request);
+        $error = "";
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // todo. persist,etc
+            $userApi->setUser($this->getUser());
+            try {
+                $entityManager->persist($userApi);
+                $entityManager->flush();
+            } catch (\Exception $e) {
+                $error = $e->getMessage();
+                $this->addFlash('error', $error);
+            }
+            if ($error === '') {
+                $this->addFlash('success', 'API is connected with your user');
+            }
         }
 
         return $this->render(
             'backend/api/admin-configure-api.html.twig',
             [
-                'user' => $user,
-                'form' => $form->createView(),
+                'title' => 'Api configurator',
+                'form' => $form->createView()
             ]
         );
     }

@@ -48,7 +48,7 @@ class UserApi implements Created
 
     /**
      * @var string
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean")
      */
     protected $isConfigured;
 
@@ -60,17 +60,14 @@ class UserApi implements Created
 
     /**
      * @var \DateTime
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     protected $updated;
 
     function __construct()
     {
-        $this->isConfigured(false);
+        $this->setIsConfigured(false);
         $this->setCreated(new \DateTime());
-        if ($this->getUpdated() == null) {
-            $this->setUpdated(new \DateTime());
-        }
     }
 
     /**
