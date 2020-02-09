@@ -8,7 +8,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * An User can implement the same api 2 times, but with different accessToken's
  * @ORM\Entity(repositoryClass="App\Repository\UserApiRepository")
- * @ORM\Table(name="app_user_api")
+ * @ORM\Table(name="app_user_api",uniqueConstraints={@ORM\UniqueConstraint(name="token_idx", columns={"access_token", "user_id"})})
  * @UniqueEntity("accessToken",message="This access token is already used")
  * @ORM\HasLifecycleCallbacks
  */
