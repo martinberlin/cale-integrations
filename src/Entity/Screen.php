@@ -18,7 +18,7 @@ class Screen implements Created
      * The internal primary identity key.
      *
      * @ORM\Id
-     * @ORM\Column(type="uuid", type="string", unique=true)
+     * @ORM\Column(type="uuid", type="string", length=40, unique=true)
      */
     protected $uuid;
 
