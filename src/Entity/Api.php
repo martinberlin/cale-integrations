@@ -55,6 +55,12 @@ class Api
      */
     protected $isLocationApi;
 
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=240, nullable=true)
+     */
+    protected $documentationUrl;
+
     function __construct()
     {
         $this->isLocationApi = false;
@@ -187,4 +193,28 @@ class Api
         $this->isLocationApi = $l;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getDocumentationUrl()
+    {
+        return $this->documentationUrl;
+    }
+
+    /**
+     * @param string $url
+     * @return Api
+     */
+    public function setDocumentationUrl(string $url= null)
+    {
+        $this->documentationUrl = $url;
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return (string) $this->name;
+    }
+
 }

@@ -15,7 +15,7 @@
             {{ form_row(form.firstname) }}
 
             {{ form_label(form.language) }}
-            <p>We will set this language as default for API communication so you get the data in your language</p>
+            <p>We will set this as default for API communication so you get the data in your language</p>
             {{ form_widget(form.language) }}
 
             <br><br><p>This is what is used for login</p>
@@ -25,7 +25,7 @@
             {{ form_widget(form.plainPassword.first,{'attr': { 'class': 'form-control' }}) }}
             {{ form_label(form.plainPassword.second, 'Repeat password') }}
             {{ form_widget(form.plainPassword.second,{'attr': { 'class': 'form-control' }}) }}
-<br>
+            <br>
             {{ form_widget(form.submit) }}
             <div style="height: 40px"></div>
         </div>

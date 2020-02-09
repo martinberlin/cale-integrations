@@ -5,11 +5,12 @@ use App\Entity\Model\Created;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
+// Disable unique for testing with same darksky Api
+// @UniqueEntity("accessToken")
 /**
  * An User can implement the same api 2 times, but with different accessToken's
  * @ORM\Entity(repositoryClass="App\Repository\UserApiRepository")
  * @ORM\Table(name="app_user_api")
- * @UniqueEntity("accessToken")
  * @ORM\HasLifecycleCallbacks
  */
 class UserApi implements Created
@@ -95,5 +96,101 @@ class UserApi implements Created
     }
     public function setCreated(\DateTime $dateTime = null) {
         $this->created = $dateTime;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getApi()
+    {
+        return $this->api;
+    }
+
+    /**
+     * @param mixed $api
+     */
+    public function setApi($api)
+    {
+        $this->api = $api;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCredentials(): string
+    {
+        return $this->credentials;
+    }
+
+    /**
+     * @param string $credentials
+     */
+    public function setCredentials(string $credentials)
+    {
+        $this->credentials = $credentials;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAccessToken():?string
+    {
+        return $this->accessToken;
+    }
+
+    /**
+     * @param string $accessToken
+     */
+    public function setAccessToken(string $accessToken)
+    {
+        $this->accessToken = $accessToken;
+    }
+
+    /**
+     * @return string
+     */
+    public function isConfigured():? bool
+    {
+        return $this->isConfigured;
+    }
+
+    /**
+     * @param string $isConfigured
+     */
+    public function setIsConfigured(string $isConfigured)
+    {
+        $this->isConfigured = $isConfigured;
     }
 }
