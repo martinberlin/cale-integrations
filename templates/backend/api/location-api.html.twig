@@ -1,0 +1,49 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+
+        <div class="col-md-12">
+            {{ form_start(form) }}
+            {{ form_errors(form) }}
+            {{ form_row(form.name) }}
+
+            <div id="location_check">Checking location...</div>
+            <div id="location_disco" style="visibility: hidden;height:30px">
+            <input type="checkbox" id="location_set">
+            <label for="location_set">Use the detected Latitude and Longitude parameters</label>
+            </div>
+            {{ form_row(form.latitude) }}
+            {{ form_row(form.longitude) }}
+            {{ form_end(form) }}
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        let lat  = document.getElementById('latitude');
+        let long = document.getElementById('longitude');
+        let loc = document.getElementById('location_check');
+        let setloc = document.getElementById('location_set');
+
+        var xhReq = new XMLHttpRequest();
+        xhReq.open("GET", "{{ path('b_iptolocation', {'type':'geo'}) }}",false);
+        xhReq.send(null);
+        var getJson = xhReq.responseText;
+        var obj = JSON.parse(getJson);
+        loc.innerHTML = "We detected your connection comes from <b>"+obj.city+"</b>";
+        if (!isNaN(obj.latitude) && !isNaN(obj.longitude) ) {
+            document.getElementById('location_disco').style.visibility = 'visible';
+        }
+        setTimeout(function(){ loc.style.visibility = 'hidden'; }, 3000);
+
+        setloc.onchange = function() {
+            if (setloc.checked) {
+                lat.value = obj.latitude;
+                long.value = obj.longitude;
+            }
+        }
+    </script>
+{% endblock %}

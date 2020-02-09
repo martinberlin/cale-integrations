@@ -5,13 +5,15 @@ use App\Entity\IntegrationApi;
 use App\Entity\UserApi;
 use App\Form\Api\ApiConfigureSelectionType;
 use App\Form\Api\IntegrationWeatherApiType;
+use App\Repository\IntegrationApiRepository;
 use App\Repository\UserApiRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
@@ -82,7 +84,7 @@ class BackendController extends AbstractController
         }
 
         return $this->render(
-            'backend/api/admin-configure-api.html.twig',
+            'backend/api/configure-api.html.twig',
             [
                 'title' => 'Api configurator. Step 1',
                 'form' => $form->createView()
@@ -93,7 +95,9 @@ class BackendController extends AbstractController
     /**
      * @Route("/api/customize/location/{uuid}", name="b_api_customize_location")
      */
-    public function apiCustomizeLocation($uuid, Request $request,UserApiRepository $userApiRepository, EntityManagerInterface $entityManager)
+    public function apiCustomizeLocation(
+        $uuid, Request $request,UserApiRepository $userApiRepository,
+        IntegrationApiRepository $intApiRepository, EntityManagerInterface $entityManager)
     {
         $languages = $this->getParameter('api_languages');
         $userApi = $userApiRepository->findOneBy(['uuid'=>$uuid]);
@@ -103,8 +107,10 @@ class BackendController extends AbstractController
         if ($userApi->getUser() !== $this->getUser()){
             throw $this->createNotFoundException("You don't have access to API $uuid");
         }
-
-        $api = new IntegrationApi();
+        $api = $intApiRepository->findOneBy(['userApi'=>$userApi]);
+        if ($api instanceof IntegrationApi === false) {
+            $api = new IntegrationApi();
+        }
         if ($this->getUser()->getLanguage()!=="") {
           $api->setLanguage($this->getUser()->getLanguage());
         }
@@ -132,12 +138,12 @@ class BackendController extends AbstractController
                 $userApi->setIsConfigured(true);
                 $entityManager->persist($userApi);
                 $entityManager->flush();
-                $this->addFlash('success', 'Location API is now customized');
+                $this->addFlash('success', 'Location API configuration saved');
             }
         }
 
         return $this->render(
-            'backend/api/admin-configure-api.html.twig',
+            'backend/api/location-api.html.twig',
             [
                 'title' => 'Api customize location Api. Step 2',
                 'form' => $form->createView()
@@ -145,4 +151,47 @@ class BackendController extends AbstractController
         );
     }
 
+    /**
+     * @Route("/ip_location/json/{type}", name="b_iptolocation")
+     */
+    public function apiExternalIpToLocation(Request $r, $type)
+    {
+        $ip = $r->getClientIp();
+        if ($ip == '127.0.0.1') {
+            $ip = file_get_contents($_ENV['API_IP_ECHO']);
+        }
+        $locationApi = str_replace("{{IP}}", $ip, $_ENV['API_IP_LOCATION']);
+
+        $client = HttpClient::create();
+        $response = $client->request('GET', $locationApi);
+        $r = new JsonResponse();
+
+        if ($response->getStatusCode() === 200) {
+            $content = $response->getContent();
+            switch ($type) {
+                case 'location':
+                    $json = json_decode($content);
+                    $content = json_encode($json->location);
+                    break;
+                case 'language':
+                    $json = json_decode($content);
+                    $content = json_encode($json->location->languages[0]);
+                    break;
+                case 'geo':
+                    $json = json_decode($content);
+                    $geo = [
+                        'latitude' =>$json->latitude,
+                        'longitude'=>$json->longitude,
+                        'city'     =>$json->city
+                    ];
+                    $content = json_encode($geo);
+                    break;
+            }
+            $r->setContent($content);
+        } else {
+            $r->setContent('{"error":"Location API returned status:".$response->getStatusCode()."}")');
+        }
+
+        return $r;
+    }
 }

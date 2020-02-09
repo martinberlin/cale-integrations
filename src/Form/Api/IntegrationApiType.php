@@ -16,6 +16,7 @@ class IntegrationApiType extends AbstractType
             ->add('name', TextType::class,
                 [
                     'label' => 'Name your Api',
+                    'required' => true,
                     'attr' => [
                         'placeholder' => 'Ex. weather in my city',
                         'class' => 'form-control'
