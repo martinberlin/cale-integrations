@@ -4,6 +4,7 @@ namespace App\Form\Api;
 use App\Entity\IntegrationApi;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,6 +13,7 @@ class IntegrationApiType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $grayColor = '#A9A9A9';
         $builder
             ->add('name', TextType::class,
                 [
@@ -25,15 +27,18 @@ class IntegrationApiType extends AbstractType
             ->add('language', ChoiceType::class,
                 [
                     'label' => "Language of preference",
+                    'label_attr' => ['style'=>"color:$grayColor"],
                     "choices" => $options['languages'],
                     'attr' => ['class' => 'form-control']
                 ])
-            ->add('jsonSettings', TextType::class,
+            ->add('jsonSettings', TextareaType::class,
                 [
                     'label' => 'Customized json settings',
+                    'label_attr' => ['style'=>"color:$grayColor"],
                     'attr' => [
                         'placeholder' => '{"json":"true"}',
-                        'class' => 'form-control'
+                        'class' => 'form-control',
+                        'rows'  => 2
                     ]
                 ])
             ;

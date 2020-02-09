@@ -32,7 +32,7 @@ class IntegrationWeatherApiType extends IntegrationApiType
             ->add('submit', SubmitType::class,
                 [
                     'label' => 'Configure API',
-                    'attr' => ['class' => 'btn btn-primary', 'style' => 'margin-top:2em']
+                    'attr' => ['class' => 'btn btn-primary form-control', 'style' => 'margin-top:2em']
                 ])
         ;
     }

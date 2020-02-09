@@ -8,13 +8,36 @@
             {{ form_errors(form) }}
             {{ form_row(form.name) }}
 
-            <div id="location_check">Checking location...</div>
-            <div id="location_disco" style="visibility: hidden;height:30px">
-            <input type="checkbox" id="location_set">
-            <label for="location_set">Use the detected Latitude and Longitude parameters</label>
+            <div class="panel panel-default" style="margin-top: 2em">
+                <div class="panel-heading" id="location_check">Location detection...</div>
+                <div class="panel-body">
+                    <div id="location_disco" style="visibility: hidden;height:30px">
+                        <input type="checkbox" id="location_set">
+                        <label for="location_set">Use the detected Latitude and Longitude parameters</label>
+                    </div>
+                    <div class="row">
+                           <div class="col-md-6">
+                    {{ form_row(form.latitude) }}
+                           </div>
+                            <div class="col-md-6">
+                    {{ form_row(form.longitude) }}
+                            </div>
+                    </div>
+                </div>
             </div>
-            {{ form_row(form.latitude) }}
-            {{ form_row(form.longitude) }}
+
+            <div class="col-md-6">
+                <p style="color:#A9A9A9">This json settings are advanced configuration to exclude parts of the api response and make it lighter.
+                    Unless you digged the Api docs, let it be.
+                </p>
+                {{ form_row(form.jsonSettings) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.language) }}
+
+                {{ form_widget(form.submit, {'attr':{'style':'margin-top:2.4em'}}) }}
+            </div>
+
             {{ form_end(form) }}
         </div>
 
@@ -33,11 +56,11 @@
         xhReq.send(null);
         var getJson = xhReq.responseText;
         var obj = JSON.parse(getJson);
-        loc.innerHTML = "We detected your connection comes from <b>"+obj.city+"</b>";
+        loc.innerHTML = "Location detected: <b>"+obj.city+"</b>";
+
         if (!isNaN(obj.latitude) && !isNaN(obj.longitude) ) {
             document.getElementById('location_disco').style.visibility = 'visible';
         }
-        setTimeout(function(){ loc.style.visibility = 'hidden'; }, 3000);
 
         setloc.onchange = function() {
             if (setloc.checked) {
