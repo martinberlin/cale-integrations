@@ -2,9 +2,9 @@
 
 {% block body %}
     <div class="row">
-
+        {{ form_start(form) }}
         <div class="col-md-12">
-            {{ form_start(form) }}
+
             {{ form_errors(form) }}
             {{ form_row(form.name) }}
 
@@ -26,6 +26,7 @@
                 </div>
             </div>
         </div>
+        </div>
 
         <div class="row">
             <div class="col-md-3">
@@ -39,14 +40,12 @@
                 {{ form_widget(form.submit, {'attr':{'style':'margin-top:2.4em'}}) }}
             </div>
 
-            <label>API response</label>
+            <label style="margin-left: 1em">API response</label>
             <div class="col-md-6" id="api_preview" style="height: 500px;overflow-y: auto">
                 Preview after saving configuration settings<br>
             </div>
             {{ form_end(form) }}
         </div>
-    </div>
-    </div>
 {% endblock %}
 
 {% block javascripts %}
@@ -79,6 +78,7 @@
             xhReq.send(null);
             var jsonObj = JSON.parse(xhReq.responseText);
             var str = JSON.stringify(jsonObj, undefined, 2); {# 2 = spacing #}
+            api_preview.innerHTML = '';
 
             api_preview.appendChild(document.createElement('pre')).innerHTML = syntaxHighlightJson(str);
         }
