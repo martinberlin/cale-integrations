@@ -16,6 +16,7 @@ class AppFixtures extends Fixture
         $api->setDocumentationUrl('https://developers.google.com/calendar/quickstart/php');
         $api->setName('Google Calendar');
         $api->setResponseType('json');
+        $api->setIsLocationApi(false);
         $manager->persist($api);
 
         $requestParams = [
@@ -31,6 +32,7 @@ class AppFixtures extends Fixture
         $api->setDocumentationUrl('https://developers.timetreeapp.com/en/docs/api');
         $api->setRequestParameters(json_encode($requestParams));
         $api->setResponseType('json');
+        $api->setIsLocationApi(false);
         $manager->persist($api);
 
         $requestParams = [
@@ -51,6 +53,7 @@ class AppFixtures extends Fixture
         $api->setDocumentationUrl('https://darksky.net/dev/docs');
         $api->setRequestParameters(json_encode($requestParams));
         $api->setResponseType('json');
+        $api->setIsLocationApi(true);
         $api->setIsLocationApi(true);
         $manager->persist($api);
         $manager->flush();

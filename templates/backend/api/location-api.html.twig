@@ -25,48 +25,62 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-3">
                 <p style="color:#A9A9A9">This json settings are advanced configuration to exclude parts of the api response and make it lighter.
-                    Unless you digged the Api docs, let it be.
                 </p>
                 {{ form_row(form.jsonSettings) }}
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 {{ form_row(form.language) }}
 
                 {{ form_widget(form.submit, {'attr':{'style':'margin-top:2.4em'}}) }}
             </div>
 
+            <label>API response</label>
+            <div class="col-md-6" id="api_preview" style="height: 500px;overflow-y: auto">
+                Preview after saving configuration settings<br>
+            </div>
             {{ form_end(form) }}
         </div>
-
+    </div>
     </div>
 {% endblock %}
 
 {% block javascripts %}
     <script>
+        let api_uuid = "{{ api_uuid }}";
         let lat  = document.getElementById('latitude');
         let long = document.getElementById('longitude');
         let loc = document.getElementById('location_check');
         let setloc = document.getElementById('location_set');
-
+        let api_preview = document.getElementById('api_preview');
         var xhReq = new XMLHttpRequest();
-        xhReq.open("GET", "{{ path('b_iptolocation', {'type':'geo'}) }}",false);
-        xhReq.send(null);
-        var getJson = xhReq.responseText;
-        var obj = JSON.parse(getJson);
-        loc.innerHTML = "Location detected: <b>"+obj.city+"</b>";
+        if (api_uuid === "") {
+            xhReq.open("GET", "{{ path('b_iptolocation', {'type':'geo'}) }}", false);
+            xhReq.send(null);
+            var getJson = xhReq.responseText;
+            var obj = JSON.parse(getJson);
+            loc.innerHTML = "Location detected: <b>"+obj.city+"</b>";
 
-        if (!isNaN(obj.latitude) && !isNaN(obj.longitude) ) {
-            document.getElementById('location_disco').style.visibility = 'visible';
-        }
-
-        setloc.onchange = function() {
-            if (setloc.checked) {
-                lat.value = obj.latitude;
-                long.value = obj.longitude;
+            if (!isNaN(obj.latitude) && !isNaN(obj.longitude) ) {
+                document.getElementById('location_disco').style.visibility = 'visible';
             }
+            setloc.onchange = function() {
+                if (setloc.checked) {
+                    lat.value = obj.latitude;
+                    long.value = obj.longitude;
+                }
+            }
+        } else {
+            xhReq.open("GET", "{{ path('b_api_request', {'uuid': api_uuid}) }}", false);
+            xhReq.send(null);
+            var jsonObj = JSON.parse(xhReq.responseText);
+            var str = JSON.stringify(jsonObj, undefined, 2); {# 2 = spacing #}
+
+            api_preview.appendChild(document.createElement('pre')).innerHTML = syntaxHighlightJson(str);
         }
     </script>
 {% endblock %}

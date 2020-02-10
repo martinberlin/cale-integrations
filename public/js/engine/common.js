@@ -12,4 +12,3 @@ document.addEventListener("DOMContentLoaded", function(event) {
         activeCaption.classList.add('slide');
     });
 });
-

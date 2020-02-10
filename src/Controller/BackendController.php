@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -124,6 +125,7 @@ class BackendController extends AbstractController
             ]);
         $form->handleRequest($request);
         $error = "";
+        $apiUuid = "";
 
         if ($form->isSubmitted() && $form->isValid()) {
             $api->setUserApi($userApi);
@@ -140,6 +142,7 @@ class BackendController extends AbstractController
                 $entityManager->persist($userApi);
                 $entityManager->flush();
                 $this->addFlash('success', 'Location API configuration saved');
+                $apiUuid = $api->getId();
             }
         }
 
@@ -147,7 +150,8 @@ class BackendController extends AbstractController
             'backend/api/location-api.html.twig',
             [
                 'title' => 'Api customize location Api. Step 2',
-                'form' => $form->createView()
+                'form'  => $form->createView(),
+                'api_uuid' => $apiUuid
             ]
         );
     }
@@ -157,14 +161,25 @@ class BackendController extends AbstractController
      */
     public function apiExternalIpToLocation(Request $r, $type)
     {
-        $ip = $r->getClientIp();
-        if ($ip == '127.0.0.1') {
-            $ip = file_get_contents($_ENV['API_IP_ECHO']);
+        $options = [];
+        if (isset($_ENV['API_PROXY'])) {
+            $options = array('proxy' => $_ENV['API_PROXY']);
         }
-        $locationApi = str_replace("{{IP}}", $ip, $_ENV['API_IP_LOCATION']);
 
         $client = HttpClient::create();
-        $response = $client->request('GET', $locationApi);
+        $ip = $r->getClientIp();
+        if ($ip == '127.0.0.1') {
+            $response = $client->request('GET', $_ENV['API_IP_ECHO'], $options);
+            if ($response->getStatusCode() === 200) {
+                $ip = $response->getContent();
+            } else {
+                $this->createNotFoundException('IP could not be determined using API_IP_ECHO');
+            }
+        }
+
+        $locationApi = str_replace("{{IP}}", $ip, $_ENV['API_IP_LOCATION']);
+
+        $response = $client->request('GET', $locationApi, $options);
         $r = new JsonResponse();
 
         if ($response->getStatusCode() === 200) {
@@ -192,7 +207,50 @@ class BackendController extends AbstractController
         } else {
             $r->setContent('{"error":"Location API returned status:".$response->getStatusCode()."}")');
         }
-
         return $r;
     }
-}
+
+    /**
+     * @Route("/api/rest/{uuid}", name="b_api_request")
+     */
+    public function apiJsonPreview(Request $request, $uuid = null, IntegrationApiRepository $intApiRepository)
+    {
+        $options = [];
+        if (isset($_ENV['API_PROXY'])) {
+            $options = array('proxy' => $_ENV['API_PROXY']);
+        }
+        $intApi = $intApiRepository->findOneBy(['uuid'=>$uuid]);
+        if ($intApi instanceof IntegrationApi === false) {
+           return $this->createNotFoundException("Integrated API not found with ID $uuid");
+        }
+
+        // https://api.darksky.net/forecast/[token]/[latitude],[longitude]
+        $userApi = $intApi->getUserApi();
+        $api = $userApi->getApi();
+
+        $apiUrl = str_replace("[token]", $userApi->getAccessToken(), $api->getUrl());
+        $apiUrl = str_replace("[latitude]", $intApi->getLatitude(), $apiUrl);
+        $apiUrl = str_replace("[longitude]", $intApi->getLongitude(), $apiUrl);
+
+        if ($intApi->getJsonSettings() !== '') {
+            try {
+                $extraParams = json_decode($intApi->getJsonSettings(), true);
+            } catch (\Exception $e) {
+                return $this->createNotFoundException("Failed parsing json settings for API. ".$e->getMessage());
+            }
+            $apiUrl.= '?'.http_build_query($extraParams);
+        }
+
+        $client = HttpClient::create();
+        $rest = $client->request('GET', $apiUrl, $options);
+        $response = new JsonResponse();
+
+        if ($rest->getStatusCode() === 200) {
+            $response->setContent($rest->getContent());
+        } else {
+            $response->setContent(json_encode(['status' => $rest->getStatusCode(),'message' => 'API rest call failed']));
+        }
+        return $response;
+    }
+
+    }

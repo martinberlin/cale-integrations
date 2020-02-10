@@ -36,14 +36,14 @@
 
 {% block javascripts %}
     <script type="text/javascript" src="./js/engine/common.js"></script>
+    {# todo: this makes login route to the b_iptolocation
     <script>
-        {# todo: this makes login route to the b_iptolocation #}
-/*    var xhReq = new XMLHttpRequest();
+    var xhReq = new XMLHttpRequest();
     xhReq.open("GET", "{{ path('b_iptolocation', {'type':'language'}) }}", false);
     xhReq.send(null);
     var getJson = xhReq.responseText;
     var obj = JSON.parse(getJson);
-    document.getElementById('language').value = obj.code;*/
-
+    document.getElementById('language').value = obj.code;
     </script>
+    #}
 {% endblock %}
