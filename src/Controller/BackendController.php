@@ -113,7 +113,7 @@ class BackendController extends AbstractController
         if ($api instanceof IntegrationApi === false) {
             $api = new IntegrationApi();
         }
-        if ($this->getUser()->getLanguage()!=="") {
+        if ($this->getUser()->getLanguage()!=="" && $api->getLanguage() === "") {
           $api->setLanguage($this->getUser()->getLanguage());
         }
 
@@ -238,6 +238,8 @@ class BackendController extends AbstractController
             } catch (\Exception $e) {
                 return $this->createNotFoundException("Failed parsing json settings for API. ".$e->getMessage());
             }
+            // Language is an exception since is set in the Configure API on IntegrationApi level
+            $extraParams['lang'] = $intApi->getLanguage();
             $apiUrl.= '?'.http_build_query($extraParams);
         }
 
