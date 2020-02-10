@@ -20,6 +20,12 @@ class Api
     protected $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="ApiCategory")
+     * @ORM\JoinColumn(name="api_cat_id", referencedColumnName="id")
+     */
+    protected $category;
+
+    /**
      * @var string
      * @ORM\Column(type="string", length=30, unique=true)
      */
@@ -64,7 +70,7 @@ class Api
     /**
      * Placeholder for all additional settings that are sent in the request. Advanced customization
      * @var string
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $defaultJsonSettings;
 
@@ -95,7 +101,28 @@ class Api
      */
     public function getId()
     {
-        return $this->uuid;
+        return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param mixed $category
+     */
+    public function setCategory(ApiCategory $category):void
+    {
+        $this->category = $category;
     }
 
     /**

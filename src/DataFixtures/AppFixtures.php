@@ -3,15 +3,30 @@
 namespace App\DataFixtures;
 
 use App\Entity\Api;
+use App\Entity\ApiCategory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class AppFixtures extends Fixture
+class AppFixtures extends Fixture  implements FixtureGroupInterface,ContainerAwareInterface
 {
+    private $doctrineManager;
+    private $categoryRepository;
+    /**
+     * @param ContainerInterface|null $container
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->doctrineManager = $container->get('doctrine')->getManager();
+        $this->categoryRepository = $this->doctrineManager->getRepository(ApiCategory::class);
+    }
     public function load(ObjectManager $manager)
     {
         $api = new Api();
         $api->setId(1);
+        $api->setCategory($this->categoryRepository->findOneBy(['name'=>'Calendar']));
         $api->setUrlName('cale-google');
         $api->setDocumentationUrl('https://developers.google.com/calendar/quickstart/php');
         $api->setName('Google Calendar');
@@ -26,6 +41,7 @@ class AppFixtures extends Fixture
         ];
         $api = new Api();
         $api->setId(2);
+        $api->setCategory($this->categoryRepository->findOneBy(['name'=>'Calendar']));
         $api->setUrlName('cale-timetree');
         $api->setName('Timetree shared Calendar');
         $api->setUrl('https://timetreeapis.com/calendars/[token]/upcoming_events');
@@ -45,6 +61,7 @@ class AppFixtures extends Fixture
         ];
         $api = new Api();
         $api->setId(3);
+        $api->setCategory($this->categoryRepository->findOneBy(['name'=>'Weather']));
         $api->setUrlName('weather-darksky');
         $api->setName('Darksky weather forecasts');
         $api->setUrl('https://api.darksky.net/forecast/[token]/[latitude],[longitude]');
@@ -57,5 +74,15 @@ class AppFixtures extends Fixture
         $api->setIsLocationApi(true);
         $manager->persist($api);
         $manager->flush();
+    }
+
+
+    /**
+     * @return array
+     * Will execute only this Fixtures when: bin/console doctrine:fixtures:load --group=cat
+     */
+    public static function getGroups(): array
+    {
+        return ['apis'];
     }
 }
