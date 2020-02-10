@@ -1,6 +1,7 @@
 <?php
 namespace App\Form\Api;
 
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -27,6 +28,13 @@ class IntegrationWeatherApiType extends IntegrationApiType
                         'placeholder' => '13.404954',
                         'class' => 'form-control'
                     ]
+                ])
+
+            ->add('language', ChoiceType::class,
+                [
+                    'label' => "Language of preference",
+                    "choices" => $options['languages'],
+                    'attr' => ['class' => 'form-control']
                 ])
 
             ->add('submit', SubmitType::class,

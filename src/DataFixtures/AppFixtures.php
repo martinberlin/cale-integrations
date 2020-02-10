@@ -32,6 +32,10 @@ class AppFixtures extends Fixture  implements FixtureGroupInterface,ContainerAwa
         $api->setName('Google Calendar');
         $api->setResponseType('json');
         $api->setIsLocationApi(false);
+        $defJsonArr = [
+            'orderBy' => 'startTime',
+            'singleEvents' => true];
+        $api->setDefaultJsonSettings(json_encode($defJsonArr));
         $manager->persist($api);
 
         $requestParams = [

@@ -55,7 +55,7 @@ class IntegrationApi implements Language, Location, Created
      * Placeholder for all additional settings
      * Skeleton forms starting from Api->getRequestParameters()
      * @var string
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $jsonSettings;
 

@@ -1,0 +1,29 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+
+        <div class="col-md-12">
+
+            To authorize it go first to:<br>
+            <a href="https://developers.google.com/calendar/quickstart/php" target="_blank">
+                https://developers.google.com/calendar/quickstart/php</a><br>
+
+            Click on <b>Enable the calendar API</b> and download credentials.json<br><br><br>
+
+            {{ form_start(form) }}
+
+            {{ form_row(form.credentialsFile) }}<br>
+
+            {{ form_errors(form) }}
+            {{ form_end(form) }}
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+
+    </script>
+{% endblock %}

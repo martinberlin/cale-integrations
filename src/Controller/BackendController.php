@@ -5,6 +5,7 @@ use App\Entity\IntegrationApi;
 use App\Entity\UserApi;
 use App\Form\Api\ApiConfigureSelectionType;
 use App\Form\Api\IntegrationWeatherApiType;
+use App\Form\Api\Wizard\Google\GoogleCalendar1Type;
 use App\Repository\IntegrationApiRepository;
 use App\Repository\UserApiRepository;
 use App\Repository\UserRepository;
@@ -97,10 +98,10 @@ class BackendController extends AbstractController
     }
 
     /**
-     * @Route("/api/google/calendar/{uuid}", name="b_api_wizard_cale-google")
+     * @Route("/api/google/calendar/{uuid}/{intapi_uuid}", name="b_api_wizard_cale-google")
      */
     public function apiWizardGoogleCalendar(
-        $uuid, Request $request, UserApiRepository $userApiRepository,
+        $uuid, $intapi_uuid ="", Request $request, UserApiRepository $userApiRepository,
         IntegrationApiRepository $intApiRepository, EntityManagerInterface $entityManager)
     {
         $languages = $this->getParameter('api_languages');
@@ -111,11 +112,63 @@ class BackendController extends AbstractController
         if ($userApi->getUser() !== $this->getUser()) {
             throw $this->createNotFoundException("You don't have access to API $uuid");
         }
-        exit("b_api_wizard_cale-google");
+        $api = new IntegrationApi();
+        if ($intapi_uuid !== "") {
+            $api = $intApiRepository->findOneBy(['uuid' => $intapi_uuid]);
+        }
+        if (!$api instanceof IntegrationApi) {
+            throw $this->createNotFoundException("$intapi_uuid is not a valid integration API");
+        }
+
+        $form = $this->createForm(GoogleCalendar1Type::class, $api);
+        $form->handleRequest($request);
+        $error = "";
+        $apiUuid = "";
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile  */
+            $credentialsFileUpload = $form->get('credentialsFile')->getData();
+
+            if ($credentialsFileUpload) {
+                $userApi->setCredentials(file_get_contents($credentialsFileUpload->getPathname()));
+            } else {
+                $this->addFlash('error', "Error reading credentials file");
+            }
+
+            $api->setUserApi($userApi);
+            try {
+                $entityManager->persist($api);
+
+            } catch (\Exception $e) {
+                $error = $e->getMessage();
+                $this->addFlash('error', $error);
+            }
+            if ($error === '') {
+                $entityManager->persist($userApi);
+                $entityManager->flush();
+                $this->addFlash('success', 'Credentials saved');
+                $apiUuid = $api->getId();
+                return $this->redirectToRoute('b_api_wizard_cale-google',
+                    [
+                        'uuid' => $uuid,
+                        'intapi_uuid' => $apiUuid
+                    ]);
+            }
+        }
+        return $this->render(
+            'backend/api/wizard/google/cale-google-1.html.twig',
+            [
+                'title' => 'Step 1: Turn on the Google Calendar API',
+                'form'  => $form->createView(),
+                'api_uuid' => $apiUuid
+            ]
+        );
 
     }
 
     /**
+     * TODO: This uuid is of the User API but on saving should set also the uuid of IntApi
+     *       since with same api token you could query different cities
      * @Route("/api/customize/location/{uuid}", name="b_api_customize_location")
      */
     public function apiCustomizeLocation(
