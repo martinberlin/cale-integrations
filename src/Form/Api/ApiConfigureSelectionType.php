@@ -23,6 +23,7 @@ class ApiConfigureSelectionType extends AbstractType
                 ])
             ->add('accessToken', TextType::class,
                 [
+                    'required' => false,
                     'label' => false,
                     'attr' => [
                         'placeholder' => 'Authorization token',

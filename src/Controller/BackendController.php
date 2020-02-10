@@ -73,13 +73,16 @@ class BackendController extends AbstractController
             }
             if ($error === '') {
                 $this->addFlash('success', 'API is connected with your user');
+                $userApiUuidParameter = ['uuid' => $userApi->getId()];
+                $api = $userApi->getApi(); // todo: think about smarter way to do this
 
-                // todo: think about smarter way to do this
-                if ($userApi->getApi()->isLocationApi()) {
-                   return $this->redirectToRoute('b_api_customize_location',
-                        [
-                         'uuid' => $userApi->getId()
-                        ]);
+                if ($api->isLocationApi()) {
+                   return $this->redirectToRoute('b_api_customize_location', $userApiUuidParameter);
+                }
+                switch ($api->getUrlName()) {
+                    case 'cale-google':
+                        return $this->redirectToRoute('b_api_wizard_'.$api->getUrlName(), $userApiUuidParameter);
+                        break;
                 }
             }
         }
@@ -91,6 +94,25 @@ class BackendController extends AbstractController
                 'form' => $form->createView()
             ]
         );
+    }
+
+    /**
+     * @Route("/api/google/calendar/{uuid}", name="b_api_wizard_cale-google")
+     */
+    public function apiWizardGoogleCalendar(
+        $uuid, Request $request, UserApiRepository $userApiRepository,
+        IntegrationApiRepository $intApiRepository, EntityManagerInterface $entityManager)
+    {
+        $languages = $this->getParameter('api_languages');
+        $userApi = $userApiRepository->findOneBy(['uuid' => $uuid]);
+        if (!$userApi instanceof UserApi) {
+            throw $this->createNotFoundException("$uuid is not a valid API definition");
+        }
+        if ($userApi->getUser() !== $this->getUser()) {
+            throw $this->createNotFoundException("You don't have access to API $uuid");
+        }
+        exit("b_api_wizard_cale-google");
+
     }
 
     /**
