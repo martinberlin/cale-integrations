@@ -126,7 +126,7 @@ class BackendController extends AbstractController
                 $title = "Step 2: Accept read-only access and copy the generated Token";
                 $form = $this->createForm(ApiTokenType::class, $userApi);
                 $googleClient->setScopes(\Google_Service_Calendar::CALENDAR_READONLY);
-                $googleClient->setAccessType('online'); // offline
+                $googleClient->setAccessType('offline'); // offline
                 $googleClient->setPrompt('select_account consent');
                 $credentials = json_decode($userApi->getCredentials(),true);
                 $key = isset($credentials['installed']) ? 'installed' : 'web';
@@ -140,15 +140,11 @@ class BackendController extends AbstractController
                         case 'client_secret':
                             $googleClient->setClientSecret($cv);
                             break;
+                        case 'redirect_uris':
+                            $googleClient->setRedirectUri($cv[0]);
+                            break;
                     }
                 }
-                $redirectUri = $this->generateUrl('b_api_wizard_cale-google',
-                    [
-                        'uuid' => $uuid,
-                        'intapi_uuid' => $intapi_uuid,
-                        'step' => 2
-                    ], UrlGeneratorInterface::ABSOLUTE_URL);
-                $googleClient->setRedirectUri($redirectUri);
                 // Request authorization from the user.
                 $authUrl = $googleClient->createAuthUrl();
 
@@ -163,9 +159,8 @@ class BackendController extends AbstractController
         $apiUuid = "";
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $credentialsFileUpload = $form->get('credentialsFile')->getData();
-
             if ($step === 1) {
+                $credentialsFileUpload = $form->get('credentialsFile')->getData();
                 if ($credentialsFileUpload) {
                     $userApi->setCredentials(file_get_contents($credentialsFileUpload->getPathname()));
                 } else {
