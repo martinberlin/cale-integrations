@@ -20,7 +20,8 @@ class GoogleCalendar1Type extends IntegrationApiType
                     'required' => false,
                     'mapped' => false,
                     'attr' => [
-                        'class' => 'form-control'
+                        'class' => 'form-control',
+                        'style' => 'height:3.2em'
                     ],
                     'constraints' => [
                         new File([

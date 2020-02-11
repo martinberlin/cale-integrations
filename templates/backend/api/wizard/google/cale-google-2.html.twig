@@ -1,0 +1,35 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+
+        <div class="col-md-12">
+
+            Please click here to authorize Cale read access:<br>
+            <a href="#" target="_blank">
+                https://generated Link</a><br>
+
+            Copy your token and paste it here.<br><br><br>
+
+            <div class="row">
+                <div class="col-md-6">
+            {{ form_start(form) }}
+            {{ form_errors(form) }}
+            {{ form_end(form) }}
+                </div>
+
+                <label style="margin-left: 1em">API response</label>
+                <div class="col-md-6" id="api_preview" style="height: 500px;overflow-y: auto">
+                    Preview after saving configuration settings<br>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+
+    </script>
+{% endblock %}

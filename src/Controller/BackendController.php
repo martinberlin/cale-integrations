@@ -5,6 +5,7 @@ use App\Entity\IntegrationApi;
 use App\Entity\UserApi;
 use App\Form\Api\ApiConfigureSelectionType;
 use App\Form\Api\IntegrationWeatherApiType;
+use App\Form\Api\Wizard\ApiTokenType;
 use App\Form\Api\Wizard\Google\GoogleCalendar1Type;
 use App\Repository\IntegrationApiRepository;
 use App\Repository\UserApiRepository;
@@ -91,20 +92,19 @@ class BackendController extends AbstractController
         return $this->render(
             'backend/api/configure-api.html.twig',
             [
-                'title' => 'Api configurator. Step 1',
+                'title' => 'Api configurator',
                 'form' => $form->createView()
             ]
         );
     }
 
     /**
-     * @Route("/api/google/calendar/{uuid}/{intapi_uuid}", name="b_api_wizard_cale-google")
+     * @Route("/api/google/calendar/{uuid}/{intapi_uuid}/{step}", name="b_api_wizard_cale-google")
      */
     public function apiWizardGoogleCalendar(
-        $uuid, $intapi_uuid ="", Request $request, UserApiRepository $userApiRepository,
+        $uuid, $intapi_uuid = "", $step = 1, Request $request, UserApiRepository $userApiRepository,
         IntegrationApiRepository $intApiRepository, EntityManagerInterface $entityManager)
     {
-        $languages = $this->getParameter('api_languages');
         $userApi = $userApiRepository->findOneBy(['uuid' => $uuid]);
         if (!$userApi instanceof UserApi) {
             throw $this->createNotFoundException("$uuid is not a valid API definition");
@@ -120,28 +120,38 @@ class BackendController extends AbstractController
             throw $this->createNotFoundException("$intapi_uuid is not a valid integration API");
         }
 
-        $form = $this->createForm(GoogleCalendar1Type::class, $api);
+        switch ($step) {
+            case 2:
+                $title = "Step 2: Accept read-only access and copy the generated Token";
+                $form = $this->createForm(ApiTokenType::class, $userApi);
+                break;
+            default:
+                $title = 'Step 1: Turn on the Google Calendar API';
+                $form = $this->createForm(GoogleCalendar1Type::class, $api);
+        }
+
         $form->handleRequest($request);
         $error = "";
         $apiUuid = "";
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var UploadedFile  */
             $credentialsFileUpload = $form->get('credentialsFile')->getData();
 
-            if ($credentialsFileUpload) {
-                $userApi->setCredentials(file_get_contents($credentialsFileUpload->getPathname()));
-            } else {
-                $this->addFlash('error', "Error reading credentials file");
-            }
+            if ($step === 1) {
+                if ($credentialsFileUpload) {
+                    $userApi->setCredentials(file_get_contents($credentialsFileUpload->getPathname()));
+                } else {
+                    $this->addFlash('error', "Error reading credentials file");
+                }
 
-            $api->setUserApi($userApi);
-            try {
-                $entityManager->persist($api);
+                $api->setUserApi($userApi);
+                try {
+                    $entityManager->persist($api);
 
-            } catch (\Exception $e) {
-                $error = $e->getMessage();
-                $this->addFlash('error', $error);
+                } catch (\Exception $e) {
+                    $error = $e->getMessage();
+                    $this->addFlash('error', $error);
+                }
             }
             if ($error === '') {
                 $entityManager->persist($userApi);
@@ -151,16 +161,19 @@ class BackendController extends AbstractController
                 return $this->redirectToRoute('b_api_wizard_cale-google',
                     [
                         'uuid' => $uuid,
-                        'intapi_uuid' => $apiUuid
+                        'intapi_uuid' => $apiUuid,
+                        'step' => 2
                     ]);
             }
         }
+
         return $this->render(
-            'backend/api/wizard/google/cale-google-1.html.twig',
+            "backend/api/wizard/google/cale-google-{$step}.html.twig",
             [
-                'title' => 'Step 1: Turn on the Google Calendar API',
+                'title' => $title,
                 'form'  => $form->createView(),
-                'api_uuid' => $apiUuid
+                'api_uuid' => $apiUuid,
+                'step'  => $step
             ]
         );
 
@@ -175,6 +188,7 @@ class BackendController extends AbstractController
         $uuid, Request $request,UserApiRepository $userApiRepository,
         IntegrationApiRepository $intApiRepository, EntityManagerInterface $entityManager)
     {
+        $step = 1; // Default wizard step
         $languages = $this->getParameter('api_languages');
         $userApi = $userApiRepository->findOneBy(['uuid'=>$uuid]);
         if (!$userApi instanceof UserApi){
@@ -224,9 +238,10 @@ class BackendController extends AbstractController
         return $this->render(
             'backend/api/location-api.html.twig',
             [
-                'title' => 'Api customize location Api. Step 2',
+                'title' => 'Step 1: Api customize location Api',
                 'form'  => $form->createView(),
-                'api_uuid' => $apiUuid
+                'api_uuid' => $apiUuid,
+                'step'  => $step
             ]
         );
     }
