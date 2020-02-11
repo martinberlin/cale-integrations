@@ -20,7 +20,7 @@ class IntegrationApi implements Language, Location, Created
     protected $uuid;
 
     /**
-     * @ORM\ManyToOne(targetEntity="UserApi")
+     * @ORM\ManyToOne(targetEntity="UserApi", inversedBy="integrationApis")
      * @ORM\JoinColumn(name="user_api_id", referencedColumnName="uuid")
      */
     protected $userApi;

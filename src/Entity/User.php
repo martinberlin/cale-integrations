@@ -3,6 +3,7 @@ namespace App\Entity;
 
 use App\Entity\Model\Created;
 use App\Entity\Model\Language;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -22,6 +23,12 @@ class User implements UserInterface, Language, Created
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+    /**
+     * One user has many apis. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="UserApi", mappedBy="user")
+     */
+    private $userApis;
 
     /**
      * @var string
@@ -88,6 +95,7 @@ class User implements UserInterface, Language, Created
     private $roles = [];
 
     public function __construct() {
+        $this->userApis = new ArrayCollection();
         $this->setCreated(new \DateTime());
     }
 
@@ -302,6 +310,13 @@ class User implements UserInterface, Language, Created
     public function eraseCredentials(): void
     {
         $this->plainPassword = null;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getUserApis() {
+        return $this->userApis;
     }
 
     public function __toString()

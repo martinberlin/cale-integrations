@@ -2,6 +2,7 @@
 namespace App\Entity;
 
 use App\Entity\Model\Created;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -23,7 +24,7 @@ class UserApi implements Created
     protected $uuid;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="userApis")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     protected $user;
@@ -33,6 +34,12 @@ class UserApi implements Created
      * @ORM\JoinColumn(name="api_id", referencedColumnName="id")
      */
     protected $api;
+
+    /**
+     * One userApi has many integrations. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="IntegrationApi", mappedBy="userApi")
+     */
+    private $integrationApis;
 
     /**
      * @var string
@@ -74,6 +81,7 @@ class UserApi implements Created
     function __construct()
     {
         $this->uuid = uniqid();
+        $this->integrationApis = new ArrayCollection();
         $this->setIsConfigured(false);
         $this->setCreated(new \DateTime());
     }
@@ -206,4 +214,13 @@ class UserApi implements Created
     {
         $this->isConfigured = $isConfigured;
     }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getIntegrationApis()
+    {
+        return $this->integrationApis;
+    }
+
 }

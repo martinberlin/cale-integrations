@@ -1,0 +1,50 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <table style="border-spacing:4px;width: 100%">
+                <thead>
+                </tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Access token</th>
+                <th>Created</th>
+                <th>Integrations</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for a in apis %}
+                    <tr style="border:1px #1b6d85 dashed">
+                        <td>{{ a.id }}</td>
+                        <td>{{ a.name }}</td>
+                        <td>{{ a.category }}</td>
+                        <td>{{ a.hasToken }}</td>
+                        <td>{{ a.created|date("D d.m.Y") }}</td>
+                        <td>
+                            {% for i in a.integrations %}
+                                {{ i.name }}
+                                {% if i.language %}
+                                    <b>Lang:</b>{{ i.language }}&nbsp;&nbsp;
+                                {% endif %}
+                                {% if i.latitude %}
+                            <b>Lat:</b>{{ i.latitude }}&nbsp;&nbsp;
+                            <b>Long:</b>{{ i.longitude }}
+                                {% endif %}
+                                <br>
+                            {% endfor %}
+                            {% if a.integrations|length == 0 %}
+                                No integrated
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+{% endblock %}

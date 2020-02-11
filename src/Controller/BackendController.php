@@ -448,4 +448,32 @@ class BackendController extends AbstractController
         return $response;
     }
 
+    /**
+     * @Route("/apis", name="b_home_apis")
+     */
+    public function homeApis(UserApiRepository $userApiRepository, IntegrationApiRepository $integrationApiRepository)
+    {
+        // todo: Didn't work research Why
+        // $apis = $userApiRepository->find(['user' => $this->getUser()]);
+        $apis = $this->getUser()->getUserApis();
+
+        $list = [];
+        foreach ($apis as $userApi) {
+            $add['id'] = $userApi->getId();
+            $add['category'] = $userApi->getApi()->getCategory()->getName();
+            $add['name'] = $userApi->getApi()->getName();
+            $add['hasToken'] = (is_null($userApi->getAccessToken()))?'No token':'Configured';
+            $add['created'] = $userApi->getCreated();
+            $add['integrations'] = $userApi->getIntegrationApis();
+            $list[] = $add;
+        }
+        return $this->render(
+            'backend/admin-apis.html.twig',
+            [
+                'title' => 'Connected APIs',
+                'apis' => $list
+            ]
+        );
+    }
+
     }

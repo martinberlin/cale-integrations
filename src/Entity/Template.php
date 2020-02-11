@@ -19,7 +19,7 @@ class Template
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Screen")
+     * @ORM\ManyToOne(targetEntity="Screen", inversedBy="template")
      * @ORM\JoinColumn(name="screen_id", referencedColumnName="uuid")
      */
     private $screen;
