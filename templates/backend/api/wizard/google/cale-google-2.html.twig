@@ -27,13 +27,22 @@
                     Preview after saving configuration settings<br>
                 </div>
             </div>
-        </div>
-
     </div>
 {% endblock %}
 
 {% block javascripts %}
     <script>
+        let render_preview = {{ renderPreview }};
+        console.log(render_preview, "{{ intapi_uuid }}");
 
+        var xhReq = new XMLHttpRequest();
+        if (render_preview) {
+            xhReq.open("GET", "{{ path('b_api_cale-google', {'int_api_id':intapi_uuid}) }}", false);
+            xhReq.send(null);
+            var jsonObj = JSON.parse(xhReq.responseText);
+            var str = JSON.stringify(jsonObj, undefined, 2); {# 2 = spacing #}
+            api_preview.innerHTML = '';
+            api_preview.appendChild(document.createElement('pre')).innerHTML = syntaxHighlightJson(str);
+        }
     </script>
 {% endblock %}

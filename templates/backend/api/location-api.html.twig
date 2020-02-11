@@ -50,14 +50,15 @@
 
 {% block javascripts %}
     <script>
-        let api_uuid = "{{ api_uuid }}";
+        let intapi_uuid = "{{ intapi_uuid }}";
+
         let lat  = document.getElementById('latitude');
         let long = document.getElementById('longitude');
         let loc = document.getElementById('location_check');
         let setloc = document.getElementById('location_set');
         let api_preview = document.getElementById('api_preview');
         var xhReq = new XMLHttpRequest();
-        if (api_uuid === "") {
+        if (intapi_uuid === "") {
             xhReq.open("GET", "{{ path('b_iptolocation', {'type':'geo'}) }}", false);
             xhReq.send(null);
             var getJson = xhReq.responseText;
@@ -74,7 +75,7 @@
                 }
             }
         } else {
-            xhReq.open("GET", "{{ path('b_api_request', {'uuid': api_uuid}) }}", false);
+            xhReq.open("GET", "{{ path('b_api_request', {'int_api_id': intapi_uuid}) }}", false);
             xhReq.send(null);
             var jsonObj = JSON.parse(xhReq.responseText);
             var str = JSON.stringify(jsonObj, undefined, 2); {# 2 = spacing #}
