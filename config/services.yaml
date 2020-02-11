@@ -8,6 +8,8 @@ parameters:
     screenshot_host: 'http://calendar.fasani.de'
     screenshot_path: '/cale.php?u=[url]&w=[width]&h=[height]&b=[brightness]&d=[bitdepth]&c=[compressed]&cache=[cache]'
     screenshot_parts: ['url','width','height','brightness','bitdepth','compressed', 'cache']
+
+    google_application_name: CALE
     api_languages:
         en: English
         de: German

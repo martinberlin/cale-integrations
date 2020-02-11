@@ -103,15 +103,12 @@ class BackendController extends AbstractController
     }
 
     /**
-     * TODO: This uuid is of the User API but on saving should set also the uuid of IntApi
-     *       since with same api token you could query different cities
-     * @Route("/api/customize/location/{uuid}/{intapi_uuid}", name="b_api_customize_location")
+     * @Route("/api/customize/location/{uuid}/{intapi_uuid}/{step}", name="b_api_customize_location")
      */
     public function apiCustomizeLocation(
-        $uuid, $intapi_uuid = "", Request $request,UserApiRepository $userApiRepository,
+        $uuid, $intapi_uuid = "", $step = 1, Request $request,UserApiRepository $userApiRepository,
         IntegrationApiRepository $intApiRepository, EntityManagerInterface $entityManager)
     {
-        $step = 1; // Default wizard step
         $languages = $this->getParameter('api_languages');
         $userApi = $userApiRepository->findOneBy(['uuid'=>$uuid]);
         if (!$userApi instanceof UserApi){
@@ -139,8 +136,6 @@ class BackendController extends AbstractController
             ]);
         $form->handleRequest($request);
         $error = "";
-        $apiUuid = "";
-
         if ($form->isSubmitted() && $form->isValid()) {
             $api->setUserApi($userApi);
 
@@ -170,8 +165,7 @@ class BackendController extends AbstractController
             [
                 'title' => 'Step 1: Api customize location Api',
                 'form'  => $form->createView(),
-                'intapi_uuid' => $intapi_uuid,
-                'step'  => $step
+                'intapi_uuid' => $intapi_uuid
             ]
         );
     }
@@ -314,6 +308,7 @@ class BackendController extends AbstractController
                 }
                 $title = "Step 2: Accept read-only access and copy the generated Token";
                 $form = $this->createForm(ApiTokenType::class, $userApi);
+                $googleClient->setApplicationName($this->getParameter('google_application_name'));
                 $googleClient->setScopes(\Google_Service_Calendar::CALENDAR_READONLY);
                 $googleClient->setAccessType('offline'); // offline
                 $googleClient->setPrompt('select_account consent');
@@ -459,12 +454,30 @@ class BackendController extends AbstractController
 
         $list = [];
         foreach ($apis as $userApi) {
+            $api = $userApi->getApi();
             $add['id'] = $userApi->getId();
-            $add['category'] = $userApi->getApi()->getCategory()->getName();
-            $add['name'] = $userApi->getApi()->getName();
+            $add['category'] = $api->getCategory()->getName();
+            $add['name'] = $api->getUrlName();
             $add['hasToken'] = (is_null($userApi->getAccessToken()))?'No token':'Configured';
             $add['created'] = $userApi->getCreated();
             $add['integrations'] = $userApi->getIntegrationApis();
+            $add['edit'] = '';
+            $add['userapi_id'] = $userApi->getId();
+            $add['edit_route'] = '';
+
+            // This part needs to be dynamic or the Routing has to be smarter
+            switch ($api->getUrlName()) {
+                case 'cale-google':
+                    $add['edit_route'] = 'b_api_wizard_cale-google';
+                    $add['edit'] = $this->generateUrl($add['edit_route'], ['uuid' => $userApi->getId()]);
+                    break;
+
+                case 'weather-darksky':
+                    $add['edit_route'] = 'b_api_customize_location';
+                    $add['edit'] = $this->generateUrl($add['edit_route'], ['uuid' => $userApi->getId()]);
+                    break;
+            }
+
             $list[] = $add;
         }
         return $this->render(

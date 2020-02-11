@@ -14,6 +14,7 @@
                 <th>Access token</th>
                 <th>Created</th>
                 <th>Integrations</th>
+                <th>Admin</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -26,18 +27,33 @@
                         <td>{{ a.created|date("D d.m.Y") }}</td>
                         <td>
                             {% for i in a.integrations %}
-                                {{ i.name }}
-                                {% if i.language %}
-                                    <b>Lang:</b>{{ i.language }}&nbsp;&nbsp;
-                                {% endif %}
-                                {% if i.latitude %}
-                            <b>Lat:</b>{{ i.latitude }}&nbsp;&nbsp;
-                            <b>Long:</b>{{ i.longitude }}
-                                {% endif %}
-                                <br>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        {% if a.edit_route != "" %}
+                    <a href="{{ path(a.edit_route, {'uuid':a.userapi_id, 'intapi_uuid':i.id, 'step':2}) }}">
+                        [Edit]
+                    </a>
+                                        {% endif %}
+                                        {{ i.name }}
+                                    </div>
+                                    <div class="col-md-7">
+                                        {% if i.language %}
+                                            <b>Lang:</b>{{ i.language }}&nbsp;&nbsp;
+                                        {% endif %}
+                                        {% if i.latitude or i.longitude %}
+                                            <b>Lat:</b>{{ i.latitude|round(2, 'floor') }}&nbsp;&nbsp;
+                                            <b>Long:</b>{{ i.longitude|round(2, 'floor')}}
+                                        {% endif %}
+                                    </div>
+                                </div>
                             {% endfor %}
                             {% if a.integrations|length == 0 %}
                                 No integrated
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if a.edit != "" %}
+                            <a href="{{ a.edit }}">Configure new</a>
                             {% endif %}
                         </td>
                     </tr>
