@@ -6,8 +6,8 @@
 parameters:
     # ex.             http://calendar.fasani.de/screenshot/cale.php?u=http://calendar.fasani.de/paulina&w=400&h=300&d=1
     screenshot_host: 'http://calendar.fasani.de'
-    screenshot_path: '/cale.php?u=[url]&w=[width]&h=[height]&b=[brightness]&d=[bitdepth]&c=[compressed]'
-    screenshot_parts: ['url','width','height','brightness','bitdepth','compressed']
+    screenshot_path: '/cale.php?u=[url]&w=[width]&h=[height]&b=[brightness]&d=[bitdepth]&c=[compressed]&cache=[cache]'
+    screenshot_parts: ['url','width','height','brightness','bitdepth','compressed', 'cache']
     api_languages:
         en: English
         de: German
@@ -73,4 +73,5 @@ services:
         tags: ['controller.service_arguments']
 
     # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+
+

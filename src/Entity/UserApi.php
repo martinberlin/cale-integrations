@@ -47,6 +47,29 @@ class UserApi implements Created
     protected $accessToken;
 
     /**
+     * Used for Google
+     * @var string
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $jsonToken;
+
+    /**
+     * @return string
+     */
+    public function getJsonToken(): string
+    {
+        return $this->jsonToken;
+    }
+
+    /**
+     * @param string $jsonToken
+     */
+    public function setJsonToken(string $jsonToken): void
+    {
+        $this->jsonToken = $jsonToken;
+    }
+
+    /**
      * @var string
      * @ORM\Column(type="boolean")
      */

@@ -10,6 +10,7 @@ use App\Form\Api\Wizard\Google\GoogleCalendar1Type;
 use App\Repository\IntegrationApiRepository;
 use App\Repository\UserApiRepository;
 use App\Repository\UserRepository;
+use App\Service\GoogleClientService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
@@ -130,7 +131,7 @@ class BackendController extends AbstractController
                 $googleClient->setPrompt('select_account consent');
                 $credentials = json_decode($userApi->getCredentials(),true);
                 $key = isset($credentials['installed']) ? 'installed' : 'web';
-                //dump($credentials[$key]);exit();
+
                 foreach ($credentials[$key] as $ck=>$cv) {
                     $googleClient->setConfig($ck,$cv);
                     switch ($ck) {
@@ -159,7 +160,8 @@ class BackendController extends AbstractController
         $apiUuid = "";
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($step === 1) {
+            switch ($step) {
+                case 1:
                 $credentialsFileUpload = $form->get('credentialsFile')->getData();
                 if ($credentialsFileUpload) {
                     $userApi->setCredentials(file_get_contents($credentialsFileUpload->getPathname()));
@@ -175,7 +177,17 @@ class BackendController extends AbstractController
                     $error = $e->getMessage();
                     $this->addFlash('error', $error);
                 }
+               break;
+                case 2:
+                    // todo Read: https://developers.google.com/calendar/quickstart/php
+                    // Exchange authorization code for an access token.
+                    dump($userApi->getAccessToken());exit();
+                    $accessToken = $googleClient->fetchAccessTokenWithAuthCode($userApi->getAccessToken());
+                    $googleClient->setAccessToken($accessToken);
+                    $userApi->setJsonToken(json_encode($googleClient->getAccessToken()));
+                    break;
             }
+
             if ($error === '') {
                 $entityManager->persist($userApi);
                 $entityManager->flush();
@@ -366,6 +378,46 @@ class BackendController extends AbstractController
         } else {
             $response->setContent(json_encode(['status' => $rest->getStatusCode(),'message' => 'API rest call failed']));
         }
+        return $response;
+    }
+
+    /**
+     * @Route("/api/cale-google/{uuid}", name="b_api_cale-google")
+     */
+    public function apiGoogleServiceCalendarJson(
+        $uuid = null,
+        IntegrationApiRepository $intApiRepository)
+    {
+        $options = [];
+        if (isset($_ENV['API_PROXY'])) {
+            $options = array('proxy' => $_ENV['API_PROXY']);
+        }
+        $intApi = $intApiRepository->findOneBy(['uuid'=>$uuid]);
+        if ($intApi instanceof IntegrationApi === false) {
+            return $this->createNotFoundException("Integrated API not found with ID $uuid");
+        }
+
+        $userApi = $intApi->getUserApi();
+        $googleClientService = new GoogleClientService(new \Google_Client);
+
+        $googleClientService->setAccessToken($userApi->getAccessToken());
+        $googleClientService->setCredentials($userApi->getCredentials());
+
+        $service = new \Google_Service_Calendar($googleClientService->getClient());
+
+        // Print the next 10 events on the user's calendar.
+        $calendarId = 'primary';
+        $optParams = array(
+            'maxResults' => 10,
+            'orderBy' => 'startTime',
+            'singleEvents' => true,
+            'timeMin' => date('c'),
+        );
+        $results = $service->events->listEvents($calendarId, $optParams);
+        $events = $results->getItems();
+
+        $response = new JsonResponse();
+        $response->setContent(json_encode($events));
         return $response;
     }
 
