@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * @Route("/backend")
@@ -103,7 +104,7 @@ class BackendController extends AbstractController
      */
     public function apiWizardGoogleCalendar(
         $uuid, $intapi_uuid = "", $step = 1, Request $request, UserApiRepository $userApiRepository,
-        IntegrationApiRepository $intApiRepository, EntityManagerInterface $entityManager)
+        IntegrationApiRepository $intApiRepository, EntityManagerInterface $entityManager, \Google_Client $googleClient)
     {
         $userApi = $userApiRepository->findOneBy(['uuid' => $uuid]);
         if (!$userApi instanceof UserApi) {
@@ -119,11 +120,38 @@ class BackendController extends AbstractController
         if (!$api instanceof IntegrationApi) {
             throw $this->createNotFoundException("$intapi_uuid is not a valid integration API");
         }
-
+        $authUrl = '';
         switch ($step) {
             case 2:
                 $title = "Step 2: Accept read-only access and copy the generated Token";
                 $form = $this->createForm(ApiTokenType::class, $userApi);
+                $googleClient->setScopes(\Google_Service_Calendar::CALENDAR_READONLY);
+                $googleClient->setAccessType('online'); // offline
+                $googleClient->setPrompt('select_account consent');
+                $credentials = json_decode($userApi->getCredentials(),true);
+                $key = isset($credentials['installed']) ? 'installed' : 'web';
+                //dump($credentials[$key]);exit();
+                foreach ($credentials[$key] as $ck=>$cv) {
+                    $googleClient->setConfig($ck,$cv);
+                    switch ($ck) {
+                        case 'client_id':
+                            $googleClient->setClientId($cv);
+                            break;
+                        case 'client_secret':
+                            $googleClient->setClientSecret($cv);
+                            break;
+                    }
+                }
+                $redirectUri = $this->generateUrl('b_api_wizard_cale-google',
+                    [
+                        'uuid' => $uuid,
+                        'intapi_uuid' => $intapi_uuid,
+                        'step' => 2
+                    ], UrlGeneratorInterface::ABSOLUTE_URL);
+                $googleClient->setRedirectUri($redirectUri);
+                // Request authorization from the user.
+                $authUrl = $googleClient->createAuthUrl();
+
                 break;
             default:
                 $title = 'Step 1: Turn on the Google Calendar API';
@@ -173,7 +201,8 @@ class BackendController extends AbstractController
                 'title' => $title,
                 'form'  => $form->createView(),
                 'api_uuid' => $apiUuid,
-                'step'  => $step
+                'step'  => $step,
+                'authUrl' => $authUrl
             ]
         );
 
