@@ -12,6 +12,7 @@ use App\Repository\UserApiRepository;
 use App\Repository\UserRepository;
 use App\Service\GoogleClientService;
 use Doctrine\ORM\EntityManagerInterface;
+use GuzzleHttp\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -107,6 +108,15 @@ class BackendController extends AbstractController
         $uuid, $intapi_uuid = "", $step = 1, Request $request, UserApiRepository $userApiRepository,
         IntegrationApiRepository $intApiRepository, EntityManagerInterface $entityManager, \Google_Client $googleClient)
     {
+        // DEBUG ONLY - Add your test proxy
+        if ($request->getClientIp() === '127.0.0.1' && (isset($_ENV['API_PROXY']))) {
+            $httpClient = new Client([
+                'proxy' => $_ENV['API_PROXY'],
+                'verify' => false
+            ]);
+            $googleClient->setHttpClient($httpClient);
+        }
+
         $userApi = $userApiRepository->findOneBy(['uuid' => $uuid]);
         if (!$userApi instanceof UserApi) {
             throw $this->createNotFoundException("$uuid is not a valid API definition");
@@ -181,7 +191,7 @@ class BackendController extends AbstractController
                 case 2:
                     // todo Read: https://developers.google.com/calendar/quickstart/php
                     // Exchange authorization code for an access token.
-                    dump($userApi->getAccessToken());exit();
+                    //dump($userApi->getAccessToken());exit();
                     $accessToken = $googleClient->fetchAccessTokenWithAuthCode($userApi->getAccessToken());
                     $googleClient->setAccessToken($accessToken);
                     $userApi->setJsonToken(json_encode($googleClient->getAccessToken()));
@@ -289,7 +299,7 @@ class BackendController extends AbstractController
     {
         $options = [];
         if (isset($_ENV['API_PROXY'])) {
-            $options = array('proxy' => $_ENV['API_PROXY']);
+            $options = array('proxy' => 'http://'.$_ENV['API_PROXY']);
         }
 
         $client = HttpClient::create();
@@ -343,7 +353,7 @@ class BackendController extends AbstractController
     {
         $options = [];
         if (isset($_ENV['API_PROXY'])) {
-            $options = array('proxy' => $_ENV['API_PROXY']);
+            $options = array('proxy' => 'http://'.$_ENV['API_PROXY']);
         }
         $intApi = $intApiRepository->findOneBy(['uuid'=>$uuid]);
         if ($intApi instanceof IntegrationApi === false) {
@@ -385,12 +395,16 @@ class BackendController extends AbstractController
      * @Route("/api/cale-google/{uuid}", name="b_api_cale-google")
      */
     public function apiGoogleServiceCalendarJson(
-        $uuid = null,
+        $uuid = null, Request $request,
         IntegrationApiRepository $intApiRepository)
     {
-        $options = [];
-        if (isset($_ENV['API_PROXY'])) {
-            $options = array('proxy' => $_ENV['API_PROXY']);
+        $googleClient = new \Google_Client();
+        if ($request->getClientIp() === '127.0.0.1' && (isset($_ENV['API_PROXY']))) {
+            $httpClient = new Client([
+                'proxy' => $_ENV['API_PROXY'],
+                'verify' => false
+            ]);
+            $googleClient->setHttpClient($httpClient);
         }
         $intApi = $intApiRepository->findOneBy(['uuid'=>$uuid]);
         if ($intApi instanceof IntegrationApi === false) {
@@ -398,11 +412,9 @@ class BackendController extends AbstractController
         }
 
         $userApi = $intApi->getUserApi();
-        $googleClientService = new GoogleClientService(new \Google_Client);
-
-        $googleClientService->setAccessToken($userApi->getAccessToken());
+        $googleClientService = new GoogleClientService($googleClient);
+        $googleClientService->setAccessToken($userApi->getJsonToken());
         $googleClientService->setCredentials($userApi->getCredentials());
-
         $service = new \Google_Service_Calendar($googleClientService->getClient());
 
         // Print the next 10 events on the user's calendar.
