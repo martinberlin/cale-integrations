@@ -54,22 +54,6 @@ class UserApi implements Created
     protected $jsonToken;
 
     /**
-     * @return string
-     */
-    public function getJsonToken(): string
-    {
-        return $this->jsonToken;
-    }
-
-    /**
-     * @param string $jsonToken
-     */
-    public function setJsonToken(string $jsonToken): void
-    {
-        $this->jsonToken = $jsonToken;
-    }
-
-    /**
      * @var string
      * @ORM\Column(type="boolean")
      */
@@ -162,7 +146,7 @@ class UserApi implements Created
     /**
      * @return string
      */
-    public function getCredentials(): string
+    public function getCredentials():?string
     {
         return $this->credentials;
     }
@@ -189,6 +173,22 @@ class UserApi implements Created
     public function setAccessToken(string $accessToken)
     {
         $this->accessToken = $accessToken;
+    }
+
+    /**
+     * @return string
+     */
+    public function getJsonToken():?string
+    {
+        return $this->jsonToken;
+    }
+
+    /**
+     * @param string $jsonToken
+     */
+    public function setJsonToken(string $jsonToken): void
+    {
+        $this->jsonToken = $jsonToken;
     }
 
     /**

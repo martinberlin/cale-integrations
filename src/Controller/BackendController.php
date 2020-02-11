@@ -317,25 +317,27 @@ class BackendController extends AbstractController
                 $googleClient->setScopes(\Google_Service_Calendar::CALENDAR_READONLY);
                 $googleClient->setAccessType('offline'); // offline
                 $googleClient->setPrompt('select_account consent');
-                $credentials = json_decode($userApi->getCredentials(),true);
-                $key = isset($credentials['installed']) ? 'installed' : 'web';
+                if (!is_null($userApi->getCredentials())) {
+                    $credentials = json_decode($userApi->getCredentials(),true);
+                    $key = isset($credentials['installed']) ? 'installed' : 'web';
 
-                foreach ($credentials[$key] as $ck=>$cv) {
-                    $googleClient->setConfig($ck,$cv);
-                    switch ($ck) {
-                        case 'client_id':
-                            $googleClient->setClientId($cv);
-                            break;
-                        case 'client_secret':
-                            $googleClient->setClientSecret($cv);
-                            break;
-                        case 'redirect_uris':
-                            $googleClient->setRedirectUri($cv[0]);
-                            break;
+                    foreach ($credentials[$key] as $ck=>$cv) {
+                        $googleClient->setConfig($ck,$cv);
+                        switch ($ck) {
+                            case 'client_id':
+                                $googleClient->setClientId($cv);
+                                break;
+                            case 'client_secret':
+                                $googleClient->setClientSecret($cv);
+                                break;
+                            case 'redirect_uris':
+                                $googleClient->setRedirectUri($cv[0]);
+                                break;
+                        }
                     }
+                    // Request authorization from the user.
+                    $authUrl = $googleClient->createAuthUrl();
                 }
-                // Request authorization from the user.
-                $authUrl = $googleClient->createAuthUrl();
 
                 break;
             default:
