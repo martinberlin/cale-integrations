@@ -1,0 +1,273 @@
+<?php
+namespace App\Controller;
+
+use App\Entity\IntegrationApi;
+use App\Entity\UserApi;
+use App\Form\Api\ApiConfigureSelectionType;
+use App\Form\Api\IntegrationWeatherApiType;
+use App\Form\Api\Wizard\ApiDeleteConfirmationType;
+use App\Repository\IntegrationApiRepository;
+use App\Repository\UserApiRepository;
+use App\Service\GoogleClientService;
+use Doctrine\ORM\EntityManagerInterface;
+use GuzzleHttp\Client;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
+/**
+ * @Route("/backend/api")
+ */
+class BackendApiController extends AbstractController
+{
+    /**
+     * @Route("/configure", name="b_api_configure")
+     */
+    public function apiConfigure(Request $request, EntityManagerInterface $entityManager)
+    {
+        $userApi = new UserApi();
+        $form = $this->createForm(ApiConfigureSelectionType::class, $userApi);
+        $form->handleRequest($request);
+        $error = "";
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $userApi->setUser($this->getUser());
+            try {
+                $entityManager->persist($userApi);
+                $entityManager->flush();
+            } catch (\Exception $e) {
+                $error = $e->getMessage();
+                $this->addFlash('error', $error);
+            }
+            if ($error === '') {
+                $this->addFlash('success', 'API is connected with your user');
+                $userApiUuidParameter = ['uuid' => $userApi->getId()];
+                $api = $userApi->getApi(); // todo: think about smarter way to do this
+
+                if ($api->isLocationApi()) {
+                    return $this->redirectToRoute('b_api_customize_location', $userApiUuidParameter);
+                }
+                switch ($api->getUrlName()) {
+                    case 'cale-google':
+                        return $this->redirectToRoute('b_api_wizard_'.$api->getUrlName(), $userApiUuidParameter);
+                        break;
+                }
+            }
+        }
+
+        return $this->render(
+            'backend/api/configure-api.html.twig',
+            [
+                'title' => 'Api configurator',
+                'form' => $form->createView()
+            ]
+        );
+    }
+
+    /**
+     * @Route("/delete/{userapi_uuid}", name="b_api_delete_userapi")
+     */
+    public function deleteUserApi($userapi_uuid, Request $request,
+        EntityManagerInterface $entityManager,   UserApiRepository $userApiRepository)
+    {
+        $userApi = $userApiRepository->findOneBy(['uuid' => $userapi_uuid]);
+        if (!$userApi instanceof UserApi) {
+            throw $this->createNotFoundException("$userapi_uuid is not a valid API definition");
+        }
+        if ($userApi->getUser() !== $this->getUser()) {
+            throw $this->createNotFoundException("You don't have access to this API");
+        }
+        $form = $this->createForm(ApiDeleteConfirmationType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->get('deleteConfirm')->getData()) {
+            try {
+                $entityManager->remove($userApi);
+                $entityManager->flush();
+            } catch (\Exception $e) {
+                $this->addFlash('error', $userApi->getName()." API was not deleted. ".$e->getMessage());
+                return $this->redirectToRoute('b_home_apis');
+            }
+            $this->addFlash('success', $userApi->getApi()->getName()." API was deleted successfully");
+            return $this->redirectToRoute('b_home_apis');
+        }
+        return $this->render(
+            'backend/api/confirm-delete.html.twig',
+            [
+                'title' => 'Confirm API deletion',
+                'form' => $form->createView()
+            ]
+        );
+    }
+
+    /** Helpers to avoid repeating this calls in all the APIs */
+    private function getIntegrationApi(IntegrationApiRepository $intApiRepository, $intapi_uuid) {
+        $api = new IntegrationApi();
+        if (!is_null($intapi_uuid)) {
+            $api = $intApiRepository->findOneBy(['uuid' => $intapi_uuid]);
+        }
+        if (!$api instanceof IntegrationApi) {
+            throw $this->createNotFoundException("$intapi_uuid is not a valid integration API");
+        }
+        return $api;
+    }
+
+    private function getUserApi(UserApiRepository $userApiRepository, $uuid) {
+        $userApi = $userApiRepository->findOneBy(['uuid'=>$uuid]);
+        if (!$userApi instanceof UserApi){
+            throw $this->createNotFoundException("$uuid is not a valid API definition");
+        }
+        if ($userApi->getUser() !== $this->getUser()){
+            throw $this->createNotFoundException("You don't have access to API $uuid");
+        }
+        return $userApi;
+    }
+
+    /**
+     * @Route("/customize/location/{uuid}/{intapi_uuid?}/{step?1}", name="b_api_customize_location")
+     */
+    public function apiCustomizeLocation(
+        $uuid, $intapi_uuid, $step, Request $request,
+        UserApiRepository $userApiRepository,
+        IntegrationApiRepository $intApiRepository,
+        EntityManagerInterface $entityManager)
+    {
+        $languages = $this->getParameter('api_languages');
+        $userApi = $this->getUserApi($userApiRepository, $uuid);
+        $api = $this->getIntegrationApi($intApiRepository, $intapi_uuid);
+        if ($this->getUser()->getLanguage()!=="" && $api->getLanguage() === "") {
+            $api->setLanguage($this->getUser()->getLanguage());
+        }
+        $api->setJsonSettings($userApi->getApi()->getDefaultJsonSettings());
+
+        $form = $this->createForm(IntegrationWeatherApiType::class, $api,
+            [
+                'languages' => array_flip($languages)
+            ]);
+        $form->handleRequest($request);
+        $error = "";
+        if ($form->isSubmitted() && $form->isValid()) {
+            $api->setUserApi($userApi);
+
+            try {
+                $entityManager->persist($api);
+
+            } catch (\Exception $e) {
+                $error = $e->getMessage();
+                $this->addFlash('error', $error);
+            }
+            if ($error === '') {
+                $userApi->setIsConfigured(true);
+                $entityManager->persist($userApi);
+                $entityManager->flush();
+                $this->addFlash('success', 'Location API configuration saved');
+                $apiUuid = $api->getId();
+                return $this->redirectToRoute('b_api_customize_location',
+                    [
+                        'uuid' => $uuid,
+                        'intapi_uuid' => $apiUuid,
+                    ]);
+            }
+        }
+
+        return $this->render(
+            'backend/api/location-api.html.twig',
+            [
+                'title' => 'Step 1: Api customize location Api',
+                'form'  => $form->createView(),
+                'intapi_uuid' => $intapi_uuid
+            ]
+        );
+    }
+
+    /**
+     * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+     * Calendar service preview
+     * @Route("/cale-google/json/{int_api_id}", name="b_api_cale-google")
+     */
+    public function apiGoogleServiceCalendarJson(
+        $int_api_id, Request $request, \Google_Client $googleClient,
+        IntegrationApiRepository $intApiRepository)
+    {
+        if ($request->getClientIp() === '127.0.0.1' && (isset($_ENV['API_PROXY']))) {
+            $httpClient = new Client([
+                'proxy' => $_ENV['API_PROXY'],
+                'verify' => false
+            ]);
+            $googleClient->setHttpClient($httpClient);
+        }
+        $intApi = $intApiRepository->findOneBy(['uuid'=>$int_api_id]);
+        if ($intApi instanceof IntegrationApi === false) {
+            return $this->createNotFoundException("Integrated API not found with ID $int_api_id");
+        }
+
+        $userApi = $intApi->getUserApi();
+        $googleClientService = new GoogleClientService($googleClient);
+        $googleClientService->setAccessToken($userApi->getJsonToken());
+        $googleClientService->setCredentials($userApi->getCredentials());
+        $service = new \Google_Service_Calendar($googleClientService->getClient());
+        $calendarId = 'primary';
+        $optParams = array(
+            'maxResults' => 10,
+            'orderBy' => 'startTime',
+            'singleEvents' => true,
+            'timeMin' => date('c'),
+        );
+        $results = $service->events->listEvents($calendarId, $optParams);
+        $events = $results->getItems();
+
+        $response = new JsonResponse();
+        $response->setContent(json_encode($events));
+        return $response;
+    }
+
+    /**
+     * General Location API preview
+     * @Route("/json/{int_api_id}", name="b_api_request")
+     */
+    public function apiJsonPreview(Request $request, $int_api_id = null, IntegrationApiRepository $intApiRepository)
+    {
+        $options = [];
+        if (isset($_ENV['API_PROXY'])) {
+            $options = array('proxy' => 'http://'.$_ENV['API_PROXY']);
+        }
+        $intApi = $intApiRepository->findOneBy(['uuid'=>$int_api_id]);
+        if ($intApi instanceof IntegrationApi === false) {
+            return $this->createNotFoundException("Integrated API not found with ID $int_api_id");
+        }
+
+        // https://api.darksky.net/forecast/[token]/[latitude],[longitude]
+        $userApi = $intApi->getUserApi();
+        $api = $userApi->getApi();
+
+        $apiUrl = str_replace("[token]", $userApi->getAccessToken(), $api->getUrl());
+        $apiUrl = str_replace("[latitude]", $intApi->getLatitude(), $apiUrl);
+        $apiUrl = str_replace("[longitude]", $intApi->getLongitude(), $apiUrl);
+
+        if ($intApi->getJsonSettings() !== '') {
+            try {
+                $extraParams = json_decode($intApi->getJsonSettings(), true);
+            } catch (\Exception $e) {
+                return $this->createNotFoundException("Failed parsing json settings for API. ".$e->getMessage());
+            }
+            // Language is an exception since is set in the Configure API on IntegrationApi level
+            $extraParams['lang'] = $intApi->getLanguage();
+            $apiUrl.= '?'.http_build_query($extraParams);
+        }
+
+        $client = HttpClient::create();
+        $rest = $client->request('GET', $apiUrl, $options);
+        $response = new JsonResponse();
+
+        if ($rest->getStatusCode() === 200) {
+            $response->setContent($rest->getContent());
+        } else {
+            $response->setContent(json_encode(['status' => $rest->getStatusCode(),'message' => 'API rest call failed']));
+        }
+        return $response;
+    }
+}

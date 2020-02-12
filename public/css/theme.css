@@ -19,6 +19,25 @@ pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; background-color: #f5f5
 .null { color: magenta; }
 .key { color: red; }
 
+.common-lists-table {
+    border-spacing:4px;
+    width: 100%;
+    border:1px #1b6d85 solid;
+    border-collapse: collapse;
+}
+.common-lists-table tr {
+    border:1px #1b6d85 dashed;
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+.common-lists-table th,td {
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-left: 0.2em;
+    padding-right: 0.2em;
+}
+
+
 /* some typo */
 h1,h2,h3,h4,h5,strong,b { color: #111 }
 h1 { letter-spacing: -2px }

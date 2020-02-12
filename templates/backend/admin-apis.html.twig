@@ -5,7 +5,7 @@
 
         <div class="col-md-12">
 
-            <table style="border-spacing:4px;width: 100%">
+            <table class="common-lists-table">
                 <thead>
                 </tr>
                 <th>ID</th>
@@ -19,7 +19,7 @@
                 </thead>
                 <tbody>
                 {% for a in apis %}
-                    <tr style="border:1px #1b6d85 dashed">
+                    <tr>
                         <td>{{ a.id }}</td>
                         <td>{{ a.name }}</td>
                         <td>{{ a.category }}</td>
@@ -32,7 +32,7 @@
                                         {% if a.edit_route != "" %}
                     <a href="{{ path(a.edit_route, {'uuid':a.userapi_id, 'intapi_uuid':i.id, 'step':2}) }}">
                         [Edit]
-                    </a>
+                    </a>&nbsp;
                                         {% endif %}
                                         {{ i.name }}
                                     </div>
@@ -52,8 +52,17 @@
                             {% endif %}
                         </td>
                         <td>
-                            {% if a.edit != "" %}
-                            <a href="{{ a.edit }}">Configure new</a>
+                            {% if a.integrations|length == 0 %}
+                            <a class="alert alert-info" href="{{ path(a.edit_route, {'uuid':a.userapi_id, 'step':1}) }}">
+                                [Edit]
+                            </a>
+                            <a class="alert alert-danger" href="{{ path('b_api_delete_userapi', {'userapi_uuid':a.userapi_id}) }}">
+                                [Delete]
+                            </a>
+                            {% endif %}
+
+                            {% if a.edit != "" and a.url_name !="cale-google" %}
+                            <a class="alert alert-success"  href="{{ a.edit }}">Configure new</a>
                             {% endif %}
                         </td>
                     </tr>
