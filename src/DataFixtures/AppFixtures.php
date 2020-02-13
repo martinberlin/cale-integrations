@@ -52,6 +52,7 @@ class AppFixtures extends Fixture  implements FixtureGroupInterface,ContainerAwa
         $api->setDocumentationUrl('https://developers.timetreeapp.com/en/docs/api');
         $api->setRequestParameters(json_encode($requestParams));
         $api->setResponseType('json');
+        $api->setAuthNote('Personal access token');
         $api->setIsLocationApi(false);
         $manager->persist($api);
 

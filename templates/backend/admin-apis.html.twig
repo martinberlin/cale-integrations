@@ -10,10 +10,9 @@
                 </tr>
                 <th>ID</th>
                 <th>Name</th>
-                <th>Category</th>
-                <th>Access token</th>
+                <th title="Access Token/Auth Code (for OAuth2)">Access</th>
                 <th>Created</th>
-                <th>Integrations</th>
+                <th title="There can be more of one Integration for API (ex. weather in Berlin / weather in Paris)">Integrations</th>
                 <th>Admin</th>
                 </tr>
                 </thead>
@@ -21,8 +20,7 @@
                 {% for a in apis %}
                     <tr>
                         <td>{{ a.id }}</td>
-                        <td>{{ a.name }}</td>
-                        <td>{{ a.category }}</td>
+                        <td><a title="external Documentation" href="{{ a.doc_url }}" target="_blank">[Doc]</a> {{ a.name }}</td>
                         <td>{{ a.hasToken }}</td>
                         <td>{{ a.created|date("D d.m.Y") }}</td>
                         <td>
@@ -31,8 +29,7 @@
                                     <div class="col-md-5">
                                         {% if a.edit_route != "" %}
                     <a href="{{ path(a.edit_route, {'uuid':a.userapi_id, 'intapi_uuid':i.id, 'step':2}) }}">
-                        [Edit]
-                    </a>&nbsp;
+                        [Edit]</a>&nbsp;
                                         {% endif %}
                                         {{ i.name }}
                                     </div>

@@ -25,6 +25,52 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class BackendApiController extends AbstractController
 {
     /**
+     * @Route("/", name="b_home_apis")
+     */
+    public function homeApis(UserApiRepository $userApiRepository, IntegrationApiRepository $integrationApiRepository)
+    {
+        // todo: Didn't work research Why:  $apis = $userApiRepository->find(['user' => $this->getUser()]);
+        $apis = $this->getUser()->getUserApis();
+
+        $list = [];
+        foreach ($apis as $userApi) {
+            $api = $userApi->getApi();
+            $add['id'] = $userApi->getId();
+            $add['doc_url'] = $api->getDocumentationUrl();
+            $add['name'] = $api->getName();
+            $add['url_name'] = $api->getUrlName();
+            $add['hasToken'] = (is_null($userApi->getAccessToken()))?'No token':'Configured';
+            $add['created'] = $userApi->getCreated();
+            $add['integrations'] = $userApi->getIntegrationApis();
+            $add['edit'] = '';
+            $add['userapi_id'] = $userApi->getId();
+            $add['edit_route'] = '';
+            //$add['category'] = $api->getCategory()->getName();
+            // This part needs to be dynamic or the Routing has to be smarter
+            switch ($api->getUrlName()) {
+                case 'cale-google':
+                    $add['edit_route'] = 'b_api_wizard_cale-google';
+                    $add['edit'] = $this->generateUrl($add['edit_route'], ['uuid' => $userApi->getId()]);
+                    break;
+
+                case 'weather-darksky':
+                    $add['edit_route'] = 'b_api_customize_location';
+                    $add['edit'] = $this->generateUrl($add['edit_route'], ['uuid' => $userApi->getId()]);
+                    break;
+            }
+
+            $list[] = $add;
+        }
+        return $this->render(
+            'backend/admin-apis.html.twig',
+            [
+                'title' => 'Connected APIs',
+                'apis' => $list
+            ]
+        );
+    }
+
+    /**
      * @Route("/configure", name="b_api_configure")
      */
     public function apiConfigure(Request $request, EntityManagerInterface $entityManager)

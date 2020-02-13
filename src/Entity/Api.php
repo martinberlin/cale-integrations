@@ -38,6 +38,13 @@ class Api
     protected $name;
 
     /**
+     * Short note explaining what key is needed. Ex. "Personal access token"
+     * @var string
+     * @ORM\Column(type="string", length=60)
+     */
+    protected $authNote;
+
+    /**
      * @var string
      * @ORM\Column(type="string", length=255, nullable=true)
      */
@@ -158,6 +165,24 @@ class Api
     public function setName(string $name)
     {
         $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthNote()
+    {
+        return $this->authNote;
+    }
+
+    /**
+     * @param string $authNote
+     * @return Api
+     */
+    public function setAuthNote(string $authNote)
+    {
+        $this->authNote = $authNote;
         return $this;
     }
 
