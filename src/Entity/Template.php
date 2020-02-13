@@ -1,6 +1,7 @@
 <?php
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -19,10 +20,10 @@ class Template
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Screen", inversedBy="template")
-     * @ORM\JoinColumn(name="screen_id", referencedColumnName="uuid")
+     * One Template has many Screens. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="Screen", mappedBy="template")
      */
-    private $screen;
+    private $screens;
 
     /**
      * One Template has many partials. This is the inverse side.
@@ -35,6 +36,11 @@ class Template
      * @ORM\Column(type="string", length=130, nullable=true)
      */
     protected $templateTwig;
+
+    public function __construct()
+    {
+        $this->screens = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -55,17 +61,17 @@ class Template
     /**
      * @return mixed
      */
-    public function getScreen()
+    public function getScreens()
     {
-        return $this->screen;
+        return $this->screens;
     }
 
     /**
      * @param mixed $screen
      */
-    public function setScreen($screen)
+    public function setScreens($screen)
     {
-        $this->screen = $screen;
+        $this->screens = $screen;
     }
 
     /**

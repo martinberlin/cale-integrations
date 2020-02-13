@@ -35,8 +35,8 @@ class Screen implements Created
     protected $display;
 
     /**
-     * One Screen has many templates. This is the inverse side.
-     * @ORM\OneToMany(targetEntity="Template", mappedBy="screen")
+     * @ORM\ManyToOne(targetEntity="Template", inversedBy="screens")
+     * @ORM\JoinColumn(name="template_id", referencedColumnName="id")
      */
     private $template;
 
