@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\IntegrationApi;
 use App\Entity\UserApi;
 use App\Form\Api\ApiConfigureSelectionType;
+use App\Form\Api\IntegrationSharedCalendarApiType;
 use App\Form\Api\IntegrationWeatherApiType;
 use App\Form\Api\Wizard\ApiDeleteConfirmationType;
 use App\Form\Api\Wizard\ApiTokenType;
@@ -100,11 +101,8 @@ class BackendApiController extends AbstractController
                 if ($api->isLocationApi()) {
                     return $this->redirectToRoute('b_api_customize_location', $userApiUuidParameter);
                 }
-                switch ($api->getUrlName()) {
-                    case 'cale-google':
-                        return $this->redirectToRoute('b_api_wizard_'.$api->getUrlName(), $userApiUuidParameter);
-                        break;
-                }
+                // Any exceptions should go here, otherwise there is a configurator wizard:
+                return $this->redirectToRoute('b_api_wizard_'.$api->getUrlName(), $userApiUuidParameter);
             }
         }
 
@@ -224,9 +222,9 @@ class BackendApiController extends AbstractController
         }
 
         return $this->render(
-            'backend/api/location-api.html.twig',
+            'backend/api/conf-location-api.html.twig',
             [
-                'title' => 'Step 1: Api customize location Api',
+                'title' => 'Step 1: Setup location Api',
                 'form'  => $form->createView(),
                 'intapi_uuid' => $intapi_uuid
             ]
@@ -437,6 +435,32 @@ class BackendApiController extends AbstractController
                 'api_uuid' => $apiUuid,
                 'intapi_uuid' => $intapi_uuid,
                 'renderPreview' => $renderPreview
+            ]
+        );
+    }
+
+    /**
+     * @Route("/calendar/shared/{uuid}/{intapi_uuid?}/{step?1}", name="b_api_wizard_cale-timetree")
+     */
+    public function apiSharedCalendar(
+        $uuid, $intapi_uuid, $step, Request $request,
+        UserApiRepository $userApiRepository,
+        IntegrationApiRepository $intApiRepository,
+        EntityManagerInterface $entityManager)
+    {
+        $userApi = $this->getUserApi($userApiRepository, $uuid);
+        $api = $this->getIntegrationApi($intApiRepository, $intapi_uuid);
+
+        $api->setJsonSettings($userApi->getApi()->getDefaultJsonSettings());
+
+        $form = $this->createForm(IntegrationSharedCalendarApiType::class, $api);
+
+        return $this->render(
+            'backend/api/conf-shared-calendar-api.html.twig',
+            [
+                'title' => 'Step 1: Configure shared calendar',
+                'form'  => $form->createView(),
+                'intapi_uuid' => $intapi_uuid
             ]
         );
     }

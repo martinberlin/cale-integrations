@@ -39,6 +39,12 @@ class IntegrationApi implements Language, Location, Created
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=40)
+     */
+    protected $timezone;
+
+    /**
+     * @var string
      *
      * @ORM\Column(name="latitude", type="decimal", precision=20, scale=16, nullable=true)
      */
@@ -136,6 +142,22 @@ class IntegrationApi implements Language, Location, Created
     /**
      * @return mixed
      */
+    public function getTimezone()
+    {
+        return $this->timezone;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setTimezone(string $name)
+    {
+        $this->timezone = $name;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getLatitude():?string
     {
         return $this->latitude;
@@ -199,7 +221,7 @@ class IntegrationApi implements Language, Location, Created
     /**
      * @param string $jsonSettings
      */
-    public function setJsonSettings(string $jsonSettings)
+    public function setJsonSettings(string $jsonSettings=null)
     {
         $this->jsonSettings = $jsonSettings;
     }

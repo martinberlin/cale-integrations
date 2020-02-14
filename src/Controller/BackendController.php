@@ -73,17 +73,23 @@ class BackendController extends AbstractController
 
         if ($response->getStatusCode() === 200) {
             $content = $response->getContent();
+            $json = json_decode($content);
             switch ($type) {
+                case 'timezone':
+                    $geo = [
+                        'continent' =>$json->continent_name,
+                        'region'    =>$json->region_name,
+                        'timezone'  =>$json->continent_name."/".$json->region_name
+                    ];
+                    $content = json_encode($geo);
+                    break;
                 case 'location':
-                    $json = json_decode($content);
                     $content = json_encode($json->location);
                     break;
                 case 'language':
-                    $json = json_decode($content);
                     $content = json_encode($json->location->languages[0]);
                     break;
                 case 'geo':
-                    $json = json_decode($content);
                     $geo = [
                         'latitude' =>$json->latitude,
                         'longitude'=>$json->longitude,

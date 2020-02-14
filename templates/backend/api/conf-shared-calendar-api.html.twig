@@ -1,0 +1,82 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        {{ form_start(form) }}
+        <div class="col-md-12">
+
+            {{ form_errors(form) }}
+            {{ form_row(form.name) }}
+
+            <div class="panel panel-default" style="margin-top: 2em">
+                <div class="panel-heading" id="location_check">Location detection...</div>
+                <div class="panel-body">
+                    <div id="location_disco" style="visibility: hidden;height:30px">
+                        <input type="checkbox" id="location_set">
+                        <label for="location_set">Use the detected Timezone parameters</label>
+                    </div>
+                    <div class="row">
+                           <div class="col-md-6">
+                    {{ form_row(form.timezone) }}
+                           </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <p style="color:#A9A9A9">This json settings are advanced configuration to exclude parts of the api response and make it lighter.
+                </p>
+                {{ form_row(form.jsonSettings) }}
+            </div>
+            <div class="col-md-3">
+                {{ form_widget(form.submit, {'attr':{'style':'margin-top:2.4em'}}) }}
+            </div>
+
+            <label style="margin-left: 1em">API response</label>
+            <div class="col-md-6" id="api_preview" style="height: 500px;overflow-y: auto">
+                Preview after saving configuration settings<br>
+            </div>
+            {{ form_end(form) }}
+        </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        let intapi_uuid = "{{ intapi_uuid }}";
+
+        let timezone  = document.getElementById('timezone');
+
+        let loc = document.getElementById('location_check');
+        let setloc = document.getElementById('location_set');
+        let api_preview = document.getElementById('api_preview');
+        var xhReq = new XMLHttpRequest();
+        if (intapi_uuid === "") {
+            xhReq.open("GET", "{{ path('b_iptolocation', {'type':'timezone'}) }}", false);
+            xhReq.send(null);
+            var getJson = xhReq.responseText;
+            var obj = JSON.parse(getJson);
+
+            loc.innerHTML = "Timezone detected: <b>"+obj.timezone+"</b>";
+
+            if (typeof(obj.timezone) === "string") {
+                document.getElementById('location_disco').style.visibility = 'visible';
+            }
+            setloc.onchange = function() {
+                if (setloc.checked) {
+                    timezone.value = obj.timezone;
+                }
+            }
+        } else {
+            xhReq.open("GET", "{{ path('b_api_request', {'int_api_id': intapi_uuid}) }}", false);
+            xhReq.send(null);
+            var jsonObj = JSON.parse(xhReq.responseText);
+            var str = JSON.stringify(jsonObj, undefined, 2); {# 2 = spacing #}
+            api_preview.innerHTML = '';
+
+            api_preview.appendChild(document.createElement('pre')).innerHTML = syntaxHighlightJson(str);
+        }
+    </script>
+{% endblock %}
