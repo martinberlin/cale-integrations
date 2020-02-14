@@ -36,6 +36,16 @@ class HomeController extends AbstractController
     }
 
     /**
+     * @Route("/built-transparently", name="transparently")
+     */
+    public function transparently()
+    {
+        return $this->render(
+            'www-built-transparently.html.twig'
+        );
+    }
+
+    /**
      * @Route("/thanks", name="thanks")
      */
     public function thanks()
