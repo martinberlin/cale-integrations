@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 //*
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @ORM\Table(name="app_user")
+ * @ORM\Table(name="app_user", uniqueConstraints={@ORM\UniqueConstraint(name="name_idx", columns={"name"})})
  * @UniqueEntity("email")
  * @ORM\HasLifecycleCallbacks
  */
@@ -111,6 +111,7 @@ class User implements UserInterface, Language, Created
 
     public function __construct() {
         $this->maxScreens = 3;
+        $this->agreementAccepted = false;
         $this->userApis = new ArrayCollection();
         $this->setCreated(new \DateTime());
     }

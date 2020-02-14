@@ -19,12 +19,12 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class BackendController extends AbstractController
 {
     /**
-     * @Route("/logged_in", name="logged_in")
+     * @Route("/logged_in/{see}", name="logged_in")
      */
-    public function loggedIn(EntityManagerInterface $entityManager, Request $request)
+    public function loggedIn(EntityManagerInterface $entityManager, Request $request, $see = 0)
     {
         $user = $this->getUser();
-        if (is_null($user->getLastLogin()) && $user->getAgreementAccepted()) {
+        if (is_null($user->getLastLogin()) || !$user->getAgreementAccepted() || $see) {
             $form = $this->createForm(UsernameAgreementType::class, $user);
 
             $form->handleRequest($request);
@@ -48,10 +48,11 @@ class BackendController extends AbstractController
 
                             if ($error === "") {
                                 $this->addFlash('success', "Thanks for accepting our terms. Your account was created with the username: " . $user->getName());
+                                return $this->redirectToRoute('b_home');
                             } else {
                                 $this->addFlash('error', $error);
                             }
-                            return $this->redirectToRoute('b_home');
+
                         } else {
                             $this->addFlash('error', "Please accept the agreement to confirm your account");
                         }
