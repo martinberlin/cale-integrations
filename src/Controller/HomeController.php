@@ -20,6 +20,15 @@ class HomeController extends AbstractController
         return $this->redirectToRoute('register', [], 301);
     }
 
+    /**
+     * @Route("/about-cale", name="about-cale")
+     */
+    public function aboutCale()
+    {
+        return $this->render(
+            'www-about-cale.html.twig'
+        );
+    }
 
     /**
      * @Route("/eink-displays", name="displays")

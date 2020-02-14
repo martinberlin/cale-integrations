@@ -3,10 +3,10 @@
 {% block stylesheets %}
 <style>
     #myCarousel.carousel {
-        height: 220px;
+        height: 120px;
     }
     #myCarousel .item {
-        height: 220px; width: 100%;
+        height: 120px; width: 100%;
         background-color: #333;
     }
 </style>
@@ -34,9 +34,11 @@
         <tbody>
         {% for d in displays %}
         {% if d.classname == 'GDEW029T5' %}
-            {% set h = 150 %}
+            {% set h = 100 %}
+        {% elseif d.classname == 'GDEH029A1'  %}
+            {% set h = 100 %}
         {% else %}
-            {% set h = 200 %}
+            {% set h = 150 %}
         {% endif %}
             <tr style="border:1px #1b6d85 dashed">
                 <td>&nbsp;<b>{{ d.className }}</b><br>

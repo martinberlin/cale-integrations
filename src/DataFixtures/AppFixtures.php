@@ -31,6 +31,7 @@ class AppFixtures extends Fixture  implements FixtureGroupInterface,ContainerAwa
         $api->setDocumentationUrl('https://developers.google.com/calendar/quickstart/php');
         $api->setName('Google Calendar');
         $api->setResponseType('json');
+        $api->setAuthNote('Oauth Authorization code');
         $api->setIsLocationApi(false);
         $defJsonArr = [
             'orderBy' => 'startTime',
@@ -54,6 +55,11 @@ class AppFixtures extends Fixture  implements FixtureGroupInterface,ContainerAwa
         $api->setResponseType('json');
         $api->setAuthNote('Personal access token');
         $api->setIsLocationApi(false);
+
+        $defJsonArr = [
+            'days' => 7,
+            'include' => 'creator,label,attendees'];
+        $api->setDefaultJsonSettings(json_encode($defJsonArr));
         $manager->persist($api);
 
         $requestParams = [
@@ -75,7 +81,7 @@ class AppFixtures extends Fixture  implements FixtureGroupInterface,ContainerAwa
         $api->setDocumentationUrl('https://darksky.net/dev/docs');
         $api->setRequestParameters(json_encode($requestParams));
         $api->setResponseType('json');
-        $api->setIsLocationApi(true);
+        $api->setAuthNote('Authorization key');
         $api->setIsLocationApi(true);
         $manager->persist($api);
         $manager->flush();

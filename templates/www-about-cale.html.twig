@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+<style>
+    #myCarousel.carousel {
+        height: 120px;
+    }
+    #myCarousel .item {
+        height: 120px; width: 100%;
+        background-color: #333;
+    }
+</style>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <h3>What is CALE?</h3>
+
+   <p><b>CALE is a screen administrator where you can mix content of different APIs and control the content output</b><br>
+
+       This output can be exported as a bitmap image and can be used to refresh dynamically external displays such as Epaper or Eink displays that are connected to WiFi.
+       But you can use it also to display this API mixins in your monitor, tablet or any device. CALE will support up to 3 different screen compositions.
+       Check our Firmware for ESP32 and <a href="{{ path('displays') }}">the supported displays</a> in order to build one of this displays yourself.
+    </p>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="./js/engine/common.js"></script>
+{% endblock %}
