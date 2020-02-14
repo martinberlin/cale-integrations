@@ -1,7 +1,10 @@
 <?php
 namespace App\Controller;
 
+use App\Form\UsernameAgreementType;
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -15,6 +18,60 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class BackendController extends AbstractController
 {
+    /**
+     * @Route("/logged_in", name="logged_in")
+     */
+    public function loggedIn(EntityManagerInterface $entityManager, Request $request)
+    {
+        $user = $this->getUser();
+        if (is_null($user->getLastLogin()) && $user->getAgreementAccepted()) {
+            $form = $this->createForm(UsernameAgreementType::class, $user);
+
+            $form->handleRequest($request);
+            if ($form->getClickedButton()) {
+                switch ($form->getClickedButton()->getName()) {
+                    case 'declineAction':
+                        $this->addFlash('success', "Your account was deleted from our system");
+                        return $this->redirectToRoute('home');
+                        break;
+                    case 'confirmAction':
+                        if ($form->get('confirm')->getData()) {
+                            $user->setLastLogin(new \DateTime());
+                            $user->setAgreementAccepted(true);
+                            $error = "";
+                            try {
+                                $entityManager->persist($user);
+                                $entityManager->flush();
+                            } catch (UniqueConstraintViolationException $e) {
+                                $error = "This username is taken please choose another one";
+                            }
+
+                            if ($error === "") {
+                                $this->addFlash('success', "Thanks for accepting our terms. Your account was created with the username: " . $user->getName());
+                            } else {
+                                $this->addFlash('error', $error);
+                            }
+                            return $this->redirectToRoute('b_home');
+                        } else {
+                            $this->addFlash('error', "Please accept the agreement to confirm your account");
+                        }
+                        break;
+                }
+            }
+            return $this->render(
+                'backend/admin-accept-agreement.html.twig',
+                [
+                    'title' => 'Create your username',
+                    'form' => $form->createView()
+                ]
+            );
+        } else {
+            // User already accepted agreement
+            return $this->redirectToRoute('b_home');
+        }
+    }
+
+
     /**
      * @Route("/", name="b_home")
      */

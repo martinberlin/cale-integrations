@@ -86,6 +86,21 @@ class User implements UserInterface, Language, Created
      * @ORM\Column(type="datetime", nullable=true)
      */
     protected $updated;
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $lastLogin;
+
+    /**
+     * @var string
+     * @ORM\Column(type="boolean")
+     */
+    protected $agreementAccepted;
+    /**
+    * @ORM\Column(type="integer")
+    */
+    protected $maxScreens;
 
     /**
      * @var array $roles
@@ -95,6 +110,7 @@ class User implements UserInterface, Language, Created
     private $roles = [];
 
     public function __construct() {
+        $this->maxScreens = 3;
         $this->userApis = new ArrayCollection();
         $this->setCreated(new \DateTime());
     }
@@ -317,6 +333,54 @@ class User implements UserInterface, Language, Created
      */
     public function getUserApis() {
         return $this->userApis;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getLastLogin()
+    {
+        return $this->lastLogin;
+    }
+
+    /**
+     * @param \DateTime $lastLogin
+     */
+    public function setLastLogin(\DateTime $lastLogin = null)
+    {
+        $this->lastLogin = $lastLogin;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAgreementAccepted()
+    {
+        return $this->agreementAccepted;
+    }
+
+    /**
+     * @param string $agreementAccepted
+     */
+    public function setAgreementAccepted(bool $agreementAccepted)
+    {
+        $this->agreementAccepted = $agreementAccepted;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMaxScreens()
+    {
+        return $this->maxScreens;
+    }
+
+    /**
+     * @param mixed $maxScreens
+     */
+    public function setMaxScreens(int $maxScreens)
+    {
+        $this->maxScreens = $maxScreens;
     }
 
     public function __toString()

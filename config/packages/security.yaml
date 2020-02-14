@@ -21,7 +21,7 @@ security:
                 provider: app_users
                 login_path: login
                 check_path: login
-                default_target_path: /backend
+                default_target_path: /backend/logged_in
             logout:
                 path:   /logout
                 target: /

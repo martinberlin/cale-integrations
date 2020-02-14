@@ -1,0 +1,42 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+{% block body %}
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+<div class="row">
+    <div class="col-md-6">
+    <p>Your username will be used to generate URLs like cale.es/username/screen/ID</p>
+    {{ form_row(form.name) }}
+    </div>
+</div>
+    <h3>User agreement</h3>
+    <ul>
+        <li>I understand that by using this site I will be making calls to external APIs that may have request limits or paid costs in some cases.
+            CALE has no responsibility or liability for the API calls made to render your screens.</li>
+        <li>I understand that my API credentials such as Key, Oauth tokens and authorization codes will be stored in Cale database with my consent so we can request information to make your dynamic screens.</li>
+        <li>I understand that if I make public or link my screens from other sites or social media there could be an unwanted traffic /abuse and even costs derived from my external API connection usage. And again CALE does not have any responsibility or liability since you are in control of what APIs are connected and you decide what to do with your output screen links.</li>
+        <li>As the last important point I understand that if in any of my screens I show personal information that may put people privacy at stake in any harmful, unrespectful or illegal way,
+            my account may be terminated instantly without previous advice from Cale website and my APIs disconnected. This applies to shared calendars and any other API contents that may contain sensible such as
+        medical appointments or private details that other parties in same event would not like revaled.</li>
+    </ul>
+    Please use the APIs output information responsibly and if possible only for your personal use.
+    You may share the screen output links but by doing so you are fully responsible in what to share and where you share it.
+
+
+<div class="row">
+    <div class="col-md-6"></div>
+    <div class="col-md-6">
+        {{ form_widget(form.confirm) }} {{ form_label(form.confirm) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        {{ form_widget(form.declineAction) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_widget(form.confirmAction) }}
+    </div>
+</div>
+    {{ form_end(form) }}
+
+{% endblock %}
