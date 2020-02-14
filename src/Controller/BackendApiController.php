@@ -42,7 +42,7 @@ class BackendApiController extends AbstractController
             $add['doc_url'] = $api->getDocumentationUrl();
             $add['name'] = $api->getName();
             $add['url_name'] = $api->getUrlName();
-            $add['hasToken'] = (is_null($userApi->getAccessToken()))?'No token':'Configured';
+            $add['hasToken'] = (is_null($userApi->getAccessToken()))?'No token':'ok';
             $add['created'] = $userApi->getCreated();
             $add['integrations'] = $userApi->getIntegrationApis();
             $add['edit'] = '';

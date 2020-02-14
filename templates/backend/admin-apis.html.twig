@@ -20,26 +20,32 @@
                 {% for a in apis %}
                     <tr>
                         <td>{{ a.id }}</td>
-                        <td><a title="external Documentation" href="{{ a.doc_url }}" target="_blank">[Doc]</a> {{ a.name }}</td>
-                        <td>{{ a.hasToken }}</td>
-                        <td>{{ a.created|date("D d.m.Y") }}</td>
+                        <td><a title="external Documentation" href="{{ a.doc_url }}" target="_blank">
+                                <img src="/assets/icon/documentation.svg" width="24"></a> {{ a.name }}</td>
+                        <td>{% if a.hasToken == 'ok' %}
+                            <img src="/assets/icon/checked.svg" width="24">
+                                {% else %}
+                                {{ a.hasToken }}
+                            {% endif %}
+                        </td>
+                        <td>{{ a.created|date("d.m.Y") }}</td>
                         <td>
                             {% for i in a.integrations %}
                                 <div class="row">
-                                    <div class="col-md-5">
+                                    <div class="col-md-6">
                                         {% if a.edit_route != "" %}
-                    <a href="{{ path(a.edit_route, {'uuid':a.userapi_id, 'intapi_uuid':i.id, 'step':2}) }}">
-                        [Edit]</a>&nbsp;
+                    <a title="Edit" href="{{ path(a.edit_route, {'uuid':a.userapi_id, 'intapi_uuid':i.id, 'step':2}) }}">
+                        <img src="/assets/icon/edit.svg" width="14"></a>&nbsp;
                                         {% endif %}
                                         {{ i.name }}
                                     </div>
-                                    <div class="col-md-7">
+                                    <div class="col-md-6">
                                         {% if i.language %}
                                             <b>Lang:</b>{{ i.language }}&nbsp;&nbsp;
                                         {% endif %}
                                         {% if i.latitude or i.longitude %}
                                             <b>Lat:</b>{{ i.latitude|round(2, 'floor') }}&nbsp;&nbsp;
-                                            <b>Long:</b>{{ i.longitude|round(2, 'floor')}}
+                                            <b>Lon:</b>{{ i.longitude|round(2, 'floor')}}
                                         {% endif %}
                                     </div>
                                 </div>
@@ -50,12 +56,10 @@
                         </td>
                         <td>
                             {% if a.integrations|length == 0 %}
-                            <a class="alert alert-info" href="{{ path(a.edit_route, {'uuid':a.userapi_id, 'step':1}) }}">
-                                [Edit]
-                            </a>
+                            <a title="Add an integration" class="alert alert-info" href="{{ path(a.edit_route, {'uuid':a.userapi_id, 'step':1}) }}">
+                                <img src="/assets/icon/edit.svg" width="14"></a>
                             <a class="alert alert-danger" href="{{ path('b_api_delete_userapi', {'userapi_uuid':a.userapi_id}) }}">
-                                [Delete]
-                            </a>
+                                <img src="/assets/icon/delete.svg" width="14"></a>
                             {% endif %}
 
                             {% if a.edit != "" and a.url_name !="cale-google" %}

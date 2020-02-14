@@ -16,12 +16,21 @@
     <script>
     let api = document.getElementById('api');
     let token = document.getElementById('accessToken');
-
+    let tokenlabel = document.getElementById('accessTokenLabel');
     api.onchange = function() {
         if (api.value > 1) {
             token.style.visibility = 'visible';
         } else {
             token.style.visibility = 'hidden';
+        }
+
+        switch (api.value) {
+            case '2':
+                tokenlabel.innerText = 'Personal access token';
+                break;
+            default:
+                tokenlabel.innerText = '';
+                break;
         }
     }
     </script>

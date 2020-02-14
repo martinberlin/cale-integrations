@@ -33,6 +33,12 @@ class IntegrationApi implements Language, Location, Created
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=200)
+     */
+    protected $calId;
+
+    /**
+     * @var string
      *
      * @ORM\Column(name="latitude", type="decimal", precision=20, scale=16, nullable=true)
      */
@@ -106,9 +112,25 @@ class IntegrationApi implements Language, Location, Created
     /**
      * @param mixed $name
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCalId()
+    {
+        return $this->calId;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setCalId(string $name)
+    {
+        $this->calId = $name;
     }
 
     /**

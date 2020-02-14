@@ -24,11 +24,15 @@ class ApiConfigureSelectionType extends AbstractType
             ->add('accessToken', TextType::class,
                 [
                     'required' => false,
-                    'label' => false,
+                    'label' => ' ',
+                    'label_attr' => [
+                        'id' => 'accessTokenLabel',
+                        'style' => 'margin-top:2em'
+                    ],
                     'attr' => [
-                        'placeholder' => 'Authorization token',
+                        'placeholder' => 'Token',
                         'class' => 'form-control',
-                        'style' => 'visibility:hidden;margin-top:2em'
+                        'style' => 'visibility:hidden'
                     ]
                 ])
             ->add('submit', SubmitType::class,
