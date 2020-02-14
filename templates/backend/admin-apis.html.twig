@@ -4,7 +4,7 @@
     <div class="row">
 
         <div class="col-md-12">
-
+            {% if apis|length %}
             <table class="common-lists-table">
                 <thead>
                 </tr>
@@ -70,6 +70,10 @@
                 {% endfor %}
                 </tbody>
             </table>
+                {% else %}
+                You still don't have any APIs configured.
+            <h3><a  href="{{ path('b_api_configure') }}" title="Configure a new API">Create one here</a></h3>
+            {% endif %}
         </div>
 
     </div>

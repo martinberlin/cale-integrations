@@ -14,6 +14,7 @@ class IntegrationSharedCalendarApiType extends IntegrationApiType
         $builder
             ->add('calId', TextType::class,
                 [
+                    'required' => false,
                     'label' => 'Calendar ID',
                     'attr' => [
                         'class' => 'form-control'

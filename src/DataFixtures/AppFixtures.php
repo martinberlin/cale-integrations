@@ -49,7 +49,7 @@ class AppFixtures extends Fixture  implements FixtureGroupInterface,ContainerAwa
         $api->setCategory($this->categoryRepository->findOneBy(['name'=>'Calendar']));
         $api->setUrlName('cale-timetree');
         $api->setName('Timetree shared Calendar');
-        $api->setUrl('https://timetreeapis.com/calendars/[token]/upcoming_events');
+        $api->setUrl('https://timetreeapis.com/calendars');
         $api->setDocumentationUrl('https://developers.timetreeapp.com/en/docs/api');
         $api->setRequestParameters(json_encode($requestParams));
         $api->setResponseType('json');

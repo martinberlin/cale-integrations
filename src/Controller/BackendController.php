@@ -19,12 +19,12 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class BackendController extends AbstractController
 {
     /**
-     * @Route("/logged_in/{see}", name="logged_in")
+     * @Route("/logged_in", name="logged_in")
      */
-    public function loggedIn(EntityManagerInterface $entityManager, Request $request, $see = 0)
+    public function loggedIn(EntityManagerInterface $entityManager, Request $request)
     {
         $user = $this->getUser();
-        if (is_null($user->getLastLogin()) || !$user->getAgreementAccepted() || $see) {
+        if (is_null($user->getLastLogin()) || !$user->getAgreementAccepted()) {
             $form = $this->createForm(UsernameAgreementType::class, $user);
 
             $form->handleRequest($request);
@@ -47,7 +47,8 @@ class BackendController extends AbstractController
                             }
 
                             if ($error === "") {
-                                $this->addFlash('success', "Thanks for accepting our terms. Your account was created with the username: " . $user->getName());
+                                $this->addFlash('success', "Thanks for accepting our terms. Your account was created with the username: " . $user->getName().
+                                "You can always review this agreement in the User menu");
                                 return $this->redirectToRoute('b_home');
                             } else {
                                 $this->addFlash('error', $error);
@@ -72,6 +73,15 @@ class BackendController extends AbstractController
         }
     }
 
+    /**
+     * @Route("/agreement", name="b_agreement")
+     */
+    public function userAgreement()
+    {
+        return $this->render(
+            'backend/admin-user-agreement.html.twig', ['title' => 'User agreement and code of conduct']
+        );
+    }
 
     /**
      * @Route("/", name="b_home")

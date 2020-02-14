@@ -31,8 +31,16 @@
                 </p>
                 {{ form_row(form.jsonSettings) }}
             </div>
-            <div class="col-md-3">
-                {{ form_widget(form.submit, {'attr':{'style':'margin-top:2.4em'}}) }}
+            <div class="col-md-3" style="margin-top: 0.8em">
+                <p>A list with your Calendars will be displayed at the right. <br></p>
+                "data"->"id":"<span style="color:green">COPY</span>" in the field below.<br><br>
+                {{ form_row(form.calId) }}
+                <br>
+                <p>After doing that Configure API to preview a list of calendar entries.
+                    Note that most shared calendars like Timetree only show the next 7 days of events.</p>
+
+                {{ form_widget(form.submit, {'attr':{'style':'margin-top:0.4em'}}) }}
+
             </div>
 
             <label style="margin-left: 1em">API response</label>
@@ -46,9 +54,9 @@
 {% block javascripts %}
     <script>
         let intapi_uuid = "{{ intapi_uuid }}";
+        let cal_id = "{{ form.vars.value.calId }}";
 
         let timezone  = document.getElementById('timezone');
-
         let loc = document.getElementById('location_check');
         let setloc = document.getElementById('location_set');
         let api_preview = document.getElementById('api_preview');
@@ -69,14 +77,16 @@
                     timezone.value = obj.timezone;
                 }
             }
-        } else {
-            xhReq.open("GET", "{{ path('b_api_request', {'int_api_id': intapi_uuid}) }}", false);
+        }
+
+
+            xhReq.open("GET", "{{ path('b_api_shared_calendar_request', {'api_id': userapi_id,'type':'userapi'}) }}", false);
             xhReq.send(null);
             var jsonObj = JSON.parse(xhReq.responseText);
             var str = JSON.stringify(jsonObj, undefined, 2); {# 2 = spacing #}
             api_preview.innerHTML = '';
 
             api_preview.appendChild(document.createElement('pre')).innerHTML = syntaxHighlightJson(str);
-        }
+
     </script>
 {% endblock %}
