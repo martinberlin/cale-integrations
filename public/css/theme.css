@@ -68,8 +68,11 @@ hr.clearfix {clear: both; width: 100%; float: left}
     color: #e1e1e8
 }
 
-/* colors */
+/* www colors */
 .bg-bootstrap { background-color: #2d545e }
+/* backend colors */
+.bg-bootstrap-backend { background-color: #2b2b2b }
+/* colors */
 .bg-pink { background-color: #31ACDE }
 .bg-indigo { background-color: #2B7694 }
 .bg-purple { background-color: #454545 }

@@ -1,15 +1,16 @@
 {% extends 'base.html.twig' %}
+{% set carousel_high = 120 %}
 
 {% block stylesheets %}
-<style>
-    #myCarousel.carousel {
-        height: 120px;
-    }
-    #myCarousel .item {
-        height: 120px; width: 100%;
-        background-color: #333;
-    }
-</style>
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+    </style>
 {% endblock stylesheets %}
 
 {% block carousel %}
