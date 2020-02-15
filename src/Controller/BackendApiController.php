@@ -57,12 +57,16 @@ class BackendApiController extends AbstractController
                     $add['edit'] = $this->generateUrl($add['edit_route'], ['uuid' => $userApi->getId()]);
                     break;
 
+                case 'cale-timetree':
+                    $add['edit_route'] = 'b_api_wizard_cale-timetree';
+                    $add['edit'] = $this->generateUrl($add['edit_route'], ['uuid' => $userApi->getId()]);
+                    break;
+
                 case 'weather-darksky':
                     $add['edit_route'] = 'b_api_customize_location';
                     $add['edit'] = $this->generateUrl($add['edit_route'], ['uuid' => $userApi->getId()]);
                     break;
             }
-
             $list[] = $add;
         }
         return $this->render(
@@ -486,14 +490,13 @@ class BackendApiController extends AbstractController
      * @Route("/json/shared-calendar/{api_id?}/{type?userapi}/{cal_id?}", name="b_api_shared_calendar_request")
      */
     public function apiJsonSharedCalendar(Request $request, $api_id, $type,
-                                          $calId = null, IntegrationApiRepository $intApiRepository,
+                                          $cal_id = null, IntegrationApiRepository $intApiRepository,
                                           UserApiRepository $userApiRepository)
     {
         $options = [];
         if (isset($_ENV['API_PROXY'])) {
             $options = array('proxy' => 'http://'.$_ENV['API_PROXY']);
         }
-
 
         switch($type) {
             case 'userapi':
@@ -513,8 +516,8 @@ class BackendApiController extends AbstractController
                 $api = $userApi->getApi();
                 $apiUrl = $api->getUrl();
 
-                if (!is_null($calId)) {
-                    $apiUrl.="/{$calId}/upcoming_events";
+                if (!is_null($cal_id) && $cal_id!="") {
+                    $apiUrl.="/{$cal_id}/upcoming_events";
                 }
                 if ($intApi->getJsonSettings() !== '') {
                     try {
@@ -522,8 +525,7 @@ class BackendApiController extends AbstractController
                     } catch (\Exception $e) {
                         return $this->createNotFoundException("Failed parsing json settings for API. ".$e->getMessage());
                     }
-                    // Language is an exception since is set in the Configure API on IntegrationApi level
-                    $extraParams['lang'] = $intApi->getLanguage();
+
                     $apiUrl.= '?'.http_build_query($extraParams);
                 }
                 break;

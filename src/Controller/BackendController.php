@@ -48,7 +48,7 @@ class BackendController extends AbstractController
 
                             if ($error === "") {
                                 $this->addFlash('success', "Thanks for accepting our terms. Your account was created with the username: " . $user->getName().
-                                "You can always review this agreement in the User menu");
+                                ". You can always review this agreement in the User menu");
                                 return $this->redirectToRoute('b_home');
                             } else {
                                 $this->addFlash('error', $error);

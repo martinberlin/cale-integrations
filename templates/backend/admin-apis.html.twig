@@ -8,7 +8,7 @@
             <table class="common-lists-table">
                 <thead>
                 </tr>
-                <th>ID</th>
+                {#<th>ID</th>#}
                 <th>Name</th>
                 <th title="Access Token/Auth Code (for OAuth2)">Access</th>
                 <th>Created</th>
@@ -19,7 +19,7 @@
                 <tbody>
                 {% for a in apis %}
                     <tr>
-                        <td>{{ a.id }}</td>
+                        {#<td>{{ a.id }}</td>#}
                         <td><a title="external Documentation" href="{{ a.doc_url }}" target="_blank">
                                 <img src="/assets/icon/documentation.svg" width="24"></a> {{ a.name }}</td>
                         <td>{% if a.hasToken == 'ok' %}
@@ -56,6 +56,7 @@
                         </td>
                         <td>
                             {% if a.integrations|length == 0 %}
+                                {{ a.edit_route }}
                             <a title="Add an integration" class="alert alert-info" href="{{ path(a.edit_route, {'uuid':a.userapi_id, 'step':1}) }}">
                                 <img src="/assets/icon/edit.svg" width="14"></a>
                             <a class="alert alert-danger" href="{{ path('b_api_delete_userapi', {'userapi_uuid':a.userapi_id}) }}">
