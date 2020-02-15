@@ -8,6 +8,12 @@ parameters:
     screenshot_host: 'http://calendar.fasani.de'
     screenshot_path: '/cale.php?u=[url]&w=[width]&h=[height]&b=[brightness]&d=[bitdepth]&c=[compressed]&cache=[cache]'
     screenshot_parts: ['url','width','height','brightness','bitdepth','compressed', 'cache']
+    screen_templates:
+        '1 Column':  1-col.html.twig
+        '2 Columns': 2-col.html.twig
+        '2 Columns with header': 2-col-header.html.twig
+        '3 Columns': 3-col.html.twig
+        '3 Columns with header': 3-col-header.html.twig
 
     google_application_name: CALE
     api_languages:

@@ -23,6 +23,12 @@ class Screen implements Created
     protected $uuid;
 
     /**
+     * @var string
+     * @ORM\Column(type="string", length=130, nullable=true)
+     */
+    protected $name;
+
+    /**
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
@@ -35,16 +41,16 @@ class Screen implements Created
     protected $display;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Template", inversedBy="screens")
-     * @ORM\JoinColumn(name="template_id", referencedColumnName="id")
+     * One Template has many partials. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="TemplatePartial", mappedBy="screen")
      */
-    private $template;
+    private $partials;
 
     /**
      * @var string
      * @ORM\Column(type="string", length=130, nullable=true)
      */
-    protected $name;
+    protected $templateTwig;
 
     /**
      * @var \DateTime
@@ -117,7 +123,7 @@ class Screen implements Created
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName():?string
     {
         return $this->name;
     }
@@ -130,20 +136,51 @@ class Screen implements Created
         $this->name = $name;
     }
 
+
     /**
      * @return string
      */
-    public function getTemplate(): string
+    public function getTemplateTwig():?string
     {
-        return $this->template;
+        return $this->templateTwig;
     }
 
     /**
-     * @param string $template
+     * @param string $templateTwig
      */
-    public function setTemplate(string $template)
+    public function setTemplateTwig(string $templateTwig)
     {
-        $this->template = $template;
+        $this->templateTwig = $templateTwig;
     }
 
+    public function addPartial(ScreenPartial $partial): self
+    {
+        if (!$this->partials->contains($partial)) {
+            $this->partials[] = $partial;
+        }
+        return $this;
+    }
+
+    public function removePartial(ScreenPartial $partial): self
+    {
+        if ($this->partials->contains($partial)) {
+            $this->partials->removeElement($partial);
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPartials()
+    {
+        return $this->partials;
+    }
+
+    /**
+     * @param mixed $partials
+     */
+    public function setPartials($partials)
+    {
+        $this->partials = $partials;
+    }
 }

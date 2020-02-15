@@ -1,0 +1,31 @@
+body {
+    background-color: #e0e0e0;
+}
+#bs-navbar {
+    margin-top: 0.6em;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.common-lists-table {
+    border-spacing:4px;
+    width: 100%;
+    border:1px #1b6d85 solid;
+    border-collapse: collapse;
+    background-color: #FFFFFF;
+}
+.common-lists-table tr {
+    border:1px #1b6d85 dashed;
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+.common-lists-table th {
+    background-color: #000000;
+    color: #FFFFFF;
+}
+.common-lists-table th,td {
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-left: 0.2em;
+    padding-right: 0.2em;
+}

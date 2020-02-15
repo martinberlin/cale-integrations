@@ -27,10 +27,10 @@ class TemplatePartial implements Sortable
 
     /**
      * Many template_partial have one template. This is the owning side.
-     * @ORM\ManyToOne(targetEntity="Template", inversedBy="partials")
-     * @ORM\JoinColumn(name="template_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Screen", inversedBy="partials")
+     * @ORM\JoinColumn(name="screen_id", referencedColumnName="uuid")
      */
-    protected $template;
+    protected $screen;
 
     /**
      * @var string

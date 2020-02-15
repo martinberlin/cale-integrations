@@ -250,4 +250,9 @@ class Display
     {
         $this->purchaseUrl = $purchaseUrl;
     }
+
+    public function __toString()
+    {
+        return (string) $this->width." x ".$this->height.' '.$this->name;
+    }
 }
