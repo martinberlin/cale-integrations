@@ -5,8 +5,12 @@ body {
     margin-top: 0.6em;
     font-weight: bold;
     font-size: 18px;
+    font-family: 'Asap', sans-serif;
 }
-
+h3 {
+    font-family: 'Asap', sans-serif;
+    letter-spacing: 0.04em !important;
+}
 .common-lists-table {
     border-spacing:4px;
     width: 100%;

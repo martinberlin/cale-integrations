@@ -3,18 +3,17 @@
 {% block body %}
 
 {{ form_start(form) }}
-
 {{ form_errors(form) }}
-    <div class="row">
-        <div class="col-md-6">
-            {{ form_row(form.name) }}
-        </div>
-    </div>
+    
     <div class="row" style="height: 55px">
         <div class="col-md-6">
+            {{ form_row(form.name) }}
+
             {{ form_row(form.templateTwig) }}
 
             {{ form_row(form.display) }}
+
+            {{ form_widget(form.submit) }}
         </div>
         <div class="col-md-6 text-right" style="margin-top: -1.4em">
             <img id="template">
@@ -33,8 +32,6 @@
     template_twig.onchange = function() {
         let img_src= template_twig.value.replace('html.twig','svg');
         template_img.src = '/img/display-templates/'+img_src;
-
-        console.log(template_img)
     }
 
 </script>

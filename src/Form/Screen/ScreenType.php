@@ -59,7 +59,12 @@ class ScreenType extends AbstractType
                         'class' => 'form-control'
                     ]
                 ])
-        ;
+
+            ->add('submit', SubmitType::class,
+                [
+                    'label' => 'Save screen',
+                    'attr' => ['class' => 'btn btn-primary', 'style' => 'margin-top:2em']
+                ]);
     }
 
     public function getBlockPrefix()

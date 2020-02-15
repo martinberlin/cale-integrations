@@ -1,5 +1,37 @@
 {% extends 'backend/backend-base.html.twig' %}
 
 {% block body %}
-    My screens will be listed here (Maybe with png screenshots?)
+
+ {% if screens|length %}
+<table class="common-lists-table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Template</th>
+        <th>Eink output</th>
+        <th>Created</th>
+        <th>Admin</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for s in screens %}
+        <tr>
+            <td>{{ s.uuid }}</td>
+            <td>{{ s.name }}</td>
+            <td><img width="80" src="/img/display-templates/{{ s.templateTwig|replace({"html.twig": "svg"}) }}"></td>
+            <td>{{ s.display }}</td>
+            <td>{{ s.created|date("d.m.Y") }}</td>
+            <td>
+                <a class="alert alert-info" href="{{ path('b_screen_edit', {'uuid':s.uuid}) }}">Edit</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+ {% else %}
+     You still don't have any screens configured.
+     <h3><a href="{{ path('b_screen_edit') }}">Create one screen</a></h3>
+{% endif %}
 {% endblock %}

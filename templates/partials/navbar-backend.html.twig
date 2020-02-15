@@ -20,12 +20,12 @@
 
         </div>
         <nav id="bs-navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav navbar-left" style="margin-left: 6em">
 
                 <li class="dropdown"><a href="#" data-toggle="dropdown" aria-expanded="false">API <span
                                 class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a  href="{{ path('b_home_apis') }}">Connected Apis</a></li>
+                        <li><a  href="{{ path('b_home_apis') }}">My connected Apis</a></li>
                         <li><a  href="{{ path('b_api_configure') }}" title="Configure a new API">Add new Api</a></li>
                     </ul>
                 </li>
@@ -33,8 +33,8 @@
                 <li class="dropdown"><a href="#" data-toggle="dropdown" aria-expanded="false">Screens <span
                                 class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a  href="{{ path('b_screens') }}">My screens</a></li>
-                        <li><a  href="#todo">Add new Screen</a></li>
+                        <li><a  href="{{ path('b_screens') }}">    My screens</a></li>
+                        <li><a  href="{{ path('b_screen_edit') }}">Add new Screen</a></li>
                     </ul>
                 </li>
 

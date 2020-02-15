@@ -26,7 +26,7 @@ class TemplatePartial implements Sortable
     protected $integrationApi;
 
     /**
-     * Many template_partial have one template. This is the owning side.
+     * Many template_partial have one screen. This is the owning side.
      * @ORM\ManyToOne(targetEntity="Screen", inversedBy="partials")
      * @ORM\JoinColumn(name="screen_id", referencedColumnName="uuid")
      */

@@ -7,7 +7,7 @@
             {% if apis|length %}
             <table class="common-lists-table">
                 <thead>
-                </tr>
+                <tr>
                 {#<th>ID</th>#}
                 <th>Name</th>
                 <th title="Access Token/Auth Code (for OAuth2)">Access</th>
@@ -64,7 +64,7 @@
                             {% endif %}
 
                             {% if a.edit != "" and a.url_name !="cale-google" %}
-                            <a class="alert alert-success"  href="{{ a.edit }}">Configure new</a>
+                            <a class="alert alert-success"  href="{{ a.edit }}">Add new</a>
                             {% endif %}
                         </td>
                     </tr>
