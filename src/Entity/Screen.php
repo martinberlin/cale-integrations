@@ -29,7 +29,7 @@ class Screen implements Created
     protected $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="screens")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     protected $user;

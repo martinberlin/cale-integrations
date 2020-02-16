@@ -29,7 +29,8 @@ class BackendScreenController extends AbstractController
             'backend/admin-screen.html.twig',
             [
                 'title' => 'My screens',
-                'screens' => $screens
+                'screens' => $screens,
+                'user_max_screens' => $this->getUser()->getMaxScreens()
             ]
         );
     }
@@ -43,6 +44,12 @@ class BackendScreenController extends AbstractController
             $screen = new Screen();
             $screen->setUser($this->getUser());
             $title = "Add new screen";
+            $screensUsed = $this->getUser()->getScreens()->count();
+            if ($this->getUser()->getMaxScreens() >= $screensUsed) {
+                $this->addFlash('error', "Sorry but the screen limit is set to maximum $screensUsed screens in your account. Please contact us if you want to update this limit");
+                return $this->redirectToRoute('b_screens');
+            }
+
         } else {
             $screen = $screenRepository->find($uuid);
             $title = 'Edit screen "'.$screen->getName().'"';
@@ -63,6 +70,7 @@ class BackendScreenController extends AbstractController
             }
             if ($error==='') {
                 $this->addFlash('success', "Screen $uuid saved");
+                return $this->redirectToRoute('b_screens');
             }
         }
 
@@ -151,5 +159,19 @@ class BackendScreenController extends AbstractController
             $this->addFlash('success', "Deleted screen $uuid. $extraMessage");
         }
         return $this->redirectToRoute('b_screens');
+    }
+
+    /**
+     * @Route("/render/{uuid?}", name="b_screen_render")
+     */
+    public function screenRender($uuid, Request $request, ScreenRepository $screenRepository)
+    {
+        $screen = $screenRepository->find($uuid);
+        if (!$screen instanceof Screen) {
+            throw $this->createNotFoundException("$uuid is not a valid screen");
+        }
+        if ($screen->getUser() !== $this->getUser()) {
+            throw $this->createNotFoundException("$uuid is not your screen");
+        }
     }
 }

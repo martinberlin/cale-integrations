@@ -31,6 +31,12 @@ class User implements UserInterface, Language, Created
     private $userApis;
 
     /**
+     * One user has many screens. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="Screen", mappedBy="user")
+     */
+    private $screens;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="string", length=180, unique=true)
@@ -113,6 +119,7 @@ class User implements UserInterface, Language, Created
         $this->maxScreens = 3;
         $this->agreementAccepted = false;
         $this->userApis = new ArrayCollection();
+        $this->screens = new ArrayCollection();
         $this->setCreated(new \DateTime());
     }
 
@@ -334,6 +341,13 @@ class User implements UserInterface, Language, Created
      */
     public function getUserApis() {
         return $this->userApis;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getScreens() {
+        return $this->screens;
     }
 
     /**
