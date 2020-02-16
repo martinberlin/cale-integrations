@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use App\Repository\ApiRepository;
 use App\Repository\DisplayRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -41,6 +42,20 @@ class HomeController extends AbstractController
         [
             'displays' => $displays
         ]
+        );
+    }
+
+    /**
+     * @Route("/apis", name="apis")
+     */
+    public function apis(ApiRepository $apiRepository)
+    {
+        $apis = $apiRepository->findAll();
+        return $this->render(
+            'www-apis.html.twig',
+            [
+                'apis' => $apis
+            ]
         );
     }
 

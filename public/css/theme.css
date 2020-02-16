@@ -27,29 +27,34 @@ h2 { letter-spacing: -3px; font-size: 56px; font-weight: bold }
 h3:not(.popover-title) {
   font-size: 25px;
   font-weight: bold;
-  letter-spacing: -2px;
 }
 
 hr.clearfix {clear: both; width: 100%; float: left}
+/* CALE font */
+.cale {
+    font-family: 'Asap', sans-serif;
+}
 
 /* Navbar colors */
 .navbar-inverse .navbar-brand {
     color: #e1e1e8;
+    font-family: 'Asap', sans-serif;
 }
 .navbar-inverse .navbar-brand:focus,
 .navbar-inverse .navbar-brand:hover {
     color: #fff;
     background-color: transparent
 }
-
 .navbar-inverse .navbar-text {
     color: #e1e1e8
 }
-
 .navbar-inverse .navbar-nav>li>a {
     color: #e1e1e8
 }
-
+.login {
+    font-weight: bold;
+    font-size: 18px;
+}
 /* www colors */
 .bg-bootstrap { background-color: #2d545e }
 /* backend colors */
@@ -57,8 +62,10 @@ hr.clearfix {clear: both; width: 100%; float: left}
 /* colors */
 .bg-pink { background-color: #31ACDE }
 .bg-indigo { background-color: #2B7694 }
-.bg-purple { background-color: #454545 }
-.bg-red { background-color: #ff3a22 }
+.bg-purple { background-color: rgba(18, 18, 18, 0.96)
+}
+.bg-red { background-color: #ff180c
+}
 
 /* CONTENT STYLING
 -------------------------------------------------- */
