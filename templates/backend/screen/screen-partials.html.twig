@@ -1,10 +1,55 @@
 {% extends 'backend/backend-base.html.twig' %}
 
+{% macro rowPrototype(form) %}
+   <div class="row" style="border: 1px solid #2d545e">
+   <div class="col-md-12">
+       {{ form_row(form.partials.vars.prototype.integrationApi) }}
+       {{ form_row(form.partials.vars.prototype.placeholder) }}
+       {{ form_row(form.partials.vars.prototype.invertedColor) }}
+       {{ form_row(form.partials.vars.prototype.maxResults) }}
+       {{ form_row(form.partials.vars.prototype.sortPos) }}
+   </div>
+   </div>
+{% endmacro %}
+
+
 {% block body %}
 
 {{ form_start(form) }}
-
 {{ form_errors(form) }}
+
+    <div class="collection_container">
+        {#{{ form_row(form.partials) }}#}
+        <div class="row">
+            <div class="col-md-6">
+              <button type="button" class="add_item btn btn-success">Add partial</button>
+             </div>
+            <div class="col-md-6">
+            {{ form_widget(form.submit) }}
+            </div>
+        </div>
+
+        {# {{ form_widget(form.partials.vars.prototype)|e('html_attr') }} #}
+        <div class="collection_holder row"
+             data-prototype="{{ _self.rowPrototype(form)|e }}">
+
+
+            {# Iterate over each existing partials #}
+            {% for partial in form.partials %}
+                <div class="row" style="border: 1px solid #2d545e">
+                    <div class="col-md-12">
+                        {{ form_row(partial.integrationApi) }}
+                        {{ form_row(partial.placeholder) }}
+                        {{ form_row(partial.invertedColor) }}
+                        {{ form_row(partial.maxResults) }}
+                        {{ form_row(partial.sortPos) }}
+                    </div>
+                </div>
+            {% endfor %}
+
+
+        </div>
+    </div>
 
 {{ form_end(form) }}
 
@@ -12,6 +57,9 @@
 
 
 {% block javascripts %}
+    {# TODO: Get rid of jquery since we are only using it here for handling the frontend part of Symfony collections #}
+    <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
+    <script src="/js/engine/collection.js"></script>
 <script>
 
 </script>

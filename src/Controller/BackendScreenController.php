@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Entity\Screen;
+use App\Form\Screen\ScreenPartialsType;
 use App\Form\Screen\ScreenType;
 use App\Repository\DisplayRepository;
 use App\Repository\ScreenRepository;
@@ -35,7 +36,7 @@ class BackendScreenController extends AbstractController
     /**
      * @Route("/edit/{uuid?}", name="b_screen_edit")
      */
-    public function screenEdit($uuid, Request $request, ScreenRepository $screenRepository,EntityManagerInterface $entityManager)
+    public function screenEdit($uuid, Request $request, ScreenRepository $screenRepository, EntityManagerInterface $entityManager)
     {
         if (is_null($uuid)) {
             $screen = new Screen();
@@ -67,7 +68,44 @@ class BackendScreenController extends AbstractController
             return $this->render(
             'backend/screen/screen-edit.html.twig',
             [
-                'title' => 'My screens',
+                'title' => $title,
+                'form' => $form->createView()
+            ]
+        );
+    }
+
+    /**
+     * @Route("/partials/{uuid?}", name="b_screen_partials")
+     */
+    public function screenPartialsEdit($uuid, Request $request, ScreenRepository $screenRepository, EntityManagerInterface $entityManager)
+    {
+       $screen = $screenRepository->find($uuid);
+        if (!$screen instanceof Screen) {
+            throw $this->createNotFoundException("$uuid is not a valid screen");
+        }
+       $title = "Manage partials for screen $uuid";
+
+        $form = $this->createForm(ScreenPartialsType::class, $screen);
+        $form->handleRequest($request);
+        $error = '';
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $entityManager->persist($screen);
+                $entityManager->flush();
+            } catch (\Exception $e) {
+                $error = $e->getMessage();
+                $this->addFlash('error', $error);
+            }
+            if ($error==='') {
+                $this->addFlash('success', "Partials for screen $uuid saved");
+            }
+        }
+
+        return $this->render(
+            'backend/screen/screen-partials.html.twig',
+            [
+                'title' => $title,
                 'form' => $form->createView()
             ]
         );

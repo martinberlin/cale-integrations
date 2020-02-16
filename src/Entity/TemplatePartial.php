@@ -165,4 +165,8 @@ class TemplatePartial implements Sortable
         $this->sortPos = $sortPos;
     }
 
+    public function __toString()
+    {
+        return (string) $this->placeholder." ".$this->id;
+    }
 }

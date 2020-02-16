@@ -41,8 +41,8 @@ class Screen implements Created
     protected $display;
 
     /**
-     * One Template has many partials. This is the inverse side.
-     * @ORM\OneToMany(targetEntity="TemplatePartial", mappedBy="screen")
+     * One screen has many partials. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="TemplatePartial", mappedBy="screen",cascade={"persist"})
      */
     private $partials;
 

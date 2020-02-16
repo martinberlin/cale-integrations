@@ -232,4 +232,9 @@ class IntegrationApi implements Language, Location, Created
         $this->created = $dateTime;
     }
 
+    public function __toString()
+    {
+        return (string) $this->name;
+    }
+
 }
