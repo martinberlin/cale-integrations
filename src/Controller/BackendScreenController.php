@@ -69,7 +69,8 @@ class BackendScreenController extends AbstractController
             'backend/screen/screen-edit.html.twig',
             [
                 'title' => $title,
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'uuid' => $uuid
             ]
         );
     }
@@ -83,13 +84,23 @@ class BackendScreenController extends AbstractController
         if (!$screen instanceof Screen) {
             throw $this->createNotFoundException("$uuid is not a valid screen");
         }
-       $title = "Manage partials for screen $uuid";
+        if ($screen->getUser() !== $this->getUser()) {
+            throw $this->createNotFoundException("$uuid is not your screen");
+        }
 
-        $form = $this->createForm(ScreenPartialsType::class, $screen);
+        $title = "Manage partials for screen ".$screen->getName()." ($uuid)";
+
+        $form = $this->createForm(ScreenPartialsType::class, $screen,
+            [
+                'screen' => $screen
+            ]);
         $form->handleRequest($request);
         $error = '';
 
         if ($form->isSubmitted() && $form->isValid()) {
+            foreach ($screen->getPartials() as $partial) {
+                $partial->setScreen($screen);
+            }
             try {
                 $entityManager->persist($screen);
                 $entityManager->flush();

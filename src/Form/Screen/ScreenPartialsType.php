@@ -17,7 +17,8 @@ class ScreenPartialsType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => Screen::class
+                'data_class' => Screen::class,
+                'screen' => false,
             ]);
     }
 
@@ -29,12 +30,17 @@ class ScreenPartialsType extends AbstractType
                 [
                     'label' => false,
                     'entry_type'    => PartialType::class,
-                    'entry_options' => ['label' => false],
+                    'entry_options' => [
+                        'label' => false,
+                        'screen' => $options['screen']
+                    ],
                     'allow_add'     => true,
                     'allow_delete'  => true,
+                    'by_reference' => false,
+
                     'required' => false,
                     'attr' => [
-                        'class' => 'form-control'
+                        'class' => 'hidden'
                     ]
                 ])
 

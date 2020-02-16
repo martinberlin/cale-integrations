@@ -153,7 +153,7 @@ class Screen implements Created
         $this->templateTwig = $templateTwig;
     }
 
-    public function addPartial(ScreenPartial $partial): self
+    public function addPartial(TemplatePartial $partial): self
     {
         if (!$this->partials->contains($partial)) {
             $this->partials[] = $partial;
@@ -161,11 +161,12 @@ class Screen implements Created
         return $this;
     }
 
-    public function removePartial(ScreenPartial $partial): self
+    public function removePartial(TemplatePartial $partial): self
     {
         if ($this->partials->contains($partial)) {
             $this->partials->removeElement($partial);
         }
+        return $this;
     }
 
     /**
@@ -182,5 +183,11 @@ class Screen implements Created
     public function setPartials($partials)
     {
         $this->partials = $partials;
+    }
+
+
+    public function __toString()
+    {
+        return (string) "Screen: ".$this->uuid." Name: ".$this->name;
     }
 }

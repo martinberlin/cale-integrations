@@ -5,7 +5,7 @@
 {{ form_start(form) }}
 {{ form_errors(form) }}
 
-    <div class="row" style="height: 55px">
+    <div class="row" >
         <div class="col-md-6">
             {{ form_row(form.name) }}
 
@@ -16,7 +16,18 @@
             {{ form_widget(form.submit) }}
         </div>
         <div class="col-md-6 text-right" style="margin-top: -1.4em">
-            <img id="template">
+            <img id="template" src=""><br>
+
+            {% if uuid is not null %}
+                <a href="{{ path('b_screen_partials', {'uuid':uuid}) }}"
+                   style="margin-right: 3.8em"
+                   class="alert alert-info">Add content partials</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
         </div>
     </div>
 {{ form_end(form) }}
@@ -26,14 +37,19 @@
 
 {% block javascripts %}
 <script>
-    let template_twig = document.getElementById('templateTwig');
-    let template_img = document.getElementById('template');
+let template_twig = document.getElementById('templateTwig');
+let template_img = document.getElementById('template');
 
-    template_twig.onchange = function() {
-        let img_src= template_twig.value.replace('html.twig','svg');
-        template_img.src = '/img/display-templates/'+img_src;
-    }
+setTemplateImage();
 
+template_twig.onchange = function() {
+    setTemplateImage();
+}
+
+function setTemplateImage() {
+    let img_src= template_twig.value.replace('html.twig','svg');
+    template_img.src = '/img/display-templates/'+img_src;
+}
 </script>
 
 {% endblock javascripts %}

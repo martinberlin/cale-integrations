@@ -2,7 +2,9 @@
 namespace App\Form\Screen;
 
 use App\Entity\IntegrationApi;
+use App\Entity\Screen;
 use App\Entity\TemplatePartial;
+use App\Repository\IntegrationApiRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -21,27 +23,31 @@ class PartialType extends AbstractType
         // TODO: placeholders should be inserted from controller
         $resolver->setDefaults(
             [
+                'data_class' => TemplatePartial::class,
                 'placeholders' =>
                     [
                         '1st Column' => 'Column_1st',
                         '2nd Column' => 'Column_2nd',
                     ],
-                'data_class' => TemplatePartial::class
+                'screen' => false
             ]);
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
 
+        $builder
+            /* List only APIs integrated by this user */
             ->add('integrationApi', EntityType::class,
                 [
                     'label' => 'API',
                     'class' => IntegrationApi::class,
                     'required' => true,
-                    'placeholder' => 'Your connected API',
-                    /*'label_attr' => ['style' => 'margin-top:1em'],*/
-                    'attr' => ['class' => 'form-control']
+                    'placeholder' => 'Select from what API the content comes',
+                    'attr' => ['class' => 'form-control'],
+                    'query_builder' => function(IntegrationApiRepository $repo) use ( $options ) {
+                        return $repo->QueryApisForUser($options['screen']->getUser());
+                    }
                 ])
             ->add('placeholder', ChoiceType::class,
                 [

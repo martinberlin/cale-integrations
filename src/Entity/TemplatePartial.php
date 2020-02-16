@@ -39,17 +39,17 @@ class TemplatePartial implements Sortable
     protected $placeholder;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
     protected $invertedColor;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=false)
      */
     protected $maxResults;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=false)
      */
     protected $sortPos;
 
@@ -67,6 +67,7 @@ class TemplatePartial implements Sortable
     public function setScreen(Screen $screen)
     {
         $this->screen = $screen;
+        $this->invertedColor = false;
     }
 
     /**

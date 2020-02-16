@@ -14,21 +14,25 @@
 
 
 {% block body %}
-
+<p>To compose your screens you can add content partials that will render content in the template column you choose.
+This form is a work in progress and will evolve to have a better usability after a few design iterations.</p>
 {{ form_start(form) }}
 {{ form_errors(form) }}
 
     <div class="collection_container">
         {#{{ form_row(form.partials) }}#}
         <div class="row">
-            <div class="col-md-6">
-              <button type="button" class="add_item btn btn-success">Add partial</button>
+            <div class="col-md-5 col-sm-6">
+              <button type="button" class="add_item btn btn-success">Add content partial</button>
              </div>
-            <div class="col-md-6">
+            <div class="col-md-5 col-sm-6">
             {{ form_widget(form.submit) }}
             </div>
         </div>
-
+<br>
+        {% if form.partials|length %}
+        <label>Screen partials</label>
+        {% endif %}
         {# {{ form_widget(form.partials.vars.prototype)|e('html_attr') }} #}
         <div class="collection_holder row"
              data-prototype="{{ _self.rowPrototype(form)|e }}">
@@ -36,13 +40,14 @@
 
             {# Iterate over each existing partials #}
             {% for partial in form.partials %}
-                <div class="row" style="border: 1px solid #2d545e">
+                <div class="item row" style="border: 1px solid #2d545e">
                     <div class="col-md-12">
                         {{ form_row(partial.integrationApi) }}
                         {{ form_row(partial.placeholder) }}
                         {{ form_row(partial.invertedColor) }}
                         {{ form_row(partial.maxResults) }}
                         {{ form_row(partial.sortPos) }}
+                        <button type="button" class="delete_item btn btn-danger btn-sm">Delete</button>
                     </div>
                 </div>
             {% endfor %}
