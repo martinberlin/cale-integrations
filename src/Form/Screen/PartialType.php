@@ -11,6 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PartialType extends AbstractType
@@ -67,7 +69,6 @@ class PartialType extends AbstractType
                 [
                     'label' => 'Max. rows',
                     'required' => true,
-                    'empty_data' => 1,
                     'attr' => [
                         'size'      =>2,
                         'maxlength' =>1
@@ -77,13 +78,27 @@ class PartialType extends AbstractType
                 [
                     'label' => 'Sort pos.',
                     'required' => true,
-                    'empty_data' => 1,
-                    'attr' => [
-                        'size'      =>2,
-                        'maxlength' =>1
-                    ]
+                    'attr' => ['size'      =>2,'maxlength' =>1]
                 ])
             ;
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $e) {
+            if (!$e->getData()) {
+                // In create new mode
+                $e->getForm()
+                    ->add('maxResults', NumberType::class, [
+                        'data' => 1,
+                        'required' => true,
+                        'attr' => ['size'      =>2,'maxlength' =>1]
+                    ])
+                    ->add('sortPos', NumberType::class, [
+                        'data' => 1,
+                        'required' => true,
+                        'attr' => ['size'      =>2,'maxlength' =>1]
+                    ])
+                ;
+            }
+        });
     }
 
     public function getBlockPrefix()

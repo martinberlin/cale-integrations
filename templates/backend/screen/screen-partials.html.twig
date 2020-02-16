@@ -46,13 +46,17 @@ This form is a work in progress and will evolve to have a better usability after
     <div class="col-md-4 col-sm-6">
         <div class="row">
         <div class="col-md-6 col-sm-6">
-            <b>Template:</b> {{ screen.template_twig }} {{ screen.display_width }}x{{ screen.display_height }}<br>
-            <b>Class:</b> {{ screen.class_name }}<br>
-            <a href="{{ path('b_screen_edit', {'uuid':uuid}) }}">Edit screen configuration</a>
+            <b>Template:</b> {{ template_twig }}
+            {% if display is not null %}
+                {{ display.width }}x{{ display.height }}<br>
+                <b>Class:</b> {{ display.className }}
+            {% endif %}
+
+            <br><a href="{{ path('b_screen_edit', {'uuid':uuid}) }}">Edit screen configuration</a>
         </div>
         <div class="col-md-6 col-sm-6">
             <img id="template" width="100" style="margin-top: -1em"
-                 src="/img/display-templates/{{ screen.template_twig }}.svg">
+                 src="/img/display-templates/{{ template_twig }}.svg">
          </div>
          </div>
     </div>

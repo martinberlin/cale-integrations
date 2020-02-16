@@ -2,11 +2,13 @@
 
 {% block body %}
 
+    <div class="text-right" style="margin-bottom: 0.4em">
+        <button type="button" class="btn btn-primary" onclick="window.location='{{ path('b_screen_edit') }}'">Create one screen</button>
+    </div>
  {% if screens|length %}
 <table class="common-lists-table">
     <thead>
     <tr>
-        <th>ID</th>
         <th>Name</th>
         <th>Template</th>
         <th>Eink output</th>
@@ -18,14 +20,20 @@
     <tbody>
     {% for s in screens %}
         <tr>
-            <td>{{ s.uuid }}</td>
-            <td>{{ s.name }}</td>
+            <td><b>{{ s.name }}</b><br>
+            <small>{{ s.uuid }}</small></td>
             <td><img width="80" src="/img/display-templates/{{ s.templateTwig|replace({"html.twig": "svg"}) }}"></td>
             <td>{{ s.display }}</td>
             <td><a class="alert alert-success" href="{{ path('b_screen_partials', {'uuid':s.uuid}) }}">{{ s.partials|length }}</a></td>
             <td>{{ s.created|date("d.m.Y") }}</td>
             <td>
-                <a class="alert alert-info" href="{{ path('b_screen_edit', {'uuid':s.uuid}) }}">Edit</a></td>
+                <a class="alert alert-info" href="{{ path('b_screen_edit', {'uuid':s.uuid}) }}">Edit</a>
+                {% if s.partials|length %}
+                <a class="alert alert-success" href="{{ path('b_screen_edit', {'uuid':s.uuid}) }}">Render screen</a>
+                    {% else %}
+                        <a class="alert alert-danger" href="{{ path('b_screen_delete', {'uuid':s.uuid}) }}">Delete</a>
+                {% endif %}
+            </td>
         </tr>
     {% endfor %}
     </tbody>

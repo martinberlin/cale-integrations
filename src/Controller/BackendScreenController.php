@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\Display;
 use App\Entity\Screen;
 use App\Form\Screen\ScreenPartialsType;
 use App\Form\Screen\ScreenType;
@@ -113,20 +114,42 @@ class BackendScreenController extends AbstractController
             }
         }
         $display = $screen->getDisplay();
-        $screenData = [
-            'template_twig' => str_replace('.html.twig','',$screen->getTemplateTwig()),
-            'display_width' => $display->getWidth(),
-            'display_height' => $display->getHeight(),
-            'class_name' => $display->getClassName()
-        ];
         return $this->render(
             'backend/screen/screen-partials.html.twig',
             [
                 'title' => $title,
                 'form' => $form->createView(),
-                'screen' => $screenData,
-                'uuid'     => $uuid
+                'uuid'     => $uuid,
+                'display' => $display,
+                'template_twig' => str_replace('.html.twig','',$screen->getTemplateTwig())
             ]
         );
+    }
+
+    /**
+     * @Route("/delete/{uuid?}", name="b_screen_delete")
+     */
+    public function screenDelete($uuid, Request $request, ScreenRepository $screenRepository, EntityManagerInterface $entityManager)
+    {
+        $screen = $screenRepository->find($uuid);
+        if (!$screen instanceof Screen) {
+            throw $this->createNotFoundException("$uuid is not a valid screen");
+        }
+        if ($screen->getUser() !== $this->getUser()) {
+            throw $this->createNotFoundException("$uuid is not your screen");
+        }
+        $error = '';
+        try {
+            $entityManager->remove($screen);
+            $entityManager->flush();
+        } catch (\Exception $e) {
+            $error = $e->getMessage();
+            $this->addFlash('error', $error);
+        }
+        if ($error==='') {
+            $extraMessage = (rand(0,2)===1) ? "Keeping your dashboard clean?" : "";
+            $this->addFlash('success', "Deleted screen $uuid. $extraMessage");
+        }
+        return $this->redirectToRoute('b_screens');
     }
 }
