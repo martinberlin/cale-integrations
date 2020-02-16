@@ -1,8 +1,12 @@
 {% extends 'backend/backend-base.html.twig' %}
 
 {% block body %}
-    <div class="row">
+    <p>The APIs will deliver your Screen partials fresh information.</p>
+    <div class="text-right" style="margin-bottom: 0.4em">
+        <button type="button" class="btn btn-primary" onclick="window.location='{{ path('b_api_configure') }}'">Connect a new API</button>
+    </div>
 
+    <div class="row">
         <div class="col-md-12">
             {% if apis|length %}
             <table class="common-lists-table">

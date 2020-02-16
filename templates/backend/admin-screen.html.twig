@@ -6,6 +6,7 @@
 {% endif %}
 
 {% block body %}
+    <p>You can configure up to {{ user_max_screens }} different output Screens.</p>
     <div class="text-right" style="margin-bottom: 0.4em">
         <button type="button" {{ add_button_state }} class="btn btn-primary" onclick="window.location='{{ path('b_screen_edit') }}'">Add new Screen</button>
     </div>
@@ -35,7 +36,7 @@
             <td>
                 <a class="alert alert-info" href="{{ path('b_screen_edit', {'uuid':s.uuid}) }}">Edit</a>
                 {% if s.partials|length %}
-                <a class="alert alert-success" href="{{ path('b_screen_edit', {'uuid':s.uuid}) }}">Render screen</a>
+                <a class="alert alert-success" href="{{ path('b_screen_render', {'uuid':s.uuid}) }}">Render screen</a>
                     {% else %}
                         <a class="alert alert-danger" href="{{ path('b_screen_delete', {'uuid':s.uuid}) }}">Delete</a>
                 {% endif %}

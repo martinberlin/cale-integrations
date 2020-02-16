@@ -75,7 +75,7 @@
                 }
             }
         } else {
-            xhReq.open("GET", "{{ path('b_api_request', {'int_api_id': intapi_uuid}) }}", false);
+            xhReq.open("GET", "{{ path('json_weather_generic', {'int_api_id': intapi_uuid}) }}", false);
             xhReq.send(null);
             var jsonObj = JSON.parse(xhReq.responseText);
             var str = JSON.stringify(jsonObj, undefined, 2); {# 2 = spacing #}

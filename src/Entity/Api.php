@@ -82,6 +82,18 @@ class Api
     protected $defaultJsonSettings;
 
     /**
+     * A route referring what method in JsonPublicController will grab API contents
+     * @ORM\Column(type="string", length=200, nullable=true)
+     */
+    protected $jsonRoute;
+
+
+    function __construct()
+    {
+        $this->isLocationApi = false;
+    }
+
+    /**
      * @return string
      */
     public function getDefaultJsonSettings():?string
@@ -96,12 +108,6 @@ class Api
     {
         $this->defaultJsonSettings = $jsonSettings;
     }
-
-    function __construct()
-    {
-        $this->isLocationApi = false;
-    }
-
 
     /**
      * @return mixed
@@ -275,6 +281,19 @@ class Api
     {
         $this->documentationUrl = $url;
         return $this;
+    }
+
+    public function getJsonRoute()
+    {
+        return $this->jsonRoute;
+    }
+
+    /**
+     * @param string $jsonRoute
+     */
+    public function setJsonRoute(string $jsonRoute)
+    {
+        $this->jsonRoute = $jsonRoute;
     }
 
     public function __toString()

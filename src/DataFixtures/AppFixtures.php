@@ -83,6 +83,7 @@ class AppFixtures extends Fixture  implements FixtureGroupInterface,ContainerAwa
         $api->setResponseType('json');
         $api->setAuthNote('Authorization key');
         $api->setIsLocationApi(true);
+        $api->setJsonRoute('json_weather_generic');
         $manager->persist($api);
         $manager->flush();
     }

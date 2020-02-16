@@ -1,11 +1,9 @@
 <?php
 namespace App\Controller;
 
-use App\Entity\Display;
 use App\Entity\Screen;
 use App\Form\Screen\ScreenPartialsType;
 use App\Form\Screen\ScreenType;
-use App\Repository\DisplayRepository;
 use App\Repository\ScreenRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -173,5 +171,28 @@ class BackendScreenController extends AbstractController
         if ($screen->getUser() !== $this->getUser()) {
             throw $this->createNotFoundException("$uuid is not your screen");
         }
+        $template = $screen->getTemplateTwig();
+        $partials = $screen->getPartials();
+
+        $render = [];
+        foreach ($partials as $p) {
+            $iapi = $p->getIntegrationApi();
+            $render[$p->getPlaceholder()] = [
+                'api_id' => $iapi->getId(),
+                'json'=> $iapi->getUserApi()->getApi()->getJsonRoute()
+                ];
+        }
+        $query = $this->forward("App\Controller\JsonPublicController::".$render['Column_1st']['json'], [
+            'int_api_id' =>$render['Column_1st']['api_id']
+        ]);
+        dump($query->getContent());
+            exit();
+
+        return $this->render(
+            'backend/screen/screen-render.html.twig',
+            [
+                'template' => '/screen-templates/'.$template,
+                'Column_1st' => 'Column_1st content'
+            ]);
     }
 }
