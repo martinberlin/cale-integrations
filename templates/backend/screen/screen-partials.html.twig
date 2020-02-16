@@ -1,21 +1,62 @@
 {% extends 'backend/backend-base.html.twig' %}
 
 {% macro rowPrototype(form) %}
-   <div class="row" style="border: 1px solid #2d545e">
-   <div class="col-md-12">
-       {{ form_row(form.partials.vars.prototype.integrationApi) }}
-       {{ form_row(form.partials.vars.prototype.placeholder) }}
-       {{ form_row(form.partials.vars.prototype.invertedColor) }}
-       {{ form_row(form.partials.vars.prototype.maxResults) }}
-       {{ form_row(form.partials.vars.prototype.sortPos) }}
-   </div>
+    <div class="item row" style="margin:0.4em;padding:0.4em;border: 1px solid #2d545e">
+       <div class="col-md-12">
+           <div class="row">
+               <div class="col-md-4 col-sm-6">
+                   {{ form_row(form.partials.vars.prototype.integrationApi) }}
+                   <div class="row">
+                       <div class="col-md-4 col-sm-4">
+                           {{ form_label(form.partials.vars.prototype.maxResults) }}
+                       </div>
+                       <div class="col-md-2 col-sm-2">
+                           {{ form_widget(form.partials.vars.prototype.maxResults) }}
+                       </div>
+                       <div class="col-md-3 col-sm-3">
+                           {{ form_label(form.partials.vars.prototype.sortPos) }}
+                       </div>
+                       <div class="col-md-3 col-sm-3">
+                           {{ form_widget(form.partials.vars.prototype.sortPos) }}
+                       </div>
+                   </div>
+               </div>
+               <div class="col-md-4 col-sm-6">
+                   {{ form_row(form.partials.vars.prototype.placeholder) }}
+                   {{ form_widget(form.partials.vars.prototype.invertedColor) }}
+                   {{ form_label(form.partials.vars.prototype.invertedColor) }}
+               </div>
+               <div class="col-md-4">
+                   <button type="button" style="margin-top: 2.2em"
+                           class="delete_item btn btn-danger btn-sm">Delete</button>
+               </div>
+           </div>
+       </div>
    </div>
 {% endmacro %}
 
 
 {% block body %}
-<p>To compose your screens you can add content partials that will render content in the template column you choose.
+<div class="row">
+    <div class="col-md-8 col-sm-6">
+<p><b>In your screens you can add partials that will render the content in the template column you choose.</b><br>
+    This content partials will render in ascendant order so Sort position 1 will be the first on his column.
 This form is a work in progress and will evolve to have a better usability after a few design iterations.</p>
+    </div>
+    <div class="col-md-4 col-sm-6">
+        <div class="row">
+        <div class="col-md-6 col-sm-6">
+            <b>Template:</b> {{ screen.template_twig }} {{ screen.display_width }}x{{ screen.display_height }}<br>
+            <b>Class:</b> {{ screen.class_name }}<br>
+            <a href="{{ path('b_screen_edit', {'uuid':uuid}) }}">Edit screen configuration</a>
+        </div>
+        <div class="col-md-6 col-sm-6">
+            <img id="template" width="100" style="margin-top: -1em"
+                 src="/img/display-templates/{{ screen.template_twig }}.svg">
+         </div>
+         </div>
+    </div>
+</div>
 {{ form_start(form) }}
 {{ form_errors(form) }}
 
@@ -40,14 +81,38 @@ This form is a work in progress and will evolve to have a better usability after
 
             {# Iterate over each existing partials #}
             {% for partial in form.partials %}
-                <div class="item row" style="border: 1px solid #2d545e">
+                <div class="item row" style="margin:0.4em;padding:0.4em;border: 1px solid #2d545e">
                     <div class="col-md-12">
-                        {{ form_row(partial.integrationApi) }}
-                        {{ form_row(partial.placeholder) }}
-                        {{ form_row(partial.invertedColor) }}
-                        {{ form_row(partial.maxResults) }}
-                        {{ form_row(partial.sortPos) }}
-                        <button type="button" class="delete_item btn btn-danger btn-sm">Delete</button>
+                        <div class="row">
+                            <div class="col-md-4 col-sm-6">
+                                {{ form_row(partial.integrationApi) }}
+                                <div class="row">
+                                <div class="col-md-4 col-sm-4">
+                                {{ form_label(partial.maxResults) }}
+                                </div>
+                                <div class="col-md-2 col-sm-2">
+                                {{ form_widget(partial.maxResults) }}
+                                </div>
+                                <div class="col-md-3 col-sm-3">
+                                    {{ form_label(partial.sortPos) }}
+                                </div>
+                                <div class="col-md-3 col-sm-3">
+                                    {{ form_widget(partial.sortPos) }}
+                                </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6">
+                                {{ form_row(partial.placeholder) }}
+                                {{ form_widget(partial.invertedColor) }}
+                                {{ form_label(partial.invertedColor) }}
+                            </div>
+                            <div class="col-md-4">
+                                <button type="button" style="margin-top: 2.2em"
+                                        class="delete_item btn btn-danger btn-sm">Delete</button><br>
+                                <img src="" id="t_{{ loop.index0 }}">
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             {% endfor %}

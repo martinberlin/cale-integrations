@@ -35,7 +35,7 @@ class ScreenPartialsType extends AbstractType
                         'screen' => $options['screen']
                     ],
                     'allow_add'     => true,
-                    'allow_delete'  => true,
+                    'allow_delete'  => true, /* Needs orphanRemoval=true in oneToMany!*/
                     'by_reference' => false,
 
                     'required' => false,

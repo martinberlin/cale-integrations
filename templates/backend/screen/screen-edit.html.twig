@@ -21,15 +21,11 @@
             {% if uuid is not null %}
                 <a href="{{ path('b_screen_partials', {'uuid':uuid}) }}"
                    style="margin-right: 3.8em"
-                   class="alert alert-info">Add content partials</a>
+                   class="alert alert-info">Edit content partials</a>
             {% endif %}
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-6">
-        </div>
-    </div>
 {{ form_end(form) }}
 
 {% endblock %}

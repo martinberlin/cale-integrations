@@ -40,22 +40,22 @@ class PartialType extends AbstractType
             /* List only APIs integrated by this user */
             ->add('integrationApi', EntityType::class,
                 [
-                    'label' => 'API',
+                    'label' => 'show',
                     'class' => IntegrationApi::class,
                     'required' => true,
-                    'placeholder' => 'Select from what API the content comes',
-                    'attr' => ['class' => 'form-control'],
+                    'placeholder' => 'content from:',
+                    'attr' => ['class' => 'form-control', 'style' => 'margin-bottom:0.4em'],
                     'query_builder' => function(IntegrationApiRepository $repo) use ( $options ) {
                         return $repo->QueryApisForUser($options['screen']->getUser());
                     }
                 ])
             ->add('placeholder', ChoiceType::class,
                 [
-                    'label' => 'Output in template',
-                    'placeholder' => 'Select where',
+                    'label' => 'in',
+                    'placeholder' => 'template area:',
                     'required' => true,
                     'choices' => $options['placeholders'],
-                    'attr' => ['class' => 'form-control']
+                    'attr' => ['class' => 'form-control', 'style' => 'margin-bottom:0.4em']
                 ])
             ->add('invertedColor', CheckboxType::class,
             [
@@ -65,15 +65,23 @@ class PartialType extends AbstractType
             ])
             ->add('maxResults', NumberType::class,
                 [
-                    'label' => 'Max. results',
+                    'label' => 'Max. rows',
                     'required' => true,
-                    'empty_data' => 1
+                    'empty_data' => 1,
+                    'attr' => [
+                        'size'      =>2,
+                        'maxlength' =>1
+                    ]
                 ])
             ->add('sortPos', NumberType::class,
                 [
-                    'label' => 'Sort position',
+                    'label' => 'Sort pos.',
                     'required' => true,
-                    'empty_data' => 1
+                    'empty_data' => 1,
+                    'attr' => [
+                        'size'      =>2,
+                        'maxlength' =>1
+                    ]
                 ])
             ;
     }

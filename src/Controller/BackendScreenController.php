@@ -44,7 +44,7 @@ class BackendScreenController extends AbstractController
             $title = "Add new screen";
         } else {
             $screen = $screenRepository->find($uuid);
-            $title = "Edit screen $uuid";
+            $title = 'Edit screen "'.$screen->getName().'"';
         }
 
         $form = $this->createForm(ScreenType::class, $screen, ['templates' => $this->getParameter('screen_templates')]);
@@ -88,7 +88,7 @@ class BackendScreenController extends AbstractController
             throw $this->createNotFoundException("$uuid is not your screen");
         }
 
-        $title = "Manage partials for screen ".$screen->getName()." ($uuid)";
+        $title = 'Manage partials for screen "'.$screen->getName().'"';
 
         $form = $this->createForm(ScreenPartialsType::class, $screen,
             [
@@ -112,12 +112,20 @@ class BackendScreenController extends AbstractController
                 $this->addFlash('success', "Partials for screen $uuid saved");
             }
         }
-
+        $display = $screen->getDisplay();
+        $screenData = [
+            'template_twig' => str_replace('.html.twig','',$screen->getTemplateTwig()),
+            'display_width' => $display->getWidth(),
+            'display_height' => $display->getHeight(),
+            'class_name' => $display->getClassName()
+        ];
         return $this->render(
             'backend/screen/screen-partials.html.twig',
             [
                 'title' => $title,
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'screen' => $screenData,
+                'uuid'     => $uuid
             ]
         );
     }

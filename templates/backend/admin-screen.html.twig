@@ -10,6 +10,7 @@
         <th>Name</th>
         <th>Template</th>
         <th>Eink output</th>
+        <th>Partials</th>
         <th>Created</th>
         <th>Admin</th>
     </tr>
@@ -21,6 +22,7 @@
             <td>{{ s.name }}</td>
             <td><img width="80" src="/img/display-templates/{{ s.templateTwig|replace({"html.twig": "svg"}) }}"></td>
             <td>{{ s.display }}</td>
+            <td><a class="alert alert-success" href="{{ path('b_screen_partials', {'uuid':s.uuid}) }}">{{ s.partials|length }}</a></td>
             <td>{{ s.created|date("d.m.Y") }}</td>
             <td>
                 <a class="alert alert-info" href="{{ path('b_screen_edit', {'uuid':s.uuid}) }}">Edit</a></td>

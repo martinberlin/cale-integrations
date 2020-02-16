@@ -42,7 +42,7 @@ class Screen implements Created
 
     /**
      * One screen has many partials. This is the inverse side.
-     * @ORM\OneToMany(targetEntity="TemplatePartial", mappedBy="screen",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="TemplatePartial", mappedBy="screen",cascade={"persist"},orphanRemoval=true)
      */
     private $partials;
 
