@@ -20,6 +20,10 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class JsonPublicController extends AbstractController
 {
+    // This formats should be moved to User so one can set in your profile the preferred format
+    public $hourFormat = "H:i";
+    public $dateFormat = "D d.m.Y";
+
     // TODO: Maybe would be the best to set Date / Hour format times in user->profile
     private function convertDateTime($unixTime) {
         $dt = new \DateTime("@$unixTime");
@@ -44,7 +48,6 @@ class JsonPublicController extends AbstractController
         $hs = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h4':'h3';
         $colorClass = ($partial->getInvertedColor())?'inverted_color':'default_color';
         $responseContent = '<div class="row '.$colorClass.'"><div class="col-md-12">';
-        $row = '';
 
         foreach ($json->data as $item) {
             $attr = $item->attributes;
@@ -55,25 +58,24 @@ class JsonPublicController extends AbstractController
             $end = new \DateTime($attr->end_at);
             $end->add(new \DateInterval('PT1H'));
             // TODO: ADD timetree logo?
-            $row .= '<div class="row">';
-            $row .= '<div class="col-md-12"><'.$hs.'>'.$attr->title.'</'.$hs.'></div>'.
+            $responseContent .= '<div class="row">';
+            $responseContent .= '<div class="col-md-12"><'.$hs.'>'.$attr->title.'</'.$hs.'></div>'.
                 '</div><div class="row">'.
                 '<div class="col-md-6"><'.$hs.'>'.$attr->location.'</'.$hs.'></div>'
                 ;
 
             if ($isAllDay) {
-                $fromTo = $start->format(DATEFORMAT);
+                $fromTo = $start->format($this->dateFormat);
             } else {
-                $startTime = ($start->format(HOURMIN)!='00:00') ? $start->format(HOURMIN) : '';
-                $endTime = ($end->format(HOURMIN)!='00:00') ? $end->format(HOURMIN) : '';
-                $endFormat = ($start->format(DATEFORMAT) != $end->format(DATEFORMAT)) ?
-                    $end->format(DATEFORMAT).' '.$endTime : $endTime;
-                $startFormat = $start->format(DATEFORMAT).' '.$startTime;
-                $fromTo = ($endFormat=='') ? $startFormat : $startFormat.$icon['arrow']. $endFormat;
-
+                $startTime = ($start->format($this->hourFormat)!='00:00') ? $start->format($this->hourFormat) : '';
+                $endTime = ($end->format($this->hourFormat)!='00:00') ? $end->format($this->hourFormat) : '';
+                $endFormat = ($start->format($this->dateFormat) != $end->format($this->dateFormat)) ?
+                    $end->format($this->dateFormat).' '.$endTime : $endTime;
+                $startFormat = $start->format($this->dateFormat).' '.$startTime;
+                $fromTo = ($endFormat=='') ? $startFormat : $startFormat.'...'. $endFormat;
             }
-            $row .= '<div class="col-md-6"><'.$hs.'>'.$fromTo.'</'.$hs.'></div>';
-            $row .= '</div>';
+            $responseContent .= '<div class="col-md-6"><'.$hs.'>'.$fromTo.'</'.$hs.'></div>';
+            $responseContent .= '</div>';
         }
 
         $responseContent .= "</div></div>";
