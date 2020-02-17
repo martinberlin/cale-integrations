@@ -10,10 +10,23 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
+ * Here there are two methods per API - One retrieves the JSON data - 2nd renders the partial
  * @Route("/json")
  */
 class JsonPublicController extends AbstractController
 {
+    /**
+     * Darksky renderer
+     * @Route("/render/weather/{int_api_id}", name="render_weather_generic")
+     */
+    public function render_weather_generic($int_api_id = null, IntegrationApiRepository $intApiRepository)
+    {
+        $json = $this->json_weather_generic($int_api_id, $intApiRepository);
+
+        // Here we should render the content partial and return the composed HTML
+        exit( $json->getContent() );
+    }
+
     /**
      * Darksky
      * @Route("/weather/{int_api_id}", name="json_weather_generic")

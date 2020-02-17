@@ -182,6 +182,7 @@ class BackendScreenController extends AbstractController
                 'json'=> $iapi->getUserApi()->getApi()->getJsonRoute()
                 ];
         }
+
         $query = $this->forward("App\Controller\JsonPublicController::".$render['Column_1st']['json'], [
             'int_api_id' =>$render['Column_1st']['api_id']
         ]);
