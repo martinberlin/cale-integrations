@@ -19,9 +19,17 @@ pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; background-color: #f5f5
 .null { color: magenta; }
 .key { color: red; }
 
+/* Screen renderer */
+.default_color {
+    background-color: white;
+    color:black;
+}
+.inverted_color {
+    background-color: black;
+    color:white;
+}
 
-/* some typo */
-h1,h2,h3,h4,h5,strong,b { color: #111 }
+/* Headlines baby */
 h1 { letter-spacing: -2px }
 h2 { letter-spacing: -3px; font-size: 56px; font-weight: bold }
 h3:not(.popover-title) {
@@ -29,11 +37,12 @@ h3:not(.popover-title) {
   font-weight: bold;
 }
 
-hr.clearfix {clear: both; width: 100%; float: left}
 /* CALE font */
 .cale {
     font-family: 'Asap', sans-serif;
 }
+
+hr.clearfix {clear: both; width: 100%; float: left}
 
 /* Navbar colors */
 .navbar-inverse .navbar-brand {

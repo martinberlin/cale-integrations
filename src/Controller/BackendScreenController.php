@@ -177,22 +177,23 @@ class BackendScreenController extends AbstractController
         $render = [];
         foreach ($partials as $p) {
             $render[$p->getPlaceholder()] = [
-                'partial'=> $p,
-                'json'=> $p->getIntegrationApi()->getUserApi()->getApi()->getJsonRoute()
+                'partial' => $p,
+                'json'    => $p->getIntegrationApi()->getUserApi()->getApi()->getJsonRoute(),
+                'inverted_class'  => ($p->getInvertedColor())?'inverted_color':'default_color'
                 ];
         }
-
         $query = $this->forward("App\Controller\JsonPublicController::".$render['Column_1st']['json'], [
             'partial' => $render['Column_1st']['partial']
         ]);
-        dump($query->getContent());
-        exit();
 
         return $this->render(
             'backend/screen/screen-render.html.twig',
             [
                 'template' => '/screen-templates/'.$template,
-                'Column_1st' => 'Column_1st content'
+                'Column_1st' => [
+                    'content' => $query->getContent(),
+                    'inverted_class' => $render['Column_1st']['inverted_class']
+                    ]
             ]);
     }
 }

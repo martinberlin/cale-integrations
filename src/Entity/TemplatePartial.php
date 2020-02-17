@@ -53,6 +53,11 @@ class TemplatePartial implements Sortable
      */
     protected $sortPos;
 
+    public function __construct()
+    {
+        $this->invertedColor = false;
+    }
+
     /**
      * @return mixed
      */
@@ -67,7 +72,6 @@ class TemplatePartial implements Sortable
     public function setScreen(Screen $screen)
     {
         $this->screen = $screen;
-        $this->invertedColor = false;
     }
 
     /**

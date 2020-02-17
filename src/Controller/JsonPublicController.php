@@ -48,41 +48,43 @@ class JsonPublicController extends AbstractController
         $d['summary'] = $json->daily->summary;
 
         // TODO: Replace for weather Font
-        $wIcon = '<img width="50" height="50" src="../svg/wi-{icon}.svg"> &nbsp;';
+        $wIcon = '<i class="wi wi-{icon}"></i>';
         $iconSunrise = str_replace("{icon}", 'day-sunny', $wIcon);
         $iconSunset  = str_replace("{icon}", 'sunset', $wIcon);
 
         $d['sun-time'] = "Sunrise ".$this->convertDateTime($json->daily->data[0]->sunriseTime).
             " Sunset ".$this->convertDateTime($json->daily->data[0]->sunsetTime);
-
         $d['daily-avg-high'] = $json->daily->data[0]->temperatureHigh.$celsius;
-
         $d['daily-avg-low'] =  $json->daily->data[0]->temperatureLow.$celsius;
 
         $wHourly ="";
         $hourlyCounter = 1;
+        $responseContent = "<h3>Low {$d['daily-avg-low']} High {$d['daily-avg-low']}</h3>
+        {$d['sun-time']}<br>";
+        // Useless craps: style="margin-top:0.55em"
 
-        /*$icon2= str_replace("{icon}", 'celsius', $wIcon);
-        $icon3= str_replace("{icon}", 'humidity', $wIcon);
-
+        $iconCelsius = str_replace("{icon}", 'celsius', $wIcon);
+        $icon3 = str_replace("{icon}", 'humidity', $wIcon);
         foreach ($json->hourly->data as $h) {
             $icon1= str_replace("{icon}", $h->icon, $wIcon);
             $temp = strstr(round($h->temperature,1),'.')===false ? round($h->temperature,1).'.0' : round($h->temperature,1);
             $wHourly .= '<div class="row">';
-            $wHourly .= '<div class="col-md-4">'.convertDateTime($h->time).$icon1.'</div>'.
-                '<div class="col-md-4" style="margin-top:0.55em">'.$temp.$celsius.'</div>'.
-                '<div class="col-md-4">'.($h->humidity*100).$icon3.'</div>'; // .$icon3.$h->windSpeed
+            $wHourly .= '<div class="col-md-4"><h3>'.$this->convertDateTime($h->time).' '.$icon1.'</h3></div>'.
+                '<div class="col-md-4"><h3>'.$temp.$celsius.'</h3></div>'.
+                '<div class="col-md-4"><h3>'.($h->humidity*100).' '.$icon3.'</h3></div>'; // .$icon3.$h->windSpeed
             $wHourly .= '</div>';
             $hourlyCounter++;
             if ($hourlyCounter>$partial->getMaxResults()) break;
-        }*/
+        }
+        $responseContent.= $wHourly;
+        $responseContent.='<!-- Required by https://darksky.net/dev/docs please do not take out if you use the free version -->
+        <div class="row text-right"><small><a href="https://darksky.net/poweredby">Powered by Dark Sky</a></small>&nbsp; </div>';
 
-        //$readBaseTemplate = str_replace("{{hourly_rows}}", $wHourly, $readBaseTemplate);
-        
         // Here we should render the content partial and return the composed HTML
         $response = new Response();
-        $response->setContent(print_r($d,true));
+        $response->setContent($responseContent);
         return $response;
+
     }
 
     /**

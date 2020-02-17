@@ -5,11 +5,15 @@
     <title>CALE</title>
     {# Bootstrap 3 core CSS #}
     <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/weather-icons.css" rel="stylesheet">
 </head>
 <body>
-{{last_update}}
+{#{{last_update}}#}
+
+<i class="wi wi-day-sunny"></i>
+
 <div class="container-flow" style="margin-left: 2em">
-    {{ screen_out }}
+    {% include template %}
 </div>
 </body>
 </html>
