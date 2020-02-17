@@ -1,7 +1,8 @@
 {% extends 'backend/backend-base.html.twig' %}
 
 {% block body %}
-
+<p>Here you can configure what template to use to render your content.<br>
+    We call <b>partials</b> the small pieces of content where your APIs are rendered</p>
 {{ form_start(form) }}
 {{ form_errors(form) }}
 
@@ -25,11 +26,8 @@
             {% endif %}
         </div>
     </div>
-
 {{ form_end(form) }}
-
 {% endblock %}
-
 
 {% block javascripts %}
 <script>
@@ -40,12 +38,13 @@ setTemplateImage();
 
 template_twig.onchange = function() {
     setTemplateImage();
-}
+};
 
 function setTemplateImage() {
-    let img_src= template_twig.value.replace('html.twig','svg');
-    template_img.src = '/img/display-templates/'+img_src;
+    if (template_twig.value !== '') {
+        let img_src= template_twig.value.replace('html.twig','svg');
+        template_img.src = '/img/display-templates/'+img_src;
+    }
 }
 </script>
-
 {% endblock javascripts %}

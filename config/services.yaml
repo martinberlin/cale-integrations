@@ -15,6 +15,12 @@ parameters:
         '3 Columns': 3-col.html.twig
         '3 Columns with header': 3-col-header.html.twig
 
+    # Configuration of mysql API 1st level cache
+    cache_config:
+        enabled: 1
+        hash_algo: sha3-512
+        ttl_seconds: 600
+
     google_application_name: CALE
     api_languages:
         en: English
@@ -63,12 +69,12 @@ parameters:
         zh: simplified Chinese
 
 services:
-    # default configuration for services in *this* file
+    # Default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
-    # makes classes in src/ available to be used as services
+    # Makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/*'
@@ -76,13 +82,18 @@ services:
             - '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
             - '../src/Service/'
 
-    # controllers are imported separately to make sure services can be injected
+    # Controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
-    # add more service definitions when explicit configuration is needed
+    # Add more service definitions when explicit configuration is needed
     App\Service\GoogleClientService:
         arguments:
             - \Google_Client
+
+    # Simple cache layer
+    App\Service\SimpleCacheService:
+        arguments:
+            - '%cache_config%'

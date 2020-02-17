@@ -1,8 +1,8 @@
 {% extends 'backend/backend-base.html.twig' %}
-{% if user_max_screens < screens|length  %}
-    {% set add_button_state = '' %}
-{% else %}
+{% if screens|length >= user_max_screens %}
     {% set add_button_state = 'disabled' %}
+{% else %}
+    {% set add_button_state = '' %}
 {% endif %}
 
 {% block body %}
@@ -48,7 +48,6 @@
 
 
  {% else %}
-     You still don't have any screens configured.
-     <h3><a href="{{ path('b_screen_edit') }}">Create one Screen</a></h3>
+     You still don't have any screens configured. <a href="{{ path('b_screen_edit') }}">Add one Screen</a>
 {% endif %}
 {% endblock %}

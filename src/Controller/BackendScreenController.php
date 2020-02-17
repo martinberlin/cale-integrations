@@ -43,7 +43,7 @@ class BackendScreenController extends AbstractController
             $screen->setUser($this->getUser());
             $title = "Add new screen";
             $screensUsed = $this->getUser()->getScreens()->count();
-            if ($this->getUser()->getMaxScreens() >= $screensUsed) {
+            if ($screensUsed >= $this->getUser()->getMaxScreens()) {
                 $this->addFlash('error', "Sorry but the screen limit is set to maximum $screensUsed screens in your account. Please contact us if you want to update this limit");
                 return $this->redirectToRoute('b_screens');
             }
@@ -186,7 +186,7 @@ class BackendScreenController extends AbstractController
             'partial' => $render['Column_1st']['partial']
         ]);
         dump($query->getContent());
-            exit();
+        exit();
 
         return $this->render(
             'backend/screen/screen-render.html.twig',

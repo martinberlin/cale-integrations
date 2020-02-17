@@ -60,7 +60,6 @@
                         </td>
                         <td>
                             {% if a.integrations|length == 0 %}
-                                {{ a.edit_route }}
                             <a title="Add an integration" class="alert alert-info" href="{{ path(a.edit_route, {'uuid':a.userapi_id, 'step':1}) }}">
                                 <img src="/assets/icon/edit.svg" width="14"></a>
                             <a class="alert alert-danger" href="{{ path('b_api_delete_userapi', {'userapi_uuid':a.userapi_id}) }}">

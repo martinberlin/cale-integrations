@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\IntegrationApi;
 use App\Entity\TemplatePartial;
 use App\Repository\IntegrationApiRepository;
+use App\Service\SimpleCacheService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -23,13 +24,13 @@ class JsonPublicController extends AbstractController
     }
 
     /**
-     * Darksky renderer
-     * @Route("/render/weather/{int_api_id}", name="render_weather_generic")
+     * Darksky renderer internally called
+     * @Route("/render/weather", name="render_weather_generic")
      */
-    public function render_weather_generic($int_api_id = null, TemplatePartial $partial, IntegrationApiRepository $intApiRepository)
+    public function render_weather_generic(TemplatePartial $partial, IntegrationApiRepository $intApiRepository, SimpleCacheService $cacheService)
     {
         $int_api_id = $partial->getIntegrationApi()->getId();
-        $jsonRequest = $this->json_weather_generic($int_api_id, $intApiRepository);
+        $jsonRequest = $this->json_weather_generic($int_api_id, $intApiRepository, $cacheService);
 
         $json = json_decode($jsonRequest->getContent());
         if ($json === null && json_last_error() !== JSON_ERROR_NONE) {
@@ -83,9 +84,9 @@ class JsonPublicController extends AbstractController
 
     /**
      * Darksky
-     * @Route("/weather/{int_api_id}", name="json_weather_generic")
+     * @Route("/weather/{int_api_id?}", name="json_weather_generic")
      */
-    public function json_weather_generic($int_api_id = null, IntegrationApiRepository $intApiRepository)
+    public function json_weather_generic($int_api_id, IntegrationApiRepository $intApiRepository, SimpleCacheService $cacheService)
     {
         $options = [];
         if (isset($_ENV['API_PROXY'])) {
@@ -115,14 +116,13 @@ class JsonPublicController extends AbstractController
             $apiUrl.= '?'.http_build_query($extraParams);
         }
 
-        $client = HttpClient::create();
-        $rest = $client->request('GET', $apiUrl, $options);
-        $response = new JsonResponse();
+        $clientRequest = $cacheService->request('GET', $apiUrl, $options);
 
-        if ($rest->getStatusCode() === 200) {
-            $response->setContent($rest->getContent());
+        $response = new JsonResponse();
+        if ($clientRequest->getStatusCode() === 200) {
+            $response->setContent($clientRequest->getContent());
         } else {
-            $response->setContent(json_encode(['status' => $rest->getStatusCode(),'message' => 'API rest call failed']));
+            $response->setContent(json_encode(['status' => $clientRequest->getStatusCode(),'message' => 'API rest call failed']));
         }
         return $response;
     }
