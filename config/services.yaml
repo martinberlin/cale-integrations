@@ -20,6 +20,7 @@ parameters:
         enabled: 1
         hash_algo: sha3-512
         ttl_seconds: 600
+        ttl_short: 10
 
     google_application_name: CALE
     api_languages:

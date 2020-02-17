@@ -424,8 +424,12 @@ class BackendApiController extends AbstractController
                 $error = $e->getMessage();
                 $this->addFlash('error', $error);
             }
+
             if ($error === '') {
                 $this->addFlash('success', "Saved");
+
+                return $this->redirectToRoute('b_api_wizard_cale-timetree',
+                    ['uuid' => $userApi->getId(), 'intapi_uuid' => $api->getId(), 'step' => 2]);
             }
         }
         return $this->render(
@@ -439,66 +443,4 @@ class BackendApiController extends AbstractController
         );
     }
 
-    /**
-     * General shared calendar json
-     * @Route("/json/shared-calendar/{api_id?}/{type?userapi}/{cal_id?}", name="b_api_shared_calendar_request")
-     */
-    public function apiJsonSharedCalendar(Request $request, $api_id, $type,
-                                          $cal_id = null, IntegrationApiRepository $intApiRepository,
-                                          UserApiRepository $userApiRepository)
-    {
-        $options = [];
-        if (isset($_ENV['API_PROXY'])) {
-            $options = array('proxy' => 'http://'.$_ENV['API_PROXY']);
-        }
-
-        switch($type) {
-            case 'userapi':
-                $userApi = $userApiRepository->findOneBy(['uuid'=>$api_id]);
-                if ($userApi instanceof UserApi === false) {
-                    return $this->createNotFoundException("User API not found with ID $api_id");
-                }
-                $api = $userApi->getApi();
-                $apiUrl = $api->getUrl();
-                break;
-            case 'intapi':
-                $intApi = $intApiRepository->findOneBy(['uuid'=>$api_id]);
-                if ($intApi instanceof IntegrationApi === false) {
-                    return $this->createNotFoundException("Integrated API not found with ID $api_id");
-                }
-                $userApi = $intApi->getUserApi();
-                $api = $userApi->getApi();
-                $apiUrl = $api->getUrl();
-
-                if (!is_null($cal_id) && $cal_id!="") {
-                    $apiUrl.="/{$cal_id}/upcoming_events";
-                }
-                if ($intApi->getJsonSettings() !== '') {
-                    try {
-                        $extraParams = json_decode($intApi->getJsonSettings(), true);
-                    } catch (\Exception $e) {
-                        return $this->createNotFoundException("Failed parsing json settings for API. ".$e->getMessage());
-                    }
-
-                    $apiUrl.= '?'.http_build_query($extraParams);
-                }
-                break;
-        }
-
-
-        $client = HttpClient::create([
-            'auth_bearer' => $userApi->getAccessToken(),
-        ]);
-        // HTTP Bearer authentication (also called token authentication)
-
-        $rest = $client->request('GET', $apiUrl, $options);
-        $response = new JsonResponse();
-
-        if ($rest->getStatusCode() === 200) {
-            $response->setContent($rest->getContent());
-        } else {
-            $response->setContent(json_encode(['status' => $rest->getStatusCode(),'message' => 'API rest call failed']));
-        }
-        return $response;
-    }
 }

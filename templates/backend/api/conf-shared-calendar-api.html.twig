@@ -82,11 +82,13 @@
         }
 
         {% if form.vars.value.calId == "" %}
-            xhReq.open("GET", "{{ path('b_api_shared_calendar_request',
+            xhReq.open("GET", "{{ path('json_shared_calendar',
             {'api_id': userapi_id,'type':'userapi','cal_id': form.vars.value.calId}) }}", false);
         {% else %}
-            xhReq.open("GET", "{{ path('b_api_shared_calendar_request',
+            {% if intapi_uuid != "" %}
+            xhReq.open("GET", "{{ path('json_shared_calendar',
             {'api_id': intapi_uuid,'type':'intapi','cal_id': form.vars.value.calId}) }}", false);
+            {% endif %}
         {% endif %}
 
             xhReq.send(null);

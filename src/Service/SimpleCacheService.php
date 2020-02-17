@@ -27,17 +27,18 @@ class SimpleCacheService
      * @param $url
      * @param array $options
      * @param string $int_api_id
+     * @param int $ttl
      * @return Response|\Symfony\Contracts\HttpClient\ResponseInterface - Note in cases where a new HttpClient request is made returns that response type
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      */
-    public function request(string $method, $url, array $options, string $int_api_id) {
+    public function request(string $method, $url, array $options, string $int_api_id, int $ttl = 0) {
 
         if ($this->config['enabled'] === 1) {
             // Check if there is a cache hit in our DB
-            $ttl_seconds = $this->config['ttl_seconds'];
+            $ttl_seconds = (!$ttl) ? $this->config['ttl_seconds'] : $ttl;
             $urlSha = hash($this->config['hash_algo'], $url);
 
             $queryCache = $this->cacheRepository->findOneBy([
