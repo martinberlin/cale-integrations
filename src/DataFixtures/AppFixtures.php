@@ -33,7 +33,8 @@ class AppFixtures extends Fixture  implements FixtureGroupInterface,ContainerAwa
         $api->setResponseType('json');
         $api->setAuthNote('Oauth Authorization code');
         $api->setIsLocationApi(false);
-        $api->setJsonRoute('render_google_calendar');
+
+        $api->setJsonRoute('App\Controller\Render\ARenderController::render_google_calendar');
         $defJsonArr = [
             'orderBy' => 'startTime',
             'singleEvents' => true];
@@ -56,7 +57,8 @@ class AppFixtures extends Fixture  implements FixtureGroupInterface,ContainerAwa
         $api->setResponseType('json');
         $api->setAuthNote('Personal access token');
         $api->setIsLocationApi(false);
-        $api->setJsonRoute('render_timetree');
+
+        $api->setJsonRoute('App\Controller\Render\ARenderController::render_timetree');
         $defJsonArr = [
             'days' => 7,
             'include' => 'creator,label,attendees'];
@@ -84,7 +86,8 @@ class AppFixtures extends Fixture  implements FixtureGroupInterface,ContainerAwa
         $api->setResponseType('json');
         $api->setAuthNote('Authorization key');
         $api->setIsLocationApi(true);
-        $api->setJsonRoute('render_weather_generic');
+
+        $api->setJsonRoute('App\Controller\Render\ARenderController::render_weather_generic');
         $manager->persist($api);
         $manager->flush();
     }

@@ -82,7 +82,7 @@ class Api
     protected $defaultJsonSettings;
 
     /**
-     * A route referring what method in JsonPublicController will grab API contents
+     * A route referring what method does the renderig to grab API contents
      * @ORM\Column(type="string", length=200, nullable=true)
      */
     protected $jsonRoute;

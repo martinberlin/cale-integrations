@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller;
+namespace App\Controller\Render;
 
 use App\Entity\IntegrationApi;
 use App\Entity\TemplatePartial;
@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Here there are two methods per API - One retrieves the JSON data - 2nd renders the partial
  * @Route("/json")
  */
-class JsonPublicController extends AbstractController
+class ARenderController extends AbstractController
 {
     // This formats should be moved to User so one can set in your profile the preferred format
     public $hourFormat = "H:i";

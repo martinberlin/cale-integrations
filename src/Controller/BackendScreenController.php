@@ -181,8 +181,7 @@ class BackendScreenController extends AbstractController
         $htmlPerColumn['Column_2nd'] = '';
         $htmlPerColumn['Column_3rd'] = '';
         foreach ($partials as $p) {
-            $partialHtml = $this->forward("App\Controller\JsonPublicController::".
-                $p->getIntegrationApi()->getUserApi()->getApi()->getJsonRoute(),
+            $partialHtml = $this->forward($p->getIntegrationApi()->getUserApi()->getApi()->getJsonRoute(),
                 [
                 'partial' => $p
                 ]);
