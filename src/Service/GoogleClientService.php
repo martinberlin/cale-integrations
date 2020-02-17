@@ -21,7 +21,7 @@ class GoogleClientService
         $this->credentials = $myCredentials;
         $credentials = json_decode($myCredentials,true);
         $key = isset($credentials['installed']) ? 'installed' : 'web';
-        //dump($credentials[$key]);exit();
+
         foreach ($credentials[$key] as $ck=>$cv) {
             $this->googleClient->setConfig($ck,$cv);
             switch ($ck) {

@@ -115,8 +115,7 @@ class JsonPublicController extends AbstractController
             $extraParams['lang'] = $intApi->getLanguage();
             $apiUrl.= '?'.http_build_query($extraParams);
         }
-
-        $clientRequest = $cacheService->request('GET', $apiUrl, $options);
+        $clientRequest = $cacheService->request('GET', $apiUrl, $options, $int_api_id);
 
         $response = new JsonResponse();
         if ($clientRequest->getStatusCode() === 200) {
