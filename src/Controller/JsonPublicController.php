@@ -47,6 +47,9 @@ class JsonPublicController extends AbstractController
         // Start HTML building - Headlines is a try to mould this to Screen environment
         $hs = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h4':'h3';
         $colorClass = ($partial->getInvertedColor())?'inverted_color':'default_color';
+        $eventClass = ($partial->getInvertedColor())?'default_color':'inverted_color';
+        $iconArrowRight = '<span class="glyphicon glyphicon-arrow-right"></span>';
+
         $responseContent = '<div class="row '.$colorClass.'"><div class="col-md-12">';
 
         foreach ($json->data as $item) {
@@ -58,7 +61,7 @@ class JsonPublicController extends AbstractController
             $end = new \DateTime($attr->end_at);
             $end->add(new \DateInterval('PT1H'));
             // TODO: ADD timetree logo?
-            $responseContent .= '<div class="row">';
+            $responseContent .= '<div class="row '.$eventClass.'">';
             $responseContent .= '<div class="col-md-12"><'.$hs.'>'.$attr->title.'</'.$hs.'></div>'.
                 '</div><div class="row">'.
                 '<div class="col-md-6"><'.$hs.'>'.$attr->location.'</'.$hs.'></div>'
@@ -72,7 +75,7 @@ class JsonPublicController extends AbstractController
                 $endFormat = ($start->format($this->dateFormat) != $end->format($this->dateFormat)) ?
                     $end->format($this->dateFormat).' '.$endTime : $endTime;
                 $startFormat = $start->format($this->dateFormat).' '.$startTime;
-                $fromTo = ($endFormat=='') ? $startFormat : $startFormat.'...'. $endFormat;
+                $fromTo = ($endFormat=='') ? $startFormat : $startFormat.' '.$iconArrowRight. $endFormat;
             }
             $responseContent .= '<div class="col-md-6"><'.$hs.'>'.$fromTo.'</'.$hs.'></div>';
             $responseContent .= '</div>';

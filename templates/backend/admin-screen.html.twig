@@ -34,9 +34,10 @@
             <td><a class="alert alert-success" href="{{ path('b_screen_partials', {'uuid':s.uuid}) }}">{{ s.partials|length }}</a></td>
             <td>{{ s.created|date("d.m.Y") }}</td>
             <td>
-                <a class="alert alert-info" href="{{ path('b_screen_edit', {'uuid':s.uuid}) }}">Edit</a>
+                <a class="alert alert-info" href="{{ path('b_screen_edit', {'uuid':s.uuid}) }}">Config</a>
                 {% if s.partials|length %}
-                <a class="alert alert-success" href="{{ path('b_screen_render', {'uuid':s.uuid}) }}">Render screen</a>
+                <a class="alert alert-success" href="{{ path('b_screen_render', {'uuid':s.uuid}) }}"
+                   data-toggle="tooltip" title="Edit partials">Render screen</a>
                     {% else %}
                         <a class="alert alert-danger" href="{{ path('b_screen_delete', {'uuid':s.uuid}) }}">Delete</a>
                 {% endif %}
