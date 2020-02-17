@@ -27,6 +27,63 @@ class JsonPublicController extends AbstractController
     }
 
     /**
+     * render_timetree internally called. This reads the API data and responds with an HTML content part
+     * @Route("/render/timetree", name="render_timetree")
+     */
+    public function render_timetree(TemplatePartial $partial, IntegrationApiRepository $intApiRepository, SimpleCacheService $cacheService, UserApiRepository $userApiRepository)
+    {
+        $int_api_id = $partial->getIntegrationApi()->getId();
+        $jsonRequest = $this->json_timetree($int_api_id, 'intapi', $partial->getIntegrationApi()->getCalId(),
+            $intApiRepository, $userApiRepository);
+        $json = json_decode($jsonRequest->getContent());
+        if ($json === null && json_last_error() !== JSON_ERROR_NONE) {
+            throw $this->createNotFoundException("Parsing of int_api $int_api_id JSON failed: " . json_last_error());
+        }
+        $responseContent = '';
+        // Start HTML building - Headlines is a try to mould this to Screen environment
+        $hs = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h4':'h3';
+        $colorClass = ($partial->getInvertedColor())?'inverted_color':'default_color';
+        $responseContent = '<div class="row '.$colorClass.'"><div class="col-md-12">';
+        $row = '';
+
+        foreach ($json->data as $item) {
+            $attr = $item->attributes;
+            $isAllDay = $attr->all_day;
+            $start = new \DateTime($attr->start_at, new \DateTimeZone($partial->getIntegrationApi()->getTimezone()));
+            // For some reason setting timezone still returns events dated one hour before
+            $start->add(new \DateInterval('PT1H'));
+            $end = new \DateTime($attr->end_at);
+            $end->add(new \DateInterval('PT1H'));
+            // TODO: ADD timetree logo?
+            $row .= '<div class="row">';
+            $row .= '<div class="col-md-12"><'.$hs.'>'.$attr->title.'</'.$hs.'></div>'.
+                '</div><div class="row">'.
+                '<div class="col-md-6"><'.$hs.'>'.$attr->location.'</'.$hs.'></div>'
+                ;
+
+            if ($isAllDay) {
+                $fromTo = $start->format(DATEFORMAT);
+            } else {
+                $startTime = ($start->format(HOURMIN)!='00:00') ? $start->format(HOURMIN) : '';
+                $endTime = ($end->format(HOURMIN)!='00:00') ? $end->format(HOURMIN) : '';
+                $endFormat = ($start->format(DATEFORMAT) != $end->format(DATEFORMAT)) ?
+                    $end->format(DATEFORMAT).' '.$endTime : $endTime;
+                $startFormat = $start->format(DATEFORMAT).' '.$startTime;
+                $fromTo = ($endFormat=='') ? $startFormat : $startFormat.$icon['arrow']. $endFormat;
+
+            }
+            $row .= '<div class="col-md-6"><'.$hs.'>'.$fromTo.'</'.$hs.'></div>';
+            $row .= '</div>';
+        }
+
+        $responseContent .= "</div></div>";
+        // Render the content partial and return the composed HTML
+        $response = new Response();
+        $response->setContent($responseContent);
+        return $response;
+    }
+
+    /**
      * Darksky renderer internally called
      * @Route("/render/weather", name="render_weather_generic")
      */
@@ -60,7 +117,6 @@ class JsonPublicController extends AbstractController
         $hourlyCounter = 1;
         // Start HTML building - Headlines is a try to mould this to Screen environment
         $hs = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h4':'h3';
-
         $colorClass = ($partial->getInvertedColor())?'inverted_color':'default_color';
         $responseContent = '<div class="row '.$colorClass.'"><div class="col-md-12">';
         $responseContent .= "<div class=\"row\">
@@ -86,7 +142,7 @@ class JsonPublicController extends AbstractController
         $responseContent.='<!-- Required by https://darksky.net/dev/docs please do not take out if you use the free version -->
         <div class="row text-right"><small><a href="https://darksky.net/poweredby">Powered by Dark Sky</a></small>&nbsp;</div>';
         $responseContent .= "</div></div>";
-        // Here we should render the content partial and return the composed HTML
+        // Return the composed HTML
         $response = new Response();
         $response->setContent($responseContent);
         return $response;
@@ -140,9 +196,8 @@ class JsonPublicController extends AbstractController
      * General shared calendar json
      * @Route("/shared-calendar/{api_id?}/{type?userapi}/{cal_id?}", name="json_shared_calendar")
      */
-    public function apiJsonSharedCalendar($api_id, $type,
-                                          $cal_id, IntegrationApiRepository $intApiRepository,
-                                          UserApiRepository $userApiRepository)
+    public function json_timetree($api_id, $type, $cal_id, IntegrationApiRepository $intApiRepository,
+                                  UserApiRepository $userApiRepository)
     {
         $options = [];
         if (isset($_ENV['API_PROXY'])) {

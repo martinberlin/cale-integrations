@@ -1085,6 +1085,9 @@
 .wi-forecast-io-clear-day:before {
   content: "\f00d";
 }
+.wi-clear-day:before {
+  content: "\f00d";
+}
 .wi-forecast-io-clear-night:before {
   content: "\f02e";
 }
