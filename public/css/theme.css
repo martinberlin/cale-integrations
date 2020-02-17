@@ -33,10 +33,17 @@ pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; background-color: #f5f5
 h1 { letter-spacing: -2px }
 h2 { letter-spacing: -3px; font-size: 56px; font-weight: bold }
 h3:not(.popover-title) {
-  font-size: 25px;
-  font-weight: bold;
+    font-size: 25px;
+    font-weight: bold;
+    font-family: 'Asap', sans-serif;
+    letter-spacing: 0.04em !important;
 }
-
+h4 {
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Asap', sans-serif;
+    letter-spacing: 0.03em !important;
+}
 /* CALE font */
 .cale {
     font-family: 'Asap', sans-serif;

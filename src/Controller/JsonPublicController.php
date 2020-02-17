@@ -58,12 +58,14 @@ class JsonPublicController extends AbstractController
 
         $wHourly ="";
         $hourlyCounter = 1;
-        // Start HTML building
+        // Start HTML building - Headlines is a try to mould this to Screen environment
+        $hs = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h4':'h3';
+
         $colorClass = ($partial->getInvertedColor())?'inverted_color':'default_color';
         $responseContent = '<div class="row '.$colorClass.'"><div class="col-md-12">';
         $responseContent .= "<div class=\"row\">
-            <div class=\"col-md-6\"><h3>Low {$d['daily-avg-low']} High {$d['daily-avg-low']}</h3></div>
-            <div class=\"col-md-6 text-right\"><h3>{$d['sun-time']}</h3></div></div>";
+            <div class=\"col-md-6\"><$hs>Low {$d['daily-avg-low']} High {$d['daily-avg-low']}</$hs></div>
+            <div class=\"col-md-6 text-right\"><$hs>{$d['sun-time']}</$hs></div></div>";
 
         // Useless craps: style="margin-top:0.55em"
 
@@ -73,9 +75,9 @@ class JsonPublicController extends AbstractController
             $icon1= str_replace("{icon}", $h->icon, $wIcon);
             $temp = strstr(round($h->temperature,1),'.')===false ? round($h->temperature,1).'.0' : round($h->temperature,1);
             $wHourly .= '<div class="row">';
-            $wHourly .= '<div class="col-md-4"><h3>'.$this->convertDateTime($h->time).' '.$icon1.'</h3></div>'.
-                '<div class="col-md-4 text-center"><h3>'.$temp.$celsius.'</h3></div>'.
-                '<div class="col-md-4 text-right"><h3>'.($h->humidity*100).' '.$icon3.'</h3></div>'; // .$icon3.$h->windSpeed
+            $wHourly .= '<div class="col-md-4"><'.$hs.'>'.$this->convertDateTime($h->time).' '.$icon1.'</'.$hs.'></div>'.
+                '<div class="col-md-4 text-center"><'.$hs.'>'.$temp.$celsius.'</'.$hs.'></div>'.
+                '<div class="col-md-4 text-right"><'.$hs.'>'.($h->humidity*100).' '.$icon3.'</'.$hs.'></div>'; // .$icon3.$h->windSpeed
             $wHourly .= '</div>';
             $hourlyCounter++;
             if ($hourlyCounter>$partial->getMaxResults()) break;
