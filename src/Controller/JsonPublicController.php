@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Entity\IntegrationApi;
+use App\Entity\TemplatePartial;
 use App\Repository\IntegrationApiRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
@@ -15,16 +16,69 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class JsonPublicController extends AbstractController
 {
+    // TODO: Maybe would be the best to set Date / Hour format times in user->profile
+    private function convertDateTime($unixTime) {
+        $dt = new \DateTime("@$unixTime");
+        return $dt->format("H:i");
+    }
+
     /**
      * Darksky renderer
      * @Route("/render/weather/{int_api_id}", name="render_weather_generic")
      */
-    public function render_weather_generic($int_api_id = null, IntegrationApiRepository $intApiRepository)
+    public function render_weather_generic($int_api_id = null, TemplatePartial $partial, IntegrationApiRepository $intApiRepository)
     {
-        $json = $this->json_weather_generic($int_api_id, $intApiRepository);
+        $int_api_id = $partial->getIntegrationApi()->getId();
+        $jsonRequest = $this->json_weather_generic($int_api_id, $intApiRepository);
 
+        $json = json_decode($jsonRequest->getContent());
+        if ($json === null && json_last_error() !== JSON_ERROR_NONE) {
+            throw $this->createNotFoundException("Parsing of int_api $int_api_id JSON failed: ".json_last_error());
+        }
+
+        // WEATHER Dark sky copy from raw PHP
+        $celsius = '°C ';
+
+        $d = [];
+        $dailyIcon = $json->daily->icon;
+        $d['summary'] = $json->daily->summary;
+
+        // TODO: Replace for weather Font
+        $wIcon = '<img width="50" height="50" src="../svg/wi-{icon}.svg"> &nbsp;';
+        $iconSunrise = str_replace("{icon}", 'day-sunny', $wIcon);
+        $iconSunset  = str_replace("{icon}", 'sunset', $wIcon);
+
+        $d['sun-time'] = "Sunrise ".$this->convertDateTime($json->daily->data[0]->sunriseTime).
+            " Sunset ".$this->convertDateTime($json->daily->data[0]->sunsetTime);
+
+        $d['daily-avg-high'] = $json->daily->data[0]->temperatureHigh.$celsius;
+
+        $d['daily-avg-low'] =  $json->daily->data[0]->temperatureLow.$celsius;
+
+        $wHourly ="";
+        $hourlyCounter = 1;
+
+        /*$icon2= str_replace("{icon}", 'celsius', $wIcon);
+        $icon3= str_replace("{icon}", 'humidity', $wIcon);
+
+        foreach ($json->hourly->data as $h) {
+            $icon1= str_replace("{icon}", $h->icon, $wIcon);
+            $temp = strstr(round($h->temperature,1),'.')===false ? round($h->temperature,1).'.0' : round($h->temperature,1);
+            $wHourly .= '<div class="row">';
+            $wHourly .= '<div class="col-md-4">'.convertDateTime($h->time).$icon1.'</div>'.
+                '<div class="col-md-4" style="margin-top:0.55em">'.$temp.$celsius.'</div>'.
+                '<div class="col-md-4">'.($h->humidity*100).$icon3.'</div>'; // .$icon3.$h->windSpeed
+            $wHourly .= '</div>';
+            $hourlyCounter++;
+            if ($hourlyCounter>$partial->getMaxResults()) break;
+        }*/
+
+        //$readBaseTemplate = str_replace("{{hourly_rows}}", $wHourly, $readBaseTemplate);
+        
         // Here we should render the content partial and return the composed HTML
-        exit( $json->getContent() );
+        $response = new Response();
+        $response->setContent(print_r($d,true));
+        return $response;
     }
 
     /**

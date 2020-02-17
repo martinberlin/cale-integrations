@@ -176,15 +176,14 @@ class BackendScreenController extends AbstractController
 
         $render = [];
         foreach ($partials as $p) {
-            $iapi = $p->getIntegrationApi();
             $render[$p->getPlaceholder()] = [
-                'api_id' => $iapi->getId(),
-                'json'=> $iapi->getUserApi()->getApi()->getJsonRoute()
+                'partial'=> $p,
+                'json'=> $p->getIntegrationApi()->getUserApi()->getApi()->getJsonRoute()
                 ];
         }
 
         $query = $this->forward("App\Controller\JsonPublicController::".$render['Column_1st']['json'], [
-            'int_api_id' =>$render['Column_1st']['api_id']
+            'partial' => $render['Column_1st']['partial']
         ]);
         dump($query->getContent());
             exit();
