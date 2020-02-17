@@ -39,7 +39,6 @@ class JsonPublicController extends AbstractController
         if ($json === null && json_last_error() !== JSON_ERROR_NONE) {
             throw $this->createNotFoundException("Parsing of int_api $int_api_id JSON failed: ".json_last_error());
         }
-
         // WEATHER Dark sky copy from raw PHP
         $celsius = '°C ';
 
@@ -59,8 +58,13 @@ class JsonPublicController extends AbstractController
 
         $wHourly ="";
         $hourlyCounter = 1;
-        $responseContent = "<h3>Low {$d['daily-avg-low']} High {$d['daily-avg-low']}</h3>
-        {$d['sun-time']}<br>";
+        // Start HTML building
+        $colorClass = ($partial->getInvertedColor())?'inverted_color':'default_color';
+        $responseContent = '<div class="row '.$colorClass.'"><div class="col-md-12">';
+        $responseContent .= "<div class=\"row\">
+            <div class=\"col-md-6\"><h3>Low {$d['daily-avg-low']} High {$d['daily-avg-low']}</h3></div>
+            <div class=\"col-md-6 text-right\"><h3>{$d['sun-time']}</h3></div></div>";
+
         // Useless craps: style="margin-top:0.55em"
 
         $iconCelsius = str_replace("{icon}", 'celsius', $wIcon);
@@ -70,21 +74,20 @@ class JsonPublicController extends AbstractController
             $temp = strstr(round($h->temperature,1),'.')===false ? round($h->temperature,1).'.0' : round($h->temperature,1);
             $wHourly .= '<div class="row">';
             $wHourly .= '<div class="col-md-4"><h3>'.$this->convertDateTime($h->time).' '.$icon1.'</h3></div>'.
-                '<div class="col-md-4"><h3>'.$temp.$celsius.'</h3></div>'.
-                '<div class="col-md-4"><h3>'.($h->humidity*100).' '.$icon3.'</h3></div>'; // .$icon3.$h->windSpeed
+                '<div class="col-md-4 text-center"><h3>'.$temp.$celsius.'</h3></div>'.
+                '<div class="col-md-4 text-right"><h3>'.($h->humidity*100).' '.$icon3.'</h3></div>'; // .$icon3.$h->windSpeed
             $wHourly .= '</div>';
             $hourlyCounter++;
             if ($hourlyCounter>$partial->getMaxResults()) break;
         }
         $responseContent.= $wHourly;
         $responseContent.='<!-- Required by https://darksky.net/dev/docs please do not take out if you use the free version -->
-        <div class="row text-right"><small><a href="https://darksky.net/poweredby">Powered by Dark Sky</a></small>&nbsp; </div>';
-
+        <div class="row text-right"><small><a href="https://darksky.net/poweredby">Powered by Dark Sky</a></small>&nbsp;</div>';
+        $responseContent .= "</div></div>";
         // Here we should render the content partial and return the composed HTML
         $response = new Response();
         $response->setContent($responseContent);
         return $response;
-
     }
 
     /**

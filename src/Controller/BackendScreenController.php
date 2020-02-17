@@ -174,26 +174,26 @@ class BackendScreenController extends AbstractController
         $template = $screen->getTemplateTwig();
         $partials = $screen->getPartials();
 
-        $render = [];
+        $renderParams = [
+            'template' => '/screen-templates/'.$template
+        ];
+        $htmlPerColumn['Column_1st'] = '';
+        $htmlPerColumn['Column_2nd'] = '';
+        $htmlPerColumn['Column_3rd'] = '';
         foreach ($partials as $p) {
-            $render[$p->getPlaceholder()] = [
-                'partial' => $p,
-                'json'    => $p->getIntegrationApi()->getUserApi()->getApi()->getJsonRoute(),
-                'inverted_class'  => ($p->getInvertedColor())?'inverted_color':'default_color'
-                ];
-        }
-        $query = $this->forward("App\Controller\JsonPublicController::".$render['Column_1st']['json'], [
-            'partial' => $render['Column_1st']['partial']
-        ]);
+            $partialHtml = $this->forward("App\Controller\JsonPublicController::".
+                $p->getIntegrationApi()->getUserApi()->getApi()->getJsonRoute(),
+                [
+                'partial' => $p
+                ]);
+            $htmlPerColumn[$p->getPlaceholder()] .= $partialHtml->getContent();
 
+            $renderParams[$p->getPlaceholder()] = [
+                'content'        => $htmlPerColumn[$p->getPlaceholder()]
+            ];
+        }
         return $this->render(
             'backend/screen/screen-render.html.twig',
-            [
-                'template' => '/screen-templates/'.$template,
-                'Column_1st' => [
-                    'content' => $query->getContent(),
-                    'inverted_class' => $render['Column_1st']['inverted_class']
-                    ]
-            ]);
+            $renderParams);
     }
 }
