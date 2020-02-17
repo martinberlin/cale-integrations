@@ -147,6 +147,122 @@
 .wi-day-light-wind:before {
   content: "\f0c4";
 }
+/* Darksky */
+.wi-partly-cloudy-night:before {
+  content: "\f083";
+}
+.wi-clear-night:before {
+  content: "\f02e";
+}
+.wi-alt-cloudy-night:before {
+  content: "\f086";
+}
+.wi-alt-cloudy-gusts-night:before {
+  content: "\f022";
+}
+.wi-alt-cloudy-windy-night:before {
+  content: "\f023";
+}
+.wi-alt-hail-night:before {
+  content: "\f024";
+}
+.wi-alt-lightning-night:before {
+  content: "\f025";
+}
+.wi-alt-rain-night:before {
+  content: "\f028";
+}
+.wi-alt-rain-mix-night:before {
+  content: "\f026";
+}
+.wi-alt-rain-wind-night:before {
+  content: "\f027";
+}
+.wi-alt-showers-night:before {
+  content: "\f029";
+}
+.wi-alt-sleet-night:before {
+  content: "\f0b4";
+}
+.wi-alt-sleet-storm-night:before {
+  content: "\f06a";
+}
+.wi-alt-snow-night:before {
+  content: "\f02a";
+}
+.wi-alt-snow-thunderstorm-night:before {
+  content: "\f06d";
+}
+.wi-alt-snow-wind-night:before {
+  content: "\f067";
+}
+.wi-alt-sprinkle-night:before {
+  content: "\f02b";
+}
+.wi-alt-storm-showers-night:before {
+  content: "\f02c";
+}
+.wi-alt-thunderstorm-night:before {
+  content: "\f02d";
+}
+.wi-cloudy-night:before {
+  content: "\f031";
+}
+.wi-cloudy-gusts-night:before {
+  content: "\f02f";
+}
+.wi-cloudy-windy-night:before {
+  content: "\f030";
+}
+.wi-fog-night:before {
+  content: "\f04a";
+}
+.wi-hail-night:before {
+  content: "\f032";
+}
+.wi-lightning-night:before {
+  content: "\f033";
+}
+.wi-partly-cloudy-night:before {
+  content: "\f083";
+}
+.wi-rain-night:before {
+  content: "\f036";
+}
+.wi-rain-mix-night:before {
+  content: "\f034";
+}
+.wi-rain-wind-night:before {
+  content: "\f035";
+}
+.wi-showers-night:before {
+  content: "\f037";
+}
+.wi-sleet-night:before {
+  content: "\f0b3";
+}
+.wi-sleet-storm-night:before {
+  content: "\f069";
+}
+.wi-snow-night:before {
+  content: "\f038";
+}
+.wi-snow-thunderstorm-night:before {
+  content: "\f06c";
+}
+.wi-snow-wind-night:before {
+  content: "\f066";
+}
+.wi-sprinkle-night:before {
+  content: "\f039";
+}
+.wi-storm-showers-night:before {
+  content: "\f03a";
+}
+.wi-thunderstorm-night:before {
+  content: "\f03b";
+}
+/* end Darksky*/
 .wi-night-clear:before {
   content: "\f02e";
 }
@@ -991,6 +1107,9 @@
   content: "\f013";
 }
 .wi-forecast-io-partly-cloudy-day:before {
+  content: "\f002";
+}
+.wi-partly-cloudy-day:before {
   content: "\f002";
 }
 .wi-forecast-io-partly-cloudy-night:before {

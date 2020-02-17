@@ -67,11 +67,18 @@ This form is a work in progress and will evolve to have a better usability after
     <div class="collection_container">
         {#{{ form_row(form.partials) }}#}
         <div class="row">
-            <div class="col-md-5 col-sm-6">
-              <button type="button" class="add_item btn btn-success">Add content partial</button>
+            <div class="col-md-4 col-sm-6">
+              <button type="button" class="add_item btn btn-primary">Add content partial</button>
              </div>
-            <div class="col-md-5 col-sm-6">
+            <div class="col-md-4 col-sm-6">
             {{ form_widget(form.submit) }}
+            </div>
+            <div class="col-md-4 col-sm-6">
+                {% if form.partials|length %}
+                <button type="button" class="btn btn-success"
+                onclick="window.location='{{ path('b_screen_render', {'uuid':uuid}) }}'">
+                    Render Screen</button>
+                {% endif %}
             </div>
         </div>
 <br>
