@@ -49,6 +49,7 @@ class ARenderController extends AbstractController
         $colorClass = ($partial->getInvertedColor())?'inverted_color':'default_color';
         $eventClass = ($partial->getInvertedColor())?'default_color':'inverted_color';
         $iconArrowRight = '<span class="glyphicon glyphicon-arrow-right"></span>';
+        $iconLogo = '<img src="/assets/screen/logo/timetree-'.$colorClass.'.png"> ';
 
         $responseContent = '<div class="row '.$colorClass.'"><div class="col-md-12">';
 
@@ -62,10 +63,9 @@ class ARenderController extends AbstractController
             $end->add(new \DateInterval('PT1H'));
             // TODO: ADD timetree logo?
             $responseContent .= '<div class="row '.$eventClass.'">';
-            $responseContent .= '<div class="col-md-12"><'.$hs.'>'.$attr->title.'</'.$hs.'></div>'.
-                '</div><div class="row">'.
-                '<div class="col-md-6"><'.$hs.'>'.$attr->location.'</'.$hs.'></div>'
-                ;
+            $responseContent .= '<div class="col-md-12"><'.$hs.'>'.$iconLogo.$attr->title.'</'.$hs.'></div>'.
+                                '</div><div class="row">'.
+                                '<div class="col-md-6"><'.$hs.'>'.$attr->location.'</'.$hs.'></div>';
 
             if ($isAllDay) {
                 $fromTo = $start->format($this->dateFormat);

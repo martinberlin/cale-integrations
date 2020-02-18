@@ -28,7 +28,9 @@ pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; background-color: #f5f5
     background-color: black;
     color:white;
 }
-
+.inverted_color img {
+    invert(1);
+}
 /* Headlines baby */
 h1 { letter-spacing: -2px }
 h2 { letter-spacing: -3px; font-size: 56px; font-weight: bold }
