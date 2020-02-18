@@ -21,10 +21,13 @@ class PublicScreenRenderController extends AbstractController
     /**
      * @Route("/{uuid?}", name="public_screen_render")
      */
-    public function publicScreenRender($uuid, Request $request, ScreenRepository $screenRepository,Profiler $profiler)
+    public function publicScreenRender($uuid, Request $request, ScreenRepository $screenRepository)
     {
         // For this controller action, the profiler is disabled
-        $profiler->disable();
+        if ($this->container->has('profiler')) {
+            $profiler = $this->get('profiler');
+            $profiler->disable();
+        }
 
         $screen = $screenRepository->find($uuid);
         if (!$screen instanceof Screen) {
