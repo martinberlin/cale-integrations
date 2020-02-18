@@ -193,8 +193,9 @@ class BackendApiController extends AbstractController
         if ($this->getUser()->getLanguage()!=="" && $api->getLanguage() === "") {
             $api->setLanguage($this->getUser()->getLanguage());
         }
-        $api->setJsonSettings($userApi->getApi()->getDefaultJsonSettings());
-
+        if (is_null($api->getJsonSettings()) || $api->getJsonSettings() ==='') {
+            $api->setJsonSettings($userApi->getApi()->getDefaultJsonSettings());
+        }
         $form = $this->createForm(IntegrationWeatherApiType::class, $api,
             [
                 'languages' => array_flip($languages)
@@ -254,6 +255,9 @@ class BackendApiController extends AbstractController
         $renderPreview = 0;
         $userApi = $this->getUserApi($userApiRepository, $uuid);
         $api = $this->getIntegrationApi($intApiRepository, $intapi_uuid);
+        if (is_null($api->getJsonSettings()) || $api->getJsonSettings() ==='') {
+            $api->setJsonSettings($userApi->getApi()->getDefaultJsonSettings());
+        }
         $authUrl = '';
         switch ($step) {
             case 2:
@@ -367,8 +371,9 @@ class BackendApiController extends AbstractController
     {
         $userApi = $this->getUserApi($userApiRepository, $uuid);
         $api = $this->getIntegrationApi($intApiRepository, $intapi_uuid);
-
-        $api->setJsonSettings($userApi->getApi()->getDefaultJsonSettings());
+        if (is_null($api->getJsonSettings()) || $api->getJsonSettings() ==='') {
+            $api->setJsonSettings($userApi->getApi()->getDefaultJsonSettings());
+        }
 
         $form = $this->createForm(IntegrationSharedCalendarApiType::class, $api);
         $form->handleRequest($request);

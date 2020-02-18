@@ -20,7 +20,7 @@ class IntegrationApiType extends AbstractType
                     'label' => 'Name your Api',
                     'required' => true,
                     'attr' => [
-                        'placeholder' => 'Use a meaninful name to identify it in your list',
+                        'placeholder' => 'Use a meaningful name to identify it in your list',
                         'class' => 'form-control'
                     ]
                 ])
@@ -31,7 +31,7 @@ class IntegrationApiType extends AbstractType
                     'required' => false,
                     'label_attr' => ['style'=>"color:$grayColor"],
                     'attr' => [
-                        'placeholder' => '{"json":"true"}',
+                        'placeholder' => '{"json":"Default json settings"}',
                         'class' => 'form-control',
                         'rows'  => 2
                     ]
