@@ -103,11 +103,13 @@ This form is a work in progress and will evolve to have a better usability after
                             <div class="col-md-4 col-sm-6">
                                 {{ form_row(partial.integrationApi) }}
                                 <div class="row">
+                                    {{ form_errors(partial.sortPos) }}
+                                    {{ form_errors(partial.maxResults) }}
                                 <div class="col-md-4 col-sm-4">
-                                {{ form_label(partial.maxResults) }}
+                                    {{ form_label(partial.maxResults) }}
                                 </div>
                                 <div class="col-md-2 col-sm-2">
-                                {{ form_widget(partial.maxResults) }}
+                                    {{ form_widget(partial.maxResults) }}
                                 </div>
                                 <div class="col-md-3 col-sm-3">
                                     {{ form_label(partial.sortPos) }}

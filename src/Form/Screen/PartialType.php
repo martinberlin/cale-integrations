@@ -14,6 +14,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Range;
 
 class PartialType extends AbstractType
 {
@@ -30,6 +32,7 @@ class PartialType extends AbstractType
                     [
                         '1st Column' => 'Column_1st',
                         '2nd Column' => 'Column_2nd',
+                        '3rd Column' => 'Column_3rd',
                     ],
                 'screen' => false
             ]);
@@ -57,7 +60,10 @@ class PartialType extends AbstractType
                     'placeholder' => 'template area:',
                     'required' => true,
                     'choices' => $options['placeholders'],
-                    'attr' => ['class' => 'form-control', 'style' => 'margin-bottom:0.4em']
+                    'attr' => ['class' => 'form-control', 'style' => 'margin-bottom:0.4em'],
+                    'constraints' => [
+                        new NotBlank()
+                        ]
                 ])
             ->add('invertedColor', CheckboxType::class,
             [
@@ -72,13 +78,24 @@ class PartialType extends AbstractType
                     'attr' => [
                         'size'      =>2,
                         'maxlength' =>1
-                    ]
+                    ],
+                    'constraints' => [
+                        new NotBlank(),
+                        new Range(['min' => 1, 'max' => 20])
+                        ]
                 ])
             ->add('sortPos', NumberType::class,
                 [
                     'label' => 'Sort pos.',
                     'required' => true,
-                    'attr' => ['size'      =>2,'maxlength' =>1]
+                    'attr' => [
+                        'size'      =>2,
+                        'maxlength' =>1
+                    ],
+                    'constraints' => [
+                        new NotBlank(),
+                        new Range(['min' => 1, 'max' => 20])
+                    ]
                 ])
             ;
 

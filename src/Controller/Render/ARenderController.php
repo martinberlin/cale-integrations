@@ -61,7 +61,7 @@ class ARenderController extends AbstractController
         $service = new \Google_Service_Calendar($googleClientService->getClient());
         $calendarId = 'primary';
         $optParams = array(
-            'maxResults' => 10,
+            'maxResults' => $partial->getMaxResults(),
             'orderBy' => 'startTime',
             'singleEvents' => true,
             'timeMin' => date('c'),
