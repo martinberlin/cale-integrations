@@ -25,7 +25,7 @@
                     <tr>
                         {#<td>{{ a.id }}</td>#}
                         <td><a title="external Documentation" href="{{ a.doc_url }}" target="_blank">
-                                <img src="/assets/icon/documentation.svg" width="24"></a> {{ a.name }}</td>
+                                <span class="glyphicon glyphicon-link"></span></a> {{ a.name }}</td>
                         <td>{% if a.hasToken == 'ok' %}
                             <img src="/assets/icon/checked.svg" width="24">
                                 {% else %}
@@ -39,7 +39,7 @@
                                     <div class="col-md-6">
                                         {% if a.edit_route != "" %}
                     <a title="Edit" href="{{ path(a.edit_route, {'uuid':a.userapi_id, 'intapi_uuid':i.id, 'step':2}) }}">
-                        <img src="/assets/icon/edit.svg" width="14"></a>&nbsp;
+                        <span class="glyphicon glyphicon-edit"></span></a>&nbsp;
                                         {% endif %}
                                         {{ i.name }}
                                     </div>
@@ -60,14 +60,14 @@
                         </td>
                         <td>
                             {% if a.integrations|length == 0 %}
-                            <a title="Add an integration" class="alert alert-info" href="{{ path(a.edit_route, {'uuid':a.userapi_id, 'step':1}) }}">
-                                <img src="/assets/icon/edit.svg" width="14"></a>
-                            <a class="alert alert-danger" href="{{ path('b_api_delete_userapi', {'userapi_uuid':a.userapi_id}) }}">
-                                <img src="/assets/icon/delete.svg" width="14"></a>
+                            <a class="btn btn-default" title="Add an integration" href="{{ path(a.edit_route, {'uuid':a.userapi_id, 'step':1}) }}">
+                                <span class="glyphicon glyphicon-edit"></span></a>
+                            <a class="btn btn-default" href="{{ path('b_api_delete_userapi', {'userapi_uuid':a.userapi_id}) }}">
+                                <span class="glyphicon glyphicon-remove"></span></a>
                             {% endif %}
 
                             {% if a.edit != "" and a.url_name !="cale-google" %}
-                            <a class="alert alert-success"  href="{{ a.edit }}">Add new</a>
+                            <a class="btn btn-default" href="{{ a.edit }}"><span class="glyphicon glyphicon-plus"></span> Add new</a>
                             {% endif %}
                         </td>
                     </tr>
@@ -75,8 +75,7 @@
                 </tbody>
             </table>
                 {% else %}
-                You still don't have any APIs configured.
-            <h3><a  href="{{ path('b_api_configure') }}" title="Configure a new API">Create one here</a></h3>
+                You still don't have any APIs configured. <a  href="{{ path('b_api_configure') }}" title="Configure a new API">Configure your first API</a>
             {% endif %}
         </div>
 

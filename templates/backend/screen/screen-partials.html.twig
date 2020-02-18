@@ -41,7 +41,11 @@
     <div class="col-md-8 col-sm-6">
 <p><b>In your screens you can add partials that will render the content in the template column you choose.</b><br>
     This content partials will render in ascendant order so Sort position 1 will be the first on his column.
-This form is a work in progress and will evolve to have a better usability after a few design iterations.</p>
+This form is a work in progress and will evolve to have a better usability after a few design iterations.
+    {% if form.partials|length == 0 %}
+        <br>Start adding your first content partial for this Screen with the <span class="glyphicon glyphicon-plus"></span> button below.
+    {% endif %}
+</p>
     </div>
     <div class="col-md-4 col-sm-6">
         <div class="row">
@@ -68,7 +72,8 @@ This form is a work in progress and will evolve to have a better usability after
         {#{{ form_row(form.partials) }}#}
         <div class="row">
             <div class="col-md-4 col-sm-6">
-              <button type="button" class="add_item btn btn-primary">Add content partial</button>
+              <button type="button" class="add_item btn btn-default">
+                  <span class="glyphicon glyphicon-plus"></span> Add content partial</button>
              </div>
             <div class="col-md-4 col-sm-6">
             {{ form_widget(form.submit) }}
