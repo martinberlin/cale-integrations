@@ -78,4 +78,14 @@ class HomeController extends AbstractController
             'thanks.html.twig'
         );
     }
+
+    /**
+     * @Route("/privacy-policy", name="privacy-policy")
+     */
+    public function privacyPolicy()
+    {
+        return $this->render(
+            'www-privacy-policy.html.twig'
+        );
+    }
 }
