@@ -101,7 +101,7 @@ class BackendApiController extends AbstractController
                 $this->addFlash('success', 'API is connected with your user');
                 $userApiUuidParameter = ['uuid' => $userApi->getId()];
                 $api = $userApi->getApi(); // todo: think about smarter way to do this
-
+                // TODO: Rethink how to do a smart selection of the configuration tool. Remove the isLocationApi boolean IMPORTANT!
                 if ($api->isLocationApi()) {
                     return $this->redirectToRoute('b_api_customize_location', $userApiUuidParameter);
                 }
