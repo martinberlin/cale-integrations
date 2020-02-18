@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <title>{% block title %}CALE Screen{% endblock %}</title>
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    {# For reason the wkhtml handles better  with 4.4.1 version of bootstrap #}
+    <link href="/css/bootstrap-4.4.1.min.css" rel="stylesheet">
     <link href="/css/theme.css" rel="stylesheet">
     {% block stylesheets %}{% endblock %}
 </head>
