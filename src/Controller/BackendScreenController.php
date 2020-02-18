@@ -177,7 +177,10 @@ class BackendScreenController extends AbstractController
 
         $renderParams = [
             'template' => '/screen-templates/'.$template,
-            'html_url' => $this->generateUrl('public_screen_render', ['uuid'=>$uuid], UrlGeneratorInterface::ABSOLUTE_URL)
+            'html_url' => $this->generateUrl('public_screen_render', [
+                'username' => $this->getUser()->getName(),
+                'uuid'     => $uuid
+            ], UrlGeneratorInterface::ABSOLUTE_URL)
         ];
         $htmlPerColumn['Column_1st'] = '';
         $htmlPerColumn['Column_2nd'] = '';

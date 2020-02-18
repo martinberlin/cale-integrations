@@ -20,17 +20,17 @@
         </div>
         <nav id="bs-navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="{{ path('about-cale') }}" data-toggle="tooltip">About CALE</a></li>
+                <li><a href="{{ path('about-cale') }}" data-toggle="tooltip" title="CALE is a screen administrator where you can mix different APIs">About CALE</a></li>
                 <li><a href="{{ path('apis') }}" data-toggle="tooltip" title="Application Programming Interfaces to access your connected universe">Supported APIs</a></li>
-                <li><a href="{{ path('displays') }}" data-toggle="tooltip" title="Epaper displays supported">Eink displays</a></li>
-                <li><a href="https://github.com/martinberlin/eink-calendar" data-toggle="tooltip" title="Compile the firmware">V1 Firmware</a></li>
+                <li><a href="{{ path('displays') }}" data-toggle="tooltip" title="Epaper displays supported">Displays</a></li>
+                <li><a href="https://github.com/martinberlin/eink-calendar" data-toggle="tooltip" title="Firmware for your ESP32">Firmware</a></li>
                 <li><a href="https://hackaday.io/project/169086/gallery#0a816947747f4877463510780a21bb99" data-toggle="tooltip"
-                       title="Hackaday's photo gallery">Preview the Eink display</a></li>
-                <li><a href="{{ path('transparently') }}">Transparently built</a></li>
+                       title="Hackaday's photo gallery">Make one</a></li>
+                <li><a href="{{ path('transparently') }}" data-toggle="tooltip" title="Open source and transparent">Transparently built</a></li>
                 <li><a href="{{ path('privacy-policy') }}">Privacy policy</a></li>
-                {#
+                {% if app.environment == 'dev' %}
                 <li class="login"><a href="{{ path('login') }}">Login</a></li>
-                #}
+                {% endif %}
             </ul>
         </nav>
     </div>

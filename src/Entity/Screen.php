@@ -75,17 +75,9 @@ class Screen implements Created
     /**
      * @return mixed
      */
-    public function getUuid()
+    public function getId()
     {
         return $this->uuid;
-    }
-
-    /**
-     * @param mixed $uuid
-     */
-    public function setUuid($uuid)
-    {
-        $this->uuid = $uuid;
     }
 
     /**

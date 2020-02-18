@@ -2,9 +2,11 @@
 namespace App\Controller\Render;
 
 use App\Entity\Screen;
+use App\Entity\User;
 use App\Form\Screen\ScreenPartialsType;
 use App\Form\Screen\ScreenType;
 use App\Repository\ScreenRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,23 +15,24 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-/**
- * @Route("/render")
- */
+
 class PublicScreenRenderController extends AbstractController
 {
     /**
-     * @Route("/{uuid?}", name="public_screen_render")
+     * @Route("/{username}/render/{uuid?}", name="public_screen_render")
      */
-    public function publicScreenRender($uuid, Request $request, ScreenRepository $screenRepository)
+    public function publicScreenRender($uuid, $username, Request $request, ScreenRepository $screenRepository, UserRepository $userRepository)
     {
         // For this controller action, the profiler is disabled
         if ($this->container->has('profiler')) {
             $profiler = $this->get('profiler');
             $profiler->disable();
         }
-
-        $screen = $screenRepository->find($uuid);
+        $user = $userRepository->findOneBy(['name' => $username]);
+        if (!$user instanceof User) {
+            throw $this->createNotFoundException("This user does not exist. Please check the URL");
+        }
+        $screen = $screenRepository->findOneBy(['user' => $user, 'uuid' => $uuid]);
         if (!$screen instanceof Screen) {
             throw $this->createNotFoundException("$uuid is not a valid screen");
         }
