@@ -37,7 +37,7 @@
 
         var xhReq = new XMLHttpRequest();
         if (render_preview) {
-            xhReq.open("GET", "{{ path('b_api_cale-google', {'int_api_id':intapi_uuid}) }}", false);
+            xhReq.open("GET", "{{ path('json_google_calendar', {'int_api_id':intapi_uuid}) }}", false);
             xhReq.send(null);
             var jsonObj = JSON.parse(xhReq.responseText);
             var str = JSON.stringify(jsonObj, undefined, 2); {# 2 = spacing #}

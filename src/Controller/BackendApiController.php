@@ -236,47 +236,6 @@ class BackendApiController extends AbstractController
     }
 
     /**
-     * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-     * Calendar service preview
-     * @Route("/cale-google/json/{int_api_id}", name="b_api_cale-google")
-     */
-    public function apiGoogleServiceCalendarJson(
-        $int_api_id, Request $request, \Google_Client $googleClient,
-        IntegrationApiRepository $intApiRepository)
-    {
-        if ($request->getClientIp() === '127.0.0.1' && (isset($_ENV['API_PROXY']))) {
-            $httpClient = new Client([
-                'proxy' => $_ENV['API_PROXY'],
-                'verify' => false
-            ]);
-            $googleClient->setHttpClient($httpClient);
-        }
-        $intApi = $intApiRepository->findOneBy(['uuid'=>$int_api_id]);
-        if ($intApi instanceof IntegrationApi === false) {
-            return $this->createNotFoundException("Integrated API not found with ID $int_api_id");
-        }
-
-        $userApi = $intApi->getUserApi();
-        $googleClientService = new GoogleClientService($googleClient);
-        $googleClientService->setAccessToken($userApi->getJsonToken());
-        $googleClientService->setCredentials($userApi->getCredentials());
-        $service = new \Google_Service_Calendar($googleClientService->getClient());
-        $calendarId = 'primary';
-        $optParams = array(
-            'maxResults' => 10,
-            'orderBy' => 'startTime',
-            'singleEvents' => true,
-            'timeMin' => date('c'),
-        );
-        $results = $service->events->listEvents($calendarId, $optParams);
-        $events = $results->getItems();
-
-        $response = new JsonResponse();
-        $response->setContent(json_encode($events));
-        return $response;
-    }
-
-    /**
      * Wizard to configure Google Oauth. Example: https://developers.google.com/calendar/quickstart/php
      * @Route("/google/calendar/{uuid}/{intapi_uuid?}/{step?1}", name="b_api_wizard_cale-google")
      */

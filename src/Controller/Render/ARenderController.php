@@ -6,7 +6,9 @@ use App\Entity\TemplatePartial;
 use App\Entity\UserApi;
 use App\Repository\IntegrationApiRepository;
 use App\Repository\UserApiRepository;
+use App\Service\GoogleClientService;
 use App\Service\SimpleCacheService;
+use GuzzleHttp\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -28,6 +30,138 @@ class ARenderController extends AbstractController
     private function convertDateTime($unixTime) {
         $dt = new \DateTime("@$unixTime");
         return $dt->format("H:i");
+    }
+
+    /**
+     * NOTE: As a difference with other APIs google services will call the API directly without JSON first
+     * render_google_calendar internally called. This reads the API data and responds with an HTML content part
+     * @Route("/render/google_calendar", name="render_google_calendar")
+     */
+    public function render_google_calendar(TemplatePartial $partial,
+                                           IntegrationApiRepository $intApiRepository,
+                                           Request $request, \Google_Client $googleClient)
+    {
+
+    if ($request->getClientIp() === '127.0.0.1' && (isset($_ENV['API_PROXY']))) {
+        $httpClient = new Client([
+            'proxy' => $_ENV['API_PROXY'],
+            'verify' => false
+        ]);
+        $googleClient->setHttpClient($httpClient);
+    }
+        $intApi = $partial->getIntegrationApi();
+        if ($intApi instanceof IntegrationApi === false) {
+            return $this->createNotFoundException("Integrated API not found for partial: ".$partial->getId());
+        }
+
+        $userApi = $intApi->getUserApi();
+        $googleClientService = new GoogleClientService($googleClient);
+        $googleClientService->setAccessToken($userApi->getJsonToken());
+        $googleClientService->setCredentials($userApi->getCredentials());
+        $service = new \Google_Service_Calendar($googleClientService->getClient());
+        $calendarId = 'primary';
+        $optParams = array(
+            'maxResults' => 10,
+            'orderBy' => 'startTime',
+            'singleEvents' => true,
+            'timeMin' => date('c'),
+        );
+        $results = $service->events->listEvents($calendarId, $optParams);
+        $events = $results->getItems();
+        $responseContent = '';
+        // Start HTML building - Headlines is a try to mould this to Screen environment
+        $hs = (substr($partial->getScreen()->getTemplateTwig(), 0, 1) > 1) ? 'h4' : 'h3';
+        $colorClass = ($partial->getInvertedColor())?'inverted_color':'default_color';
+        $eventClass = ($partial->getInvertedColor()) ? 'default_color' : 'inverted_color';
+        $iconArrowRight = ' <span class="glyphicon glyphicon-arrow-right"></span>';
+
+        $responseContent = '<div class="row '.$colorClass.'"><div class="col-md-12">';
+
+        foreach ($events as $event) {
+            $dateStart = ($event->start->getDate() != '') ? $event->start->getDate() : $event->start->getDateTime();
+            $dateEnd = ($event->end->getDate() != '') ? $event->end->getDate() : $event->end->getDateTime();
+            $start = new \DateTime($dateStart);
+            $end = new \DateTime($dateEnd);
+            // TODO: Full day should be handled differently (Shows always next day)
+            if ($event->start->getDate() != '' && $event->end->getDate() != '') {
+                $end->modify('-1 days');
+            }
+            $startTime = ($start->format($this->hourFormat)!='00:00') ? $start->format($this->hourFormat) : '';
+            $endTime = ($end->format($this->hourFormat)!='00:00') ? $end->format($this->hourFormat) : '';
+            $endFormat = ($start->format($this->dateFormat) != $end->format($this->dateFormat)) ?
+                $end->format($this->dateFormat).' '.$endTime : $endTime;
+            $startFormat = $start->format($this->dateFormat).' '.$startTime;
+            $fromTo = ($endFormat=='') ? $startFormat : $startFormat.$iconArrowRight. $endFormat;
+
+            $responseContent .= '<div class="row '.$eventClass.'">';
+            $responseContent .= '<div class="col-md-12"><'.$hs.'>'.$event->summary.'</'.$hs.'></div>'.
+                                '</div>'.
+                                '<div class="row">'.
+                                '<div class="col-md-12"><'.$hs.'>'.$fromTo.'</'.$hs.'></div>'.
+                                '</div>';
+            $responseContent .= '<div class="row">';
+            if (property_exists($event, 'attendees')) {
+                $attendees = "";
+                foreach ($event->attendees as $attendee) {
+                    $attendeeName = explode("@", $attendee->email);
+                    $attendees.= '<b>'.$attendeeName[0].'</b>, ';
+                }
+                //$body = str_replace("{{attendees}}", $attendees, $body);
+                $responseContent .= '<div class="col-md-6">'.$attendees.'</div>';
+            }
+
+            if (property_exists($event, 'location')) {
+                //$body = str_replace("{{location}}", $event->location, $body);
+                $responseContent .= '<div class="col-md-6"><'.$hs.'>'.$event->location.'</'.$hs.'></div>';
+            }
+            $responseContent.= '</div>';
+        }
+
+        $responseContent .= "</div></div>";
+        // Return the composed HTML
+        $response = new Response();
+        $response->setContent($responseContent);
+        return $response;
+    }
+
+    /**
+     * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+     * Calendar service JSON
+     * @Route("/json/google_calendar/{int_api_id}", name="json_google_calendar")
+     */
+    public function json_google_calendar(
+        $int_api_id, IntegrationApiRepository $intApiRepository, Request $request, \Google_Client $googleClient)
+    {
+        if ($request->getClientIp() === '127.0.0.1' && (isset($_ENV['API_PROXY']))) {
+            $httpClient = new Client([
+                'proxy' => $_ENV['API_PROXY'],
+                'verify' => false
+            ]);
+            $googleClient->setHttpClient($httpClient);
+        }
+        $intApi = $intApiRepository->findOneBy(['uuid'=>$int_api_id]);
+        if ($intApi instanceof IntegrationApi === false) {
+            return $this->createNotFoundException("Integrated API not found with ID $int_api_id");
+        }
+
+        $userApi = $intApi->getUserApi();
+        $googleClientService = new GoogleClientService($googleClient);
+        $googleClientService->setAccessToken($userApi->getJsonToken());
+        $googleClientService->setCredentials($userApi->getCredentials());
+        $service = new \Google_Service_Calendar($googleClientService->getClient());
+        $calendarId = 'primary';
+        $optParams = array(
+            'maxResults' => 10,
+            'orderBy' => 'startTime',
+            'singleEvents' => true,
+            'timeMin' => date('c'),
+        );
+        $results = $service->events->listEvents($calendarId, $optParams);
+        $events = $results->getItems();
+
+        $response = new JsonResponse();
+        $response->setContent(json_encode($events));
+        return $response;
     }
 
     /**
@@ -61,7 +195,7 @@ class ARenderController extends AbstractController
             $start->add(new \DateInterval('PT1H'));
             $end = new \DateTime($attr->end_at);
             $end->add(new \DateInterval('PT1H'));
-            // TODO: ADD timetree logo?
+
             $responseContent .= '<div class="row '.$eventClass.'">';
             $responseContent .= '<div class="col-md-12"><'.$hs.'>'.$iconLogo.$attr->title.'</'.$hs.'></div>'.
                                 '</div><div class="row">'.
