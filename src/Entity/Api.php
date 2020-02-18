@@ -250,7 +250,7 @@ class Api
     /**
      * @return boolean
      */
-    public function isLocationApi(): bool
+    public function isLocationApi():?bool
     {
         return $this->isLocationApi;
     }
