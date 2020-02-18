@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * @Route("/backend/screen")
@@ -175,7 +176,8 @@ class BackendScreenController extends AbstractController
         $partials = $screen->getPartials();
 
         $renderParams = [
-            'template' => '/screen-templates/'.$template
+            'template' => '/screen-templates/'.$template,
+            'html_url' => $this->generateUrl('public_screen_render', ['uuid'=>$uuid], UrlGeneratorInterface::ABSOLUTE_URL)
         ];
         $htmlPerColumn['Column_1st'] = '';
         $htmlPerColumn['Column_2nd'] = '';

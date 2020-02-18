@@ -31,6 +31,16 @@ pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; background-color: #f5f5
 .inverted_color img {
     invert(1);
 }
+#screen-preview-url {
+    border: 4px solid #8c8c8c;
+    margin-top: 1em;margin-bottom: 1em;
+    padding-top: 1em;padding-bottom: 1em;
+    background-color: #666666;
+}
+#screen-preview-url label {
+    color: white
+}
+
 /* Headlines baby */
 h1 { letter-spacing: -2px }
 h2 { letter-spacing: -3px; font-size: 56px; font-weight: bold }

@@ -6,6 +6,23 @@
 
 {% block body %}
 
+    <div class="row" id="screen-preview-url">
+        <form>
+        <div class="col-md-6">
+
+                <label for="route_html">ESP32 Html route:</label>
+                <input type="text" value="{{ html_url }}" id="route_html" class="form-control">
+
+        </div>
+            <div class="col-md-6">
+
+<button type="button" class="btn btn-success" onclick="window.location='{{ html_url }}'" id="route_html"
+                style="margin-top:1.8em">Preview</button>
+            </div>
+        </form>
+    </div>
+
+
     {% include template %}
 
 {% endblock %}
