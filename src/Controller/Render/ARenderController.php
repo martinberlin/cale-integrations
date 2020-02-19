@@ -22,14 +22,9 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ARenderController extends AbstractController
 {
-    // This formats should be moved to User so one can set in your profile the preferred format
-    public $hourFormat = "H:i";
-    public $dateFormat = "D d.m.Y";
-
-    // TODO: Maybe would be the best to set Date / Hour format times in user->profile
-    private function convertDateTime($unixTime) {
+    private function convertDateTime($unixTime,$hourFormat) {
         $dt = new \DateTime("@$unixTime");
-        return $dt->format("H:i");
+        return $dt->format($hourFormat);
     }
 
     /**
@@ -49,6 +44,11 @@ class ARenderController extends AbstractController
         ]);
         $googleClient->setHttpClient($httpClient);
     }
+        // Read user preferences
+        $user = $partial->getScreen()->getUser();
+        $dateFormat = $user->getDateFormat();
+        $hourFormat = $user->getHourFormat();
+
         $intApi = $partial->getIntegrationApi();
         if ($intApi instanceof IntegrationApi === false) {
             return $this->createNotFoundException("Integrated API not found for partial: ".$partial->getId());
@@ -86,11 +86,11 @@ class ARenderController extends AbstractController
             if ($event->start->getDate() != '' && $event->end->getDate() != '') {
                 $end->modify('-1 days');
             }
-            $startTime = ($start->format($this->hourFormat)!='00:00') ? $start->format($this->hourFormat) : '';
-            $endTime = ($end->format($this->hourFormat)!='00:00') ? $end->format($this->hourFormat) : '';
-            $endFormat = ($start->format($this->dateFormat) != $end->format($this->dateFormat)) ?
-                $end->format($this->dateFormat).' '.$endTime : $endTime;
-            $startFormat = $start->format($this->dateFormat).' '.$startTime;
+            $startTime = ($start->format($hourFormat)!='00:00') ? $start->format($hourFormat) : '';
+            $endTime = ($end->format($hourFormat)!='00:00') ? $end->format($hourFormat) : '';
+            $endFormat = ($start->format($dateFormat) != $end->format($dateFormat)) ?
+                $end->format($dateFormat).' '.$endTime : $endTime;
+            $startFormat = $start->format($dateFormat).' '.$startTime;
             $fromTo = ($endFormat=='') ? $startFormat : $startFormat.$iconArrowRight. $endFormat;
 
             $responseContent .= '<div class="row '.$eventClass.'">';
@@ -111,7 +111,6 @@ class ARenderController extends AbstractController
             }
 
             if (property_exists($event, 'location')) {
-                //$body = str_replace("{{location}}", $event->location, $body);
                 $responseContent .= '<div class="col-md-6"><'.$hs.'>'.$event->location.'</'.$hs.'></div>';
             }
             $responseContent.= '</div>';
@@ -177,6 +176,10 @@ class ARenderController extends AbstractController
         if ($json === null && json_last_error() !== JSON_ERROR_NONE) {
             throw $this->createNotFoundException("Parsing of int_api $int_api_id JSON failed: " . json_last_error());
         }
+        $user = $partial->getScreen()->getUser();
+        $dateFormat = $user->getDateFormat();
+        $hourFormat = $user->getHourFormat();
+
         $responseContent = '';
         // Start HTML building - Headlines is a try to mould this to Screen environment
         $hs = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h4':'h3';
@@ -202,13 +205,13 @@ class ARenderController extends AbstractController
                                 '<div class="col-md-6"><'.$hs.'>'.$attr->location.'</'.$hs.'></div>';
 
             if ($isAllDay) {
-                $fromTo = $start->format($this->dateFormat);
+                $fromTo = $start->format($dateFormat);
             } else {
-                $startTime = ($start->format($this->hourFormat)!='00:00') ? $start->format($this->hourFormat) : '';
-                $endTime = ($end->format($this->hourFormat)!='00:00') ? $end->format($this->hourFormat) : '';
-                $endFormat = ($start->format($this->dateFormat) != $end->format($this->dateFormat)) ?
-                    $end->format($this->dateFormat).' '.$endTime : $endTime;
-                $startFormat = $start->format($this->dateFormat).' '.$startTime;
+                $startTime = ($start->format($hourFormat)!='00:00') ? $start->format($hourFormat) : '';
+                $endTime = ($end->format($hourFormat)!='00:00') ? $end->format($hourFormat) : '';
+                $endFormat = ($start->format($dateFormat) != $end->format($dateFormat)) ?
+                    $end->format($dateFormat).' '.$endTime : $endTime;
+                $startFormat = $start->format($dateFormat).' '.$startTime;
                 $fromTo = ($endFormat=='') ? $startFormat : $startFormat.' '.$iconArrowRight. $endFormat;
             }
             $responseContent .= '<div class="col-md-6"><'.$hs.'>'.$fromTo.'</'.$hs.'></div>';
@@ -235,22 +238,19 @@ class ARenderController extends AbstractController
         if ($json === null && json_last_error() !== JSON_ERROR_NONE) {
             throw $this->createNotFoundException("Parsing of int_api $int_api_id JSON failed: ".json_last_error());
         }
-        // WEATHER Dark sky copy from raw PHP
+        // Read user preferences
+        $user = $partial->getScreen()->getUser();
+        $hourFormat = $user->getHourFormat();
+        // WEATHER Dark sky
         $celsius = '°C ';
-
         $d = [];
-        $dailyIcon = $json->daily->icon;
         $d['summary'] = $json->daily->summary;
-
-        // TODO: Replace for weather Font
         $wIcon = '<i class="wi wi-{icon}"></i>';
         $iconSunrise = str_replace("{icon}", 'day-sunny', $wIcon);
-        $iconSunset  = str_replace("{icon}", 'sunset', $wIcon);
-
-        $d['sun-time'] = "Sunrise ".$this->convertDateTime($json->daily->data[0]->sunriseTime).
-            " Sunset ".$this->convertDateTime($json->daily->data[0]->sunsetTime);
-        $d['daily-avg-high'] = $json->daily->data[0]->temperatureHigh.$celsius;
-        $d['daily-avg-low'] =  $json->daily->data[0]->temperatureLow.$celsius;
+        $d['sunrise'] = $this->convertDateTime($json->daily->data[0]->sunriseTime,$hourFormat);
+        $d['sunset'] = $this->convertDateTime($json->daily->data[0]->sunsetTime,$hourFormat);
+        $d['daily-avg-high'] = round($json->daily->data[0]->temperatureHigh,1).$celsius;
+        $d['daily-avg-low'] =  round($json->daily->data[0]->temperatureLow,1).$celsius;
 
         $wHourly ="";
         $hourlyCounter = 1;
@@ -259,8 +259,8 @@ class ARenderController extends AbstractController
         $colorClass = ($partial->getInvertedColor())?'inverted_color':'default_color';
         $responseContent = '<div class="row '.$colorClass.'"><div class="col-md-12">';
         $responseContent .= "<div class=\"row\">
-            <div class=\"col-md-6\"><$hs>Low {$d['daily-avg-low']} High {$d['daily-avg-low']}</$hs></div>
-            <div class=\"col-md-6 text-right\"><$hs>{$d['sun-time']}</$hs></div></div>";
+            <div class=\"col-md-6\"><$hs>Low&nbsp; {$d['daily-avg-low']}<br>High {$d['daily-avg-high']}</$hs></div>
+            <div class=\"col-md-6 text-right\"><$hs>$iconSunrise Sunrise {$d['sunrise']}<br>Sunset&nbsp; {$d['sunset']}</$hs></div></div>";
 
         // Useless craps: style="margin-top:0.55em"
 
@@ -270,7 +270,7 @@ class ARenderController extends AbstractController
             $icon1= str_replace("{icon}", $h->icon, $wIcon);
             $temp = strstr(round($h->temperature,1),'.')===false ? round($h->temperature,1).'.0' : round($h->temperature,1);
             $wHourly .= '<div class="row">';
-            $wHourly .= '<div class="col-md-4"><'.$hs.'>'.$this->convertDateTime($h->time).' '.$icon1.'</'.$hs.'></div>'.
+            $wHourly .= '<div class="col-md-4"><'.$hs.'>'.$this->convertDateTime($h->time,$hourFormat).' '.$icon1.'</'.$hs.'></div>'.
                 '<div class="col-md-4 text-center"><'.$hs.'>'.$temp.$celsius.'</'.$hs.'></div>'.
                 '<div class="col-md-4 text-right"><'.$hs.'>'.($h->humidity*100).' '.$icon3.'</'.$hs.'></div>'; // .$icon3.$h->windSpeed
             $wHourly .= '</div>';
@@ -301,7 +301,6 @@ class ARenderController extends AbstractController
         if ($intApi instanceof IntegrationApi === false) {
             return $this->createNotFoundException("Integrated API not found with ID $int_api_id");
         }
-
         // https://api.darksky.net/forecast/[token]/[latitude],[longitude]
         $userApi = $intApi->getUserApi();
         $api = $userApi->getApi();

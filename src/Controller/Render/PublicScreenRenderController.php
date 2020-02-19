@@ -8,6 +8,7 @@ use App\Form\Screen\ScreenType;
 use App\Repository\ScreenRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Profiler\Profiler;
@@ -21,17 +22,23 @@ class PublicScreenRenderController extends AbstractController
     /**
      * @Route("/{username}/render/{uuid?}", name="public_screen_render")
      */
-    public function publicScreenRender($uuid, $username, Request $request, ScreenRepository $screenRepository, UserRepository $userRepository)
+    public function publicScreenRender($uuid, $username, Request $request, ScreenRepository $screenRepository, UserRepository $userRepository,
+                                       LoggerInterface $logger)
     {
         // For this controller action, the profiler is disabled
-        if ($this->container->has('profiler')) {
-            $profiler = $this->get('profiler');
-            $profiler->disable();
-        }
+        //$profiler = $this->get('profiler');
+        //$profiler->disable();
         $user = $userRepository->findOneBy(['name' => $username]);
         if (!$user instanceof User) {
             throw $this->createNotFoundException("This user does not exist. Please check the URL");
         }
+        try {
+            date_default_timezone_set($user->getTimezone());
+        } catch (\ErrorException $exception) {
+            $logger->info('User '.$user->getId().' set timezone '.$user->getTimezone().' failed.',
+                ['caller' =>'TimezoneListener']);
+        }
+
         $screen = $screenRepository->findOneBy(['user' => $user, 'uuid' => $uuid]);
         if (!$screen instanceof Screen) {
             throw $this->createNotFoundException("$uuid is not a valid screen");
@@ -47,9 +54,7 @@ class PublicScreenRenderController extends AbstractController
         $htmlPerColumn['Column_3rd'] = '';
         foreach ($partials as $p) {
             $partialHtml = $this->forward($p->getIntegrationApi()->getUserApi()->getApi()->getJsonRoute(),
-                [
-                'partial' => $p
-                ]);
+                ['partial' => $p]);
             $htmlPerColumn[$p->getPlaceholder()] .= $partialHtml->getContent();
 
             $renderParams[$p->getPlaceholder()] = [

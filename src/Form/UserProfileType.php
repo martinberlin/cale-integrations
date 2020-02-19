@@ -58,6 +58,7 @@ class UserProfileType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Username',
+                'mapped' => false,
                 'attr' => ['class' => 'form-control', 'readonly' => true]
             ])
             ->add('email', EmailType::class,
@@ -72,7 +73,7 @@ class UserProfileType extends AbstractType
                     'attr' => ['class' => 'form-control']
                 ])
             ->add('timezone', TimezoneType::class, [
-                'label' => 'Your timezone',
+                'label' => 'Your timezone - Save to see the hour change',
                 'attr' => ['class' => 'form-control'],
                 'preferred_choices' => $options['timezonesPreferred']
             ])

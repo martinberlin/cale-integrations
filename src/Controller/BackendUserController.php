@@ -6,6 +6,7 @@ use App\Form\UserProfileType;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -24,12 +25,15 @@ class BackendUserController extends AbstractController
      */
     public function userProfileEdit(Request $request, EntityManagerInterface $entityManager)
     {
-        $languages = $this->getParameter('api_languages');
         $user = $this->getUser();
+
+        $languages = $this->getParameter('api_languages');
         $form = $this->createForm(UserProfileType::class, $user,
             [
                 'languages' => array_flip($languages)
             ]);
+        // We don't want the username to be changed so is not mapped
+        $form->get('name')->setData($user->getName());
         $form->handleRequest($request);
         $error = "";
 

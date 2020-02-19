@@ -28,7 +28,7 @@
                                 class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ path('b_user_profile') }}" >User profile</a> </li>
-                        <li><a href="{{ path('b_agreement') }}" data-toggle="tooltip" title="Agreement & code of conduct">User agreement</a> </li>
+                        <li><a href="{{ path('b_agreement') }}">User agreement</a> </li>
                         <li><a href="{{ path('logout') }}">Logout</a></li>
                     </ul>
                 </li>
@@ -37,6 +37,9 @@
                     <li><a  href="{{ path('b_users') }}">List users</a></li>
                 {% endif %}
             </ul>
+            <div class="text-right" style="margin-top:.7em;margin-right:1em">
+               {{ app.user.timezone }} {{ "now"|date(app.user.dateFormat) }} {{ "now"|date(app.user.hourFormat) }}
+            </div>
         </nav>
     </div>
 </div>

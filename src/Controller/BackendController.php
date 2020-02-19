@@ -31,9 +31,12 @@ class BackendController extends AbstractController
             if ($form->getClickedButton()) {
                 switch ($form->getClickedButton()->getName()) {
                     case 'declineAction':
+                        $entityManager->remove($user);
+                        $entityManager->flush();
                         $this->addFlash('success', "Your account was deleted from our system");
                         return $this->redirectToRoute('home');
                         break;
+
                     case 'confirmAction':
                         if ($form->get('confirm')->getData()) {
                             $user->setLastLogin(new \DateTime());
@@ -47,9 +50,10 @@ class BackendController extends AbstractController
                             }
 
                             if ($error === "") {
-                                $this->addFlash('success', "Thanks for accepting our terms. Your account was created with the username: " . $user->getName().
-                                ". You can always review this agreement in the User menu");
-                                return $this->redirectToRoute('b_home');
+                                $this->addFlash('success',
+                                    "Thanks for accepting our terms. Your account was created with the username: " . $user->getName().
+                                ". Please check that your profile is complete and set your Timezone");
+                                return $this->redirectToRoute('b_user_profile');
                             } else {
                                 $this->addFlash('error', $error);
                             }

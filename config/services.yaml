@@ -78,6 +78,15 @@ services:
     # Let inject Profiler into a Controller
     Symfony\Component\HttpKernel\Profiler\Profiler: '@profiler'
 
+    # Event listeners
+    App\EventListener\TimezoneListener:
+        tags:
+            - { name: kernel.event_listener }
+
+    App\EventListener\:
+        resource: ../src/EventListener/*
+        tags: [kernel.event_listener]
+
     # Makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
@@ -85,6 +94,7 @@ services:
         exclude:
             - '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
             - '../src/Service/'
+            - '../src/EventListener/'
 
     # Controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
