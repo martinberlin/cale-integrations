@@ -23,11 +23,12 @@ class PublicScreenRenderController extends AbstractController
      * @Route("/{username}/render/{uuid?}", name="public_screen_render")
      */
     public function publicScreenRender($uuid, $username, Request $request, ScreenRepository $screenRepository, UserRepository $userRepository,
-                                       LoggerInterface $logger)
+                                       LoggerInterface $logger, ?Profiler $profiler)
     {
-        // For this controller action, the profiler is disabled
-        //$profiler = $this->get('profiler');
-        //$profiler->disable();
+        // For this controller action if exists (dev) the profiler is disabled
+        if (null !== $profiler) {
+            $profiler->disable();
+        }
         $user = $userRepository->findOneBy(['name' => $username]);
         if (!$user instanceof User) {
             throw $this->createNotFoundException("This user does not exist. Please check the URL");
