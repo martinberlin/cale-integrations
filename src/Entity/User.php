@@ -99,6 +99,21 @@ class User implements UserInterface, Language, Created
     protected $lastLogin;
 
     /**
+     * @ORM\Column(type="string", nullable=true, length=60)
+     */
+    protected $timezone;
+
+    /**
+     * @ORM\Column(type="string", nullable=false, length=30)
+     */
+    protected $dateFormat;
+
+    /**
+     * @ORM\Column(type="string", nullable=false, length=12)
+     */
+    protected $hourFormat;
+
+    /**
      * @var string
      * @ORM\Column(type="boolean")
      */
@@ -110,12 +125,14 @@ class User implements UserInterface, Language, Created
 
     /**
      * @var array $roles
-     *
      * @ORM\Column(type="array")
      */
     private $roles = [];
 
     public function __construct() {
+        // Defaults
+        $this->dateFormat = "D d.m.Y";
+        $this->hourFormat = "H:i";
         $this->maxScreens = 3;
         $this->agreementAccepted = false;
         $this->userApis = new ArrayCollection();
@@ -396,6 +413,54 @@ class User implements UserInterface, Language, Created
     public function setMaxScreens(int $maxScreens)
     {
         $this->maxScreens = $maxScreens;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTimezone():?string
+    {
+        return $this->timezone;
+    }
+
+    /**
+     * @param mixed $timezone
+     */
+    public function setTimezone($timezone)
+    {
+        $this->timezone = $timezone;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateFormat():?string
+    {
+        return $this->dateFormat;
+    }
+
+    /**
+     * @param mixed $dateFormat
+     */
+    public function setDateFormat(string $dateFormat)
+    {
+        $this->dateFormat = $dateFormat;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHourFormat():?string
+    {
+        return $this->hourFormat;
+    }
+
+    /**
+     * @param mixed $hourFormat
+     */
+    public function setHourFormat(string $hourFormat)
+    {
+        $this->hourFormat = $hourFormat;
     }
 
     public function __toString()
