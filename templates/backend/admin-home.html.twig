@@ -31,7 +31,7 @@
                 </li>
             </ul>
             <p>Click here if you want to understand the sections of the admin for a small on-boarding tour:</p>
-            <button class="btn btn-default" onclick="introJs().setOption('showProgress', true).start();">Give me an Admin-tour</button>
+            <button class="btn btn-default" onclick="introJs().start();">Give me an Admin-tour</button>
 
             <div class="row" style="height: 40px"></div>
 
@@ -45,4 +45,11 @@
         </div>
 
     </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        introJs().setOption("overlayOpacity", 0.1);
+    });
+    </script>
 {% endblock %}

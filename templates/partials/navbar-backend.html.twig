@@ -21,12 +21,12 @@
         </div>
         <nav id="bs-navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-left" style="margin-left: 6em">
-                <li data-step="1" data-intro="Here you can configure the connection to external API providers
-like Google calendar, Weather or shared calendars. The Aplication Programming Interfaces will deliver content to your Screens">
+                <li data-step="1" data-intro="Here you can configure the connection to external Application Programming Interfaces providers
+like Google calendar, Weather or shared calendars. APIs will deliver content to your Screens">
                     <a  href="{{ path('b_home_apis') }}">Apis</a>
                 </li>
                 <li data-step="2" data-intro="Your Screens are your output displays. They have a template and you can add
-                content partials with the output of your APIs"><a  href="{{ path('b_screens') }}">Screens</a></li>
+                content pieces called 'partials' that will render HTML with your API output data"><a  href="{{ path('b_screens') }}">Screens</a></li>
 
                 <li data-step="3" data-intro="Here you can configure your user profile. Make sure your timezone is correct
  so we can output the content with right hour for your location" class="dropdown"><a href="#" data-toggle="dropdown" aria-expanded="false">User <span
@@ -43,7 +43,7 @@ like Google calendar, Weather or shared calendars. The Aplication Programming In
                 {% endif %}
             </ul>
             <div class="text-right" style="margin-top:.7em;margin-right:1em">
-                <span data-step="4" data-intro="If your timezone is set you should see here the correct day and hour">
+                <span data-step="4" data-intro="When your timezone is set you should see here the correct day and hour">
                {{ app.user.timezone }} {{ "now"|date(app.user.dateFormat) }} {{ "now"|date(app.user.hourFormat) }}
                 </span>
             </div>
