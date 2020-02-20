@@ -1,4 +1,5 @@
 swiftmailer:
     url: '%env(MAILER_URL)%'
     spool: { type: 'memory' }
-    encryption: tls
+    # We don't need tls since this will communicate with postman
+    #    encryption: tls
