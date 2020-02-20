@@ -14,6 +14,9 @@ parameters:
         '2 Columns with header': 2-col-header.html.twig
         '3 Columns': 3-col.html.twig
         '3 Columns with header': 3-col-header.html.twig
+    # Email config
+    email_reset_password:   'dontreply@cale.es'
+    email_reset_pass_title: 'CALE password recovery'
 
     # Configuration of mysql API 1st level cache
     cache_config:

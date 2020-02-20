@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -20,12 +21,13 @@ class ResettingController extends AbstractController
      */
     public function resetPassword(
         Request $request,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,  \Swift_Mailer $mailer
     ) {
         $form = $this->createForm(PasswordRequestType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $emailFrom = $this->getParameter('email_reset_password');
             $email = $form->get('email')->getData();
             $token = bin2hex(random_bytes(32));
             $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
@@ -33,8 +35,22 @@ class ResettingController extends AbstractController
             if ($user instanceof User) {
                 $user->setPasswordRequestToken($token);
                 $entityManager->flush();
-                // send your email with SwiftMailer or anything else here
-                $this->addFlash('success', "An email has been sent to your address");
+                $message = (new \Swift_Message($this->getParameter('email_reset_pass_title')))
+                    ->setFrom($emailFrom)
+                    ->setTo($email)
+                    ->setBody(
+                        $this->renderView(
+                            'emails/recover_pass.html.twig',
+                            [
+                                'token_link' => $this->generateUrl('reset_password_confirm', ['token' => $token ], UrlGeneratorInterface::ABSOLUTE_URL),
+                                'host' => $request->getSchemeAndHttpHost()
+                            ]
+                        ),
+                        'text/html'
+                    );
+                $mailer->send($message);
+
+                $this->addFlash('success', "An email with a reset link has been sent to your address. Please click on the link to reset your password");
 
                 return $this->redirectToRoute('reset_password');
             }
@@ -76,9 +92,9 @@ class ResettingController extends AbstractController
             $tokenStorage->setToken($token);
             $session->set('_security_main', serialize($token));
 
-            $this->addFlash('success', "Your new password has been set");
+            $this->addFlash('success', "Your new password has been set. You should be able to login now please try");
 
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('login');
         }
 
         return $this->render('reset-password-confirm.html.twig', ['form' => $form->createView()]);

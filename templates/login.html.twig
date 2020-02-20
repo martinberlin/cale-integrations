@@ -2,15 +2,17 @@
 
 {% set carousel_high = 110 %}
 {% block stylesheets %}
-<style>
-    #myCarousel.carousel {
-        height: {{ carousel_high }}px;
-    }
-    #myCarousel .item {
-        height: {{ carousel_high }}px; width: 100%;
-        background-color: #333;
-    }
-</style>
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+
+        #myCarousel .item {
+            height: {{ carousel_high }}px;
+            width: 100%;
+            background-color: #333;
+        }
+    </style>
 {% endblock stylesheets %}
 
 {% block carousel %}
@@ -32,7 +34,15 @@
             {{ form_widget(form.submit) }}
 
             <div style="height: 40px"></div>
-            <a href="{{ path('register') }}">Register here</a>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <a href="{{ path('register') }}">Register here</a>
+                </div>
+                <div class="col-md-6 text-right">
+                    <a href="{{ path('reset_password') }}">I forgot my password</a>
+                </div>
+            </div>
         </div>
         <div class="col-md-4"></div>
         {{ form_end(form) }}
