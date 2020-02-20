@@ -3,7 +3,11 @@
 {% block body %}
     <p>The APIs will deliver your Screen partials fresh information.</p>
     <div class="text-right" style="margin-bottom: 0.4em">
-        <button type="button" class="btn btn-primary" onclick="window.location='{{ path('b_api_configure') }}'">Connect a new API</button>
+        <button class="btn btn-default" onclick="introJs().start();">
+            <span class="glyphicon glyphicon-search"></span> Guide</button>
+        <button type="button" class="btn btn-primary" onclick="window.location='{{ path('b_api_configure') }}'"
+                data-step="1" data-intro="Click here to add a new API connection to get fresh content">
+            <span class="glyphicon glyphicon-plus"></span> Connect a new API</button>
     </div>
 
     <div class="row">
@@ -67,7 +71,10 @@
                             {% endif %}
 
                             {% if a.edit != "" and a.url_name !="cale-google" %}
-                            <a class="btn btn-default" href="{{ a.edit }}"><span class="glyphicon glyphicon-plus"></span> Add new</a>
+                            <a class="btn btn-default" href="{{ a.edit }}"
+                               data-step="2" data-intro="Each API can have more than one integration. Example: The same weather API
+can be used to get the weather in Berlin or in New York city."
+                            ><span class="glyphicon glyphicon-plus"></span> Add new</a>
                             {% endif %}
                         </td>
                     </tr>

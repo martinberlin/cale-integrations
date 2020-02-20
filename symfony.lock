@@ -148,7 +148,7 @@
         "version": "2.2.3"
     },
     "php": {
-        "version": "7.4"
+        "version": "7.2"
     },
     "phpseclib/phpseclib": {
         "version": "2.0.23"
@@ -398,6 +398,19 @@
             "config/packages/dev/swiftmailer.yaml",
             "config/packages/swiftmailer.yaml",
             "config/packages/test/swiftmailer.yaml"
+        ]
+    },
+    "symfony/translation": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "2ad9d2545bce8ca1a863e50e92141f0b9d87ffcd"
+        },
+        "files": [
+            "config/packages/translation.yaml",
+            "translations/.gitignore"
         ]
     },
     "symfony/translation-contracts": {

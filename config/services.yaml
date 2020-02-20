@@ -78,6 +78,9 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
+    App\EventSubscriber\LocaleSubscriber:
+        arguments: ['%kernel.default_locale%']
+
     # Let inject Profiler into a Controller
     Symfony\Component\HttpKernel\Profiler\Profiler: '@profiler'
 

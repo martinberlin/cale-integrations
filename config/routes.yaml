@@ -1,2 +1,43 @@
-#index:
-#    controller: App\Controller\HomeController
+home:
+  path:       /{_locale}
+  controller: App\Controller\HomeController::index
+  defaults:
+    _locale: en
+  requirements:
+    _locale: en|es
+
+about-cale:
+  path:       /{_locale}/about-cale
+  controller: App\Controller\HomeController::aboutCale
+  defaults:
+    _locale: en
+
+displays:
+  path:       /{_locale}/eink-displays
+  controller: App\Controller\HomeController::displays
+  defaults:
+    _locale: en
+
+apis:
+  path:       /{_locale}/apis
+  controller: App\Controller\HomeController::apis
+  defaults:
+    _locale: en
+
+transparently:
+  path:       /{_locale}/built-transparently
+  controller: App\Controller\HomeController::transparently
+  defaults:
+    _locale: en
+
+thanks:
+  path:       /{_locale}/thanks
+  controller: App\Controller\HomeController::thanks
+  defaults:
+    _locale: en
+
+privacy-policy:
+  path:       /{_locale}/privacy-policy
+  controller: App\Controller\HomeController::privacyPolicy
+  defaults:
+    _locale: en

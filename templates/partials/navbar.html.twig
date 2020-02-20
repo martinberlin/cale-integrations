@@ -28,6 +28,13 @@
                        title="Hackaday's photo gallery">Make one</a></li>
                 <li><a href="{{ path('transparently') }}" data-toggle="tooltip" title="Open source and transparent">Transparently built</a></li>
                 <li><a href="{{ path('privacy-policy') }}">Privacy policy</a></li>
+                <li class="dropdown"><a href="#" data-toggle="dropdown" aria-expanded="false">Language <span
+                                class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('home', {'_locale':'en'}) }}" >English</a></li>
+                        <li><a href="{{ path('home', {'_locale':'es'}) }}" >Español</a></li>
+                    </ul>
+                </li>
                 {% if app.environment == 'dev' %}
                 <li class="login"><a href="{{ path('login') }}">Login</a></li>
                 {% endif %}

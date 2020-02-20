@@ -1,0 +1,55 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <h3>Nuestro compromiso de transparencia</h3>
+
+   <p><b>In CALE we can really claim that this website is transparently built and it treats your data with responsibility.</b><br>
+       In a moment of history where Facebook–Cambridge Analytica story broke and we know how fishy and irresponsible
+       some companies can be with our personal data, we have the commitment to really show how this site is built, and we claim full
+       transparency.
+
+       There is no hidden recollection of any data. The data you use and your connected APIs are neither shared with any third party at all.
+       There is not even Google Analytics, Facebook Graph links, Oauth logins from third party providers or cookies that track what you do.
+       Your connected APIs are yours and you are in full control of removing them or even removing your user and anything attached to it.
+
+If you have any doubts about:<br>
+   <ul>
+    <li>How is personal data being used exactly?</li>
+    <li>How are my passwords encoded?</li>
+    <li>Where are my API's configured and what data is being used to access them?</li>
+   </ul>
+   </p>
+    <p>The full backend code of this website and the screen administrator backend is available here:</p>
+    <h3><a href="https://github.com/martinberlin/cale-integrations">https://github.com/martinberlin/cale-integrations</a></h3>
+
+    <h4>This is our commitment of transparency.<br>Any update to the site is a git pull to that repository, all what is done here,
+        is open source and transparent to our users.</h4>
+    <p>If you find any part that could put your data at risk, simply connect with us, or if you have a Github account please add
+    an issue describing what part should be updated and we will take the time to fix it and make it better for you and all the rest.
+
+        This page you are reading is stored in
+        <a href="https://github.com/martinberlin/cale-integrations/tree/master/templates">this directory with the name of
+            www-built-transparently.html.twig</a>
+    </p>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="./js/engine/common.js"></script>
+{% endblock %}

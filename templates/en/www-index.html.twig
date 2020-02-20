@@ -1,0 +1,19 @@
+{% extends '/base.html.twig' %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <h3>Welcome to CALE</h3>
+
+    <p>
+        <b>CALE is a screen administrator where you can mix content of different APIs
+            and control the content output</b>
+
+    </p>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="./js/engine/common.js"></script>
+{% endblock %}

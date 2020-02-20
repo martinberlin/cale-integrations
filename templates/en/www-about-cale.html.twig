@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends '/base.html.twig' %}
 {% set carousel_high = 110 %}
 
 {% block stylesheets %}
@@ -16,7 +16,7 @@
 {% endblock stylesheets %}
 
 {% block carousel %}
-    {% include "partials/carousel.html.twig" %}
+    {% include "/partials/carousel.html.twig" %}
 {% endblock carousel %}
 
 {% block body %}
