@@ -53,7 +53,7 @@
                 <td>{{ d.timeOfRefresh }} sec.</td>
                 <td><a href="{{ d.manualUrl }}" target="_blank">webpage</a>&nbsp;
                     <br><br>
-                    <button class="btn btn-primary" onclick="window.location='{{ d.purchaseUrl }}'">buy</button>
+                    <button class="btn btn-primary" onclick="window.location='{{ d.purchaseUrl }}'">{{ 'buy'|trans }}</button>
                 </td>
             </tr>
         {% endfor %}

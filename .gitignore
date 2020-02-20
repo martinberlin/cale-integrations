@@ -9,6 +9,10 @@
 /public/dev/demo-mantis-api.json
 ###< symfony/framework-bundle ###
 
+## Heavy content that belongs not in this repo
+public/assets/video/
+
+
 ###> symfony/phpunit-bridge ###
 .phpunit
 .phpunit.result.cache

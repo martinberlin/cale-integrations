@@ -22,36 +22,37 @@
 {% block body %}
     <h3>¿Que es CALE?</h3>
 
-    <p><b>CALE is a screen administrator where you can mix content of different APIs and control the content
-            output</b><br>
+    <p><b>CALE es un administrador de display donde puedes mezclar contenidos de distintas fuentes externas (APIs)</b><br>
 
-        This output can be exported as a bitmap image and can be used to refresh dynamically external displays such as
-        Epaper or Eink displays that are connected to WiFi.
-        But you can use it also to display this API mixins in your monitor, tablet or any device. CALE will support up
-        to 3 different screen compositions.
-        Check our Firmware for ESP32 and <a href="{{ path('displays') }}">the supported displays</a> in order to build
-        one of this displays yourself.
+        Estos contenidos se pueden componer en la forma y el orden que tu decidas, con la posibilidad de exportarlos como una imagen BMP.
+        Esta imagen puede leerse desde displays WiFi con un microprocesador ESP32 o ESP8266. La cualidad interesante de estas pantallas es que
+        consumen muy poca bateria ofreciendo una resolución muy buena. <br>
+        No solo se puede mostrar en una pantalla tipo E-Ink, con el enlace que se genera de tus pantallas, puedes verlo también en tu tablet o ordenador de
+        escritorio.
+
+        Si le interesa probar el Firmware esta disponile para ESP32 y <a href="{{ path('displays') }}">estos son los displays soportados por la libreria gxEPD</a>.
     </p>
-    <h3>Electronic Ink</h3>
-    <p>Primary target displays are the so called Eink or Epaper.
-        The technical term is electrophoretic ink, that when laminated to a plastic film and then adhered to
-        electronics, it creates an Electronic Paper Display (EPD).
-        They ones that expose an SPI interface for makers come in up to 2 EInk colors, 3 colors counting the white
-        background, but in the first version of this Screen administrator tool we are targeting only the ones with Black
-        ink (2 colors).
+    <video width="100%" controls>
+  <source src="/assets/video/cale-1.mov">
+  </video>
+    <h3>Tinta electronica o E-Ink</h3>
+    <p>El término técnico es tinta electroforética. Es una tinta que esta laminada entre dos plasticos muy finos con una matriz electrónica, formando lo que se llama
+        un display de Papel electrónico (EPD por sus siglas en ingles)
+        Estos displays vienen con una interfaz SPI, el Bus SPI (del inglés Serial Peripheral Interface), se usa para transferir datos entre este display y el microchip ESP32/ESP8266.
+        Este micro hace el trabajo de conectarse al WiFi y traer la imagen actualizada, para luego enviarla usando SPI al display, luego se queda dormido gastando la miníma bateria posible
+        hasta la proxima actualización.
     </p>
     <div class="row">
         <div class="col-md-6">
-            <b>Eink is made of millions of tiny microcapsules</b><br>
+            <b>El Eink esta echo de millones de micro particulas de tinta</b><br>
             <img src="/assets/svg/eink-1.svg" width="199"><br>
-            This particles are the diameter of human hairs. We are <a href="{{ path('displays') }}">supporting many EPD displays</a> using the library <a
-                    href="https://github.com/ZinggJM/GxEPD" target="_blank">GxEPD</a>
+            Que tienen el diametro de un pelo humano.
         </div>
         <div class="col-md-6">
-            <b>Each microcapsule contains electrically charged particles</b><br>
+            <b>Cada micro-capsula contiene particulas cargadas con electricidad</b><br>
             <img src="/assets/svg/eink-2.svg" width="199"><br>
-            When an electrical field is applied the microcapsules with opposite sign
-            float to the top of the display, creating a crisp image that can be seen withouth any backlight.
+            Cuando se aplica un campo electrico opuesto al del colo negro como ejemplo, esta tinta subira a la superficia, creando una imagen que se puede ver sin necesidad de retro-iluminarla.
+            Esta imagen queda impresa aunque desconectemos la bateria.
         </div>
     </div>
 {% endblock %}
