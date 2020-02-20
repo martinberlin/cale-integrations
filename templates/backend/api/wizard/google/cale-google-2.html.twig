@@ -5,7 +5,7 @@
 
         <div class="col-md-12">
 
-            Please click here to authorize Cale read access to:<br>
+            {{ 'authorize_read_access_to_cale'|trans }}<br>
                 <a href="{{authUrl}}" target="_blank">
                     <img src="/assets/wizard/google-auth-calendar.png"><br>
                     <h4>
@@ -13,7 +13,7 @@
                     </h4>
             <br><br>
 
-            Copy your token and paste it here.<br><br><br>
+            {{ 'copy_your_token'|trans }}<br><br><br>
 
             <div class="row">
                 <div class="col-md-6">
@@ -22,7 +22,7 @@
             {{ form_end(form) }}
                 </div>
 
-                <label style="margin-left: 1em">API response</label>
+                <label style="margin-left: 1em">{{'api_response'|trans}}</label>
                 <div class="col-md-6" id="api_preview" style="height: 500px;overflow-y: auto">
                     Preview after saving configuration settings<br>
                 </div>

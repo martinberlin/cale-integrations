@@ -9,11 +9,11 @@
             {{ form_row(form.name) }}
 
             <div class="panel panel-default" style="margin-top: 2em">
-                <div class="panel-heading" id="location_check">Location detection...</div>
+                <div class="panel-heading" id="location_check"></div>
                 <div class="panel-body">
                     <div id="location_disco" style="visibility: hidden;height:30px">
                         <input type="checkbox" id="location_set">
-                        <label for="location_set">Use the detected Latitude and Longitude parameters</label>
+                        <label for="location_set">{{ 'api_location_set'|trans }}</label>
                     </div>
                     <div class="row">
                            <div class="col-md-6">
@@ -40,7 +40,7 @@
                 {{ form_widget(form.submit, {'attr':{'style':'margin-top:2.4em'}}) }}
             </div>
 
-            <label style="margin-left: 1em">API response</label>
+            <label style="margin-left: 1em">{{'api_response'|trans}}</label>
             <div class="col-md-6" id="api_preview" style="height: 500px;overflow-y: auto">
                 Preview after saving configuration settings<br>
             </div>

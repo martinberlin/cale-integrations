@@ -1,3 +1,4 @@
+
 <div id="myCarousel" class="carousel slide" data-ride="carousel" data-keyboard="true" data-pause="hover" data-interval="7000">
     <ol class="carousel-indicators">
         <li data-toggle="tooltip" data-title="Low Energy consumption" data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -6,6 +7,8 @@
         <li data-toggle="tooltip" data-title="Try it?" data-target="#myCarousel" data-slide-to="3"></li>
         <li data-toggle="tooltip" data-title="Keeping you on track" data-target="#myCarousel" data-slide-to="4"></li>
     </ol>
+
+    {% if app.request.locale == 'en' %}
     <div class="carousel-inner">
         <div class="item active">
             <div class="item-bg bg-primary"></div>
@@ -67,6 +70,70 @@
         </div>
     </div>
 
+    {% elseif app.request.locale == 'es' %}
+        <div class="carousel-inner">
+            <div class="item active">
+                <div class="item-bg bg-primary"></div>
+                <div class="container">
+                    <div class="carousel-caption slide" style="margin-top: -2em">
+                        <img src="/assets/cale-logo-black.svg" width="250">
+                        <p>Más que un calendario, es una forma de organizar y mezclar distintos contenidos de forma dinámica
+                            incluyendo Google calendar, información del tiempo y aplicaciones móviles que tengan un API publico
+                            <br><b>El firmware es fácil de instalar, gratis y de fuente abierta</b></p>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="item-bg bg-pink"></div>
+                <div class="container">
+                    <div class="carousel-caption">
+                        <h2>Soporta ESP32 y ESP8266</h2>
+                        <p><b>CALE compone el contenido en HTML de tus APIs y el firmware lee una imagen para actualizar tus displays</b></p>
+                        <p>
+                            <a class="btn btn-lg btn-default btn-empty" href="https://github.com/martinberlin/eink-calendar" rel="noreferrer" target="_blank" role="button">
+                                Prueba el Firmware</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="item-bg bg-indigo"></div>
+                <div class="container">
+                    <div class="carousel-caption">
+                        <img src="/assets/svg/eink-2.svg" width="199">
+                        <h2>Un configurador para multiples displays de E-ink</h2>
+                        <p>La administración esta echa de una forma muy simple,<br><b>con un especial cuidado en la experiencia del usuario</b></p>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="item-bg bg-purple"></div>
+                <div class="container">
+                    <div class="carousel-caption">
+                        <h2>Modelo en 3D listo para tu impresora</h2>
+                        <p>Chequea nuestro proyecto en la web de Hackaday y lee los requerimientos.
+                            Escoge un modelo y puedes armarlo tu mismo por 50€ con un display de 400*300 pixeles soldando 8 cables<br>
+                        </p>
+
+                        <p><a class="btn btn-lg btn-default btn-empty" rel="noreferrer" href="https://hackaday.io/project/169086-cale-low-energy-eink-wallpaper" target="_blank" role="button">
+                                Lee aqui las instrucciones para armarlo</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="item-bg bg-red"></div>
+                <div class="container">
+                    <div class="carousel-caption">
+                        <img src="/assets/svg/calendar.svg" width="100">
+                        <h2>Una pantalla siempre actualizada</h2>
+                        <p>Pero con el consumo minímo! Echa de forma segura y transparente, sin publicidad de ningún tipo, donde puedes ver todo el codigo que se usa tanto para la administración como
+                            en el Firmware.<br><b>Amigable para los Hackers pero también simple de usar</b>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
     <a href="#myCarousel" class="left carousel-control" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
     <a href="#myCarousel" class="right carousel-control" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
 

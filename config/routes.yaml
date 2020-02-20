@@ -1,3 +1,13 @@
+# Security
+login:
+  path: /login/{_locale}
+  controller: App\Controller\SecurityController::login
+  defaults:
+    _locale: en
+  requirements:
+    _locale: en|es
+
+# www
 home:
   path:       /{_locale}
   controller: App\Controller\HomeController::index
@@ -7,37 +17,37 @@ home:
     _locale: en|es
 
 about-cale:
-  path:       /{_locale}/about-cale
+  path:       /about-cale/{_locale}
   controller: App\Controller\HomeController::aboutCale
   defaults:
     _locale: en
 
 displays:
-  path:       /{_locale}/eink-displays
+  path:       /eink-displays/{_locale}
   controller: App\Controller\HomeController::displays
   defaults:
     _locale: en
 
 apis:
-  path:       /{_locale}/apis
+  path:       /apis/{_locale}
   controller: App\Controller\HomeController::apis
   defaults:
     _locale: en
 
 transparently:
-  path:       /{_locale}/built-transparently
+  path:       /built-transparently/{_locale}
   controller: App\Controller\HomeController::transparently
   defaults:
     _locale: en
 
 thanks:
-  path:       /{_locale}/thanks
+  path:       /thanks/{_locale}
   controller: App\Controller\HomeController::thanks
   defaults:
     _locale: en
 
 privacy-policy:
-  path:       /{_locale}/privacy-policy
+  path:       /privacy-policy/{_locale}
   controller: App\Controller\HomeController::privacyPolicy
   defaults:
     _locale: en

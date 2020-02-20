@@ -28,7 +28,7 @@
                </div>
                <div class="col-md-4">
                    <button type="button" style="margin-top: 2.2em"
-                           class="delete_item btn btn-danger btn-sm">Delete</button>
+                           class="delete_item btn btn-danger btn-sm">{{'Delete'|trans}}</button>
                </div>
            </div>
        </div>
@@ -73,7 +73,7 @@ This form is a work in progress and will evolve to have a better usability after
         <div class="row">
             <div class="col-md-4 col-sm-6">
               <button type="button" class="add_item btn btn-default">
-                  <span class="glyphicon glyphicon-plus"></span> Add content partial</button>
+                  <span class="glyphicon glyphicon-plus"></span> {{ 'screen_add_partial'|trans }}</button>
              </div>
             <div class="col-md-4 col-sm-6">
             {{ form_widget(form.submit) }}
@@ -82,13 +82,13 @@ This form is a work in progress and will evolve to have a better usability after
                 {% if form.partials|length %}
                 <button type="button" class="btn btn-success"
                 onclick="window.location='{{ path('b_screen_render', {'uuid':uuid}) }}'">
-                    Render Screen</button>
+                    {{'screen_render'|trans}}</button>
                 {% endif %}
             </div>
         </div>
 <br>
         {% if form.partials|length %}
-        <label>Screen partials</label>
+        <label>{{'screen_partials'|trans}}</label>
         {% endif %}
         {# {{ form_widget(form.partials.vars.prototype)|e('html_attr') }} #}
         <div class="collection_holder row"
@@ -126,7 +126,7 @@ This form is a work in progress and will evolve to have a better usability after
                             </div>
                             <div class="col-md-4">
                                 <button type="button" style="margin-top: 2.2em"
-                                        class="delete_item btn btn-danger btn-sm">Delete</button><br>
+                                        class="delete_item btn btn-danger btn-sm">{{'Delete'|trans}}</button><br>
                                 <img src="" id="t_{{ loop.index0 }}">
                             </div>
                         </div>

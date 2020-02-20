@@ -5,12 +5,22 @@
 {% endblock carousel %}
 
 {% block body %}
-    <h3>Bienvenidos a CALE</h3>
+    <h3>Bienvenidos a <span class="cale">CALE</span></h3>
+    <h4>
+        <span class="cale">CALE</span> es un administrador que permite mezclar el contenido
+        de distintas APIs en tus pantallas con un diseño personalizado
+    </h4>
 
-    <p><b>CALE es una administrador de display que permite mezclar el contenido
-            de distintas APIs en tus pantallas</b><br>
-
-    </p>
+    <h5>Puedes usarlo en tu tablet o en un display WiFi de tinta electronica que cada
+        hora se actualiza automaticamente con nuevos contenidos con un consumo de bateria minimo.
+    </h5>
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 text-center" style="margin-top: 3em">
+            <button type="button" class="btn btn-success form-control" onclick="window.location='{{ path('register') }}'">
+                Registrate aquí</button>
+        </div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}

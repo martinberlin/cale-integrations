@@ -1,0 +1,106 @@
+
+# home / login
+Username / Email: Email
+Password: Contraseña
+submit_login: Login
+forgot_password: Olvide mi contraseña
+register_here: Crear una cuenta
+
+# register
+Register an account: Register an account
+Firstname:	Firstname
+English:	English
+German:	German
+Spanish: Spanish
+Catalan: Catalan
+French:	French
+Croatian: Croatian
+Czech: Czech
+Danish:	Danish
+Greek: Greek
+Arabic: Arabic
+Esperanto: Esperanto
+Estonian: Estonian
+Finnish: Finnish
+Hebrew: Hebrew
+Hindi: Hindi
+Hungarian: Hungarian
+Indonesian: Indonesian
+Icelandic: Icelandic
+Italian: Italian
+Japanese: Japanese
+Georgian: Georgian
+Kannada: Kannada
+Korean: Korean
+Latvian: Latvian
+Malayam: Malayam
+Marathi: Marathi
+Norwegian Bokmål: Norwegian Bokmål
+Dutch: Dutch
+Punjabi: Punjabi
+Polish:	Polish
+Portuguese: Portuguese
+Romanian: Romanian
+Russian: Russian
+Slovak: Slovak
+Slovenian: Slovenian
+Serbian: Serbian
+Swedish: Swedish
+Tamil: Tamil
+Telugu:	Telugu
+Turkish: Turkish
+Ukrainian: Ukrainian
+Urdu: Urdu
+simplified Chinese:	simplified Chinese
+Email: Email
+Language of preference: Language of preference
+Repeat password: Repeat password
+
+# API
+Select Api: Seleciona un Api
+' ': ''
+Token: Token
+Configure API: Configurar API
+# Configure
+Name your Api: Nombre de la Api
+Use a meaningful name to identify it in your list: Usa un nombre apropiado para poder identificarlo en tu lista
+Your timezone: Tu zona del tiempo
+Europe/Berlin:	Europa/Berlin
+Customized json settings: Configuracón avanzada del api JSON (No hace falta editar)
+Calendar ID: ID del	Calendar
+Authorization token: Token de autorización
+api_response: Respuesta de la API
+# Auth steps
+authorize_first_step: Para autorizar el acceso primero tienes que ir a
+authorize_read_access_to_cale: Haz click aquí para autorizar a CALE acceso de solo lectura a tu Calendario
+copy_your_token: 'Copia tu token de la pagina y pegalo aquí:'
+enable_calendar_click:  Enable the calendar API
+download_client_credentials:  para hacer click y bajar las credenciales del cliente
+upload_client_credentials:  A continuación sube este fichero credentials.json desde tu ordenador
+Upload credentials.csv: Selecciona credentials.csv
+Latitude: Latitud
+Longitude: Longitud
+'52.520008': 52.520008
+'13.404954': 13.404954
+api_location_set: Usa los parametros detectados automaticamente por tu dirección IP
+
+# Screen
+screen_render: Renderizar Screen
+screen_add: Agrega un Screen
+screen_add_partial: Agregar particula de contenido
+screen_partials: Particulas de contenido
+Delete: Eliminar
+Config: Configurar
+Save screen partials: Guardar esta configuración
+show: Mostrar
+'content from:': 'contenido de:'
+Max results: Entradas
+Sort pos: Posición
+in: en
+'template area:': 'la columna:'
+1st Column: 1ra
+2nd Column:	2da
+3rd Column: 3ra
+Invert B/W colors: Invertir Blanco/Negro
+Max. rows: Entradas
+Sort pos.: Posición

@@ -8,7 +8,8 @@
 {% block body %}
     <p>You can configure up to {{ user_max_screens }} different output Screens.</p>
     <div class="text-right" style="margin-bottom: 0.4em">
-        <button type="button" {{ add_button_state }} class="btn btn-primary" onclick="window.location='{{ path('b_screen_edit') }}'">Add new Screen</button>
+        <button type="button" {{ add_button_state }} class="btn btn-primary" onclick="window.location='{{ path('b_screen_edit') }}'">
+            {{'screen_add'|trans}}</button>
     </div>
 
 
@@ -36,14 +37,14 @@
             <td>{{ s.created|date("d.m.Y") }}</td>
             <td>
                 <a class="btn btn-default" href="{{ path('b_screen_edit', {'uuid':s.id}) }}">
-                    <span class="glyphicon glyphicon-picture"></span> Config</a>
+                    <span class="glyphicon glyphicon-picture"></span> {{'Config'|trans}}</a>
                 {% if s.partials|length %}
                 <a class="btn btn-default" href="{{ path('b_screen_render', {'uuid':s.id}) }}"
                    data-toggle="tooltip" title="Preview your screen in HTML">
-                            <span class="glyphicon glyphicon-screenshot"></span> Render screen</a>
+                            <span class="glyphicon glyphicon-screenshot"></span> {{'screen_render'|trans}}</a>
                     {% else %}
                         <a class="btn btn-default" href="{{ path('b_screen_delete', {'uuid':s.id}) }}">
-                            <span class="glyphicon glyphicon-remove"></span> Delete</a>
+                            <span class="glyphicon glyphicon-remove"></span> {{'Delete'|trans}}</a>
                 {% endif %}
             </td>
         </tr>
@@ -53,6 +54,6 @@
 
 
  {% else %}
-     You still don't have any screens configured. <a href="{{ path('b_screen_edit') }}">Add one Screen</a>
+     You still don't have any screens configured. <a href="{{ path('b_screen_edit') }}">{{'screen_add'|trans}}</a>
 {% endif %}
 {% endblock %}

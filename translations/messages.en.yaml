@@ -1,5 +1,105 @@
 
-# home Login
+# home / login
 Username / Email: Username / Email
 Password: Password
-Submit: Submit
+submit_login: Login
+forgot_password: I forgot my password
+register_here: Create an account
+
+# register
+Register an account: Register an account
+Firstname:	Firstname
+English:	English
+German:	German
+Spanish: Spanish
+Catalan: Catalan
+French:	French
+Croatian: Croatian
+Czech: Czech
+Danish:	Danish
+Greek: Greek
+Arabic: Arabic
+Esperanto: Esperanto
+Estonian: Estonian
+Finnish: Finnish
+Hebrew: Hebrew
+Hindi: Hindi
+Hungarian: Hungarian
+Indonesian: Indonesian
+Icelandic: Icelandic
+Italian: Italian
+Japanese: Japanese
+Georgian: Georgian
+Kannada: Kannada
+Korean: Korean
+Latvian: Latvian
+Malayam: Malayam
+Marathi: Marathi
+Norwegian Bokmål: Norwegian Bokmål
+Dutch: Dutch
+Punjabi: Punjabi
+Polish:	Polish
+Portuguese: Portuguese
+Romanian: Romanian
+Russian: Russian
+Slovak: Slovak
+Slovenian: Slovenian
+Serbian: Serbian
+Swedish: Swedish
+Tamil: Tamil
+Telugu:	Telugu
+Turkish: Turkish
+Ukrainian: Ukrainian
+Urdu: Urdu
+simplified Chinese:	simplified Chinese
+Email: Email
+Language of preference: Language of preference
+Repeat password: Repeat password
+
+# API
+Select Api: Select Api
+' ': ''
+Token: Token
+Configure API: Configure API
+# Configure
+Name your Api: Name your Api
+Use a meaningful name to identify it in your list: Use a meaningful name to identify it in your list
+Your timezone: Your timezone
+Europe/Berlin:	Europe/Berlin
+Customized json settings: Customized json settings
+Calendar ID: Calendar ID
+Authorization token: Authorization token
+api_response: API response
+authorize_first_step: To authorize it go first to
+authorize_read_access_to_cale: Please click here to authorize CALE read access
+copy_your_token: Copy your token and paste it here.
+enable_calendar_click:  Enable the calendar API
+download_client_credentials:  to and click on Download client configuration
+upload_client_credentials:  Upload the downloaded file credentials.json
+Upload credentials.csv: Upload credentials.csv
+Latitude: Latitude
+Longitude: Longitude
+'52.520008': 52.520008
+'13.404954': 13.404954
+api_location_set: Use the detected Latitude and Longitude parameters
+
+# Screen
+screen_render: Render Screen
+screen_add: Add one Screen
+screen_add_partial: Add content partial
+screen_partials: Screen Partials
+Delete: Delete
+Config: Config
+Save screen partials: Save screen partials
+show: Show
+'content from:': 'content from:'
+Max results: 'Max results'
+Sort pos: 'Sort pos'
+in: in
+'template area:': 'template area:'
+1st Column: 1st Column
+2nd Column:	2nd Column
+3rd Column: 3rd Column
+Invert B/W colors: Invert B/W colors
+Max. rows: Max. rows
+Sort pos.: Sort pos.

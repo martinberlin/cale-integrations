@@ -55,7 +55,6 @@ parameters:
         mr: Marathi
         nb: Norwegian Bokmål
         nl: Dutch
-        no: Norwegian Bokmål (alias for nb)
         pa: Punjabi
         pl: Polish
         pt: Portuguese

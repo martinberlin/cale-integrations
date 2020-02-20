@@ -16,28 +16,30 @@
                             </div>
                     </a>
                 </span>
-
         </div>
+
         <nav id="bs-navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li><a href="{{ path('about-cale') }}" data-toggle="tooltip" title="CALE is a screen administrator where you can mix different APIs">About CALE</a></li>
                 <li><a href="{{ path('apis') }}" data-toggle="tooltip" title="Application Programming Interfaces to access your connected universe">Supported APIs</a></li>
                 <li><a href="{{ path('displays') }}" data-toggle="tooltip" title="Epaper displays supported">Displays</a></li>
                 <li><a href="https://github.com/martinberlin/eink-calendar" data-toggle="tooltip" title="Firmware for your ESP32">Firmware</a></li>
-                <li><a href="https://hackaday.io/project/169086/gallery#0a816947747f4877463510780a21bb99" data-toggle="tooltip"
-                       title="Hackaday's photo gallery">Make one</a></li>
                 <li><a href="{{ path('transparently') }}" data-toggle="tooltip" title="Open source and transparent">Transparently built</a></li>
                 <li><a href="{{ path('privacy-policy') }}">Privacy policy</a></li>
                 <li class="dropdown"><a href="#" data-toggle="dropdown" aria-expanded="false">Language <span
                                 class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ path('home', {'_locale':'en'}) }}" >English</a></li>
-                        <li><a href="{{ path('home', {'_locale':'es'}) }}" >Español</a></li>
+                        <li><a href="{{ path(app.request.attributes.get('_route'), {'_locale':'en'}) }}" >English</a></li>
+                        <li><a href="{{ path(app.request.attributes.get('_route'), {'_locale':'es'}) }}" >Español</a></li>
                     </ul>
                 </li>
                 {% if app.environment == 'dev' %}
                 <li class="login"><a href="{{ path('login') }}">Login</a></li>
                 {% endif %}
+                {#
+                <li><a href="https://hackaday.io/project/169086/gallery#0a816947747f4877463510780a21bb99" data-toggle="tooltip"
+                       title="Hackaday's photo gallery">Make one</a></li>
+                       #}
             </ul>
         </nav>
     </div>

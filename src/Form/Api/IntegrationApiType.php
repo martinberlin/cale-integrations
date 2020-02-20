@@ -31,7 +31,6 @@ class IntegrationApiType extends AbstractType
                     'required' => false,
                     'label_attr' => ['style'=>"color:$grayColor"],
                     'attr' => [
-                        'placeholder' => '{"json":"Default json settings"}',
                         'class' => 'form-control',
                         'rows'  => 2
                     ]

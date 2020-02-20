@@ -5,12 +5,13 @@
 
         <div class="col-md-12">
 
-            To authorize it go first to:<br>
+            {{ 'authorize_first_step'|trans }}:<br>
             <a href="https://developers.google.com/calendar/quickstart/php" target="_blank">
                 https://developers.google.com/calendar/quickstart/php</a><br>
 
-            Click on <b>Enable the calendar API</b> to and click on Download client configuration<br>
-            Upload the downloaded file credentials.json<br><br><br>
+            Click on <b>{{ 'enable_calendar_click'|trans }}</b>
+            {{ 'download_client_credentials'|trans }}<br>
+            {{ 'upload_client_credentials'|trans }}<br><br><br>
 
             {{ form_start(form) }}
             {{ form_row(form.credentialsFile) }}<br>
