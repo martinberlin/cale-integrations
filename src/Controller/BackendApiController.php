@@ -338,6 +338,8 @@ class BackendApiController extends AbstractController
                                 break;
                         }
                     }
+                    // Pass the uuid to get it back on the callback
+                    $googleClient->setState($intapi_uuid);
                     // Request authorization from the user.
                     $authUrl = $googleClient->createAuthUrl();
                 }
@@ -409,4 +411,5 @@ class BackendApiController extends AbstractController
             ]
         );
     }
+
 }
