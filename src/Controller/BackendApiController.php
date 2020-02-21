@@ -237,6 +237,53 @@ class BackendApiController extends AbstractController
     }
 
     /**
+     * @Route("/calendar/shared/{uuid}/{intapi_uuid?}/{step?1}", name="b_api_wizard_cale-timetree")
+     */
+    public function apiSharedCalendar(
+        $uuid, $intapi_uuid, $step, Request $request,
+        UserApiRepository $userApiRepository,
+        IntegrationApiRepository $intApiRepository,
+        EntityManagerInterface $entityManager)
+    {
+        $userApi = $this->getUserApi($userApiRepository, $uuid);
+        $api = $this->getIntegrationApi($intApiRepository, $intapi_uuid);
+        if (is_null($api->getJsonSettings()) || $api->getJsonSettings() ==='') {
+            $api->setJsonSettings($userApi->getApi()->getDefaultJsonSettings());
+        }
+
+        $form = $this->createForm(IntegrationSharedCalendarApiType::class, $api);
+        $form->handleRequest($request);
+        $error = "";
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $api->setUserApi($userApi);
+            try {
+                $entityManager->persist($api);
+                $entityManager->flush();
+            } catch (\Exception $e) {
+                $error = $e->getMessage();
+                $this->addFlash('error', $error);
+            }
+
+            if ($error === '') {
+                $this->addFlash('success', "Saved");
+
+                return $this->redirectToRoute('b_api_wizard_cale-timetree',
+                    ['uuid' => $userApi->getId(), 'intapi_uuid' => $api->getId(), 'step' => 2]);
+            }
+        }
+        return $this->render(
+            'backend/api/conf-shared-calendar-api.html.twig',
+            [
+                'title' => 'Step 1: Configure shared calendar',
+                'form'  => $form->createView(),
+                'intapi_uuid' => $intapi_uuid,
+                'userapi_id'  => $userApi->getId()
+            ]
+        );
+    }
+
+    /**
      * Wizard to configure Google Oauth. Example: https://developers.google.com/calendar/quickstart/php
      * @Route("/google/calendar/{uuid}/{intapi_uuid?}/{step?1}", name="b_api_wizard_cale-google")
      */
@@ -268,10 +315,13 @@ class BackendApiController extends AbstractController
                 $form = $this->createForm(ApiTokenType::class, $userApi);
                 $googleClient->setApplicationName($this->getParameter('google_application_name'));
                 $googleClient->setScopes(\Google_Service_Calendar::CALENDAR_READONLY);
-                $googleClient->setAccessType('offline'); // offline
+                $googleClient->setAccessType('online');
                 $googleClient->setPrompt('select_account consent');
-                if (!is_null($userApi->getCredentials())) {
-                    $credentials = json_decode($userApi->getCredentials(),true);
+
+                $envCredentials = $_ENV['OAUTH_GOOGLE_CALENDAR_CREDENTIALS'];
+
+                if (!is_null($envCredentials)) {
+                    $credentials = json_decode($envCredentials,true);
                     $key = isset($credentials['installed']) ? 'installed' : 'web';
 
                     foreach ($credentials[$key] as $ck=>$cv) {
@@ -359,52 +409,4 @@ class BackendApiController extends AbstractController
             ]
         );
     }
-
-    /**
-     * @Route("/calendar/shared/{uuid}/{intapi_uuid?}/{step?1}", name="b_api_wizard_cale-timetree")
-     */
-    public function apiSharedCalendar(
-        $uuid, $intapi_uuid, $step, Request $request,
-        UserApiRepository $userApiRepository,
-        IntegrationApiRepository $intApiRepository,
-        EntityManagerInterface $entityManager)
-    {
-        $userApi = $this->getUserApi($userApiRepository, $uuid);
-        $api = $this->getIntegrationApi($intApiRepository, $intapi_uuid);
-        if (is_null($api->getJsonSettings()) || $api->getJsonSettings() ==='') {
-            $api->setJsonSettings($userApi->getApi()->getDefaultJsonSettings());
-        }
-
-        $form = $this->createForm(IntegrationSharedCalendarApiType::class, $api);
-        $form->handleRequest($request);
-        $error = "";
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $api->setUserApi($userApi);
-            try {
-                $entityManager->persist($api);
-                $entityManager->flush();
-            } catch (\Exception $e) {
-                $error = $e->getMessage();
-                $this->addFlash('error', $error);
-            }
-
-            if ($error === '') {
-                $this->addFlash('success', "Saved");
-
-                return $this->redirectToRoute('b_api_wizard_cale-timetree',
-                    ['uuid' => $userApi->getId(), 'intapi_uuid' => $api->getId(), 'step' => 2]);
-            }
-        }
-        return $this->render(
-            'backend/api/conf-shared-calendar-api.html.twig',
-            [
-                'title' => 'Step 1: Configure shared calendar',
-                'form'  => $form->createView(),
-                'intapi_uuid' => $intapi_uuid,
-                'userapi_id'  => $userApi->getId()
-            ]
-        );
-    }
-
 }

@@ -25,7 +25,7 @@ parameters:
         ttl_seconds: 600
         ttl_short: 10
 
-    google_application_name: CALE
+    google_application_name: Cale Web client
     api_languages:
         en: English
         de: German

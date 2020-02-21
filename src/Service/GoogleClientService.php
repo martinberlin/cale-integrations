@@ -10,9 +10,9 @@ class GoogleClientService
     // Todo: Pass scope so it can work for another Google APIs
     public function __construct(\Google_Client $googleClient) {
         $this->googleClient = $googleClient;
-        $this->googleClient->setApplicationName('CALE Google Calendar');
+        $this->googleClient->setApplicationName('Cale Web client');
         $this->googleClient->setScopes(\Google_Service_Calendar::CALENDAR_READONLY);
-        $this->googleClient->setAccessType('offline');
+        $this->googleClient->setAccessType('online');
         $this->googleClient->setPrompt('select_account consent');
 
     }

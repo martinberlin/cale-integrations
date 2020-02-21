@@ -126,7 +126,7 @@ class ARenderController extends AbstractController
     /**
      * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
      * Calendar service JSON
-     * @Route("/json/google_calendar/{int_api_id}", name="json_google_calendar")
+     * @Route("/google_calendar/{int_api_id}", name="json_google_calendar")
      */
     public function json_google_calendar(
         $int_api_id, IntegrationApiRepository $intApiRepository, Request $request, \Google_Client $googleClient)
@@ -146,7 +146,7 @@ class ARenderController extends AbstractController
         $userApi = $intApi->getUserApi();
         $googleClientService = new GoogleClientService($googleClient);
         $googleClientService->setAccessToken($userApi->getJsonToken());
-        $googleClientService->setCredentials($userApi->getCredentials());
+        $googleClientService->setCredentials($_ENV['OAUTH_GOOGLE_CALENDAR_CREDENTIALS']);
         $service = new \Google_Service_Calendar($googleClientService->getClient());
         $calendarId = 'primary';
         $optParams = array(
