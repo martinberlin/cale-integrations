@@ -30,6 +30,8 @@
                         {{ 'nav_transparently_built'|trans }}</a></li>
                 <li><a href="{{ path('privacy-policy') }}">
                         {{ 'nav_privacy'|trans }}</a></li>
+
+                {% if _locale is defined %}
                 <li class="dropdown"><a href="#" data-toggle="dropdown" aria-expanded="false">
                         {{ 'nav_language'|trans }} <span
                                 class="caret"></span></a>
@@ -38,6 +40,8 @@
                         <li><a href="{{ path(app.request.attributes.get('_route'), {'_locale':'es'}) }}" >Español</a></li>
                     </ul>
                 </li>
+                {% endif %}
+
                 {% if app.environment == 'dev' %}
                 <li class="login"><a href="{{ path('login') }}">Login</a></li>
                 {% endif %}
