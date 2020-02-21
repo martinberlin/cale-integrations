@@ -38,7 +38,7 @@
     <h3>Tinta electronica o E-Ink</h3>
     <p>El término técnico es tinta electroforética. Es una tinta que esta laminada entre dos plasticos muy finos con una matriz electrónica, formando lo que se llama
         un display de Papel electrónico (EPD por sus siglas en ingles)
-        Estos displays vienen con una interfaz SPI, el Bus SPI (del inglés Serial Peripheral Interface), se usa para transferir datos entre este display y el microchip ESP32/ESP8266.
+        Estos displays vienen con una interfaz para de comunicación, el Bus SPI (del inglés Serial Peripheral Interface), que usa para transferir datos desde el microchip ESP32/ESP8266.
         Este micro hace el trabajo de conectarse al WiFi y traer la imagen actualizada, para luego enviarla usando SPI al display, luego se queda dormido gastando la miníma bateria posible
         hasta la proxima actualización.
     </p>
@@ -46,13 +46,13 @@
         <div class="col-md-6">
             <b>El Eink esta echo de millones de micro particulas de tinta</b><br>
             <img src="/assets/svg/eink-1.svg" width="199"><br>
-            Que tienen el diametro de un pelo humano.
+            Que tienen el diametro de un pelo humano.  Cuando se aplica un campo electrico opuesto al del color negro, esta tinta sube a la superficie.
         </div>
         <div class="col-md-6">
             <b>Cada micro-capsula contiene particulas cargadas con electricidad</b><br>
             <img src="/assets/svg/eink-2.svg" width="199"><br>
-            Cuando se aplica un campo electrico opuesto al del colo negro como ejemplo, esta tinta subira a la superficia, creando una imagen que se puede ver sin necesidad de retro-iluminarla.
-            Esta imagen queda impresa aunque desconectemos la bateria.
+La a tinta crea una imagen que se puede ver sin necesidad de retro-iluminarla.
+            Y esta imagen queda impresa en el display aunque desconectemos la bateria.
         </div>
     </div>
 {% endblock %}

@@ -5,6 +5,16 @@ Password: Password
 submit_login: Login
 forgot_password: I forgot my password
 register_here: Create an account
+# NAV
+nav_about: About us
+nav_apis: Supported APIs
+nav_transparently_built: Transparently built
+nav_privacy: Privacy policy
+nav_language: Language
+nav_about_tooltip: CALE is a screen administrator where you can mix different APIs
+nav_apis_tooltip: Application Programming Interfaces to access your connected universe
+nav_displays_tooltip: Epaper displays supported
+nav_transparently_built_tooltip: Open source and transparent
 
 # register
 Register an account: Register an account

@@ -20,13 +20,18 @@
 
         <nav id="bs-navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="{{ path('about-cale') }}" data-toggle="tooltip" title="CALE is a screen administrator where you can mix different APIs">About CALE</a></li>
-                <li><a href="{{ path('apis') }}" data-toggle="tooltip" title="Application Programming Interfaces to access your connected universe">Supported APIs</a></li>
-                <li><a href="{{ path('displays') }}" data-toggle="tooltip" title="Epaper displays supported">Displays</a></li>
-                <li><a href="https://github.com/martinberlin/eink-calendar" data-toggle="tooltip" title="Firmware for your ESP32">Firmware</a></li>
-                <li><a href="{{ path('transparently') }}" data-toggle="tooltip" title="Open source and transparent">Transparently built</a></li>
-                <li><a href="{{ path('privacy-policy') }}">Privacy policy</a></li>
-                <li class="dropdown"><a href="#" data-toggle="dropdown" aria-expanded="false">Language <span
+                <li><a href="{{ path('about-cale') }}" data-toggle="tooltip" title="{{ 'nav_about_tooltip'|trans }}">
+                        {{ 'nav_about'|trans }}</a></li>
+                <li><a href="{{ path('apis') }}" data-toggle="tooltip" title="{{ 'nav_apis_tooltip'|trans }}">
+                        {{ 'nav_apis'|trans }}</a></li>
+                <li><a href="{{ path('displays') }}" data-toggle="tooltip" title="{{ 'nav_displays_tooltip'|trans }}">Displays</a></li>
+                <li><a href="https://github.com/martinberlin/eink-calendar">Firmware</a></li>
+                <li><a href="{{ path('transparently') }}" data-toggle="tooltip" title="{{ 'nav_transparently_built_tooltip'|trans }}">
+                        {{ 'nav_transparently_built'|trans }}</a></li>
+                <li><a href="{{ path('privacy-policy') }}">
+                        {{ 'nav_privacy'|trans }}</a></li>
+                <li class="dropdown"><a href="#" data-toggle="dropdown" aria-expanded="false">
+                        {{ 'nav_language'|trans }} <span
                                 class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ path(app.request.attributes.get('_route'), {'_locale':'en'}) }}" >English</a></li>

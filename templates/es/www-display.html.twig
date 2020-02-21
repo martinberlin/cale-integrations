@@ -29,7 +29,7 @@
         <th>Tamaño (mm)</th>
         <th>Grises</th>
         <th>Tiempo de refresco</th>
-        <th>Links</th>
+        <th>Enlaces</th>
         </tr>
         </thead>
         <tbody>
@@ -51,7 +51,7 @@
                 <td>{{ d.activeSize }}</td>
                 <td>{{ d.grayLevels }}</td>
                 <td>{{ d.timeOfRefresh }} sec.</td>
-                <td><a href="{{ d.manualUrl }}" target="_blank">webpage</a>&nbsp;
+                <td><a href="{{ d.manualUrl }}" target="_blank">Web</a>&nbsp;
                     <br><br>
                     <button class="btn btn-primary" onclick="window.location='{{ d.purchaseUrl }}'">{{ 'buy'|trans }}</button>
                 </td>
