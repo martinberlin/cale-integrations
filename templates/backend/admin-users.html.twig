@@ -2,13 +2,17 @@
 
 {% block body %}
 
-  <table style="border-spacing:4px;width: 50%">
+  <table style="border-spacing:4px;width: 100%">
     <thead>
     </tr>
       <th>ID</th>
       <th>First</th>
+      <th>Username</th>
       <th>Email</th>
+      <th>Screens</th>
       <th>Created</th>
+      <th>First login</th>
+
     </tr>
     </thead>
     <tbody>
@@ -16,8 +20,15 @@
       <tr style="border:1px #1b6d85 dashed">
         <td>{{ user.id }}</td>
         <td>{{ user.firstname }}</td>
+        <td>{{ user.name }}</td>
         <td>{{ user.email }}</td>
+        <td>{% for s in user.screens %}
+          {{ s.name }}
+          {% endfor %}
+        </td>
+
         <td>{{ user.created|date("D d.m.Y") }}</td>
+        <td>{{ user.last_login|date("D d.m.Y H:i") }}</td>
       </tr>
     {% endfor %}
     </tbody>
