@@ -17,10 +17,12 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class GoogleCallbackController extends AbstractController
 {
     /**
+     * @Route("/google/callback", name="b_callback_google")
+     *
      * @param Request $request
      * @param IntegrationApiRepository $apiRepository
      * @param EntityManagerInterface $entityManager
-     * @Route("/google/callback", name="b_callback_google")
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function apiGoogleCallback(Request $request,
                                       IntegrationApiRepository $apiRepository,
@@ -38,8 +40,7 @@ class GoogleCallbackController extends AbstractController
 
         $userApi = $intApi->getUserApi();
         $renderPreview = 0;
-        // Check that this API belongs to this user
-        //dump($userApi->getUser(),$this->getUser());exit();
+        // Check that this API belongs to this user //dump($userApi->getUser(),$this->getUser());exit();
         $googleClient->setApplicationName($this->getParameter('google_application_name'));
         $googleClient->setScopes($scope);
         $googleClient->setAccessType('online');
@@ -64,19 +65,20 @@ class GoogleCallbackController extends AbstractController
                     break;
             }
         }
-        /** TODO: Check if this has to take place here too
-        // If there is no previous token or it's expired.
-        if ($client->isAccessTokenExpired()) {
-        // Refresh the token if possible, else fetch a new one.
-        if ($client->getRefreshToken()) {
-         */
 
-        //if ($userApi->getUser() === $this->getUser()) {
         try {
+            // Refresh the token if possible, else fetch a new one.
+            //if ($googleClient->getRefreshToken()) {
             $accessToken = $googleClient->fetchAccessTokenWithAuthCode($code);
+            /*} else {
+                $googleClient->setState($state);
+                // Request authorization from the user.
+                $authUrl = $googleClient->createAuthUrl();
+                return $this->redirect($authUrl);
+            }*/
 
             if (array_key_exists("error",$accessToken)) {
-                print_r($accessToken);exit();
+                $this->addFlash('error', print_r($accessToken['error'],true));
             } else {
                 $googleClient->setAccessToken($accessToken);
                 $userApi->setJsonToken(json_encode($googleClient->getAccessToken()));
@@ -101,7 +103,13 @@ class GoogleCallbackController extends AbstractController
             $this->addFlash('success', 'Your API '.$intApi->getName().' was successfully authorized.');
         }
 
-        dump($userApi);exit();
-
+        return $this->render(
+            "backend/api/wizard/google/cale-google-callback.html.twig",
+            [
+                'title' => $title,
+                'intapi_uuid' => $state,
+                'renderPreview' => $renderPreview // 1 enables the javascript preview
+            ]
+        );
     }
 }
