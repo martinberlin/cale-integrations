@@ -9,6 +9,7 @@
       <th>First</th>
       <th>Username</th>
       <th>Email</th>
+      <th>Apis</th>
       <th>Screens</th>
       <th>Created</th>
       <th>First login</th>
@@ -22,8 +23,12 @@
         <td>{{ user.firstname }}</td>
         <td>{{ user.name }}</td>
         <td>{{ user.email }}</td>
+        <td>{{ user.userApis|length }}</td>
         <td>{% for s in user.screens %}
-          {{ s.name }}
+            <div class="row" style="height: 20px">
+          <a href="{{ path('public_screen_render', {'username':user.name,'uuid':s.id}) }}" target="_blank">
+            <span class="glyphicon glyphicon-picture"></span> {{ s.name }}</a>
+            </div>
           {% endfor %}
         </td>
 
