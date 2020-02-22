@@ -57,7 +57,7 @@ class ARenderController extends AbstractController
         $userApi = $intApi->getUserApi();
         $googleClientService = new GoogleClientService($googleClient);
         $googleClientService->setAccessToken($userApi->getJsonToken());
-        $googleClientService->setCredentials($userApi->getCredentials());
+        $googleClientService->setCredentials($_ENV['OAUTH_GOOGLE_CALENDAR_CREDENTIALS']);
         $service = new \Google_Service_Calendar($googleClientService->getClient());
         $calendarId = 'primary';
         $optParams = array(
