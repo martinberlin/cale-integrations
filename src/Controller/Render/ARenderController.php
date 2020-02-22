@@ -267,7 +267,7 @@ class ARenderController extends AbstractController
         $wHourly ="";
         $hourlyCounter = 1;
         // Start HTML building - Headlines is a try to mould this to Screen environment
-        $hs = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h4':'h3';
+        $hs = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h3':'h2';
         $colorClass = ($partial->getInvertedColor())?'inverted_color':'default_color';
         $responseContent = '<div class="row '.$colorClass.'"><div class="col-md-12">';
         $responseContent .= "<div class=\"row\">

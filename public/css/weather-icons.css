@@ -135,6 +135,9 @@
 .wi-day-windy:before {
   content: "\f085";
 }
+.wi-wind:before {
+  content: "\f085";
+}
 .wi-solar-eclipse:before {
   content: "\f06e";
 }
