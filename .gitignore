@@ -9,9 +9,10 @@
 /public/dev/demo-mantis-api.json
 ###< symfony/framework-bundle ###
 
-## Heavy content that belongs not in this repo
+## Heavy content and other stuff that does not belong in github
 public/assets/video/
 
+public/robots.txt
 
 ###> symfony/phpunit-bridge ###
 .phpunit
