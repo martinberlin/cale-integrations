@@ -1,11 +1,9 @@
 <?php
 namespace App\Controller\Render;
 
-use App\Entity\IntegrationApi;
 use App\Entity\Screen;
+use App\Entity\TemplatePartial;
 use App\Entity\User;
-use App\Form\Screen\ScreenPartialsType;
-use App\Form\Screen\ScreenType;
 use App\Repository\ScreenRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,7 +22,7 @@ class PublicScreenRenderController extends AbstractController
      * @Route("/{username}/render/{uuid?}", name="public_screen_render")
      */
     public function publicScreenRender($uuid, $username, Request $request, ScreenRepository $screenRepository, UserRepository $userRepository,
-                                       LoggerInterface $logger, ?Profiler $profiler)
+                                       LoggerInterface $logger, ?Profiler $profiler, EntityManagerInterface $em)
     {
         // For this controller action if exists (dev) the profiler is disabled
         if (null !== $profiler) {
@@ -45,6 +43,13 @@ class PublicScreenRenderController extends AbstractController
         if (!$screen instanceof Screen) {
             throw $this->createNotFoundException("$uuid is not a valid screen");
         }
+        // Basic stats
+        $isPreview = $request->get('preview',0);
+        if (!$isPreview) {
+            $screen->incrHits();
+            $em->persist($screen);
+            $em->flush();
+        }
         $template = $screen->getTemplateTwig();
         $partials = $screen->getPartials();
 
@@ -55,7 +60,7 @@ class PublicScreenRenderController extends AbstractController
         $htmlPerColumn['Column_2nd'] = '';
         $htmlPerColumn['Column_3rd'] = '';
         foreach ($partials as $p) {
-            if ($p instanceof IntegrationApi) {
+            if ($p instanceof TemplatePartial) {
                 $partialHtml = $this->forward($p->getIntegrationApi()->getUserApi()->getApi()->getJsonRoute(),
                     ['partial' => $p]);
                 $htmlPerColumn[$p->getPlaceholder()] .= $partialHtml->getContent();

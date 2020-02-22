@@ -53,6 +53,11 @@ class Screen implements Created
     protected $templateTwig;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $hits;
+
+    /**
      * @var \DateTime
      * @ORM\Column(type="datetime")
      */
@@ -61,6 +66,7 @@ class Screen implements Created
     function __construct()
     {
         $this->uuid = uniqid();
+        $this->hits = 0;
         $this->partials = new ArrayCollection();
         $this->setCreated(new \DateTime());
     }
@@ -177,6 +183,29 @@ class Screen implements Created
         $this->partials = $partials;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getHits()
+    {
+        return $this->hits;
+    }
+
+    /**
+     * @param mixed $hits
+     */
+    public function setHits($hits): void
+    {
+        $this->hits = $hits;
+    }
+
+    /**
+     * @param mixed $hits
+     */
+    public function incrHits()
+    {
+        $this->hits++;
+    }
 
     public function __toString()
     {

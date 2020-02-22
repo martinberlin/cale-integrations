@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Entity\Screen;
+use App\Entity\TemplatePartial;
 use App\Form\Screen\ScreenPartialsType;
 use App\Form\Screen\ScreenType;
 use App\Repository\ScreenRepository;
@@ -189,15 +190,17 @@ class BackendScreenController extends AbstractController
         $htmlPerColumn['Column_2nd'] = '';
         $htmlPerColumn['Column_3rd'] = '';
         foreach ($partials as $p) {
-            $partialHtml = $this->forward($p->getIntegrationApi()->getUserApi()->getApi()->getJsonRoute(),
-                [
-                'partial' => $p
-                ]);
-            $htmlPerColumn[$p->getPlaceholder()] .= $partialHtml->getContent();
+            if ($p instanceof TemplatePartial) {
+                $partialHtml = $this->forward($p->getIntegrationApi()->getUserApi()->getApi()->getJsonRoute(),
+                    [
+                        'partial' => $p
+                    ]);
+                $htmlPerColumn[$p->getPlaceholder()] .= $partialHtml->getContent();
 
-            $renderParams[$p->getPlaceholder()] = [
-                'content'        => $htmlPerColumn[$p->getPlaceholder()]
-            ];
+                $renderParams[$p->getPlaceholder()] = [
+                    'content' => $htmlPerColumn[$p->getPlaceholder()]
+                ];
+            }
         }
         return $this->render(
             'backend/screen/screen-render.html.twig',

@@ -26,13 +26,13 @@ class User implements UserInterface, Language, Created
 
     /**
      * One user has many apis. This is the inverse side.
-     * @ORM\OneToMany(targetEntity="UserApi", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="UserApi", mappedBy="user", orphanRemoval=true)
      */
     private $userApis;
 
     /**
      * One user has many screens. This is the inverse side.
-     * @ORM\OneToMany(targetEntity="Screen", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="Screen", mappedBy="user", orphanRemoval=true)
      */
     private $screens;
 
@@ -114,6 +114,12 @@ class User implements UserInterface, Language, Created
     protected $hourFormat;
 
     /**
+     * One user has many sysLog entries. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="SysLog", mappedBy="user", orphanRemoval=true)
+     */
+    private $sysLogs;
+
+    /**
      * @var string
      * @ORM\Column(type="boolean")
      */
@@ -137,6 +143,7 @@ class User implements UserInterface, Language, Created
         $this->agreementAccepted = false;
         $this->userApis = new ArrayCollection();
         $this->screens = new ArrayCollection();
+        $this->sysLogs = new ArrayCollection();
         $this->setCreated(new \DateTime());
     }
 
@@ -461,6 +468,13 @@ class User implements UserInterface, Language, Created
     public function setHourFormat(string $hourFormat)
     {
         $this->hourFormat = $hourFormat;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getSysLogs() {
+        return $this->sysLogs;
     }
 
     public function __toString()

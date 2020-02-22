@@ -2,14 +2,16 @@
 namespace App\Controller\Render;
 
 use App\Entity\IntegrationApi;
+use App\Entity\SysLog;
 use App\Entity\TemplatePartial;
 use App\Entity\UserApi;
 use App\Repository\IntegrationApiRepository;
 use App\Repository\UserApiRepository;
 use App\Service\GoogleClientService;
 use App\Service\SimpleCacheService;
+use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
-use Psr\Log\LoggerInterface;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,7 +36,7 @@ class ARenderController extends AbstractController
      * @Route("/render/google_calendar", name="render_google_calendar")
      */
     public function render_google_calendar(TemplatePartial $partial,
-                                           IntegrationApiRepository $intApiRepository,
+                                           IntegrationApiRepository $intApiRepository, EntityManagerInterface $em,
                                            Request $request, \Google_Client $googleClient)
     {
 
@@ -60,12 +62,19 @@ class ARenderController extends AbstractController
         $userApi = $intApi->getUserApi();
         $jsonToken = json_decode($userApi->getJsonToken());
         // Set refresh token
+        $log = new SysLog();
+        $log->setEntityName('userApi');
+        $log->setEntityId($userApi->getId());
+        $log->setUser($userApi->getUser());
+        $log->setType('oauth');
         if (json_last_error() === JSON_ERROR_NONE && property_exists($jsonToken, 'refresh_token')) {
             $googleClient->refreshToken($jsonToken->refresh_token);
-            //$logger->warning('refreshToken set for userApi:'.$userApi->getId().' usr:'.$userApi->getUser()->getId());
         } else {
-            //$logger->warning('refreshToken does not exist for userApi:'.$userApi->getId().' usr:'.$userApi->getUser()->getId());
+            $log->setMessage('Google Calendar refreshToken was not found in jsonToken');
+            $em->persist($log);
+            $em->flush();
         }
+
         $googleClientService = new GoogleClientService($googleClient);
 
         $tokenResponse = $googleClientService->setAccessToken($userApi->getJsonToken());
