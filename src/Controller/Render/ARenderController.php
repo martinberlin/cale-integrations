@@ -9,6 +9,7 @@ use App\Repository\UserApiRepository;
 use App\Service\GoogleClientService;
 use App\Service\SimpleCacheService;
 use GuzzleHttp\Client;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,7 +35,7 @@ class ARenderController extends AbstractController
      */
     public function render_google_calendar(TemplatePartial $partial,
                                            IntegrationApiRepository $intApiRepository,
-                                           Request $request, \Google_Client $googleClient)
+                                           Request $request, \Google_Client $googleClient, LoggerInterface $logger)
     {
 
     if ($request->getClientIp() === '127.0.0.1' && (isset($_ENV['API_PROXY']))) {
@@ -49,6 +50,7 @@ class ARenderController extends AbstractController
         $dateFormat = $user->getDateFormat();
         $hourFormat = $user->getHourFormat();
         $intApi = $partial->getIntegrationApi();
+
         // Tell here already the client what is our API id
         $googleClient->setState($intApi->getId());
         if ($intApi instanceof IntegrationApi === false) {
@@ -56,7 +58,14 @@ class ARenderController extends AbstractController
         }
 
         $userApi = $intApi->getUserApi();
-
+        $jsonToken = json_decode($userApi->getJsonToken());
+        // Set refresh token
+        if (json_last_error() === JSON_ERROR_NONE && property_exists($jsonToken, 'refresh_token')) {
+            $googleClient->refreshToken($jsonToken->refresh_token);
+            $logger->warning('refreshToken set for userApi:'.$userApi->getId().' usr:'.$userApi->getUser()->getId());
+        } else {
+            $logger->warning('refreshToken does not exist for userApi:'.$userApi->getId().' usr:'.$userApi->getUser()->getId());
+        }
         $googleClientService = new GoogleClientService($googleClient);
 
         $tokenResponse = $googleClientService->setAccessToken($userApi->getJsonToken());

@@ -14,9 +14,8 @@ class GoogleClientService
         $this->googleClient = $googleClient;
         $this->googleClient->setApplicationName('Cale Web client');
         $this->googleClient->setScopes(\Google_Service_Calendar::CALENDAR_READONLY);
-        $this->googleClient->setAccessType('online');
+        $this->googleClient->setAccessType('offline');
         $this->googleClient->setPrompt('select_account consent');
-
     }
 
     public function setCredentials(string $myCredentials) {

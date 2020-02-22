@@ -315,7 +315,7 @@ class BackendApiController extends AbstractController
                 $form = $this->createForm(ApiTokenType::class, $userApi);
                 $googleClient->setApplicationName($this->getParameter('google_application_name'));
                 $googleClient->setScopes(\Google_Service_Calendar::CALENDAR_READONLY);
-                $googleClient->setAccessType('online');
+                $googleClient->setAccessType('offline');
                 $googleClient->setPrompt('select_account consent');
 
                 $envCredentials = $_ENV['OAUTH_GOOGLE_CALENDAR_CREDENTIALS'];
