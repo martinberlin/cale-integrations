@@ -32,7 +32,7 @@
                         {{ 'nav_privacy'|trans }}</a></li>
 
                 {# This was added since it brings issues when returning from Password reset #}
-                {% if _locale is defined %}
+                {# {% if _locale is defined %}#}
                 <li class="dropdown"><a href="#" data-toggle="dropdown" aria-expanded="false">
                         {{ 'nav_language'|trans }} <span
                                 class="caret"></span></a>
@@ -41,7 +41,7 @@
                         <li><a href="{{ path(app.request.attributes.get('_route'), {'_locale':'es'}) }}" >Español</a></li>
                     </ul>
                 </li>
-                {% endif %}
+                {#{% endif %}#}
 
                 {% if app.environment == 'dev' %}
                 <li class="login"><a href="{{ path('login') }}">Login</a></li>

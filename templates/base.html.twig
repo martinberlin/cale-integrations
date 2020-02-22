@@ -25,7 +25,9 @@
     </style>
     </head>
     <body>
-    {% include "partials/navbar.html.twig" %}
+    {% if no_navbar is not defined %}
+      {% include "partials/navbar.html.twig" %}
+    {% endif %}
 
     {% block carousel %}{% endblock %}
         <div id="main-container" class="container">
