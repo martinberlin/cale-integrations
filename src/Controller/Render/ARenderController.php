@@ -56,9 +56,19 @@ class ARenderController extends AbstractController
 
         $userApi = $intApi->getUserApi();
         $googleClientService = new GoogleClientService($googleClient);
-        $googleClientService->setAccessToken($userApi->getJsonToken());
+
+        $tokenResponse = $googleClientService->setAccessToken($userApi->getJsonToken());
+        if ($tokenResponse instanceof Response) {
+            // Not valid token, show error but keep on rendering
+            return $tokenResponse;
+        }
         $googleClientService->setCredentials($_ENV['OAUTH_GOOGLE_CALENDAR_CREDENTIALS']);
-        $service = new \Google_Service_Calendar($googleClientService->getClient());
+        $getClient = $googleClientService->getClient();
+        if ($getClient instanceof Response) {
+            // Not valid instantiation of the Client, show error but keep on rendering
+            return $getClient;
+        }
+        $service = new \Google_Service_Calendar($getClient);
         $calendarId = 'primary';
         $optParams = array(
             'maxResults' => $partial->getMaxResults(),

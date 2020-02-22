@@ -1,13 +1,13 @@
 {% extends 'backend/backend-base.html.twig' %}
 
 {% block body %}
-<p>
-    {{ 'screen_edit_line1'|trans }}<br>
-    {{ 'screen_edit_line2'|trans }}</p>
-{{ form_start(form) }}
-{{ form_errors(form) }}
+    <p>
+        {{ 'screen_edit_line1'|trans }}<br>
+        {{ 'screen_edit_line2'|trans }}</p>
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
 
-    <div class="row" >
+    <div class="row">
         <div class="col-md-6">
             {{ form_row(form.name) }}
 
@@ -18,7 +18,10 @@
             {{ form_widget(form.submit) }}
         </div>
         <div class="col-md-6 text-right" style="margin-top: -1.4em">
-            <img id="template" src=""><br>
+            {% if uuid is not null %}
+                <a href="{{ path('b_screen_partials', {'uuid':uuid}) }}">{% endif %}
+
+            <img id="template" src="">{% if uuid is not null %}</a>{% endif %}<br>
 
             {% if uuid is not null %}
                 <a href="{{ path('b_screen_partials', {'uuid':uuid}) }}"
@@ -28,25 +31,25 @@
             {% endif %}
         </div>
     </div>
-{{ form_end(form) }}
+    {{ form_end(form) }}
 {% endblock %}
 
 {% block javascripts %}
-<script>
-let template_twig = document.getElementById('templateTwig');
-let template_img = document.getElementById('template');
+    <script>
+        let template_twig = document.getElementById('templateTwig');
+        let template_img = document.getElementById('template');
 
-setTemplateImage();
+        setTemplateImage();
 
-template_twig.onchange = function() {
-    setTemplateImage();
-};
+        template_twig.onchange = function () {
+            setTemplateImage();
+        };
 
-function setTemplateImage() {
-    if (template_twig.value !== '') {
-        let img_src= template_twig.value.replace('html.twig','svg');
-        template_img.src = '/img/display-templates/'+img_src;
-    }
-}
-</script>
+        function setTemplateImage() {
+            if (template_twig.value !== '') {
+                let img_src = template_twig.value.replace('html.twig', 'svg');
+                template_img.src = '/img/display-templates/' + img_src;
+            }
+        }
+    </script>
 {% endblock javascripts %}

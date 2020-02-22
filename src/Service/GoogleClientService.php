@@ -1,6 +1,8 @@
 <?php
 namespace App\Service;
 
+use Symfony\Component\HttpFoundation\Response;
+
 class GoogleClientService
 {
     private $credentials;
@@ -38,20 +40,30 @@ class GoogleClientService
         }
     }
 
-    public function setAccessToken(string $accessToken) {
-        $this->googleClient->setAccessToken($accessToken);
+    /**
+     * @param $accessToken
+     * @return Response / Google_Client
+     */
+    public function setAccessToken($accessToken) {
+        try {
+            $this->googleClient->setAccessToken($accessToken);
+        } catch(\InvalidArgumentException $e) {
+            $response = new Response();
+            $response->setContent('We could not connect with the API. Please try to configure it again in APIs menu. '.$e->getMessage());
+            return $response;
+        }
     }
 
     /**
      * Returns an authorized API client.
      * @return mixed
      * @throws \Exception
-     * @return Google_Client the authorized client object
+     * @return Google_Client / mixed the authorized client object
      */
     function getClient(string $accessToken = "")
     {
-        if ($accessToken !== "") {
-            $this->googleClient->setAccessToken($accessToken);
+        if ($accessToken!=="") {
+            $this->setAccessToken($accessToken);
         }
 
         // If there is no previous token or it's expired.
@@ -60,20 +72,17 @@ class GoogleClientService
             if ($this->googleClient->getRefreshToken()) {
                 $this->googleClient->fetchAccessTokenWithRefreshToken($this->googleClient->getRefreshToken());
             } else {
-                // Request authorization from the user.
-                $authUrl = $this->googleClient->createAuthUrl();
-                printf("Open the following link in your browser:\n%s\n", $authUrl);
-                print 'Enter verification code: ';
-                $authCode = trim(fgets(STDIN));
-
-                // Exchange authorization code for an access token.
-                $accessToken = $this->googleClient->fetchAccessTokenWithAuthCode($authCode);
-                $this->googleClient->setAccessToken($accessToken);
-
                 // Check to see if there was an error.
-                if (array_key_exists('error', $accessToken)) {
-                    throw new \Exception(join(', ', $accessToken));
+                $error = "";
+                if (is_array($accessToken) && array_key_exists('error', $accessToken)) {
+                    $error .= join(', ', $accessToken);
                 }
+                // Render authorization link for the user
+                $authUrl = $this->googleClient->createAuthUrl();
+                $response = new Response();
+                $response->setContent('<a href="'.$authUrl.'">Click here to revalidate your access to the API</a><br><br>
+                <small>'.$error.'</small>');
+                return $response;
             }
         }
         return $this->googleClient;
