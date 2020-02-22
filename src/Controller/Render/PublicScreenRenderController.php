@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller\Render;
 
+use App\Entity\IntegrationApi;
 use App\Entity\Screen;
 use App\Entity\User;
 use App\Form\Screen\ScreenPartialsType;
@@ -36,8 +37,8 @@ class PublicScreenRenderController extends AbstractController
         try {
             date_default_timezone_set($user->getTimezone());
         } catch (\ErrorException $exception) {
-            $logger->info('User '.$user->getId().' set timezone '.$user->getTimezone().' failed.',
-                ['caller' =>'TimezoneListener']);
+            $logger->info('User ' . $user->getId() . ' set timezone ' . $user->getTimezone() . ' failed.',
+                ['caller' => 'TimezoneListener']);
         }
 
         $screen = $screenRepository->findOneBy(['user' => $user, 'uuid' => $uuid]);
@@ -48,19 +49,21 @@ class PublicScreenRenderController extends AbstractController
         $partials = $screen->getPartials();
 
         $renderParams = [
-            'template' => '/screen-templates/'.$template
+            'template' => '/screen-templates/' . $template
         ];
         $htmlPerColumn['Column_1st'] = '';
         $htmlPerColumn['Column_2nd'] = '';
         $htmlPerColumn['Column_3rd'] = '';
         foreach ($partials as $p) {
-            $partialHtml = $this->forward($p->getIntegrationApi()->getUserApi()->getApi()->getJsonRoute(),
-                ['partial' => $p]);
-            $htmlPerColumn[$p->getPlaceholder()] .= $partialHtml->getContent();
+            if ($p instanceof IntegrationApi) {
+                $partialHtml = $this->forward($p->getIntegrationApi()->getUserApi()->getApi()->getJsonRoute(),
+                    ['partial' => $p]);
+                $htmlPerColumn[$p->getPlaceholder()] .= $partialHtml->getContent();
 
-            $renderParams[$p->getPlaceholder()] = [
-                'content' => $htmlPerColumn[$p->getPlaceholder()]
-            ];
+                $renderParams[$p->getPlaceholder()] = [
+                    'content' => $htmlPerColumn[$p->getPlaceholder()]
+                ];
+            }
         }
         return $this->render(
             'public/screen-render.html.twig',

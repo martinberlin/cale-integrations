@@ -52,7 +52,10 @@ class PartialType extends AbstractType
                     'attr' => ['class' => 'form-control', 'style' => 'margin-bottom:0.4em'],
                     'query_builder' => function(IntegrationApiRepository $repo) use ( $options ) {
                         return $repo->QueryApisForUser($options['screen']->getUser());
-                    }
+                    },
+                    'constraints' => [
+                        new NotBlank()
+                    ]
                 ])
             ->add('placeholder', ChoiceType::class,
                 [
