@@ -6,16 +6,10 @@
         <div class="col-md-12">
 
             {{ 'authorize_first_step'|trans }}:<br>
-            <a href="https://developers.google.com/calendar/quickstart/php" target="_blank">
-                https://developers.google.com/calendar/quickstart/php</a><br>
-
-            Click on <b>{{ 'enable_calendar_click'|trans }}</b>
-            {{ 'download_client_credentials'|trans }}<br>
-            {{ 'upload_client_credentials'|trans }}<br><br><br>
+            <a href="{{ authUrl }}" >
+                Authorize read only access to Calendar</a><br>
 
             {{ form_start(form) }}
-            {{ form_row(form.credentialsFile) }}<br>
-
             {{ form_errors(form) }}
             {{ form_end(form) }}
         </div>

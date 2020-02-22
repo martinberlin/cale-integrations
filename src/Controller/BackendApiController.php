@@ -346,7 +346,7 @@ class BackendApiController extends AbstractController
 
                 break;
             default:
-                $title = 'Step 1: Turn on the Google Calendar API';
+                $title = 'Step 1: Connect with the Google Calendar API';
                 $form = $this->createForm(GoogleCalendar1Type::class, $api);
         }
 
@@ -357,13 +357,6 @@ class BackendApiController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             switch ($step) {
                 case 1:
-                    $credentialsFileUpload = $form->get('credentialsFile')->getData();
-                    if ($credentialsFileUpload) {
-                        $userApi->setCredentials(file_get_contents($credentialsFileUpload->getPathname()));
-                    } else {
-                        $this->addFlash('error', "Error reading credentials file");
-                    }
-
                     $api->setUserApi($userApi);
                     try {
                         $entityManager->persist($api);
@@ -371,16 +364,6 @@ class BackendApiController extends AbstractController
                     } catch (\Exception $e) {
                         $error = $e->getMessage();
                         $this->addFlash('error', $error);
-                    }
-                    break;
-                case 2:
-                    // Exchange authorization code for an access token.
-                    try {
-                        $accessToken = $googleClient->fetchAccessTokenWithAuthCode($userApi->getAccessToken());
-                        $googleClient->setAccessToken($accessToken);
-                        $userApi->setJsonToken(json_encode($googleClient->getAccessToken()));
-                    } catch (ClientException $ce) {
-                        $this->addFlash('success', $ce->getMessage());
                     }
                     break;
             }

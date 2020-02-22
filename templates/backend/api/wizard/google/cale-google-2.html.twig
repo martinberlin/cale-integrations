@@ -1,9 +1,6 @@
 {% extends 'backend/backend-base.html.twig' %}
 
 {% block body %}
-    <div class="row">
-
-        <div class="col-md-12">
 
             {{ 'authorize_read_access_to_cale'|trans }}<br>
                 <a href="{{authUrl}}" target="_blank">
@@ -15,18 +12,14 @@
 
             {{ 'copy_your_token'|trans }}<br><br><br>
 
-            <div class="row">
-                <div class="col-md-6">
-            {{ form_start(form) }}
-            {{ form_errors(form) }}
-            {{ form_end(form) }}
-                </div>
+    <div class="row">
+        <div class="col-md-12">
 
-                <label style="margin-left: 1em">{{'api_response'|trans}}</label>
-                <div class="col-md-6" id="api_preview" style="height: 500px;overflow-y: auto">
-                    Preview after saving configuration settings<br>
-                </div>
+            <label style="margin-left: 1em">{{'api_response'|trans}}</label>
+            <div id="api_preview" style="height: 500px;overflow-y: auto">
+                Preview after saving configuration settings<br>
             </div>
+        </div>
     </div>
 {% endblock %}
 

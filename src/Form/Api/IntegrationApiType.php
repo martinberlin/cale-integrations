@@ -27,7 +27,7 @@ class IntegrationApiType extends AbstractType
 
             ->add('jsonSettings', TextareaType::class,
                 [
-                    'label' => 'Customized json settings',
+                    'label' => 'Customized json settings (Can be left as is)',
                     'required' => false,
                     'label_attr' => ['style'=>"color:$grayColor"],
                     'attr' => [

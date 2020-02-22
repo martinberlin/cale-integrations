@@ -81,13 +81,8 @@ Calendar ID: ID del	Calendar
 Authorization token: Token de autorización
 api_response: Respuesta de la API
 # Auth steps
-authorize_first_step: Para autorizar el acceso primero tienes que ir a
-authorize_read_access_to_cale: Haz click aquí para autorizar a CALE acceso de solo lectura a tu Calendario
-copy_your_token: 'Copia tu token de la pagina y pegalo aquí:'
-enable_calendar_click:  Enable the calendar API
-download_client_credentials:  para hacer click y bajar las credenciales del cliente
-upload_client_credentials:  A continuación sube este fichero credentials.json desde tu ordenador
-Upload credentials.csv: Selecciona credentials.csv
+authorize_first_step: 'In order to read from Google Calendar we need that you give us read only permission to access the events data. Please click on this link below to be redirected to their authorization page:'
+
 Latitude: Latitud
 Longitude: Longitud
 '52.520008': 52.520008

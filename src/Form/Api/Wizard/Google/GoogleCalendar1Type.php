@@ -16,27 +16,6 @@ class GoogleCalendar1Type extends IntegrationApiType
     {
         parent::buildForm($builder, $options);
         $builder
-            ->add('credentialsFile', FileType::class,
-                [
-                    'label' => 'Upload credentials.csv',
-                    'required' => false,
-                    'mapped' => false,
-                    'attr' => [
-                        'class' => 'form-control',
-                        'style' => 'height:3.2em'
-                    ],
-                    'constraints' => [
-                        new File([
-                            'maxSize' => '20k',
-                            'mimeTypes' => [
-                                'application/json',
-                                'text/plain'
-                            ],
-                            'mimeTypesMessage' => 'Please upload a valid credentials file',
-                        ])
-                ]
-                ])
-
             ->add('submit', SubmitType::class,
                 [
                     'label' => 'Configure API',
