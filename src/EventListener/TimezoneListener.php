@@ -21,7 +21,7 @@ final class TimezoneListener
     public function __invoke(RequestEvent $event): void
     {
         $user = $this->security->getUser();
-        if ($user instanceof User) {
+        if ($user instanceof User && $user->getTimezone()!=='') {
             try {
                 date_default_timezone_set($user->getTimezone());
             } catch (\ErrorException $exception) {
