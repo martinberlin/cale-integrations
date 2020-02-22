@@ -35,7 +35,7 @@ class ARenderController extends AbstractController
      */
     public function render_google_calendar(TemplatePartial $partial,
                                            IntegrationApiRepository $intApiRepository,
-                                           Request $request, \Google_Client $googleClient, LoggerInterface $logger)
+                                           Request $request, \Google_Client $googleClient)
     {
 
     if ($request->getClientIp() === '127.0.0.1' && (isset($_ENV['API_PROXY']))) {
@@ -62,9 +62,9 @@ class ARenderController extends AbstractController
         // Set refresh token
         if (json_last_error() === JSON_ERROR_NONE && property_exists($jsonToken, 'refresh_token')) {
             $googleClient->refreshToken($jsonToken->refresh_token);
-            $logger->warning('refreshToken set for userApi:'.$userApi->getId().' usr:'.$userApi->getUser()->getId());
+            //$logger->warning('refreshToken set for userApi:'.$userApi->getId().' usr:'.$userApi->getUser()->getId());
         } else {
-            $logger->warning('refreshToken does not exist for userApi:'.$userApi->getId().' usr:'.$userApi->getUser()->getId());
+            //$logger->warning('refreshToken does not exist for userApi:'.$userApi->getId().' usr:'.$userApi->getUser()->getId());
         }
         $googleClientService = new GoogleClientService($googleClient);
 
