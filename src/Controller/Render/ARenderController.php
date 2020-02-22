@@ -48,13 +48,15 @@ class ARenderController extends AbstractController
         $user = $partial->getScreen()->getUser();
         $dateFormat = $user->getDateFormat();
         $hourFormat = $user->getHourFormat();
-
         $intApi = $partial->getIntegrationApi();
+        // Tell here already the client what is our API id
+        $googleClient->setState($intApi->getId());
         if ($intApi instanceof IntegrationApi === false) {
             return $this->createNotFoundException("Integrated API not found for partial: ".$partial->getId());
         }
 
         $userApi = $intApi->getUserApi();
+
         $googleClientService = new GoogleClientService($googleClient);
 
         $tokenResponse = $googleClientService->setAccessToken($userApi->getJsonToken());

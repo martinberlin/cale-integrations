@@ -9,6 +9,7 @@ use Google\Auth\Cache\InvalidArgumentException;
 use GuzzleHttp\Exception\ClientException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -64,7 +65,9 @@ class GoogleCallbackController extends AbstractController
         $intApi = $apiRepository->findOneBy(['uuid' => $state]);
         $title = "Authorization status";
         if (!$intApi instanceof IntegrationApi) {
-            throw $this->createNotFoundException("API not found");
+            $response = new Response();
+            $response->setContent("API $state not found.");
+            return $response;
         }
 
         $userApi = $intApi->getUserApi();
