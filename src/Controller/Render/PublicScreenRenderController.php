@@ -22,7 +22,7 @@ class PublicScreenRenderController extends AbstractController
      * @Route("/{username}/render/{uuid?}", name="public_screen_render")
      */
     public function publicScreenRender($uuid, $username, Request $request, ScreenRepository $screenRepository, UserRepository $userRepository,
-                                       LoggerInterface $logger, ?Profiler $profiler, EntityManagerInterface $em)
+                                       LoggerInterface $logger, ?Profiler $profiler, ?EntityManagerInterface $em)
     {
         // For this controller action if exists (dev) the profiler is disabled
         if (null !== $profiler) {
