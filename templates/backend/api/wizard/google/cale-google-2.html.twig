@@ -2,21 +2,22 @@
 
 {% block body %}
 
-    {{ 'authorize_g_calendar_1'|trans }}<br>
-    {{ 'authorize_g_calendar_2'|trans }}<br>
+    <b>{{ 'authorize_g_calendar_2'|trans }}</b><br><br>
 
 
-<a href="{{ authUrl }}" target="_blank">
-    <img src="/assets/wizard/google-auth-calendar.png"><br>
+    <a href="{{ authUrl }}">
+    <img src="/assets/wizard/google-auth-calendar.png">
+    </a><br>
     <h4>
-        <a href="{{ authUrl }}" target="_blank">Google Authorize external link</a>
+        <a href="{{ authUrl }}">Click here to connect your Calendar</a>
     </h4>
-    {% endblock %}
+
+ {% endblock %}
 
     {% block javascripts %}
         <script>
             let render_preview = {{ renderPreview }};
-            console.log(render_preview, "{{ intapi_uuid }}");
+            {# console.log(render_preview, "{{ intapi_uuid }}");#}
 
             var xhReq = new XMLHttpRequest();
             if (render_preview) {

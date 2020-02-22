@@ -37,7 +37,7 @@ class UserApi implements Created
 
     /**
      * One userApi has many integrations. This is the inverse side.
-     * @ORM\OneToMany(targetEntity="IntegrationApi", mappedBy="userApi")
+     * @ORM\OneToMany(targetEntity="IntegrationApi", mappedBy="userApi", orphanRemoval=true)
      */
     private $integrationApis;
 

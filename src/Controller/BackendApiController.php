@@ -311,7 +311,7 @@ class BackendApiController extends AbstractController
                 if ($userApi->getJsonToken()!=="") {
                     $renderPreview = 1;
                 }
-                $title = "Step 2: Accept read-only access and copy the generated Token";
+                $title = "Step 2: Accept read-only access so we can read your events";
                 $form = $this->createForm(ApiTokenType::class, $userApi);
                 $googleClient->setApplicationName($this->getParameter('google_application_name'));
                 $googleClient->setScopes(\Google_Service_Calendar::CALENDAR_READONLY);
@@ -380,6 +380,10 @@ class BackendApiController extends AbstractController
                         'step' => 2
                     ]);
             }
+        }
+
+        if ($userApi->isConfigured()) {
+            $this->addFlash('success', 'Your API '.$api->getName().' is marked as configured. Do this again only if you can not access your Calendar');
         }
         return $this->render(
             "backend/api/wizard/google/cale-google-{$step}.html.twig",

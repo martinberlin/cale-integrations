@@ -26,6 +26,12 @@ class IntegrationApi implements Language, Location, Created
     protected $userApi;
 
     /**
+     * One IntegrationApi has many partials. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="TemplatePartial", mappedBy="integrationApi",orphanRemoval=true)
+     */
+    private $partials;
+
+    /**
      * @var string
      * @ORM\Column(type="string", length=130)
      */

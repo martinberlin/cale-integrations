@@ -20,7 +20,7 @@ class TemplatePartial implements Sortable
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="IntegrationApi")
+     * @ORM\ManyToOne(targetEntity="IntegrationApi", inversedBy="partials")
      * @ORM\JoinColumn(name="template_intapi_id", referencedColumnName="uuid")
      */
     protected $integrationApi;
