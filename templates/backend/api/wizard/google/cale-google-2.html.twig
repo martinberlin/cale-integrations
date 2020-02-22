@@ -2,40 +2,30 @@
 
 {% block body %}
 
-            {{ 'authorize_read_access_to_cale'|trans }}<br>
-                <a href="{{authUrl}}" target="_blank">
-                    <img src="/assets/wizard/google-auth-calendar.png"><br>
-                    <h4>
-                        <a href="{{authUrl}}" target="_blank">Google Authorize external link</a>
-                    </h4>
-            <br><br>
+    {{ 'authorize_g_calendar_1'|trans }}<br>
+    {{ 'authorize_g_calendar_2'|trans }}<br>
 
-            {{ 'copy_your_token'|trans }}<br><br><br>
 
-    <div class="row">
-        <div class="col-md-12">
+<a href="{{ authUrl }}" target="_blank">
+    <img src="/assets/wizard/google-auth-calendar.png"><br>
+    <h4>
+        <a href="{{ authUrl }}" target="_blank">Google Authorize external link</a>
+    </h4>
+    {% endblock %}
 
-            <label style="margin-left: 1em">{{'api_response'|trans}}</label>
-            <div id="api_preview" style="height: 500px;overflow-y: auto">
-                Preview after saving configuration settings<br>
-            </div>
-        </div>
-    </div>
-{% endblock %}
+    {% block javascripts %}
+        <script>
+            let render_preview = {{ renderPreview }};
+            console.log(render_preview, "{{ intapi_uuid }}");
 
-{% block javascripts %}
-    <script>
-        let render_preview = {{ renderPreview }};
-        console.log(render_preview, "{{ intapi_uuid }}");
-
-        var xhReq = new XMLHttpRequest();
-        if (render_preview) {
-            xhReq.open("GET", "{{ path('json_google_calendar', {'int_api_id':intapi_uuid}) }}", false);
-            xhReq.send(null);
-            var jsonObj = JSON.parse(xhReq.responseText);
-            var str = JSON.stringify(jsonObj, undefined, 2); {# 2 = spacing #}
-            api_preview.innerHTML = '';
-            api_preview.appendChild(document.createElement('pre')).innerHTML = syntaxHighlightJson(str);
-        }
-    </script>
-{% endblock %}
+            var xhReq = new XMLHttpRequest();
+            if (render_preview) {
+                xhReq.open("GET", "{{ path('json_google_calendar', {'int_api_id':intapi_uuid}) }}", false);
+                xhReq.send(null);
+                var jsonObj = JSON.parse(xhReq.responseText);
+                var str = JSON.stringify(jsonObj, undefined, 2); {# 2 = spacing #}
+                api_preview.innerHTML = '';
+                api_preview.appendChild(document.createElement('pre')).innerHTML = syntaxHighlightJson(str);
+            }
+        </script>
+    {% endblock %}

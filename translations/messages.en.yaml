@@ -80,7 +80,8 @@ Customized json settings: Customized json settings
 Calendar ID: Calendar ID
 Authorization token: Authorization token
 api_response: API response
-authorize_first_step: 'In order to read from Google Calendar we need that you give us read only permission to access the events data. Please click on this link below to be redirected to their authorization page:'
+authorize_g_calendar_1: 'In order to read from Google Calendar we need that you give us read only permission to access the events data.'
+authorize_g_calendar_2: 'Please click on this link below to be redirected to their authorization page:'
 
 Latitude: Latitude
 Longitude: Longitude
