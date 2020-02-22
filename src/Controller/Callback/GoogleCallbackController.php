@@ -89,6 +89,7 @@ class GoogleCallbackController extends AbstractController
         }
 
         // Save the authorization code
+        $userApi->setScope($scope);
         $userApi->setAccessToken($code);
         $userApi->setIsConfigured(true);
         try {

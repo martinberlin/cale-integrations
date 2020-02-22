@@ -67,6 +67,12 @@ class UserApi implements Created
     protected $isConfigured;
 
     /**
+     * @var string
+     * @ORM\Column(type="string", length=250, nullable=true)
+     */
+    protected $scope;
+
+    /**
      * @var \DateTime
      * @ORM\Column(type="datetime")
      */
@@ -222,5 +228,22 @@ class UserApi implements Created
     {
         return $this->integrationApis;
     }
+
+    /**
+     * @param string
+     */
+    public function setScope(string $s)
+    {
+        $this->scope = $s;
+    }
+
+    /**
+     * @return string
+     */
+    public function getScope():?string
+    {
+        return $this->scope;
+    }
+
 
 }
