@@ -1,8 +1,9 @@
 {% extends 'backend/backend-base.html.twig' %}
 
 {% block body %}
-<p>Here you can configure what template to use to render your content.<br>
-    We call <b>partials</b> the small pieces of content where your APIs are rendered</p>
+<p>
+    {{ 'screen_edit_line1'|trans }}<br>
+    {{ 'screen_edit_line2'|trans }}</p>
 {{ form_start(form) }}
 {{ form_errors(form) }}
 
@@ -23,7 +24,7 @@
                 <a href="{{ path('b_screen_partials', {'uuid':uuid}) }}"
                    style="margin-right: 3.4em;margin-top:-3em"
                    class="btn btn-default">
-                    <span class="glyphicon glyphicon-calendar"></span> Edit content partials</a>
+                    <span class="glyphicon glyphicon-calendar"></span> {{ 'screen_edit_partials'|trans }}</a>
             {% endif %}
         </div>
     </div>

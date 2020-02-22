@@ -99,7 +99,7 @@ class GoogleCallbackController extends AbstractController
             $this->addFlash('error', $error);
         }
         if (!isset($error)) {
-            $this->addFlash('success', 'Your API '.$intApi->getName().' was successfully authorized.');
+            $this->addFlash('success', 'Your API '.$intApi->getName().' was successfully authorized. Now is ready to be added in your Screens');
         }
         $renderPreview = 1;
         return $this->render(

@@ -39,9 +39,11 @@
 {% block body %}
 <div class="row">
     <div class="col-md-8 col-sm-6">
-<p><b>In your screens you can add partials that will render the content in the template column you choose.</b><br>
-    This content partials will render in ascendant order so Sort position 1 will be the first on his column.
-This form is a work in progress and will evolve to have a better usability after a few design iterations.
+<p>
+    <b>{{ 'screen_partials_edit_line1'|trans }}</b><br>
+    {{ 'screen_partials_edit_line2'|trans }}.<br>
+    {{ 'screen_partials_edit_line3'|trans }}.<br>
+
     {% if form.partials|length == 0 %}
         <br>Start adding your first content partial for this Screen with the <span class="glyphicon glyphicon-plus"></span> button below.
     {% endif %}
@@ -56,7 +58,7 @@ This form is a work in progress and will evolve to have a better usability after
                 <b>Class:</b> {{ display.className }}
             {% endif %}
 
-            <br><a href="{{ path('b_screen_edit', {'uuid':uuid}) }}">Edit screen configuration</a>
+            <br><a href="{{ path('b_screen_edit', {'uuid':uuid}) }}">{{ 'screen_edit_config'|trans }}</a>
         </div>
         <div class="col-md-6 col-sm-6">
             <img id="template" width="100" style="margin-top: -1em"

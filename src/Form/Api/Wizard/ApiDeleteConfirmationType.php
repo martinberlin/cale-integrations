@@ -23,7 +23,7 @@ class ApiDeleteConfirmationType extends AbstractType
             ->add('delete', SubmitType::class,
                 [
                     'label' => 'Delete this API configuration',
-                    'attr' => ['class' => 'btn btn-danger', 'style' => 'margin-top:6em']
+                    'attr' => ['class' => 'btn btn-danger', 'style' => 'margin-top:1em']
                 ]);
     }
 

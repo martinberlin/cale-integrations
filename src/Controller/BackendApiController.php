@@ -371,7 +371,7 @@ class BackendApiController extends AbstractController
             if ($error === '') {
                 $entityManager->persist($userApi);
                 $entityManager->flush();
-                $this->addFlash('success', 'Credentials saved');
+                $this->addFlash('success', 'Name saved');
                 $apiUuid = $api->getId();
                 return $this->redirectToRoute('b_api_wizard_cale-google',
                     [

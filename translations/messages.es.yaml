@@ -71,6 +71,10 @@ Select Api: Seleciona un Api
 ' ': ''
 Token: Token
 Configure API: Configurar API
+no_apis_configured: Aun no tiene ninguna API configurada
+api_configure_first: Configura tu primera API
+apis_header: Los APIs son responsables de traer contenido actualizado a tus Screens
+
 # Configure
 Name your Api: Nombre de la Api
 Use a meaningful name to identify it in your list: Usa un nombre apropiado para poder identificarlo en tu lista
@@ -85,19 +89,14 @@ authorize_first_step: 'In order to read from Google Calendar we need that you gi
 
 Latitude: Latitud
 Longitude: Longitud
-'52.520008': 52.520008
-'13.404954': 13.404954
 api_location_set: Usa los parametros detectados automaticamente por tu dirección IP
 
 # Screen
 screen_render: Renderizar Screen
 screen_add: Agrega un Screen
-screen_add_partial: Agregar particula de contenido
-screen_partials: Particulas de contenido
-Delete: Eliminar
-Config: Configurar
+screen_add_partial: Agregar sección de contenido
+screen_partials: Secciones de contenido
 Save screen partials: Guardar esta configuración
-show: Mostrar
 'content from:': 'contenido de:'
 Max results: Entradas
 Sort pos: Posición
@@ -109,5 +108,51 @@ in: en
 Invert B/W colors: Invertir Blanco/Negro
 Max. rows: Entradas
 Sort pos.: Posición
+Screen name: Nombre del Screen
+Office Calendar: Mi display de la oficina
+Design template: Plantilla
+Choose a template: Elige una plantilla
+1 Column: 1 Columna
+2 Columns: 2 Columnas
+2 Columns with header: 2 Columnas con cabezera
+3 Columns: 3 Columnas
+3 Columns with header: 3 Columnas con cabezera
+Output display: Output display
+Optional choose an Eink display: Opcional elige un display de E-Ink
+Save screen: Guardar Screen
+screen_edit_partials: Editar secciones de contenido
+screen_edit_config: Editar la configuración
+screen_edit_line1: Aquí puedes configurar que plantilla de diseño usas para renderizar tu Screen
+screen_edit_line2: Llamamos secciones a las partes de la plantilla donde sale el contenido de tus APIs
+screen_edit_configure1: Puedes configurar hasta
+screen_edit_configure2: Screens con distintas plantillas y contenidos
+
+screen_partials_edit_line1: En tus Screens puedes agregar secciones que renderizan el output de tus APIs en la columna que elijas
+screen_partials_edit_line2: Estas secciones se renderizan en orden ascendente. La posicion 1 saldrá primera en su columna
+screen_partials_edit_line3: ' '
+screen_partials_title: Secciones del Screen
+
+# User profile
+Username: Nombre de usuario
+Email used for login: Email usado para el login
+'Your timezone - Save to see the hour change': 'Tu zona horaria - Guarda para ver los cambios'
+'Your preferred date format': 'Formato de la fecha'
+Hour format: Formato de la hora
+
 # Generics
+Add new: Agregar nuevo
+Edit: Editar
+saved: guardada
+Delete: Eliminar
+Config: Configurar
+show: Mostrar
 buy: Ir a la tienda
+Submit: Guardar
+Connect a new: Conectar un nuevo
+Guide: Guia
+Add an integration: Integrar este API
+Name: Nombre
+Template: Plantilla
+Partials: Secciones
+Created: Creado el
+Integrations: Integraciones

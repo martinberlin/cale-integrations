@@ -26,7 +26,6 @@ class BackendUserController extends AbstractController
     public function userProfileEdit(Request $request, EntityManagerInterface $entityManager)
     {
         $user = $this->getUser();
-
         $languages = $this->getParameter('api_languages');
         $form = $this->createForm(UserProfileType::class, $user,
             [

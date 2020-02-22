@@ -71,6 +71,10 @@ Select Api: Select Api
 ' ': ''
 Token: Token
 Configure API: Configure API
+no_apis_configured: You still don't have any APIs configured
+api_configure_first: Configure your first API
+apis_header: The APIs will deliver your Screen partials fresh information
+
 # Configure
 Name your Api: Name your Api
 Use a meaningful name to identify it in your list: Use a meaningful name to identify it in your list
@@ -85,8 +89,6 @@ authorize_g_calendar_2: 'Please click on this link below to be redirected to the
 
 Latitude: Latitude
 Longitude: Longitude
-'52.520008': 52.520008
-'13.404954': 13.404954
 api_location_set: Use the detected Latitude and Longitude parameters
 
 # Screen
@@ -94,10 +96,7 @@ screen_render: Render Screen
 screen_add: Add one Screen
 screen_add_partial: Add content partial
 screen_partials: Screen Partials
-Delete: Delete
-Config: Config
 Save screen partials: Save screen partials
-show: Show
 'content from:': 'content from:'
 Max results: 'Max results'
 Sort pos: 'Sort pos'
@@ -109,6 +108,51 @@ in: in
 Invert B/W colors: Invert B/W colors
 Max. rows: Max. rows
 Sort pos.: Sort pos.
+Screen name: Screen name
+Office Calendar: Office Calendar
+Design template: Design template
+Choose a template: Choose a template
+1 Column: 1 Column
+2 Columns: 2 Columns
+2 Columns with header: 2 Columns with header
+3 Columns: 3 Columns
+3 Columns with header: 3 Columns with header
+Output display: Output display
+Optional choose an Eink display: Optional choose an E-Ink display
+Save screen: Save Screen
+screen_edit_partials: Edit content partials
+screen_edit_config: Edit Screen configuration
+screen_edit_line1: Here you can configure what template to use to render your content
+screen_edit_line2: We call partials the small pieces of content where your APIs are rendered
+screen_edit_configure1: You can configure up to
+screen_edit_configure2: different output Screens
+
+screen_partials_edit_line1: In your Screens you can add partials that will render the content in the template column you choose
+screen_partials_edit_line2: This content partials will render in ascendant order so Sort position 1 will be the first on his column
+screen_partials_edit_line3: This form is a work in progress and will evolve to have a better usability after a few design iterations
+screen_partials_title: Manage partials for Screen
+
+# User profile
+Username: Username
+Email used for login: Email used for login
+'Your timezone - Save to see the hour change': 'Your timezone - Save to see the hour change'
+'Your preferred date format': 'Your preferred date format'
+Hour format: Hour format
 
 # Generics
+Add new: Add new
+Edit: Edit
+saved: saved
+Delete: Delete
+Config: Config
+show: Show
 buy: Buy
+Submit: Save
+Connect a new: Connect a new
+Guide: Guide
+Add an integration: Add an integration
+Name: Name
+Template: Template
+Partials: Partials
+Created: Created
+Integrations: Integrations

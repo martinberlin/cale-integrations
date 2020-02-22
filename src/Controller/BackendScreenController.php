@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/backend/screen")
@@ -37,12 +38,13 @@ class BackendScreenController extends AbstractController
     /**
      * @Route("/edit/{uuid?}", name="b_screen_edit")
      */
-    public function screenEdit($uuid, Request $request, ScreenRepository $screenRepository, EntityManagerInterface $entityManager)
+    public function screenEdit($uuid, Request $request, ScreenRepository $screenRepository,
+                               EntityManagerInterface $entityManager, TranslatorInterface $translator)
     {
         if (is_null($uuid)) {
             $screen = new Screen();
             $screen->setUser($this->getUser());
-            $title = "Add new screen";
+            $title = $translator->trans('Add new')." screen";
             $screensUsed = $this->getUser()->getScreens()->count();
             if ($screensUsed >= $this->getUser()->getMaxScreens()) {
                 $this->addFlash('error', "Sorry but the screen limit is set to maximum $screensUsed screens in your account. Please contact us if you want to update this limit");
@@ -51,7 +53,7 @@ class BackendScreenController extends AbstractController
 
         } else {
             $screen = $screenRepository->find($uuid);
-            $title = 'Edit screen "'.$screen->getName().'"';
+            $title = $translator->trans('Edit').' screen "'.$screen->getName().'"';
         }
 
         $form = $this->createForm(ScreenType::class, $screen, ['templates' => $this->getParameter('screen_templates')]);
@@ -68,7 +70,7 @@ class BackendScreenController extends AbstractController
                 $this->addFlash('error', $error);
             }
             if ($error==='') {
-                $this->addFlash('success', "Screen $uuid saved");
+                $this->addFlash('success', "Screen $uuid ".$translator->trans('saved'));
                 return $this->redirectToRoute('b_screens');
             }
         }
@@ -86,7 +88,8 @@ class BackendScreenController extends AbstractController
     /**
      * @Route("/partials/{uuid?}", name="b_screen_partials")
      */
-    public function screenPartialsEdit($uuid, Request $request, ScreenRepository $screenRepository, EntityManagerInterface $entityManager)
+    public function screenPartialsEdit($uuid, Request $request, ScreenRepository $screenRepository,
+                                       EntityManagerInterface $entityManager, TranslatorInterface $translator)
     {
        $screen = $screenRepository->find($uuid);
         if (!$screen instanceof Screen) {
@@ -96,7 +99,7 @@ class BackendScreenController extends AbstractController
             throw $this->createNotFoundException("$uuid is not your screen");
         }
 
-        $title = 'Manage partials for screen "'.$screen->getName().'"';
+        $title = $translator->trans('screen_partials_title').' "'.$screen->getName().'"';
 
         $form = $this->createForm(ScreenPartialsType::class, $screen,
             [

@@ -1,13 +1,13 @@
 {% extends 'backend/backend-base.html.twig' %}
 
 {% block body %}
-    <p>The APIs will deliver your Screen partials fresh information.</p>
+    <p>{{ 'apis_header'|trans }}.</p>
     <div class="text-right" style="margin-bottom: 0.4em">
         <button class="btn btn-default" onclick="introJs().start();">
-            <span class="glyphicon glyphicon-search"></span> Guide</button>
+            <span class="glyphicon glyphicon-search"></span> {{ 'Guide'|trans }}</button>
         <button type="button" class="btn btn-primary" onclick="window.location='{{ path('b_api_configure') }}'"
                 data-step="1" data-intro="Click here to add a new API connection to get fresh content">
-            <span class="glyphicon glyphicon-plus"></span> Connect a new API</button>
+            <span class="glyphicon glyphicon-plus"></span> {{ 'Connect a new'|trans }} API</button>
     </div>
 
     <div class="row">
@@ -17,10 +17,12 @@
                 <thead>
                 <tr>
                 {#<th>ID</th>#}
-                <th>Name</th>
+                <th>{{'Name'|trans}}</th>
                 <th title="Access Token/Auth Code (for OAuth2)">Access</th>
-                <th>Created</th>
-                <th title="There can be more of one Integration for API (ex. weather in Berlin / weather in Paris)">Integrations</th>
+                <th>{{'Created'|trans}}</th>
+                <th title="There can be more of one Integration for API (ex. weather in Berlin / weather in Paris)">
+                    {{ 'Integrations'|trans }}
+                </th>
                 <th>Admin</th>
                 </tr>
                 </thead>
@@ -64,17 +66,18 @@
                         </td>
                         <td>
                             {% if a.integrations|length == 0 %}
-                            <a class="btn btn-default" title="Add an integration" href="{{ path(a.edit_route, {'uuid':a.userapi_id, 'step':1}) }}">
+                            <a class="btn btn-default" title="{{ 'Add an integration'|trans }}" href="{{ path(a.edit_route, {'uuid':a.userapi_id, 'step':1}) }}">
                                 <span class="glyphicon glyphicon-edit"></span></a>
+                            {% endif %}
+
                             <a class="btn btn-default" href="{{ path('b_api_delete_userapi', {'userapi_uuid':a.userapi_id}) }}">
                                 <span class="glyphicon glyphicon-remove"></span></a>
-                            {% endif %}
 
                             {% if a.edit != "" and a.url_name !="cale-google" %}
                             <a class="btn btn-default" href="{{ a.edit }}"
                                data-step="2" data-intro="Each API can have more than one integration. Example: The same weather API
 can be used to get the weather in Berlin or in New York city."
-                            ><span class="glyphicon glyphicon-plus"></span> Add new</a>
+                            ><span class="glyphicon glyphicon-plus"></span> {{ 'Add new'|trans }}</a>
                             {% endif %}
                         </td>
                     </tr>
@@ -82,7 +85,9 @@ can be used to get the weather in Berlin or in New York city."
                 </tbody>
             </table>
                 {% else %}
-                You still don't have any APIs configured. <a  href="{{ path('b_api_configure') }}" title="Configure a new API">Configure your first API</a>
+                {{ 'no_apis_configured'|trans }}.
+                    <a  href="{{ path('b_api_configure') }}">
+                        {{ 'api_configure_first'|trans }}</a>
             {% endif %}
         </div>
 

@@ -2,7 +2,9 @@
 
 {% block body %}
     {{ form_start(form) }}
-    {{ form_widget(form.deleteConfirm) }} {{ form_label(form.deleteConfirm) }} <br>
+
+    <br>
+    {{ form_widget(form.deleteConfirm) }} {{ form_label(form.deleteConfirm) }}
 
     {{ form_errors(form) }}
     {{ form_end(form) }}

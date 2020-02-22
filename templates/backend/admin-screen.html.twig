@@ -6,7 +6,8 @@
 {% endif %}
 
 {% block body %}
-    <p>You can configure up to {{ user_max_screens }} different output Screens.</p>
+    <p>{{'screen_edit_configure1'|trans}} {{ user_max_screens }}
+        {{'screen_edit_configure2'|trans}}.</p>
     <div class="text-right" style="margin-bottom: 0.4em">
         <button type="button" {{ add_button_state }} class="btn btn-primary" onclick="window.location='{{ path('b_screen_edit') }}'">
             {{'screen_add'|trans}}</button>
@@ -17,11 +18,11 @@
 <table class="common-lists-table">
     <thead>
     <tr>
-        <th>Name</th>
-        <th>Template</th>
-        <th>Eink output</th>
-        <th>Partials</th>
-        <th>Created</th>
+        <th>{{'Name'|trans}}</th>
+        <th>{{'Template'|trans}}</th>
+        <th>E-Ink display</th>
+        <th>{{'Partials'|trans}}</th>
+        <th>{{'Created'|trans}}</th>
         <th>Admin</th>
     </tr>
     </thead>
