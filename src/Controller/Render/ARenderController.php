@@ -194,7 +194,7 @@ class ARenderController extends AbstractController
 
         $responseContent = '';
         // Start HTML building - Headlines is a try to mould this to Screen environment
-        $hs = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h4':'h3';
+        $hs = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h3':'h2';
         $colorClass = ($partial->getInvertedColor())?'inverted_color':'default_color';
         $eventClass = ($partial->getInvertedColor())?'default_color':'inverted_color';
         $iconArrowRight = '<span class="glyphicon glyphicon-arrow-right"></span>';
@@ -272,7 +272,7 @@ class ARenderController extends AbstractController
         $responseContent = '<div class="row '.$colorClass.'"><div class="col-md-12">';
         $responseContent .= "<div class=\"row\">
             <div class=\"col-md-6\"><$hs>Low&nbsp; {$d['daily-avg-low']}<br>High {$d['daily-avg-high']}</$hs></div>
-            <div class=\"col-md-6 text-right\"><$hs>$iconSunrise Sunrise {$d['sunrise']}<br>Sunset&nbsp; {$d['sunset']}</$hs></div></div>";
+            <div class=\"col-md-6 text-right\"><$hs>$iconSunrise {$d['sunrise']}<br>Sunset&nbsp; {$d['sunset']}</$hs></div></div>";
 
         // Useless craps: style="margin-top:0.55em"
 
