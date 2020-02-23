@@ -24,8 +24,8 @@ class ScreenType extends AbstractType
                 'templates' => false,
 
                 'public' => [
-                    "Screen URL is protected with an Authentication Bearer token" => 0,
-                    "Screen URL is public and open for anyone knowing the link" => 1
+                    "Screen URL is protected with an Authentication token" => 0,
+                    "Screen URL is public for anyone knowing the link" => 1
                 ],
                 'data_class' => Screen::class
             ]);
@@ -79,7 +79,7 @@ class ScreenType extends AbstractType
             ->add('submit', SubmitType::class,
                 [
                     'label' => 'Save screen',
-                    'attr' => ['class' => 'btn btn-primary', 'style' => 'margin-top:2em']
+                    'attr' => ['class' => 'btn btn-primary', 'style' => 'margin-top:-0.2em']
                 ]);
     }
 
