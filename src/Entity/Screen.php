@@ -53,6 +53,46 @@ class Screen implements Created
     protected $templateTwig;
 
     /**
+     * Output settings
+     * @var string Bearer token
+     * @ORM\Column(type="string", length=130, nullable=true)
+     */
+    protected $outBearer;
+
+    /**
+     * @var string
+     * @ORM\Column(name="zoom", type="decimal", precision=1, scale=1, nullable=true)
+     */
+    private $outZoomFactor;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $outBrightness;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $outBitDepth;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $outCacheSeconds;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    protected $outCompressed;
+
+    /**
+     * On false an Authorization Bearer should be sent
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    protected $public;
+
+    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     protected $hits;
@@ -205,6 +245,119 @@ class Screen implements Created
     public function incrHits()
     {
         $this->hits++;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getOutBearer()
+    {
+        return $this->outBearer;
+    }
+
+    /**
+     * @param mixed $outBearer
+     */
+    public function setOutBearer($outBearer)
+    {
+        $this->outBearer = $outBearer;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOutZoomFactor(): string
+    {
+        return $this->outZoomFactor;
+    }
+
+    /**
+     * @param string $outZoomFactor
+     */
+    public function setOutZoomFactor(string $outZoomFactor)
+    {
+        $this->outZoomFactor = $outZoomFactor;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOutBrightness()
+    {
+        return $this->outBrightness;
+    }
+
+    /**
+     * @param mixed $outBrightness
+     */
+    public function setOutBrightness($outBrightness)
+    {
+        $this->outBrightness = $outBrightness;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOutBitDepth()
+    {
+        return $this->outBitDepth;
+    }
+
+    /**
+     * @param mixed $outBitDepth
+     */
+    public function setOutBitDepth($outBitDepth)
+    {
+        $this->outBitDepth = $outBitDepth;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOutCacheSeconds()
+    {
+        return $this->outCacheSeconds;
+    }
+
+    /**
+     * @param mixed $outCacheSeconds
+     */
+    public function setOutCacheSeconds($outCacheSeconds)
+    {
+        $this->outCacheSeconds = $outCacheSeconds;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOutCompressed()
+    {
+        return $this->outCompressed;
+    }
+
+    /**
+     * @param mixed $outCompressed
+     */
+    public function setOutCompressed($outCompressed)
+    {
+        $this->outCompressed = $outCompressed;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isPublic(): bool
+    {
+        return $this->isPublic;
+    }
+
+    /**
+     * @param boolean $isPublic
+     */
+    public function setPublic(bool $isPublic)
+    {
+        $this->isPublic = $isPublic;
     }
 
     public function __toString()

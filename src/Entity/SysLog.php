@@ -1,12 +1,13 @@
 <?php
 namespace App\Entity;
 
+use App\Entity\Model\CreatedTimestamp;
 use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SysLogRepository")
  * @ORM\Table(name="sys_log")
  */
-class SysLog
+class SysLog implements CreatedTimestamp
 {
     /**
      * @ORM\Id
@@ -153,7 +154,7 @@ class SysLog
     /**
      * @param int $created
      */
-    public function setCreated(int $created): void
+    public function setCreated(int $created)
     {
         $this->created = $created;
     }

@@ -24,6 +24,9 @@ class UserProfileType extends AbstractType
                     date('D d.m.Y') => 'D d.m.Y',
                     date('l d.m.Y') => 'l d.m.Y',
                     date('d.m.Y')   => 'd.m.Y',
+                    date('D d.m.y') => 'D d.m.y',
+                    date('D j.n.y') => 'D j.n.y',
+                    date('j.n.y')   => 'j.n.y',
                     date('d/m/Y')   => 'd/m/Y',
                     date('D d/m/Y') => 'D d/m/Y',
                     date('l d \of F Y') => 'l d \of F Y',
@@ -47,6 +50,10 @@ class UserProfileType extends AbstractType
                     'Europe/Stockholm','Europe/Copenhagen','Europe/Helsinki','Europe/Oslo',
                     'Europe/Prague','Europe/Sofia','Europe/Vienna',
                     'Europe/Warsaw','Europe/Andorra','Europe/Budapest','Europe/Dublin','Europe/Moscow','Europe/Kiev',
+                ],
+                'doNotDisturb' => [
+                    "CALE may send you occasionally Emails with new features. Limited to once per week" => 0,
+                    "CALE won't send you any Emails at all" => 1
                 ],
                 'languages' => null,
                 'data_class' => User::class
@@ -85,6 +92,11 @@ class UserProfileType extends AbstractType
             ->add('hourFormat', ChoiceType::class, [
                 'label' => 'Hour format',
                 'choices' => $options['hourFormat'],
+                'attr' => ['class' => 'form-control']
+            ])
+            ->add('doNotDisturb', ChoiceType::class, [
+                'label' => 'E-Mail communications',
+                'choices' => $options['doNotDisturb'],
                 'attr' => ['class' => 'form-control']
             ])
             ->add('submit', SubmitType::class,

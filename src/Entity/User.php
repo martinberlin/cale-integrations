@@ -124,6 +124,14 @@ class User implements UserInterface, Language, Created
      * @ORM\Column(type="boolean")
      */
     protected $agreementAccepted;
+
+    /**
+     * On true user won't receive any Email
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    protected $doNotDisturb;
+
     /**
     * @ORM\Column(type="integer")
     */
@@ -391,7 +399,7 @@ class User implements UserInterface, Language, Created
     }
 
     /**
-     * @return string
+     * @return bool
      */
     public function getAgreementAccepted()
     {
@@ -399,11 +407,27 @@ class User implements UserInterface, Language, Created
     }
 
     /**
-     * @param string $agreementAccepted
+     * @param bool $agreementAccepted
      */
     public function setAgreementAccepted(bool $agreementAccepted)
     {
         $this->agreementAccepted = $agreementAccepted;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getDoNotDisturb()
+    {
+        return $this->doNotDisturb;
+    }
+
+    /**
+     * @param bool $agreementAccepted
+     */
+    public function setDoNotDisturb(bool $d)
+    {
+        $this->doNotDisturb = $d;
     }
 
     /**
