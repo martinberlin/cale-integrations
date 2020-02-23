@@ -7,26 +7,99 @@
 {% block body %}
 
     <div class="row" id="screen-preview-url">
-        <form>
-            <div class="col-md-6">
 
-                <label for="route_html">ESP32 Html public route:</label>
-                <input type="text" value="{{ html_url }}" id="route_html" class="form-control">
-            </div>
-            <div class="col-md-6">
+        <div class="row" style="padding: 0.4em">
+            <form>
+                <div class="col-md-6">
 
-                <button type="button" class="btn btn-default" onclick="window.location='{{ html_url }}'" id="route_html"
-                        style="margin-top:1.8em">Preview
-                </button>
+                    <label for="route_html">Html route:</label>
+                    <input type="text" value="{{ html_url }}" id="route_html" class="form-control">
+
+                    <label for="route_html">Bitmap route for the ESP32:</label>
+
+
+                    {% if screen_display is not null %}
+                    <input type="text" value="" id="route_bmp" class="form-control">
+
+                     {% else %}
+                     <div class="row text-right">
+                         Cannot render image since the is no display associated with this Screen
+                         <span class="glyphicon glyphicon-arrow-right"></span>
+                     </div>
+                    {% endif %}
+
+                </div>
+                <div class="col-md-6">
+
+                    <div class="row">
+                        <div class="col-md-2">
+
+                            <button type="button" class="btn btn-default" onclick="window.location='{{ html_url }}'"
+                                    id="route_html"
+                                    style="margin-top:1.8em">Preview
+                            </button>
+
+                            {% if screen_display is null %}
+                                <br>
+                                <button type="button" class="btn btn-sm btn-primary"
+                                        onclick="window.location='{{ path('b_screen_edit', {'uuid': uuid}) }}'"
+                                        style="margin-top:1.5em">Add display
+                                </button>
+                            {% endif %}
+
+                        </div>
+                        {% if screen_public %}
+                            <div class="col-md-10" style="margin-top: 2em">
+                                This Screen is public. Do not share the link if you care for your privacy.<br>
+                                    {% if screen_hits %} <label>Screen views:</label> {{ screen_hits }}
+                        {% endif %}
+                                {% if screen_bearer %}
+                                    <br>
+                                    <label>Protected by Bearer token:</label><br>
+                                    <small>{{ screen_bearer }}</small>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+        {% if screen_display is not null %}
+        <div class="row" style="padding: 0.4em">
+            <div class="col-md-12">
+                <h4>Screenshot output settings:</h4>
+                {{ form_start(form) }}
+                <div class="row" style="padding: 0.4em">
+                    <div class="col-md-2">
+                        {{ form_row(form.outBrightness) }}
+                    </div>
+                    <div class="col-md-2">
+                        {{ form_row(form.outZoomFactor) }}
+                    </div>
+                    <div class="col-md-2">
+                        {{ form_row(form.outCacheSeconds) }}
+                    </div>
+                    <div class="col-md-2" style="margin-top: 0em">
+                        {{ form_widget(form.outCompressed) }} {{ form_label(form.outCompressed) }}<br>
+                        <small>Only for ESP32 Firmware with Zlib decompression</small>
+                    </div>
+                    <div class="col-md-2">
+                        {{ form_row(form.outBitDepth) }}
+                    </div>
+                    <div class="col-md-2" style="margin-top: 1.8em">
+                        {{ form_widget(form.submit) }}
+                    </div>
+                </div>
+                {{ form_end(form) }}
+
             </div>
-            <div class="col-md-6" style="color:white">
-                <br><b>NOTE:</b> Soon it will be possible to add an Authentication Bearer token per screen.
-            </div>
-            <div class="col-md-6" style="color:white">
-                <br>Please do not share the link if you care for your privacy.
-            </div>
-        </form>
+        </div>
+        {% endif %}
+
     </div>
+
     {% include template %}
 
 {% endblock %}

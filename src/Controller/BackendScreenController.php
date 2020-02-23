@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Entity\Screen;
 use App\Entity\TemplatePartial;
+use App\Form\Screen\ScreenOutputType;
 use App\Form\Screen\ScreenPartialsType;
 use App\Form\Screen\ScreenType;
 use App\Repository\ScreenRepository;
@@ -167,7 +168,8 @@ class BackendScreenController extends AbstractController
     /**
      * @Route("/render/{uuid?}", name="b_screen_render")
      */
-    public function screenRender($uuid, Request $request, ScreenRepository $screenRepository)
+    public function screenRender($uuid, Request $request, ScreenRepository $screenRepository,
+                                 EntityManagerInterface $em)
     {
         $screen = $screenRepository->find($uuid);
         if (!$screen instanceof Screen) {
@@ -176,11 +178,30 @@ class BackendScreenController extends AbstractController
         if ($screen->getUser() !== $this->getUser()) {
             throw $this->createNotFoundException("$uuid is not your screen");
         }
+        $form = $this->createForm(ScreenOutputType::class, $screen);
         $template = $screen->getTemplateTwig();
         $partials = $screen->getPartials();
-
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $em->persist($screen);
+                $em->flush();
+            } catch (\Exception $e) {
+                $error = $e->getMessage();
+                $this->addFlash('error', $error);
+            }
+            if (!isset($error)) {
+                $this->addFlash('success', "Screen settings saved");
+            }
+        }
         $renderParams = [
+            'uuid' => $uuid,
             'template' => '/screen-templates/'.$template,
+            'screen_public' => $screen->isPublic(),
+            'screen_hits'   => $screen->getHits(),
+            'screen_bearer' => $screen->getOutBearer(),
+            'screen_display' => $screen->getDisplay(),
+            'form' => $form->createView(),
             'html_url' => $this->generateUrl('public_screen_render', [
                 'username' => $this->getUser()->getName(),
                 'uuid'     => $uuid
@@ -202,6 +223,7 @@ class BackendScreenController extends AbstractController
                 ];
             }
         }
+
         return $this->render(
             'backend/screen/screen-render.html.twig',
             $renderParams);

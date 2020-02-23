@@ -37,7 +37,7 @@ pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; background-color: #f5f5
     padding-top: 1em;padding-bottom: 1em;
     background-color: #666666;
 }
-#screen-preview-url label {
+#screen-preview-url {
     color: white
 }
 
