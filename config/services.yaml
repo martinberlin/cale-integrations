@@ -4,10 +4,11 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    # ex.             http://calendar.fasani.de/screenshot/cale.php?u=http://calendar.fasani.de/paulina&w=400&h=300&d=1
+    # ex.             https://calendar.fasani.de/screenshot/cale.php?u=http://calendar.fasani.de/paulina&w=400&h=300&d=1
+    # TODO: Refactor this. Don't like this idea of composing an URL. Better: '?'.http_build_query($extraParams)
     screenshot_host: 'http://calendar.fasani.de'
-    screenshot_path: '/cale.php?u=[url]&w=[width]&h=[height]&b=[brightness]&d=[bitdepth]&c=[compressed]&cache=[cache]'
-    screenshot_parts: ['url','width','height','brightness','bitdepth','compressed', 'cache']
+    screenshot_path: '/cale.php?u=[u]&w=[width]&h=[height]&b=[brightness]&d=[bitdepth]&c=[compressed]&cache=[cache]'
+    screenshot_parts: ['u','width','height','brightness','bitdepth','compressed', 'cache']
     screen_templates:
         '1 Column':  1-col.html.twig
         '2 Columns': 2-col.html.twig

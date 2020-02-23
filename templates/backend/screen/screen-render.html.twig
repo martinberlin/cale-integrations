@@ -6,20 +6,19 @@
 
 {% block body %}
 
-    <div class="row" id="screen-preview-url">
+    <div class="row screen-render-divs" id="screen-preview-url">
 
         <div class="row" style="padding: 0.4em">
             <form>
                 <div class="col-md-6">
 
-                    <label for="route_html">Html route:</label>
+                    <label for="route_html">Html URL:</label>
                     <input type="text" value="{{ html_url }}" id="route_html" class="form-control">
 
-                    <label for="route_html">Bitmap route for the ESP32:</label>
-
+                    <label for="route_html">Bitmap URL for the ESP32:</label>
 
                     {% if screen_display is not null %}
-                    <input type="text" value="" id="route_bmp" class="form-control">
+                    <input type="text" value="{{ bmp_url }}" id="route_bmp" class="form-control">
 
                      {% else %}
                      <div class="row text-right">
@@ -65,13 +64,14 @@
                 </div>
             </form>
         </div>
+    </div>
 
         {% if screen_display is not null %}
-        <div class="row" style="padding: 0.4em">
+        <div class="row screen-render-divs" id="screen-settings">
             <div class="col-md-12">
-                <h4>Screenshot output settings:</h4>
+                <h4><span class="glyphicon glyphicon-picture"></span> Screenshot output settings:</h4>
                 {{ form_start(form) }}
-                <div class="row" style="padding: 0.4em">
+                <div class="row">
                     <div class="col-md-2">
                         {{ form_row(form.outBrightness) }}
                     </div>
@@ -97,8 +97,6 @@
             </div>
         </div>
         {% endif %}
-
-    </div>
 
     {% include template %}
 

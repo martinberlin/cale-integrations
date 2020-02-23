@@ -30,3 +30,18 @@ body {
     padding-left: 0.2em;
     padding-right: 0.2em;
 }
+
+.screen-render-divs {
+    border: 4px solid #8c8c8c;
+    margin-top: 1em;margin-bottom: 1em;
+    padding-top: 1em;padding-bottom: 1em;
+    color: white;
+}
+#screen-preview-url {
+    background-color: #666666;
+}
+#screen-settings {
+    margin-top: -1em;
+    border-top: 0px;
+    background-color: #333333;
+}

@@ -194,6 +194,13 @@ class BackendScreenController extends AbstractController
                 $this->addFlash('success', "Screen settings saved");
             }
         }
+        $screenParams = [
+            'username' => $this->getUser()->getName(),
+            'uuid'     => $uuid
+        ];
+        $htmlUrl = $this->generateUrl('public_screen_render', $screenParams, UrlGeneratorInterface::ABSOLUTE_URL);
+        $bmpUrl = $this->generateUrl('public_screen_bitmap', $screenParams, UrlGeneratorInterface::ABSOLUTE_URL);
+
         $renderParams = [
             'uuid' => $uuid,
             'template' => '/screen-templates/'.$template,
@@ -202,10 +209,8 @@ class BackendScreenController extends AbstractController
             'screen_bearer' => $screen->getOutBearer(),
             'screen_display' => $screen->getDisplay(),
             'form' => $form->createView(),
-            'html_url' => $this->generateUrl('public_screen_render', [
-                'username' => $this->getUser()->getName(),
-                'uuid'     => $uuid
-            ], UrlGeneratorInterface::ABSOLUTE_URL)
+            'html_url' => $htmlUrl,
+            'bmp_url' => $bmpUrl
         ];
         $htmlPerColumn['Column_1st'] = '';
         $htmlPerColumn['Column_2nd'] = '';
