@@ -22,6 +22,11 @@ class ScreenType extends AbstractType
         $resolver->setDefaults(
             [
                 'templates' => false,
+
+                'public' => [
+                    "Screen URL is protected with an Authentication Bearer token" => 0,
+                    "Screen URL is public and open for anyone knowing the link" => 1
+                ],
                 'data_class' => Screen::class
             ]);
     }
@@ -59,6 +64,17 @@ class ScreenType extends AbstractType
                         'class' => 'form-control'
                     ]
                 ])
+
+            ->add('public', ChoiceType::class, [
+                'label' => 'Privacy level',
+                'choices' => $options['public'],
+                'attr' => ['class' => 'form-control']
+            ])
+
+            ->add('outBearer', TextType::class, [
+                'label' => 'Bearer token',
+                'attr' => ['class' => 'form-control','readonly' => true]
+            ])
 
             ->add('submit', SubmitType::class,
                 [

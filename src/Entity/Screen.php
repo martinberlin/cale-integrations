@@ -106,6 +106,10 @@ class Screen implements Created
     function __construct()
     {
         $this->uuid = uniqid();
+        $this->outBearer = hash("sha256", $this->uuid);
+        $this->public = 1;
+        $this->outCacheSeconds = 30;
+        $this->outCompressed = 0;
         $this->hits = 0;
         $this->partials = new ArrayCollection();
         $this->setCreated(new \DateTime());
@@ -349,7 +353,7 @@ class Screen implements Created
      */
     public function isPublic(): bool
     {
-        return $this->isPublic;
+        return $this->public;
     }
 
     /**
@@ -357,7 +361,7 @@ class Screen implements Created
      */
     public function setPublic(bool $isPublic)
     {
-        $this->isPublic = $isPublic;
+        $this->public = $isPublic;
     }
 
     public function __toString()
