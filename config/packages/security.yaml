@@ -27,9 +27,9 @@ security:
                 target: /
 
     access_control:
-        - { path: '^/backend', roles: [ROLE_USER,ROLE_ADMIN] }
-        - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/reset_password, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: '^/backend', roles: [ROLE_USER,ROLE_ADMIN], requires_channel: '%env(SECURE_SCHEME)%' }
+        - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: '%env(SECURE_SCHEME)%' }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: '%env(SECURE_SCHEME)%' }
+        - { path: ^/reset_password, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: '%env(SECURE_SCHEME)%' }
         - { path: ^/, role: IS_AUTHENTICATED_ANONYMOUSLY }
 

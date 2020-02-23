@@ -165,6 +165,20 @@ class BackendScreenController extends AbstractController
         return $this->redirectToRoute('b_screens');
     }
 
+    private function bmpUrl($htmlUrl, Screen $screen) {
+        $extraParams = [
+            'u' => $htmlUrl,
+            'w' => $screen->getDisplay()->getWidth(),
+            'h' => $screen->getDisplay()->getHeight(),
+            'b' => $screen->getOutBrightness(),
+            'd' => $screen->getOutBitDepth(),
+            'c' => $screen->getOutCompressed(),
+            'cache' => $screen->getOutCacheSeconds()
+        ];
+        $url = $_ENV['SCREENSHOT_TOOL'].'?'.http_build_query($extraParams);
+        return $url;
+    }
+
     /**
      * @Route("/render/{uuid?}", name="b_screen_render")
      */
@@ -178,6 +192,7 @@ class BackendScreenController extends AbstractController
         if ($screen->getUser() !== $this->getUser()) {
             throw $this->createNotFoundException("$uuid is not your screen");
         }
+
         $form = $this->createForm(ScreenOutputType::class, $screen);
         $template = $screen->getTemplateTwig();
         $partials = $screen->getPartials();
@@ -199,7 +214,7 @@ class BackendScreenController extends AbstractController
             'uuid'     => $uuid
         ];
         $htmlUrl = $this->generateUrl('public_screen_render', $screenParams, UrlGeneratorInterface::ABSOLUTE_URL);
-        $bmpUrl = $this->generateUrl('public_screen_bitmap', $screenParams, UrlGeneratorInterface::ABSOLUTE_URL);
+        $bmpUrl = $this->bmpUrl($htmlUrl, $screen);
 
         $renderParams = [
             'uuid' => $uuid,
