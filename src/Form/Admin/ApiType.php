@@ -49,6 +49,7 @@ class ApiType extends AbstractType
                 ])
             ->add('url', TextType::class,
                 [
+                    'required' => false,
                     'attr' => ['class' => 'form-control']
                 ])
             ->add('responseType', TextType::class,
@@ -69,6 +70,13 @@ class ApiType extends AbstractType
                         'class' => 'form-control'
                     ]
                 ])
+            ->add('editRoute', TextType::class,
+                [
+                    'label' => 'Important: Controller route that will edit this API',
+                    'required' => true,
+                    'attr' => ['class' => 'form-control']
+                ])
+
 
             ->add('submit', SubmitType::class,
                 [

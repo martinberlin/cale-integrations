@@ -87,6 +87,7 @@ class BackendAdminController extends AbstractController
             }
             if (!isset($error)) {
                 $this->addFlash('success', "API saved");
+                return $this->redirectToRoute('b_admin_apis');
             }
         }
 

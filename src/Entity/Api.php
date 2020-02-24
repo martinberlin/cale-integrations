@@ -41,7 +41,7 @@ class Api
     /**
      * Short note explaining what key is needed. Ex. "Personal access token"
      * @var string
-     * @ORM\Column(type="string", length=60)
+     * @ORM\Column(type="string", length=60, nullable=true)
      */
     protected $authNote;
 
@@ -93,6 +93,12 @@ class Api
      * @ORM\OneToMany(targetEntity="UserApi", mappedBy="api")
      */
     private $userApis;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=200, unique=true)
+     */
+    protected $editRoute;
 
     function __construct()
     {
@@ -193,7 +199,7 @@ class Api
      * @param string $authNote
      * @return Api
      */
-    public function setAuthNote(string $authNote)
+    public function setAuthNote($authNote)
     {
         $this->authNote = $authNote;
         return $this;
@@ -309,6 +315,24 @@ class Api
     public function getUserApis() {
         return $this->userApis;
     }
+
+
+    /**
+     * @return string
+     */
+    public function getEditRoute():?string
+    {
+        return $this->editRoute;
+    }
+
+    /**
+     * @param string $editRoute
+     */
+    public function setEditRoute(string $editRoute)
+    {
+        $this->editRoute = $editRoute;
+    }
+
 
     public function __toString()
     {

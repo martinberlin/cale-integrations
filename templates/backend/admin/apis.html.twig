@@ -7,9 +7,8 @@
     </tr>
       <th>ID</th>
       <th>Name</th>
-      <th>Renderer route</th>
-      <th>Url</th>
-      <th>Response</th>
+      <th>RendererRoute</th>
+      <th>EditRoute</th>
       <th>Category</th>
       <th>Auth. note</th>
       <th>UserApis</th>
@@ -21,9 +20,8 @@
       <tr style="border:1px #1b6d85 dashed">
         <td>{{ a.id }}</td>
         <td>{{ a.name }}</td>
-        <td><small>{{ a.jsonRoute }}</small></td>
-        <td><small>{{ a.url }}</small></td>
-        <td>{{ a.responseType }}</td>
+        <td><small>{{ a.jsonRoute|replace({"App\\Controller\\Render\\": ""}) }}</small></td>
+        <td><small>{{ a.editRoute }}</small></td>
         <td>{{ a.category.name }}</td>
         <td><small>{{ a.authNote }}</small></td>
         <td>{{ a.userApis|length }}</td>

@@ -49,26 +49,13 @@ class BackendApiController extends AbstractController
             $add['integrations'] = $userApi->getIntegrationApis();
             $add['edit'] = '';
             $add['userapi_id'] = $userApi->getId();
-            $add['edit_route'] = '';
-            //$add['category'] = $api->getCategory()->getName();
-            // This part needs to be dynamic or the Routing has to be smarter
-            switch ($api->getUrlName()) {
-                case 'cale-google':
-                    $add['edit_route'] = 'b_api_wizard_cale-google';
-                    $add['edit'] = $this->generateUrl($add['edit_route'], ['uuid' => $userApi->getId()]);
-                    break;
-
-                case 'cale-timetree':
-                    $add['edit_route'] = 'b_api_wizard_cale-timetree';
-                    $add['edit'] = $this->generateUrl($add['edit_route'], ['uuid' => $userApi->getId()]);
-                    break;
-
-                case 'weather-darksky':
-                    $add['edit_route'] = 'b_api_customize_location';
-                    $add['edit'] = $this->generateUrl($add['edit_route'], ['uuid' => $userApi->getId()]);
-                    break;
+            $add['edit_route'] = $api->getEditRoute();
+            if ($add['edit_route'] !=='' && is_null($add['edit_route'])===false) {
+                $add['edit'] = $this->generateUrl($api->getEditRoute(), ['uuid' => $userApi->getId()]);
+                $list[] = $add;
+            } else {
+                $this->addFlash('error', 'No edit route configured for API #'.$add['id'].' '.$add['name']);
             }
-            $list[] = $add;
         }
         return $this->render(
             'backend/admin-apis.html.twig',
