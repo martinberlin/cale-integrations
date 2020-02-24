@@ -15,7 +15,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class UserApi implements Created
 {
-    private $encryptMethod = 'sm4-ecb';
     /**
      * The internal primary identity key.
      *
@@ -279,7 +278,7 @@ class UserApi implements Created
      */
     public function getPassword():?string
     {
-        $decrypt = openssl_decrypt($this->password, $this->encryptMethod, $this->uuid);
+        $decrypt = openssl_decrypt($this->password, $_ENV['ENCRYPT_ALGO'], $this->uuid);
         return $decrypt;
     }
 
@@ -292,7 +291,7 @@ class UserApi implements Created
     public function encryptPassword()
     {
         if (isset($this->password)) {
-        $encrypt = openssl_encrypt($this->password, $this->encryptMethod, $this->uuid);
+        $encrypt = openssl_encrypt($this->password, $_ENV['ENCRYPT_ALGO'], $this->uuid);
         $this->password = $encrypt;
         }
     }
