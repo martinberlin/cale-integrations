@@ -68,7 +68,7 @@ class BackendAdminController extends AbstractController
             if (!$api instanceof Api) {
                 throw $this->createNotFoundException("$id is not a valid API id");
             }
-            $title = 'Editing API $id';
+            $title = "Editing API $id:".$api->getName();
         } else {
             $api = new Api();
             $title = 'Creating new API';

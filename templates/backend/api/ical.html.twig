@@ -1,0 +1,73 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+
+{% block body %}
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-12">
+            {{ form_row(form.name) }}
+
+            <div class="panel panel-default" style="margin-top: 2em">
+                <div class="panel-heading">iCal / Webdav configuration</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            {{ form_row(form.resourceUrl) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form_label(form.username) }}
+                            <p>Please make sure to get this credentials from your iCal provider</p>
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_label(form.password) }}
+                            <p>Your password is not saved in clear text</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form_widget(form.username) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_widget(form.password) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            {{ form_widget(form.submit) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
+
+    <div class="row">
+        <div class="col-md-12" id="api_preview" style="height: 500px;overflow-y: auto">
+            <label style="margin-left: 1em">{{'api_response'|trans}}</label>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        let intapi_uuid = "{{ intapi_uuid }}";
+        let userapi_id = "{{ userapi_id }}";
+        let api_preview = document.getElementById('api_preview');
+        var xhReq = new XMLHttpRequest();
+
+
+            {% if intapi_uuid != "" %}
+            xhReq.open("GET", "{{ path('b_api_preview_ical', {'intapi_uuid': intapi_uuid}) }}", false);
+
+        xhReq.send(null);
+        api_preview.innerHTML = xhReq.responseText;
+
+            {% endif %}
+
+    </script>
+
+{% endblock %}

@@ -38,6 +38,10 @@ class ApiType extends AbstractType
                 'label' => 'Name',
                 'attr' => ['class' => 'form-control']
             ])
+            ->add('urlName', TextType::class, [
+                'label' => 'Url name',
+                'attr' => ['class' => 'form-control']
+            ])
             ->add('jsonRoute', TextType::class,
                 [
                     'label' => 'Renderer route',
@@ -53,6 +57,7 @@ class ApiType extends AbstractType
                 ])
             ->add('authNote', TextType::class,
                 [
+                    'required' => false,
                     'attr' => ['class' => 'form-control']
                 ])
             ->add('category', EntityType::class,

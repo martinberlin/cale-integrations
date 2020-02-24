@@ -9,6 +9,7 @@ use App\Form\Api\IntegrationWeatherApiType;
 use App\Form\Api\Wizard\ApiDeleteConfirmationType;
 use App\Form\Api\Wizard\ApiTokenType;
 use App\Form\Api\Wizard\Google\GoogleCalendar1Type;
+use App\Repository\ApiRepository;
 use App\Repository\IntegrationApiRepository;
 use App\Repository\UserApiRepository;
 use App\Service\GoogleClientService;
@@ -81,8 +82,13 @@ class BackendApiController extends AbstractController
     /**
      * @Route("/configure", name="b_api_configure")
      */
-    public function apiConfigure(Request $request, EntityManagerInterface $entityManager)
+    public function apiConfigure(Request $request, EntityManagerInterface $entityManager, ApiRepository $apiRepository)
     {
+        $getApis = $apiRepository->findAll();
+        $apis = [];
+        foreach ($getApis as $api) {
+            $apis[$api->getId()] = $api->getAuthNote();
+        }
         $userApi = new UserApi();
         $form = $this->createForm(ApiConfigureSelectionType::class, $userApi);
         $form->handleRequest($request);
@@ -114,7 +120,8 @@ class BackendApiController extends AbstractController
             'backend/api/configure-api.html.twig',
             [
                 'title' => 'Api configurator',
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'json_apis' => json_encode($apis)
             ]
         );
     }

@@ -15,6 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class UserApi implements Created
 {
+    private $encryptMethod = 'sm4-ecb';
     /**
      * The internal primary identity key.
      *
@@ -43,9 +44,21 @@ class UserApi implements Created
 
     /**
      * @var string
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $credentials;
+    protected $resourceUrl;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $username;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $password;
 
     /**
      * @var string
@@ -160,22 +173,6 @@ class UserApi implements Created
     /**
      * @return string
      */
-    public function getCredentials():?string
-    {
-        return $this->credentials;
-    }
-
-    /**
-     * @param string $credentials
-     */
-    public function setCredentials(string $credentials)
-    {
-        $this->credentials = $credentials;
-    }
-
-    /**
-     * @return string
-     */
     public function getAccessToken():?string
     {
         return $this->accessToken;
@@ -245,5 +242,67 @@ class UserApi implements Created
         return $this->scope;
     }
 
+    /**
+     * @return string
+     */
+    public function getResourceUrl():?string
+    {
+        return $this->resourceUrl;
+    }
+
+    /**
+     * @param string $resourceUrl
+     */
+    public function setResourceUrl(string $resourceUrl): void
+    {
+        $this->resourceUrl = $resourceUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUsername():?string
+    {
+        return $this->username;
+    }
+
+    /**
+     * @param string
+     */
+    public function setUsername(string $u)
+    {
+        $this->username = $u;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword():?string
+    {
+        $decrypt = openssl_decrypt($this->password, $this->encryptMethod, $this->uuid);
+        return $decrypt;
+    }
+
+
+    /**
+     * @param string
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function encryptPassword()
+    {
+        if (isset($this->password)) {
+        $encrypt = openssl_encrypt($this->password, $this->encryptMethod, $this->uuid);
+        $this->password = $encrypt;
+        }
+    }
+
+    /**
+     * @param string
+     */
+    public function setPassword(string $pass)
+    {
+       $this->password = $pass;
+    }
 
 }

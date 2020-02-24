@@ -25,9 +25,11 @@
         <td><small>{{ a.url }}</small></td>
         <td>{{ a.responseType }}</td>
         <td>{{ a.category.name }}</td>
-        <td>{{ a.authNote }}</td>
+        <td><small>{{ a.authNote }}</small></td>
         <td>{{ a.userApis|length }}</td>
-        <td>edit</td>
+        <td><a href="{{ path('b_admin_api_edit', {'id': a.id}) }}">
+            <h3><span class="glyphicon glyphicon-edit"></span></h3></a>
+        </td>
       </tr>
     {% endfor %}
     </tbody>

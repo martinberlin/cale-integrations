@@ -3,3 +3,8 @@ doctrine_migrations:
     # namespace is arbitrary but should be different from App\Migrations
     # as migrations classes should NOT be autoloaded
     namespace: DoctrineMigrations
+    table_name: 'z_migration_versions'
+    column_name: 'version'
+    column_length: 14
+    executed_at_column_name: 'executed_at'
+    name: 'CALE Application Migrations'
