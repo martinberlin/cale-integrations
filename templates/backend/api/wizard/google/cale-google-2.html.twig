@@ -5,20 +5,24 @@
     <b>{{ 'authorize_g_calendar_2'|trans }}</b><br><br>
 
 
+    <h4>You are allowing <span style="color:#1a73e8">cale.es</span> to:</h4>
     <a href="{{ authUrl }}">
     <img src="/assets/wizard/google-auth-calendar.png">
     </a><br>
     <h4>
         <a href="{{ authUrl }}">Click here to connect your Calendar</a>
     </h4>
-
+    <div class="row">
+        <div class="col-md-6">
+    <p>In accordance with our <a href="{{ path('privacy-policy') }}">privacy policies</a> you will grant read-only permissions
+to external API providers and you are in control of this access, being able to disconnect it at any time from your Screens.</p>
+        </div>
+    </div>
  {% endblock %}
 
     {% block javascripts %}
         <script>
             let render_preview = {{ renderPreview }};
-            {# console.log(render_preview, "{{ intapi_uuid }}");#}
-
             var xhReq = new XMLHttpRequest();
             if (render_preview) {
                 xhReq.open("GET", "{{ path('json_google_calendar', {'int_api_id':intapi_uuid}) }}", false);

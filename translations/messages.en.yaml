@@ -85,7 +85,7 @@ Calendar ID: Calendar ID
 Authorization token: Authorization token
 api_response: API response
 authorize_g_calendar_1: 'In order to read from Google Calendar we need that you give us read only permission to access the events data.'
-authorize_g_calendar_2: 'Please click on this link below to be redirected to their authorization page:'
+authorize_g_calendar_2: 'Clicking on the link below you will be redirected to their authorization page'
 
 Latitude: Latitude
 Longitude: Longitude
