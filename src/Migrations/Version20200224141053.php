@@ -25,7 +25,7 @@ final class Version20200224141053 extends AbstractMigration
         ('4', 'cale-ical', 'CALE iCal API', 'https://cale.es', NULL, 'html', NULL, NULL, NULL, NULL, '', 'App\\Controller\\Render\\ARenderController::render_int_ical', 'b_api_wizard_cale-ical')"
         );
         $this->addSql("UPDATE `app_api` set auth_note='Oauth', edit_route='b_api_wizard_cale-google' WHERE url_name='cale-google'");
-        $this->addSql("UPDATE `app_api` set auth_note='Authorization code', edit_route='b_api_conf_weather-darksky' WHERE url_name='weather-darksky'");
+        $this->addSql("UPDATE `app_api` set auth_note='Authorization code', edit_route='b_api_customize_location' WHERE url_name='weather-darksky'");
         $this->addSql("UPDATE `app_api` set edit_route='b_api_wizard_cale-timetree' WHERE url_name='cale-timetree'");
     }
 
