@@ -12,6 +12,7 @@ use App\Service\SimpleCacheService;
 use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
 
+use ICal\ICal;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -418,4 +419,47 @@ class ARenderController extends AbstractController
         return $response;
     }
 
+    /**
+     * iCal renderer
+     * @Route("/render_int_ical/weather", name="render_int_ical")
+     */
+    public function render_int_ical(TemplatePartial $partial, IntegrationApiRepository $intApiRepository)
+    {
+        $api = $partial->getIntegrationApi()->getUserApi();
+        $error = "";
+        try {
+            $ical = new ICal();
+            $ical->initUrl($api->getResourceUrl(),
+                $username = $api->getUsername(), $password = $api->getPassword(),
+                $userAgent = null);
+            $events = $ical->eventsFromInterval('1 week');
+        } catch (\Exception $e) {
+            $error = "Could not access iCal. ".$e->getMessage();
+        }
+        $html = $error.' ';$count = 0;
+        foreach ($events as $event) {
+            $dateStart = ($ical->iCalDateToDateTime($event->dtstart));
+            $dateEnd = ($ical->iCalDateToDateTime($event->dtend));
+            $status = ($event->status == 'CONFIRMED') ? '<span style="color:green">' . $event->status . '</span>' : $event->status;
+            $dtstart = $ical->iCalDateToDateTime($event->dtstart_array[3]);
+            $summary = $event->summary . ' - '.$dtstart->format('D d.m H:i');
+            $html .= '<div class="col-md-3">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <h3 style="color:#65bf2a">'.$summary.'</h3>';
+            $html .= "<h4>$status</h4>
+                      <h4>". $dateStart->format('l d.m.Y H:i')." to ".$dateEnd->format('H:i')."</h4>
+                    </div>
+                </div>
+            </div>";
+            if ($count > 1 && $count % 3 === 0) {
+                $html .= '</div><div class="row">';
+            }
+            $count++;
+        }
+
+        $response = new Response();
+        $response->setContent($html);
+        return $response;
+    }
 }
