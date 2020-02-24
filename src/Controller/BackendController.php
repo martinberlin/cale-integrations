@@ -101,23 +101,6 @@ class BackendController extends AbstractController
     }
 
     /**
-     * @Route("/users", name="b_users")
-     */
-    public function users(UserRepository $userRepository)
-    {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
-        $users = $userRepository->findAll();
-
-        return $this->render(
-            'backend/admin-users.html.twig',
-            [
-                'title' => 'List users',
-                'users' => $users
-            ]
-        );
-    }
-
-    /**
      * @Route("/ip_location/json/{type}", name="b_iptolocation")
      */
     public function apiExternalIpToLocation(Request $r, $type)

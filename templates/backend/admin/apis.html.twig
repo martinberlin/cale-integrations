@@ -1,0 +1,36 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+{% block body %}
+
+  <table style="border-spacing:4px;width: 100%">
+    <thead>
+    </tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Renderer route</th>
+      <th>Url</th>
+      <th>Response</th>
+      <th>Category</th>
+      <th>Auth. note</th>
+      <th>UserApis</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for a in apis %}
+      <tr style="border:1px #1b6d85 dashed">
+        <td>{{ a.id }}</td>
+        <td>{{ a.name }}</td>
+        <td><small>{{ a.jsonRoute }}</small></td>
+        <td><small>{{ a.url }}</small></td>
+        <td>{{ a.responseType }}</td>
+        <td>{{ a.category.name }}</td>
+        <td>{{ a.authNote }}</td>
+        <td>{{ a.userApis|length }}</td>
+        <td>edit</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}

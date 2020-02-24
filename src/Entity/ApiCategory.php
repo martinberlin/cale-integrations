@@ -107,5 +107,8 @@ class ApiCategory
         $this->name = $name;
     }
 
-    // Add any other setting that could be useful to aply to a certain group of APIs
+    public function __toString()
+    {
+        return (string) $this->name;
+    }
 }

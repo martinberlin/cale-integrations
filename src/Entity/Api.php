@@ -1,6 +1,7 @@
 <?php
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -87,10 +88,16 @@ class Api
      */
     protected $jsonRoute;
 
+    /**
+     * One api has many userApis. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="UserApi", mappedBy="api")
+     */
+    private $userApis;
 
     function __construct()
     {
         $this->isLocationApi = false;
+        $this->userApis = new ArrayCollection();
     }
 
     /**
@@ -141,7 +148,7 @@ class Api
     /**
      * @return string
      */
-    public function getUrlName(): string
+    public function getUrlName():?string
     {
         return $this->urlName;
     }
@@ -213,7 +220,7 @@ class Api
     /**
      * @return string
      */
-    public function getRequestParameters(): string
+    public function getRequestParameters():?string
     {
         return $this->requestParameters;
     }
@@ -231,7 +238,7 @@ class Api
     /**
      * @return string JSON
      */
-    public function getResponseType(): string
+    public function getResponseType():?string
     {
         return $this->responseType;
     }
@@ -294,6 +301,13 @@ class Api
     public function setJsonRoute(string $jsonRoute)
     {
         $this->jsonRoute = $jsonRoute;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getUserApis() {
+        return $this->userApis;
     }
 
     public function __toString()

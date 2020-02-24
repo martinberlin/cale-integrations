@@ -30,7 +30,7 @@ class UserApi implements Created
     protected $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Api")
+     * @ORM\ManyToOne(targetEntity="Api", inversedBy="userApis")
      * @ORM\JoinColumn(name="api_id", referencedColumnName="id")
      */
     protected $api;
