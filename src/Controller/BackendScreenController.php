@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\Display;
 use App\Entity\Screen;
 use App\Entity\TemplatePartial;
 use App\Form\Screen\ScreenOutputType;
@@ -214,7 +215,8 @@ class BackendScreenController extends AbstractController
             'uuid'     => $uuid
         ];
         $htmlUrl = $this->generateUrl('public_screen_render', $screenParams, UrlGeneratorInterface::ABSOLUTE_URL);
-        $bmpUrl = $this->bmpUrl($htmlUrl, $screen);
+
+        $bmpUrl = ($screen->getDisplay() instanceof Display) ? $this->bmpUrl($htmlUrl, $screen): '';
 
         $renderParams = [
             'uuid' => $uuid,

@@ -78,6 +78,7 @@ class PublicScreenRenderController extends AbstractController
     }
 
     /**
+     * @deprecated Idea was good but does not work like expected
      * @Route("/{username}/bmp/{uuid?}", name="public_screen_bitmap")
      */
     public function publicScreenFetchBitmap($uuid, $username, Request $request,

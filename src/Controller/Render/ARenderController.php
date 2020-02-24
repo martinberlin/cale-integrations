@@ -426,6 +426,9 @@ class ARenderController extends AbstractController
     public function render_int_ical(TemplatePartial $partial, IntegrationApiRepository $intApiRepository)
     {
         $api = $partial->getIntegrationApi()->getUserApi();
+        // Read user preferences
+        $user = $partial->getScreen()->getUser();
+
         $error = "";
         try {
             $ical = new ICal();
@@ -436,22 +439,22 @@ class ARenderController extends AbstractController
         } catch (\Exception $e) {
             $error = "Could not access iCal. ".$e->getMessage();
         }
-        $html = $error.' ';$count = 0;
+        $colorClass = ($partial->getInvertedColor())?'inverted_color':'default_color';
+        $hs1 = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h4':'h3';
+        $hs2 = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h5':'h4';
+        $html = $error.' <div class="row '.$colorClass.'">';$count = 0;
+
         foreach ($events as $event) {
             $dateStart = ($ical->iCalDateToDateTime($event->dtstart));
             $dateEnd = ($ical->iCalDateToDateTime($event->dtend));
             $status = ($event->status == 'CONFIRMED') ? '<span style="color:green">' . $event->status . '</span>' : $event->status;
             $dtstart = $ical->iCalDateToDateTime($event->dtstart_array[3]);
-            $summary = $event->summary . ' - '.$dtstart->format('D d.m H:i');
-            $html .= '<div class="col-md-3">
-                <div class="thumbnail">
-                    <div class="caption">
-                        <h3 style="color:#65bf2a">'.$summary.'</h3>';
-            $html .= "<h4>$status</h4>
-                      <h4>". $dateStart->format('l d.m.Y H:i')." to ".$dateEnd->format('H:i')."</h4>
-                    </div>
-                </div>
-            </div>";
+            $summary = $event->summary . ' - '.$dtstart->format($user->getDateFormat());
+            $html .= '<div class="col-md-4 '.$colorClass.'">
+                        <'.$hs1.' style="color:#65bf2a">'.$summary."</$hs1>";
+            $html .= "<$hs2>$status</$hs2>
+                      <$hs2>". $dateStart->format($user->getHourFormat())." to ".$dateEnd->format($user->getHourFormat())."</$hs1>
+                    </div>";
             if ($count > 1 && $count % 3 === 0) {
                 $html .= '</div><div class="row">';
             }
