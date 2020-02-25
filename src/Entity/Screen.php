@@ -93,6 +93,11 @@ class Screen implements Created
     protected $public;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $outSsl;
+
+    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     protected $hits;
@@ -113,6 +118,7 @@ class Screen implements Created
         $this->outCacheSeconds = 30;
         $this->outBitDepth = 1;
         $this->outCompressed = 0;
+        $this->outSsl = 0;
         $this->hits = 0;
         $this->partials = new ArrayCollection();
         $this->setCreated(new \DateTime());
@@ -365,6 +371,22 @@ class Screen implements Created
     public function setPublic(bool $isPublic)
     {
         $this->public = $isPublic;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isOutSsl(): bool
+    {
+        return $this->outSsl;
+    }
+
+    /**
+     * @param boolean $ssl
+     */
+    public function setOutSsl(bool $ssl)
+    {
+        $this->outSsl = $ssl;
     }
 
     public function __toString()

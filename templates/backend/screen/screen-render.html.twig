@@ -81,11 +81,12 @@
                     <div class="col-md-2">
                         {{ form_row(form.outCacheSeconds) }}
                     </div>
-                    <div class="col-md-2" style="margin-top: 0em">
+                    <div class="col-md-3" style="margin-top: 0em">
+                        {{ form_widget(form.outSsl) }} {{ form_label(form.outSsl) }}<br>
                         {{ form_widget(form.outCompressed) }} {{ form_label(form.outCompressed) }}<br>
-                        <small>Only for ESP32 Firmware with Zlib decompression</small>
+                        <small>Only for ESP32 Firmware supporting this</small>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                         {{ form_row(form.outBitDepth) }}
                     </div>
                     <div class="col-md-2" style="margin-top: 1.8em">

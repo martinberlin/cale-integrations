@@ -87,10 +87,16 @@ class ScreenOutputType extends AbstractType
                     'required' => false,
                     'label' => 'Zlib compressed',
                 ])
+            ->add('outSsl', CheckboxType::class,
+                [
+                    'value' => 1,
+                    'required' => false,
+                    'label' => 'Use HTTPS',
+                ])
             ->add('outBitDepth', ChoiceType::class,
                 [
                     'choices' => $options['bitdepth'],
-                    'label' => 'BMP bits depth',
+                    'label' => 'Bitsdepth',
                     'attr' => ['class' => 'form-control']
                 ])
 

@@ -166,7 +166,13 @@ class BackendScreenController extends AbstractController
         return $this->redirectToRoute('b_screens');
     }
 
-    private function bmpUrl($htmlUrl, Screen $screen) {
+    /**
+     * @deprecated since we want shorter URLs
+     * @param $htmlUrl
+     * @param Screen $screen
+     * @return string
+     */
+    private function bmpUrlGetParams($htmlUrl, Screen $screen) {
         $extraParams = [
             'u' => $htmlUrl,
             'w' => $screen->getDisplay()->getWidth(),
@@ -178,6 +184,17 @@ class BackendScreenController extends AbstractController
             'cache' => $screen->getOutCacheSeconds()
         ];
         $url = $_ENV['SCREENSHOT_TOOL'].'?'.http_build_query($extraParams);
+        return $url;
+    }
+
+    /**
+     * @param $username
+     * @param $screenId
+     * @return string
+     */
+    private function bmpUrlGenerator($isSsl, $username, $screenId) {
+        $schema = ($isSsl) ? 'https://' : 'http://';
+        $url = $schema.$_ENV['SCREENSHOT_TOOL'].'/'.$username.'/'.$screenId;
         return $url;
     }
 
@@ -217,7 +234,8 @@ class BackendScreenController extends AbstractController
         ];
         $htmlUrl = $this->generateUrl('public_screen_render', $screenParams, UrlGeneratorInterface::ABSOLUTE_URL);
 
-        $bmpUrl = ($screen->getDisplay() instanceof Display) ? $this->bmpUrl($htmlUrl, $screen): '';
+        $bmpUrl = ($screen->getDisplay() instanceof Display) ?
+            $this->bmpUrlGenerator($screen->isOutSsl(), $this->getUser()->getName(), $screen->getId()): '';
 
         $renderParams = [
             'uuid' => $uuid,
