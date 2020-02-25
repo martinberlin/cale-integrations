@@ -41,6 +41,7 @@ class ScreenOutputType extends AbstractType
                     '110 %' => 1.1
                 ],
                 'cache_seconds' => [
+                    '2 secs' => 2,
                     '30 secs' => 30,
                     '1 minute' => 60,
                     '2 minutes' => 120,
