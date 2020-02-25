@@ -84,7 +84,7 @@
                     <div class="col-md-3" style="margin-top: 0em">
                         {{ form_widget(form.outSsl) }} {{ form_label(form.outSsl) }}<br>
                         {{ form_widget(form.outCompressed) }} {{ form_label(form.outCompressed) }}<br>
-                        <small>Only for ESP32 Firmware supporting this</small>
+                        <small>{{ 'only_esp32_supported'|trans }}</small>
                     </div>
                     <div class="col-md-1">
                         {{ form_row(form.outBitDepth) }}
