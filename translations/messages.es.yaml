@@ -131,7 +131,7 @@ screen_partials_edit_line1: En tus Screens puedes agregar secciones que renderiz
 screen_partials_edit_line2: Estas secciones se renderizan en orden ascendente. La posicion 1 saldrá primera en su columna
 screen_partials_edit_line3: ' '
 screen_partials_title: Secciones del Screen
-
+# Screenshot options
 Brightness level: Brillo
 90 %: 90 %
 100 % default: 100 % por defecto
@@ -162,7 +162,8 @@ BMP bits depth: Bits depth
 1 bit: 1 bit
 4 bit: 4 bit
 Save settings: Guardar cambios
-
+screen_no_display_message: No pudimos generar la imagen ya que no hay un display configurado para este Screen
+screen_add_display: Agregar display
 # User profile
 Username: Nombre de usuario
 Email used for login: Email usado para el login

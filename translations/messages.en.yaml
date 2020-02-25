@@ -131,7 +131,7 @@ screen_partials_edit_line1: In your Screens you can add partials that will rende
 screen_partials_edit_line2: This content partials will render in ascendant order so Sort position 1 will be the first on his column
 screen_partials_edit_line3: This form is a work in progress and will evolve to have a better usability after a few design iterations
 screen_partials_title: Manage partials for Screen
-
+# Screenshot options
 Brightness level: Brightness level
 90 %: 90 %
 100 % default: 100 % default
@@ -162,7 +162,8 @@ BMP bits depth: BMP bits depth
 1 bit: 1 bit
 4 bit: 4 bit
 Save settings: Save settings
-
+screen_no_display_message: We could not generate the image since there is no configured display for this Screen
+screen_add_display: Add display
 # User profile
 Username: Username
 Email used for login: Email used for login

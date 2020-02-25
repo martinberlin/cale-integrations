@@ -42,7 +42,7 @@
                                 <br>
                                 <button type="button" class="btn btn-sm btn-primary"
                                         onclick="window.location='{{ path('b_screen_edit', {'uuid': uuid}) }}'"
-                                        style="margin-top:1.5em">Add display
+                                        style="margin-top:1.5em">{{ 'screen_add_display'|trans }}
                                 </button>
                             {% endif %}
 
@@ -97,6 +97,16 @@
             </div>
         </div>
         {% endif %}
+
+<div class="row text-center" style="margin-bottom: 1em">
+    {% if bmp_url!='' %}
+    <img src="{{ bmp_url }}">
+
+        {% else %}
+        <h4>{{ 'screen_no_display_message'|trans }}
+            <a href="{{ path('b_screen_edit', {'uuid': uuid}) }}">{{ 'screen_add_display'|trans }}</a></h4>
+    {% endif %}
+</div>
 
     {% include template %}
 
