@@ -192,9 +192,9 @@ class BackendScreenController extends AbstractController
      * @param $screenId
      * @return string
      */
-    private function bmpUrlGenerator($isSsl, $username, $screenId) {
+    private function bmpUrlGenerator($isSsl, $responseType, $username, $screenId) {
         $schema = ($isSsl) ? 'https://' : 'http://';
-        $url = $schema.$_ENV['SCREENSHOT_TOOL'].'/'.$username.'/'.$screenId;
+        $url = $schema.$_ENV['SCREENSHOT_TOOL'].'/'.$responseType.'/'.$username.'/'.$screenId;
         return $url;
     }
 
@@ -235,7 +235,7 @@ class BackendScreenController extends AbstractController
         $htmlUrl = $this->generateUrl('public_screen_render', $screenParams, UrlGeneratorInterface::ABSOLUTE_URL);
 
         $bmpUrl = ($screen->getDisplay() instanceof Display) ?
-            $this->bmpUrlGenerator($screen->isOutSsl(), $this->getUser()->getName(), $screen->getId()): '';
+            $this->bmpUrlGenerator($screen->isOutSsl(), 'bmp', $this->getUser()->getName(), $screen->getId()): '';
 
         $renderParams = [
             'uuid' => $uuid,
