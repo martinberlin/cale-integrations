@@ -172,6 +172,7 @@ class BackendScreenController extends AbstractController
             'w' => $screen->getDisplay()->getWidth(),
             'h' => $screen->getDisplay()->getHeight(),
             'b' => $screen->getOutBrightness(),
+            'z' => $screen->getOutZoomFactor(),
             'd' => $screen->getOutBitDepth(),
             'c' => $screen->getOutCompressed(),
             'cache' => $screen->getOutCacheSeconds()
