@@ -251,7 +251,7 @@ class ARenderController extends AbstractController
 
             $responseContent .= '<div class="col-md-12"><'.$hs.'>'.$iconLogo.$attr->title.'</'.$hs.'></div>'.
                                 '</div><div class="row">'.
-                                '<div class="col-md-6"><'.$hs.'>'.$attr->location.'</'.$hs.'></div>';
+                                '<div class="col-md-4"><'.$hs.'>'.$attr->location.'</'.$hs.'></div>';
 
             if ($isAllDay) {
                 $fromTo = $start->format($dateFormat);
@@ -263,7 +263,7 @@ class ARenderController extends AbstractController
                 $startFormat = $start->format($dateFormat).' '.$startTime;
                 $fromTo = ($endFormat=='') ? $startFormat : $startFormat.' '.$iconArrowRight. $endFormat;
             }
-            $responseContent .= '<div class="col-md-6"><'.$hs.'>'.$fromTo.'</'.$hs.'></div>';
+            $responseContent .= '<div class="col-md-8 text-right"><'.$hs.'>'.$fromTo.'</'.$hs.'></div>';
             $responseContent .= '</div>';
         }
 

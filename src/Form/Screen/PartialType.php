@@ -80,8 +80,8 @@ class PartialType extends AbstractType
                     'empty_data' => '#000000',
                     'required' => true,
                     'attr' => [
-                        'class' => 'pickr',
-                        'size' => '8'
+                        'class' => 'form-control pickr',
+                        'maxlength' => '7'
                     ]
                 ])
             ->add('backgroundColor', TextType::class,
@@ -90,7 +90,7 @@ class PartialType extends AbstractType
                     'required' => true,
                     'attr' => [
                         'class' => 'form-control pickr',
-                        'size' => '8'
+                        'maxlength' => '7'
                     ]
                 ])
 
