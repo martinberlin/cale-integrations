@@ -167,27 +167,6 @@ class BackendScreenController extends AbstractController
     }
 
     /**
-     * @deprecated since we want shorter URLs
-     * @param $htmlUrl
-     * @param Screen $screen
-     * @return string
-     */
-    private function bmpUrlGetParams($htmlUrl, Screen $screen) {
-        $extraParams = [
-            'u' => $htmlUrl,
-            'w' => $screen->getDisplay()->getWidth(),
-            'h' => $screen->getDisplay()->getHeight(),
-            'b' => $screen->getOutBrightness(),
-            'z' => $screen->getOutZoomFactor(),
-            'd' => $screen->getOutBitDepth(),
-            'c' => $screen->getOutCompressed(),
-            'cache' => $screen->getOutCacheSeconds()
-        ];
-        $url = $_ENV['SCREENSHOT_TOOL'].'?'.http_build_query($extraParams);
-        return $url;
-    }
-
-    /**
      * @param $username
      * @param $screenId
      * @return string
