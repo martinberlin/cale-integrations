@@ -460,6 +460,7 @@ class ARenderController extends AbstractController
             }
             $count++;
         }
+        $html.= '</div>';
 
         $response = new Response();
         $response->setContent($html);
