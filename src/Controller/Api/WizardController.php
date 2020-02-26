@@ -38,6 +38,8 @@ class WizardController extends AbstractController
             $error = "Could not access iCal. ".$e->getMessage();
         }
         $html = '';$count = 0;
+        if (isset($events)) {
+            $html .= '<h4>&nbsp; Events in the next 7 days</h4>';
         foreach ($events as $event) {
             $dateStart = ($ical->iCalDateToDateTime($event->dtstart));
             $dateEnd = ($ical->iCalDateToDateTime($event->dtend));
@@ -58,9 +60,10 @@ class WizardController extends AbstractController
             }
             $count++;
         }
+        }
 
         $response = new Response();
-        $response->setContent("<h4>&nbsp; Events in the next 7 days</h4>".$html);
+        $response->setContent($html);
         return $response;
     }
 
@@ -82,9 +85,10 @@ class WizardController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $api->setUserApi($userApi);
             try {
                 $entityManager->persist($userApi);
+                $userApi->setIsConfigured(true);
+                $api->setUserApi($userApi);
                 $api->setName($form->get('name')->getData());
                 $entityManager->persist($api);
                 $entityManager->flush();

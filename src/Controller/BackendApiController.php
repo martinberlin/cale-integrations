@@ -50,6 +50,7 @@ class BackendApiController extends AbstractController
             $add['edit'] = '';
             $add['userapi_id'] = $userApi->getId();
             $add['edit_route'] = $api->getEditRoute();
+            $add['is_configured'] = $userApi->isConfigured();
             if ($add['edit_route'] !=='' && is_null($add['edit_route'])===false) {
                 $add['edit'] = $this->generateUrl($api->getEditRoute(), ['uuid' => $userApi->getId()]);
                 $list[] = $add;

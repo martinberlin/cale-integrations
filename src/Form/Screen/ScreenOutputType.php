@@ -78,7 +78,7 @@ class ScreenOutputType extends AbstractType
             ->add('outCacheSeconds', ChoiceType::class,
                 [
                     'choices' => $options['cache_seconds'],
-                    'label' => 'BMP is catched for',
+                    'label' => 'cache_seconds',
                     'attr' => ['class' => 'form-control']
                 ])
             ->add('outCompressed', CheckboxType::class,

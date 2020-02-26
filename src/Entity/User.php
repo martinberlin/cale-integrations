@@ -152,6 +152,7 @@ class User implements UserInterface, Language, Created
         $this->userApis = new ArrayCollection();
         $this->screens = new ArrayCollection();
         $this->sysLogs = new ArrayCollection();
+        $this->doNotDisturb = false;
         $this->setCreated(new \DateTime());
     }
 

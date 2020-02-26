@@ -32,7 +32,7 @@
                         {#<td>{{ a.id }}</td>#}
                         <td><a title="external Documentation" href="{{ a.doc_url }}" target="_blank">
                                 <span class="glyphicon glyphicon-link"></span></a> {{ a.name }}</td>
-                        <td>{% if a.hasToken == 'ok' %}
+                        <td>{% if a.hasToken == 'ok' or a.is_configured %}
                             <img src="/assets/icon/checked.svg" width="24">
                                 {% else %}
                                 {{ a.hasToken }}

@@ -148,7 +148,7 @@ Zoom factor: Zoom
 70 %: 70 %
 80 %: 80 %
 100 %: 100 %
-BMP is catched for: BMP en cache
+cache_seconds: BMP en cache
 2 secs: 2 segundos
 30 secs: 30 seg.
 1 minute: 1 minuto
@@ -163,6 +163,8 @@ Zlib compressed: Compresion Zlib
 BMP bits depth: Bits depth
 1 bit: 1 bit
 4 bit: 4 bit
+Use HTTPS: HTTPS
+Bitsdepth: Bitsdepth
 Save settings: Guardar cambios
 screen_no_display_message: No pudimos generar la imagen ya que no hay un display configurado para este Screen
 screen_add_display: Agregar display
