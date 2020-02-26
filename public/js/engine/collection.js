@@ -31,8 +31,8 @@ $(function () {
 
         addItemHandleEvent: function(event) {
             event.preventDefault();
-
             this.addItem(null, null, null, event);
+            drawPickers(); // Redraw color pickers
         },
 
         addItem: function(method, itemToAdd, referenceItem, event) {
@@ -98,7 +98,6 @@ $(function () {
         createItem: function() {
             var newItem = this.itemPrototype.replace(this.indexPattern, this.index);
             this.index = this.index + 1;
-
             return newItem;
         },
 

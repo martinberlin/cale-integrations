@@ -439,21 +439,25 @@ class ARenderController extends AbstractController
         } catch (\Exception $e) {
             $error = "Could not access iCal. ".$e->getMessage();
         }
+        $styles = "<style>
+        .default_color { background-color: white;color:".$partial->getForegroundColor()."}
+        .inverted_color { background-color: black;color:".$partial->getForegroundColor()."}
+        </style>";
+
         $colorClass = ($partial->getInvertedColor())?'inverted_color':'default_color';
         $hs1 = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h4':'h3';
         $hs2 = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h5':'h4';
-        $html = $error.' <div class="row '.$colorClass.'">';$count = 0;
+        $html = $styles.$error.' <div class="row '.$colorClass.'">';$count = 0;
 
         foreach ($events as $event) {
             $dateStart = ($ical->iCalDateToDateTime($event->dtstart));
             $dateEnd = ($ical->iCalDateToDateTime($event->dtend));
-            $status = ($event->status == 'CONFIRMED') ? '<span style="color:green">' . $event->status . '</span>' : $event->status;
+
             $dtstart = $ical->iCalDateToDateTime($event->dtstart_array[3]);
             $summary = $event->summary . ' - '.$dtstart->format($user->getDateFormat());
             $html .= '<div class="col-md-4 '.$colorClass.'">
-                        <'.$hs1.' style="color:#65bf2a">'.$summary."</$hs1>";
-            $html .= "<$hs2>$status</$hs2>
-                      <$hs2>". $dateStart->format($user->getHourFormat())." to ".$dateEnd->format($user->getHourFormat())."</$hs1>
+                        <'.$hs1.'>'.$summary."</$hs1>";
+            $html .= "<$hs2>". $dateStart->format($user->getHourFormat())." to ".$dateEnd->format($user->getHourFormat())."</$hs1>
                     </div>";
             if ($count > 1 && $count % 3 === 0) {
                 $html .= '</div><div class="row">';

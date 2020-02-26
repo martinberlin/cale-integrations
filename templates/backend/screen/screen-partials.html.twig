@@ -1,4 +1,8 @@
 {% extends 'backend/backend-base.html.twig' %}
+{% set defaultColor = '#000000' %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/nano.min.css"/>
+{% endblock %}
 
 {% macro rowPrototype(form) %}
     <div class="item row" style="margin:0.4em;padding:0.4em;border: 1px solid #2d545e">
@@ -21,12 +25,16 @@
                        </div>
                    </div>
                </div>
-               <div class="col-md-4 col-sm-6">
+               <div class="col-md-3">
                    {{ form_row(form.partials.vars.prototype.placeholder) }}
                    {{ form_widget(form.partials.vars.prototype.invertedColor) }}
                    {{ form_label(form.partials.vars.prototype.invertedColor) }}
                </div>
-               <div class="col-md-4">
+               <div class="col-md-2">
+                   {{ form_row(form.partials.vars.prototype.foregroundColor, {'attr': {'value': defaultColor}}) }}
+               </div>
+
+               <div class="col-md-3">
                    <button type="button" style="margin-top: 2.2em"
                            class="delete_item btn btn-danger btn-sm">{{'Delete'|trans}}</button>
                </div>
@@ -121,12 +129,16 @@
                                 </div>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-sm-6">
+                            <div class="col-md-3">
                                 {{ form_row(partial.placeholder) }}
                                 {{ form_widget(partial.invertedColor) }}
                                 {{ form_label(partial.invertedColor) }}
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-2">
+                                {{ form_row(partial.foregroundColor) }}
+                            </div>
+
+                            <div class="col-md-3">
                                 <button type="button" style="margin-top: 2.2em"
                                         class="delete_item btn btn-danger btn-sm">{{'Delete'|trans}}</button><br>
                                 <img src="" id="t_{{ loop.index0 }}">
@@ -143,14 +155,68 @@
 
 {{ form_end(form) }}
 
+
 {% endblock %}
 
 
 {% block javascripts %}
-    {# TODO: Get rid of jquery since we are only using it here for handling the frontend part of Symfony collections #}
-    <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
-    <script src="/js/engine/collection.js"></script>
-<script>
+{# TODO: Get rid of jquery since we are only using it here for handling the frontend part of Symfony collections #}
+<script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
+<script src="/js/engine/collection.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        drawPickers()
+    });
+
+        function drawPickers() {
+            console.log("drawPickers()")
+        document.querySelectorAll('.pickr').forEach(function (picker) {
+            let pickr = Pickr.create({
+                el: picker,
+                theme: 'nano',
+                useAsButton: true,
+                default: '{{ defaultColor }}',
+                swatches: [
+                    'rgb(0, 0, 0)',
+                    'rgb(30, 30, 30)',
+                    'rgb(50, 50, 50)',
+                    'rgb(244, 167, 0)',
+                    'rgb(244, 67, 54)',
+                    'rgb(233, 30, 99)',
+                    'rgb(156, 39, 176)',
+                    'rgb(103, 58, 183)',
+                    'rgb(63, 81, 181)',
+                    'rgb(3, 169, 244)',
+                    'rgb(0, 150, 136)',
+                    'rgb(76, 175, 80)',
+                    'rgb(205, 220, 57)',
+                    'rgb(255, 193, 7)'
+                ],
+                defaultRepresentation: 'HEX',
+                components: {
+                    // Main components
+                    preview: true,
+                    opacity: false,
+                    hue: false,
+                    interaction: {
+                        hex: true,
+                        rgba: false,
+                        hsva: false,
+                        input: true,
+                        save: false
+                    }
+                }
+            }).on('init', pickr => {
+                let el = pickr._root.button;
+                pickr.setColor(el.value);
+            }).on('change', color => {
+                let el = pickr._root.button;
+                el.value = color.toHEXA().toString();
+                el.style.backgroundColor = color.toHEXA();
+            });
+        });
+    }
 </script>
 {% endblock javascripts %}

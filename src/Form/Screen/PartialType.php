@@ -10,6 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -40,7 +41,6 @@ class PartialType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
         $builder
             /* List only APIs integrated by this user */
             ->add('integrationApi', EntityType::class,
@@ -70,10 +70,21 @@ class PartialType extends AbstractType
                 ])
             ->add('invertedColor', CheckboxType::class,
             [
-                'label' => 'Invert B/W colors',
+                'label' => 'Invert background color',
                 'value' => 1,
                 'required' => false
             ])
+            ->add('foregroundColor', TextType::class,
+                [
+                    'label' => 'Text color',
+                    'empty_data' => '#000000',
+                    'required' => true,
+                    'attr' => [
+                        'class' => 'pickr',
+                        'size' => '8',
+                        'data-id' => uniqid()
+                    ]
+                ])
             ->add('maxResults', NumberType::class,
                 [
                     'label' => 'Max. rows',

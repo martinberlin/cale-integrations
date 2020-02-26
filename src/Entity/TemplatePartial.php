@@ -44,6 +44,13 @@ class TemplatePartial implements Sortable
     protected $invertedColor;
 
     /**
+     * HEXA Color of the text
+     *
+     * @ORM\Column(type="string", length=7,nullable=true)
+     */
+    protected $foregroundColor;
+
+    /**
      * @ORM\Column(type="integer", nullable=false)
      */
     protected $maxResults;
@@ -56,6 +63,7 @@ class TemplatePartial implements Sortable
     public function __construct()
     {
         $this->invertedColor = false;
+        $this->foregroundColor = '#000000';
     }
 
     /**
@@ -168,6 +176,22 @@ class TemplatePartial implements Sortable
     public function setSortPos($sortPos)
     {
         $this->sortPos = $sortPos;
+    }
+
+    /**
+     * @return string
+     */
+    public function getForegroundColor()
+    {
+        return $this->foregroundColor;
+    }
+
+    /**
+     * @param mixed $foregroundColor
+     */
+    public function setForegroundColor($f)
+    {
+        $this->foregroundColor = $f;
     }
 
     public function __toString()
