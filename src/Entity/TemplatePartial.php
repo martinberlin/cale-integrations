@@ -51,6 +51,11 @@ class TemplatePartial implements Sortable
     protected $foregroundColor;
 
     /**
+     * @ORM\Column(type="string", length=7,nullable=true)
+     */
+    protected $backgroundColor;
+
+    /**
      * @ORM\Column(type="integer", nullable=false)
      */
     protected $maxResults;
@@ -192,6 +197,22 @@ class TemplatePartial implements Sortable
     public function setForegroundColor($f)
     {
         $this->foregroundColor = $f;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBackgroundColor()
+    {
+        return $this->backgroundColor;
+    }
+
+    /**
+     * @param mixed
+     */
+    public function setBackgroundColor($b)
+    {
+        $this->backgroundColor = $b;
     }
 
     public function __toString()

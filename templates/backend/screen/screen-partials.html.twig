@@ -1,5 +1,6 @@
 {% extends 'backend/backend-base.html.twig' %}
-{% set defaultColor = '#000000' %}
+{% set defaultFColor = '#000000' %}
+{% set defaultBColor = '#FFFFFF' %}
 {% block stylesheets %}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/nano.min.css"/>
 {% endblock %}
@@ -11,30 +12,33 @@
                <div class="col-md-4 col-sm-6">
                    {{ form_row(form.partials.vars.prototype.integrationApi) }}
                    <div class="row">
-                       <div class="col-md-4 col-sm-4">
+                       <div class="col-md-2">
                            {{ form_label(form.partials.vars.prototype.maxResults) }}
                        </div>
-                       <div class="col-md-2 col-sm-2">
+                       <div class="col-md-2">
                            {{ form_widget(form.partials.vars.prototype.maxResults) }}
                        </div>
-                       <div class="col-md-3 col-sm-3">
+                       <div class="col-md-2">
                            {{ form_label(form.partials.vars.prototype.sortPos) }}
                        </div>
-                       <div class="col-md-3 col-sm-3">
+                       <div class="col-md-2">
                            {{ form_widget(form.partials.vars.prototype.sortPos) }}
                        </div>
                    </div>
                </div>
-               <div class="col-md-3">
+               <div class="col-md-2">
                    {{ form_row(form.partials.vars.prototype.placeholder) }}
                    {{ form_widget(form.partials.vars.prototype.invertedColor) }}
                    {{ form_label(form.partials.vars.prototype.invertedColor) }}
                </div>
                <div class="col-md-2">
-                   {{ form_row(form.partials.vars.prototype.foregroundColor, {'attr': {'value': defaultColor}}) }}
+                   {{ form_row(form.partials.vars.prototype.foregroundColor, {'attr': {'value': defaultFColor}}) }}
+               </div>
+               <div class="col-md-2">
+                   {{ form_row(form.partials.vars.prototype.backgroundColor, {'attr': {'value': defaultBColor}}) }}
                </div>
 
-               <div class="col-md-3">
+               <div class="col-md-2">
                    <button type="button" style="margin-top: 2.2em"
                            class="delete_item btn btn-danger btn-sm">{{'Delete'|trans}}</button>
                </div>
@@ -115,30 +119,32 @@
                                 <div class="row">
                                     {{ form_errors(partial.sortPos) }}
                                     {{ form_errors(partial.maxResults) }}
-                                <div class="col-md-4 col-sm-4">
+                                <div class="col-md-2">
                                     {{ form_label(partial.maxResults) }}
                                 </div>
-                                <div class="col-md-2 col-sm-2">
+                                <div class="col-md-2">
                                     {{ form_widget(partial.maxResults) }}
                                 </div>
-                                <div class="col-md-3 col-sm-3">
+                                <div class="col-md-2">
                                     {{ form_label(partial.sortPos) }}
                                 </div>
-                                <div class="col-md-3 col-sm-3">
+                                <div class="col-md-2">
                                     {{ form_widget(partial.sortPos) }}
                                 </div>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 {{ form_row(partial.placeholder) }}
                                 {{ form_widget(partial.invertedColor) }}
                                 {{ form_label(partial.invertedColor) }}
                             </div>
                             <div class="col-md-2">
+                                {{ form_row(partial.backgroundColor) }}
+                            </div>
+                            <div class="col-md-2">
                                 {{ form_row(partial.foregroundColor) }}
                             </div>
-
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <button type="button" style="margin-top: 2.2em"
                                         class="delete_item btn btn-danger btn-sm">{{'Delete'|trans}}</button><br>
                                 <img src="" id="t_{{ loop.index0 }}">
@@ -171,13 +177,20 @@
     });
 
         function drawPickers() {
-            console.log("drawPickers()")
+            //console.log("drawPickers()");
+
+            let colorSwitch = true;
         document.querySelectorAll('.pickr').forEach(function (picker) {
+
+            let defaultColor = (colorSwitch) ? '{{ defaultBColor }}' : '{{ defaultFColor }}';
+            colorSwitch = !colorSwitch;
+
+            //console.log(defaultColor)
             let pickr = Pickr.create({
                 el: picker,
                 theme: 'nano',
                 useAsButton: true,
-                default: '{{ defaultColor }}',
+                default: '{{ defaultBColor }}',
                 swatches: [
                     'rgb(0, 0, 0)',
                     'rgb(30, 30, 30)',
@@ -186,7 +199,7 @@
                     'rgb(244, 67, 54)',
                     'rgb(233, 30, 99)',
                     'rgb(156, 39, 176)',
-                    'rgb(103, 58, 183)',
+                    'rgb(255, 255, 255)',
                     'rgb(63, 81, 181)',
                     'rgb(3, 169, 244)',
                     'rgb(0, 150, 136)',

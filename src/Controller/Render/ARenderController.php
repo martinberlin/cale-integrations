@@ -32,6 +32,20 @@ class ARenderController extends AbstractController
     }
 
     /**
+     * @param TemplatePartial $partial
+     * @return string
+     */
+    private function getColorStyle(TemplatePartial $partial, $invert = false) {
+        $fColor = ($partial->getInvertedColor()===false) ? $partial->getForegroundColor() : $partial->getBackgroundColor();
+        $bColor = ($partial->getInvertedColor()===false) ? $partial->getBackgroundColor() : $partial->getForegroundColor();
+        if ($invert === false) {
+        $colorStyle = ' style="color:'.$fColor.';background-color:'.$bColor.'"';
+        } else {
+            $colorStyle = ' style="background-color:'.$fColor.';color:'.$bColor.'"';
+        }
+        return $colorStyle;
+    }
+    /**
      * NOTE: As a difference with other APIs google services will call the API directly without JSON first
      * render_google_calendar internally called. This reads the API data and responds with an HTML content part
      * @Route("/render/google_calendar", name="render_google_calendar")
@@ -102,11 +116,13 @@ class ARenderController extends AbstractController
         $responseContent = '';
         // Start HTML building - Headlines is a try to mould this to Screen environment
         $hs = (substr($partial->getScreen()->getTemplateTwig(), 0, 1) > 1) ? 'h4' : 'h3';
-        $colorClass = ($partial->getInvertedColor())?'inverted_color':'default_color';
-        $eventClass = ($partial->getInvertedColor()) ? 'default_color' : 'inverted_color';
+        // Retrieve color styles
+        $colorStyle = $this->getColorStyle($partial);
+        $invertedColorStyle = $this->getColorStyle($partial, true);
+
         $iconArrowRight = ' <span class="glyphicon glyphicon-arrow-right"></span>';
 
-        $responseContent = '<div class="row '.$colorClass.'"><div class="col-md-12">';
+        $responseContent = '<div class="row"'.$colorStyle.'><div class="col-md-12">';
 
         foreach ($events as $event) {
             $dateStart = ($event->start->getDate() != '') ? $event->start->getDate() : $event->start->getDateTime();
@@ -124,7 +140,7 @@ class ARenderController extends AbstractController
             $startFormat = $start->format($dateFormat).' '.$startTime;
             $fromTo = ($endFormat=='') ? $startFormat : $startFormat.$iconArrowRight. $endFormat;
 
-            $responseContent .= '<div class="row '.$eventClass.'">';
+            $responseContent .= '<div class="row"'.$invertedColorStyle.'>';
             $responseContent .= '<div class="col-md-12"><'.$hs.'>'.$event->summary.'</'.$hs.'></div>'.
                                 '</div>'.
                                 '<div class="row">'.
@@ -214,12 +230,13 @@ class ARenderController extends AbstractController
         $responseContent = '';
         // Start HTML building - Headlines is a try to mould this to Screen environment
         $hs = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h3':'h2';
-        $colorClass = ($partial->getInvertedColor())?'inverted_color':'default_color';
-        $eventClass = ($partial->getInvertedColor())?'default_color':'inverted_color';
-        $iconArrowRight = '<span class="glyphicon glyphicon-arrow-right"></span>';
-        $iconLogo = '<img src="/assets/screen/logo/timetree-'.$colorClass.'.png"> ';
+        $colorStyle = $this->getColorStyle($partial);
+        $invertedColorStyle = $this->getColorStyle($partial, true);
 
-        $responseContent = '<div class="row '.$colorClass.'"><div class="col-md-12">';
+        $iconArrowRight = '<span class="glyphicon glyphicon-arrow-right"></span>';
+        $iconLogo = '<img src="/assets/screen/logo/timetree-default_color.png"> ';
+
+        $responseContent = '<div class="row"'.$colorStyle.'><div class="col-md-12">';
 
         foreach ($json->data as $item) {
             $attr = $item->attributes;
@@ -230,7 +247,8 @@ class ARenderController extends AbstractController
             $end = new \DateTime($attr->end_at);
             $end->add(new \DateInterval('PT1H'));
 
-            $responseContent .= '<div class="row '.$eventClass.'">';
+            $responseContent .= '<div class="row"'.$invertedColorStyle.'>';
+
             $responseContent .= '<div class="col-md-12"><'.$hs.'>'.$iconLogo.$attr->title.'</'.$hs.'></div>'.
                                 '</div><div class="row">'.
                                 '<div class="col-md-6"><'.$hs.'>'.$attr->location.'</'.$hs.'></div>';
@@ -270,6 +288,7 @@ class ARenderController extends AbstractController
             throw $this->createNotFoundException("Parsing of int_api $int_api_id JSON failed: ".json_last_error());
         }
         // Read user preferences
+        $colorStyle = $this->getColorStyle($partial);
         $user = $partial->getScreen()->getUser();
         $hourFormat = $user->getHourFormat();
         // WEATHER Dark sky
@@ -287,8 +306,8 @@ class ARenderController extends AbstractController
         $hourlyCounter = 1;
         // Start HTML building - Headlines is a try to mould this to Screen environment
         $hs = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h3':'h2';
-        $colorClass = ($partial->getInvertedColor())?'inverted_color':'default_color';
-        $responseContent = '<div class="row '.$colorClass.'"><div class="col-md-12">';
+
+        $responseContent = '<div class="row"'.$colorStyle.'><div class="col-md-12">';
         $responseContent .= "<div class=\"row\">
             <div class=\"col-md-6\"><$hs>Low&nbsp; {$d['daily-avg-low']}<br>High {$d['daily-avg-high']}</$hs></div>
             <div class=\"col-md-6 text-right\"><$hs>$iconSunrise {$d['sunrise']}<br>Sunset&nbsp; {$d['sunset']}</$hs></div></div>";
@@ -439,15 +458,12 @@ class ARenderController extends AbstractController
         } catch (\Exception $e) {
             $error = "Could not access iCal. ".$e->getMessage();
         }
-        $styles = "<style>
-        .default_color { background-color: white;color:".$partial->getForegroundColor()."}
-        .inverted_color { background-color: black;color:".$partial->getForegroundColor()."}
-        </style>";
+        $colorStyle = $this->getColorStyle($partial);
 
-        $colorClass = ($partial->getInvertedColor())?'inverted_color':'default_color';
         $hs1 = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h4':'h3';
         $hs2 = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h5':'h4';
-        $html = $styles.$error.' <div class="row '.$colorClass.'">';$count = 0;
+        $html = $error.' <div class="row"'.$colorStyle.'>';
+        $count = 0;
 
         foreach ($events as $event) {
             $dateStart = ($ical->iCalDateToDateTime($event->dtstart));
@@ -455,7 +471,7 @@ class ARenderController extends AbstractController
 
             $dtstart = $ical->iCalDateToDateTime($event->dtstart_array[3]);
             $summary = $event->summary . ' - '.$dtstart->format($user->getDateFormat());
-            $html .= '<div class="col-md-4 '.$colorClass.'">
+            $html .= '<div class="col-md-4">
                         <'.$hs1.'>'.$summary."</$hs1>";
             $html .= "<$hs2>". $dateStart->format($user->getHourFormat())." to ".$dateEnd->format($user->getHourFormat())."</$hs1>
                     </div>";

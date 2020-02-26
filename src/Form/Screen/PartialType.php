@@ -70,7 +70,7 @@ class PartialType extends AbstractType
                 ])
             ->add('invertedColor', CheckboxType::class,
             [
-                'label' => 'Invert background color',
+                'label' => 'Invert B/Text color',
                 'value' => 1,
                 'required' => false
             ])
@@ -81,10 +81,19 @@ class PartialType extends AbstractType
                     'required' => true,
                     'attr' => [
                         'class' => 'pickr',
-                        'size' => '8',
-                        'data-id' => uniqid()
+                        'size' => '8'
                     ]
                 ])
+            ->add('backgroundColor', TextType::class,
+                [
+                    'label' => 'Background',
+                    'required' => true,
+                    'attr' => [
+                        'class' => 'form-control pickr',
+                        'size' => '8'
+                    ]
+                ])
+
             ->add('maxResults', NumberType::class,
                 [
                     'label' => 'Max. rows',
