@@ -103,7 +103,12 @@ class ScreenOutputType extends AbstractType
             ->add('submit', SubmitType::class,
                 [
                     'label' => 'Save settings',
-                    'attr' => ['class' => 'btn btn-primary', 'style' => 'margin-top:-0.2em']
+                    'attr' => ['class' => 'btn btn-primary']
+                ])
+            ->add('submitLeft', SubmitType::class,
+                [
+                    'label' => 'Save settings',
+                    'attr' => ['class' => 'btn btn-primary']
                 ]);
     }
 

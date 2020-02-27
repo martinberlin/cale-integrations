@@ -7,81 +7,84 @@
 {% block body %}
 
     <div class="row screen-render-divs" id="screen-preview-url">
+        <form>
 
         <div class="row" style="padding: 0.4em">
-            <form>
-                <div class="col-md-6">
 
+                <div class="col-md-6 col-sm-6">
                     <label for="route_html">Html URL:</label>
                     <input type="text" value="{{ html_url }}" id="route_html" class="form-control">
+                </div>
 
+                <div class="col-md-3 col-sm-6">
+                    <button type="button" class="btn btn-default" onclick="window.location='{{ html_url }}'"
+                            id="route_html"
+                            style="margin-top:1.8em">Preview HTML
+                    </button>
+                </div>
+
+            <div class="col-md-3">
+                {% if screen_hits %} <label>Screen views:</label> {{ screen_hits }}<br>
+                {% endif %}
+                {% if screen_public %}
+                    <span class="glyphicon glyphicon-alert"></span> <b>This Screen is public</b><br>
+                    <small>Do not share the link if you care for your privacy</small>
+                {% endif %}
+            </div>
+        </div>
+
+            <div class="row" style="padding: 0.4em">
+                <div class="col-md-6 col-sm-6">
                     <label for="route_html">Bitmap URL for the ESP32:</label>
+                    {% if screen_display is not null %}
+                        <input type="text" value="{{ bmp_url }}" id="route_bmp" class="form-control">
+
+                    {% else %}
+                        <div class="row text-right">
+                            Cannot render image since the is no display associated with this Screen
+                            <span class="glyphicon glyphicon-arrow-right"></span>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-3 col-sm-6">
 
                     {% if screen_display is not null %}
-                    <input type="text" value="{{ bmp_url }}" id="route_bmp" class="form-control">
-
-                     {% else %}
-                     <div class="row text-right">
-                         Cannot render image since the is no display associated with this Screen
-                         <span class="glyphicon glyphicon-arrow-right"></span>
-                     </div>
+                        <button type="button" class="btn btn-default"
+                                onclick="popitup('{{ bmp_url }}','{{ screen_display.width }}','{{ screen_display.height }}')"
+                                id="route_html"
+                                style="margin-top:1.8em">Preview Bitmap
+                        </button>
                     {% endif %}
-
                 </div>
-                <div class="col-md-6">
 
-                    <div class="row">
-                        <div class="col-md-2">
+                <div class="col-md-3">
+                    {% if screen_bearer %}
+                        <label>Protected by Bearer token:</label><br>
+                        <small>{{ screen_bearer }}</small><br>
+                    <span class="glyphicon glyphicon-alert"></span> NOTE: This feature is not active yet
 
-                            <button type="button" class="btn btn-default" onclick="window.location='{{ html_url }}'"
-                                    id="route_html"
-                                    style="margin-top:1.8em">Preview
-                            </button>
-
-                            {% if screen_display is null %}
-                                <br>
-                                <button type="button" class="btn btn-sm btn-primary"
-                                        onclick="window.location='{{ path('b_screen_edit', {'uuid': uuid}) }}'"
-                                        style="margin-top:1.5em">{{ 'screen_add_display'|trans }}
-                                </button>
-                            {% endif %}
-
-                        </div>
-                        {% if screen_public %}
-                            <div class="col-md-10" style="margin-top: 2em">
-                                This Screen is public. Do not share the link if you care for your privacy.<br>
-                                    {% if screen_hits %} <label>Screen views:</label> {{ screen_hits }}
-                        {% endif %}
-                                {% if screen_bearer %}
-                                    <br>
-                                    <label>Protected by Bearer token:</label><br>
-                                    <small>{{ screen_bearer }}</small>
-                                {% endif %}
-                            </div>
-                        {% endif %}
-                    </div>
-
+                    {% endif %}
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 
         {% if screen_display is not null %}
         <div class="row screen-render-divs" id="screen-settings">
+            {{ form_start(form) }}
             <div class="col-md-12">
                 <h4><span class="glyphicon glyphicon-picture"></span> Screenshot output settings:</h4>
-                {{ form_start(form) }}
                 <div class="row">
-                    <div class="col-md-2">
+                    <div class="col-md-3 col-sm-6">
                         {{ form_row(form.outBrightness) }}
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3 col-sm-3">
                         {{ form_row(form.outZoomFactor) }}
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2 col-sm-3">
                         {{ form_row(form.outCacheSeconds) }}
                     </div>
-                    <div class="col-md-3" style="margin-top: 0em">
+                    <div class="col-md-3 col-sm-6">
                         {{ form_widget(form.outSsl) }} {{ form_label(form.outSsl) }}<br>
                         {{ form_widget(form.outCompressed) }} {{ form_label(form.outCompressed) }}<br>
                         <small>{{ 'only_esp32_supported'|trans }}</small>
@@ -89,18 +92,28 @@
                     <div class="col-md-1">
                         {{ form_row(form.outBitDepth) }}
                     </div>
-                    <div class="col-md-2" style="margin-top: -1em">
-                        <button type="button" class="btn btn-sm btn-default"
-                                onclick="window.location='{{ path('b_screen_partials', {'uuid': uuid}) }}'"
-                                style="margin-bottom: 0.9em">
-                            <span class="glyphicon glyphicon-paperclip"></span> {{ 'Edit'|trans }}
-                        </button>
-                        {{ form_widget(form.submit) }}
+                </div>
+                {# {'attr': {'style': 'margin-top: 1.7em'}} #}
+                <div class="row" style="background-color:#000000;padding-top: 0.4em;padding-bottom: 0.4em">
+                    <div class="col-md-3 col-sm-6">
+                        {{ form_widget(form.submitLeft) }}
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <a class="btn btn-default" href="{{ path('b_screen_edit', {'uuid':uuid}) }}">
+                            <span class="glyphicon glyphicon-picture"></span> Screen {{'Config'|trans}}</a>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="{{ path('b_screen_partials', {'uuid':uuid}) }}"
+                           class="btn btn-default">
+                            <span class="glyphicon glyphicon-paperclip"></span> {{ 'screen_edit_partials'|trans }}</a>
+                    </div>
+                    <div class="col-md-4 text-right">
+                    {{ form_widget(form.submit) }}
                     </div>
                 </div>
-                {{ form_end(form) }}
-
             </div>
+
+            {{ form_end(form) }}
         </div>
         {% endif %}
 
@@ -116,4 +129,14 @@
 
     {% include template %}
 
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    function popitup(url, width, height) {
+        o = window.open(url,'name','height='+height+',width='+width);
+        if (window.focus) {o.focus()}
+        return false;
+    }
+</script>
 {% endblock %}

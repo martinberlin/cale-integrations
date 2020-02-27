@@ -105,7 +105,9 @@ in: in
 1st Column: 1st Column
 2nd Column:	2nd Column
 3rd Column: 3rd Column
-Invert B/W colors: Invert B/W colors
+Invert B/Text: Invert B/Text
+Text color: Text color
+Background: Background
 Max. rows: Max. rows
 Sort pos.: Sort pos.
 Screen name: Screen name

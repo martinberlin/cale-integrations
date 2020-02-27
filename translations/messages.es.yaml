@@ -105,7 +105,9 @@ in: en
 1st Column: 1ra
 2nd Column:	2da
 3rd Column: 3ra
-Invert B/W colors: Invertir Blanco/Negro
+Invert B/Text: Invertir B/Texto
+Text color: Color texto
+Background: Fondo
 Max. rows: Entradas
 Sort pos.: Posición
 Screen name: Nombre del Screen

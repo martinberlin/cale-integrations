@@ -8,6 +8,7 @@ use App\Form\Screen\ScreenOutputType;
 use App\Form\Screen\ScreenPartialsType;
 use App\Form\Screen\ScreenType;
 use App\Repository\ScreenRepository;
+use App\Repository\TemplatePartialRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -187,7 +188,7 @@ class BackendScreenController extends AbstractController
     /**
      * @Route("/render/{uuid?}", name="b_screen_render")
      */
-    public function screenRender($uuid, Request $request, ScreenRepository $screenRepository,
+    public function screenRender($uuid, Request $request, ScreenRepository $screenRepository, TemplatePartialRepository $partialRepository,
                                  EntityManagerInterface $em)
     {
         $screen = $screenRepository->find($uuid);
@@ -200,7 +201,8 @@ class BackendScreenController extends AbstractController
 
         $form = $this->createForm(ScreenOutputType::class, $screen);
         $template = $screen->getTemplateTwig();
-        $partials = $screen->getPartials();
+        $partials = $partialRepository->findBy(['screen' => $screen], ['sortPos' => 'ASC']);
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             try {

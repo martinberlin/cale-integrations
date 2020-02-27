@@ -5,11 +5,11 @@ use App\Entity\Screen;
 use App\Entity\TemplatePartial;
 use App\Entity\User;
 use App\Repository\ScreenRepository;
+use App\Repository\TemplatePartialRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Profiler\Profiler;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,14 +17,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-
 class PublicScreenRenderController extends AbstractController
 {
     /**
      * @Route("/{username}/render/{uuid?}", name="public_screen_render")
      */
-    public function publicScreenRender($uuid, $username, Request $request, ScreenRepository $screenRepository, UserRepository $userRepository,
-                                       LoggerInterface $logger, ?Profiler $profiler, ?EntityManagerInterface $em)
+    public function publicScreenRender($uuid, $username, Request $request, ScreenRepository $screenRepository, TemplatePartialRepository $partialRepository,
+                                       UserRepository $userRepository, LoggerInterface $logger, ?Profiler $profiler, ?EntityManagerInterface $em)
     {
         // For this controller action if exists (dev) the profiler is disabled
         if (null !== $profiler) {
@@ -53,7 +52,7 @@ class PublicScreenRenderController extends AbstractController
             $em->flush();
         }
         $template = $screen->getTemplateTwig();
-        $partials = $screen->getPartials();
+        $partials = $partialRepository->findBy(['screen' => $screen], ['sortPos' => 'ASC']);
 
         $renderParams = [
             'template' => '/screen-templates/' . $template

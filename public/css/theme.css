@@ -32,7 +32,10 @@ pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; background-color: #f5f5
     invert(1);
 }
 /* Links like: 'Powered by ...' that we are enforced to use */
-.partial-link a,a:link,a:visited,a:active {
+.partial-link a {
+    color: #222222;
+}
+.partial-link a:visited {
     color: #222222;
 }
 

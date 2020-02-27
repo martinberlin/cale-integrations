@@ -440,7 +440,7 @@ class ARenderController extends AbstractController
 
     /**
      * iCal renderer
-     * @Route("/render_int_ical/weather", name="render_int_ical")
+     * @Route("/render_int_ical", name="render_int_ical")
      */
     public function render_int_ical(TemplatePartial $partial, IntegrationApiRepository $intApiRepository)
     {
@@ -462,6 +462,8 @@ class ARenderController extends AbstractController
 
         $hs1 = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h4':'h3';
         $hs2 = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h5':'h4';
+        $colMd = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'col-md-6':'col-md-4';
+
         $html = $error.' <div class="row"'.$colorStyle.'>';
         $count = 0;
 
@@ -471,13 +473,12 @@ class ARenderController extends AbstractController
 
             $dtstart = $ical->iCalDateToDateTime($event->dtstart_array[3]);
             $summary = $event->summary . ' - '.$dtstart->format($user->getDateFormat());
-            $html .= '<div class="col-md-4">
+            $html .= '<div class="'.$colMd.'">
                         <'.$hs1.'>'.$summary."</$hs1>";
             $html .= "<$hs2>". $dateStart->format($user->getHourFormat())." to ".$dateEnd->format($user->getHourFormat())."</$hs1>
-                    </div>";
-            if ($count > 1 && $count % 3 === 0) {
-                $html .= '</div><div class="row">';
-            }
+                      </div>";
+            // Optional: Cut in rows, we are going to let this happen automatically with bootstrap
+            /*if ($count > 1 && $count % 3 === 0) { $html .= '</div>';  }*/
             $count++;
         }
         $html.= '</div>';
