@@ -229,7 +229,7 @@ class ARenderController extends AbstractController
 
         $responseContent = '';
         // Start HTML building - Headlines is a try to mould this to Screen environment
-        $hs = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h3':'h2';
+        $hs = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h4':'h3';
         $colorStyle = $this->getColorStyle($partial);
         $invertedColorStyle = $this->getColorStyle($partial, true);
 
@@ -250,8 +250,7 @@ class ARenderController extends AbstractController
             $responseContent .= '<div class="row"'.$invertedColorStyle.'>';
 
             $responseContent .= '<div class="col-md-12"><'.$hs.'>'.$iconLogo.$attr->title.'</'.$hs.'></div>'.
-                                '</div><div class="row">'.
-                                '<div class="col-md-4"><'.$hs.'>'.$attr->location.'</'.$hs.'></div>';
+                                '</div><div class="row">';
 
             if ($isAllDay) {
                 $fromTo = $start->format($dateFormat);
@@ -263,7 +262,9 @@ class ARenderController extends AbstractController
                 $startFormat = $start->format($dateFormat).' '.$startTime;
                 $fromTo = ($endFormat=='') ? $startFormat : $startFormat.' '.$iconArrowRight. $endFormat;
             }
-            $responseContent .= '<div class="col-md-8 text-right"><'.$hs.'>'.$fromTo.'</'.$hs.'></div>';
+            $responseContent .= '<div class="col-md-8 col-sm-6"><'.$hs.'>'.$fromTo.'</'.$hs.'></div>';
+            $responseContent .= '<div class="col-md-4 col-sm-6"><'.$hs.'>'.$attr->location.'</'.$hs.'></div>';
+
             $responseContent .= '</div>';
         }
 
