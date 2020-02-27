@@ -62,17 +62,13 @@
     </div>
     <div class="col-md-4 col-sm-6">
         <div class="row">
-        <div class="col-md-6 col-sm-6">
-            <b>Template:</b> {{ template_twig }}
-            {% if display is not null %}
-                {{ display.width }}x{{ display.height }}<br>
-                <b>Class:</b> {{ display.className }}
-            {% endif %}
+        <div class="col-md-9 col-sm-6">
+
 
             <br><a href="{{ path('b_screen_edit', {'uuid':uuid}) }}">{{ 'screen_edit_config'|trans }}</a>
         </div>
-        <div class="col-md-6 col-sm-6">
-            <img id="template" width="100" style="margin-top: -1em"
+        <div class="col-md-3 col-sm-6 text-right">
+            <img id="template" width="100" style="margin-top: -1em;padding-right: 1em"
                  src="/img/display-templates/{{ template_twig }}.svg">
          </div>
          </div>
@@ -84,25 +80,37 @@
     <div class="collection_container">
         {#{{ form_row(form.partials) }}#}
         <div class="row">
-            <div class="col-md-4 col-sm-6">
+            <div class="col-md-3 col-sm-6">
               <button type="button" class="add_item btn btn-default">
                   <span class="glyphicon glyphicon-plus"></span> {{ 'screen_add_partial'|trans }}</button>
              </div>
-            <div class="col-md-4 col-sm-6">
+            <div class="col-md-3 col-sm-6">
             {{ form_widget(form.submit) }}
             </div>
-            <div class="col-md-4 col-sm-6">
+            <div class="col-md-3 col-sm-6">
                 {% if form.partials|length %}
                 <button type="button" class="btn btn-success"
                 onclick="window.location='{{ path('b_screen_render', {'uuid':uuid}) }}'">
                     {{'screen_render'|trans}}</button>
                 {% endif %}
             </div>
+            <div class="col-md-3 col-sm-6 text-right">
+                {% if form.partials|length %}
+                  <img src="{{ thumbnail_src }}">
+                {% endif %}
+            </div>
         </div>
 <br>
+
+
         {% if form.partials|length %}
-        <label>{{'screen_partials'|trans}}</label>
+        <label>{{'screen_partials'|trans}}.</label> &nbsp;
         {% endif %}
+        <b>Template:</b> {{ template_twig }}
+        {% if display is not null %}
+            {{ display.width }}x{{ display.height }} <b>Class:</b> {{ display.className }}
+        {% endif %}
+
         {# {{ form_widget(form.partials.vars.prototype)|e('html_attr') }} #}
         <div class="collection_holder row"
              data-prototype="{{ _self.rowPrototype(form)|e }}">

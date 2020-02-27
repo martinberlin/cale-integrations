@@ -89,7 +89,12 @@
                     <div class="col-md-1">
                         {{ form_row(form.outBitDepth) }}
                     </div>
-                    <div class="col-md-2" style="margin-top: 1.8em">
+                    <div class="col-md-2" style="margin-top: -1em">
+                        <button type="button" class="btn btn-sm btn-default"
+                                onclick="window.location='{{ path('b_screen_partials', {'uuid': uuid}) }}'"
+                                style="margin-bottom: 0.9em">
+                            <span class="glyphicon glyphicon-paperclip"></span> {{ 'Edit'|trans }}
+                        </button>
                         {{ form_widget(form.submit) }}
                     </div>
                 </div>

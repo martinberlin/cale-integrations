@@ -88,6 +88,12 @@ class BackendScreenController extends AbstractController
         );
     }
 
+    private function thumbnailUrlGenerator($username, $screenId) {
+        $schema = 'http://';
+        $url = $schema.$_ENV['SCREENSHOT_TOOL'].'/bmp/'.$username.'/'.$screenId.'?thumbnail=1';
+        return $url;
+    }
+
     /**
      * @Route("/partials/{uuid?}", name="b_screen_partials")
      */
@@ -134,7 +140,8 @@ class BackendScreenController extends AbstractController
                 'form' => $form->createView(),
                 'uuid'     => $uuid,
                 'display' => $display,
-                'template_twig' => str_replace('.html.twig','',$screen->getTemplateTwig())
+                'template_twig' => str_replace('.html.twig','',$screen->getTemplateTwig()),
+                'thumbnail_src' => $this->thumbnailUrlGenerator($this->getUser()->getName(), $uuid)
             ]
         );
     }

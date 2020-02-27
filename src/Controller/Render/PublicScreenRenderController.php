@@ -76,41 +76,4 @@ class PublicScreenRenderController extends AbstractController
             'public/screen-render.html.twig',
             $renderParams);
     }
-
-    /**
-     * @deprecated Idea was good but does not work like expected
-     * @Route("/{username}/bmp/{uuid?}", name="public_screen_bitmap")
-     */
-    public function publicScreenFetchBitmap($uuid, $username, Request $request,
-                                            ScreenRepository $screenRepository, UserRepository $userRepository, ?Profiler $profiler) {
-        if (null !== $profiler) {
-            $profiler->disable();
-        }
-        $user = $userRepository->findOneBy(['name' => $username]);
-        if (!$user instanceof User) {
-            throw $this->createNotFoundException("This user does not exist. Please check the URL");
-        }
-        $screen = $screenRepository->findOneBy(['user' => $user, 'uuid' => $uuid]);
-        if (!$screen instanceof Screen) {
-            throw $this->createNotFoundException("$uuid is not a valid screen");
-        }
-        // Start fetch image with HttpClient
-        $options = [];
-        if (isset($_ENV['API_PROXY'])) {
-            $options = array('proxy' => 'http://'.$_ENV['API_PROXY']);
-        }
-        $htmlUrl = $this->generateUrl('public_screen_render', [
-            'username' => $this->getUser()->getName(),
-            'uuid'     => $uuid
-        ], UrlGeneratorInterface::ABSOLUTE_URL);
-        $htmlUrl = "https://cale.es/fasani/render/5e4d6dd0bd483"; // DEBUG - - - - - -
-
-        $testUrl = "http://calendar.fasani.de/screenshot/cale.php?u=http://calendar.fasani.de/paulina&w=800&h=480&d=1";
-        $client = HttpClient::create();
-        $httpResponse = $client->request('GET', $testUrl, $options);
-        $response = new Response();
-        $response->setContent($httpResponse->getContent());
-        $response->headers->set('Content-type', 'image/bmp');
-        return $response;
-    }
 }
