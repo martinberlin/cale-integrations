@@ -58,10 +58,9 @@
                 </div>
 
                 <div class="col-md-3">
-                    {% if screen_bearer %}
+                    {% if screen_bearer and screen_public == false %}
                         <label>Protected by Bearer token</label><br>
                     <span class="glyphicon glyphicon-alert"></span> NOTE: This feature is not active yet
-
                     {% endif %}
                 </div>
             </div>
