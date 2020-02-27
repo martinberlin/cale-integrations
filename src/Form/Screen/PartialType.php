@@ -70,7 +70,7 @@ class PartialType extends AbstractType
                 ])
             ->add('invertedColor', CheckboxType::class,
             [
-                'label' => 'Invert B/Text color',
+                'label' => 'Invert B/Text',
                 'value' => 1,
                 'required' => false
             ])
@@ -99,7 +99,7 @@ class PartialType extends AbstractType
                     'label' => 'Max. rows',
                     'required' => true,
                     'attr' => [
-                        'size'      =>2,
+                        'size'      =>3,
                         'maxlength' =>1
                     ],
                     'constraints' => [
@@ -112,7 +112,7 @@ class PartialType extends AbstractType
                     'label' => 'Sort pos.',
                     'required' => true,
                     'attr' => [
-                        'size'      =>2,
+                        'size'      =>3,
                         'maxlength' =>1
                     ],
                     'constraints' => [
