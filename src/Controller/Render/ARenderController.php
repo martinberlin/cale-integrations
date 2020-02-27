@@ -329,7 +329,7 @@ class ARenderController extends AbstractController
         }
         $responseContent.= $wHourly;
         $responseContent.='<!-- Required by https://darksky.net/dev/docs please do not take out if you use the free version -->
-        <div class="row text-right"><small><a href="https://darksky.net/poweredby">Powered by Dark Sky</a></small>&nbsp;</div>';
+        <div class="row text-right"><small><a href="https://darksky.net/poweredby" class="partial-link">Powered by Dark Sky</a></small>&nbsp;</div>';
         $responseContent .= "</div></div>";
         // Return the composed HTML
         $response = new Response();

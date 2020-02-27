@@ -31,6 +31,10 @@ pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; background-color: #f5f5
 .inverted_color img {
     invert(1);
 }
+/* Links like: 'Powered by ...' that we are enforced to use */
+.partial-link a,a:link,a:visited,a:active {
+    color: #222222;
+}
 
 /* Headlines baby */
 h1 { letter-spacing: -2px }
