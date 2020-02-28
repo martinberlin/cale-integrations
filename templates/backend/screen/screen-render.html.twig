@@ -37,9 +37,10 @@
                 <div class="col-md-6 col-sm-6">
                     <label for="route_html">Bitmap URL for the ESP32:</label>
 
-                    {% if screen_display is not null and screen_public %}
+                    {% if screen_display is not null %}
                         <input type="text" value="{{ bmp_url }}" id="route_bmp" class="form-control">
-                        {% elseif screen_display is not null and screen_public == false %}
+                    {% endif %}
+                    {% if screen_display is not null and screen_public == false %}
                         The screen is not public. Send headers to access:<br>
                         <small>Authentication: Bearer {{ screen_bearer }}</small>
                     {% endif %}
