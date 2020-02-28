@@ -247,9 +247,7 @@ class BackendScreenController extends AbstractController
                     ]);
                 $htmlPerColumn[$p->getPlaceholder()] .= $partialHtml->getContent();
 
-                $renderParams[$p->getPlaceholder()] = [
-                    'content' => $htmlPerColumn[$p->getPlaceholder()]
-                ];
+                $renderParams[$p->getPlaceholder()] = $htmlPerColumn[$p->getPlaceholder()];
             }
         }
 

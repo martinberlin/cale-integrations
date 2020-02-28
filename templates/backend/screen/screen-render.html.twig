@@ -36,19 +36,25 @@
             <div class="row" style="padding: 0.4em">
                 <div class="col-md-6 col-sm-6">
                     <label for="route_html">Bitmap URL for the ESP32:</label>
-                    {% if screen_display is not null %}
-                        <input type="text" value="{{ bmp_url }}" id="route_bmp" class="form-control">
 
-                    {% else %}
+                    {% if screen_display is not null and screen_public %}
+                        <input type="text" value="{{ bmp_url }}" id="route_bmp" class="form-control">
+                        {% elseif screen_display is not null and screen_public == false %}
+                        The screen is not public. Send headers to access:<br>
+                        <small>Authentication: Bearer {{ screen_bearer }}</small>
+                    {% endif %}
+
+                    {% if screen_display is null and screen_public %}
                         <div class="row text-right">
                             Cannot render image since the is no display associated with this Screen
                             <span class="glyphicon glyphicon-arrow-right"></span>
                         </div>
                     {% endif %}
+
                 </div>
                 <div class="col-md-3 col-sm-6">
 
-                    {% if screen_display is not null %}
+                    {% if screen_display is not null and screen_public %}
                         <button type="button" class="btn btn-default"
                                 onclick="popitup('{{ bmp_url }}','{{ screen_display.width }}','{{ screen_display.height }}')"
                                 id="route_html"
@@ -58,10 +64,7 @@
                 </div>
 
                 <div class="col-md-3">
-                    {% if screen_bearer and screen_public == false %}
-                        <label>Protected by Bearer token</label><br>
-                    <span class="glyphicon glyphicon-alert"></span> NOTE: This feature is not active yet
-                    {% endif %}
+
                 </div>
             </div>
         </form>
