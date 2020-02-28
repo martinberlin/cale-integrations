@@ -44,23 +44,28 @@ class PublicScreenRenderController extends AbstractController
         if (!$screen instanceof Screen) {
             throw $this->createNotFoundException("$uuid is not a valid screen");
         }
-        // Check if needs Authentication
+        // Check if needs Authentication. Manage possible errors
         if (!$screen->isPublic()) {
+            $response = new Response();
             $headersAuth = $request->headers->get('Authorization');
             $explodeAuth = explode(" ", $headersAuth);
             if (count($explodeAuth)>1) {
-                $bearer = $explodeAuth[1];
-                if ($bearer !== $screen->getOutBearer()) {
+                $bearer = substr($explodeAuth[1], 0, -1);
+                if (strlen($bearer)<63) {
+                    $message = "BEARER Token sent is not valid (length:".strlen($bearer).")";
+                    $logger->info($message);
+                    $response->setContent("<h2>$message</h2>");
+                    return $response;
+                }
+                if (strpos($screen->getOutBearer(), $bearer) === false) {
                     $message = "BEARER Token sent does not match your screen: ".$screen->getId()." configuration";
                     $logger->info($message);
-                    $response = new Response();
                     $response->setContent("<h2>$message</h2>");
                     return $response;
                 }
             } else {
                 $message = "BEARER Token was not received for screen: ".$screen->getId()." and it is not public";
                 $logger->info($message);
-                $response = new Response();
                 $response->setContent("<h2>$message</h2>");
                 return $response;
             }
