@@ -16,55 +16,56 @@ nav_apis_tooltip: Las Interfaces de Programación de Aplicaciones permiten const
 nav_displays_tooltip: Displays de E-Ink soportados
 nav_transparently_built_tooltip: El código detras de este sitio puedes verlo aquí
 
-# register
-Register an account: Register an account
-Firstname:	Firstname
-English:	English
-German:	German
-Spanish: Spanish
+# Registration
+create_account: Crea tu cuenta
+used_for_login: El email y la contraseña se usan para el login
+Firstname:	Nombre
+English: Ingles
+German:	Alemán
+Spanish: Español
 Catalan: Catalan
-French:	French
-Croatian: Croatian
-Czech: Czech
-Danish:	Danish
-Greek: Greek
-Arabic: Arabic
+French:	Frances
+Croatian: Croata
+Czech: Checo
+Danish: Danes
+Greek: Griegp
+Arabic: Arabe
 Esperanto: Esperanto
-Estonian: Estonian
-Finnish: Finnish
-Hebrew: Hebrew
+Estonian: Estonio
+Finnish: Finlandes
+Hebrew: Hebreo
 Hindi: Hindi
-Hungarian: Hungarian
-Indonesian: Indonesian
-Icelandic: Icelandic
-Italian: Italian
-Japanese: Japanese
+Hungarian: Hungaro
+Indonesian: Indonesio
+Icelandic: Islandes
+Italian: Italiano
+Japanese: Japonese
 Georgian: Georgian
-Kannada: Kannada
-Korean: Korean
+Kannada: Canadiense
+Korean: Koreano
 Latvian: Latvian
-Malayam: Malayam
+Malayam: Malayo
 Marathi: Marathi
-Norwegian Bokmål: Norwegian Bokmål
-Dutch: Dutch
+Norwegian Bokmål: Noruego
+Dutch: Holandes
 Punjabi: Punjabi
-Polish:	Polish
-Portuguese: Portuguese
-Romanian: Romanian
-Russian: Russian
+Polish:	Polaco
+Portuguese: Portugues
+Romanian: Rumano
+Russian: Ruso
 Slovak: Slovak
 Slovenian: Slovenian
 Serbian: Serbian
-Swedish: Swedish
+Swedish: Sueco
 Tamil: Tamil
 Telugu:	Telugu
-Turkish: Turkish
-Ukrainian: Ukrainian
+Turkish: Turco
+Ukrainian: Ukraniano
 Urdu: Urdu
-simplified Chinese:	simplified Chinese
+simplified Chinese:	Chino
 Email: Email
-Language of preference: Language of preference
-Repeat password: Repeat password
+Language of preference: Idioma de preferencia
+Repeat password: Repite el password
 
 # API
 Select Api: Seleciona un Api

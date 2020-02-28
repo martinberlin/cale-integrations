@@ -9,34 +9,20 @@
         <div class="col-md-3" style="margin-top: 1.3em">
             {% if app.environment != 'dev' %}
             <h4>This E-mail is just to recover your password.</h4>
-            We will not sent any unsolicited E-mail. Our customers privacy is our most highest concern.
+            We will not sent any unsolicited E-mail.
             {% endif %}
         </div>
         <div class="col-md-6">
-            {% if app.environment == 'dev' %}
-            Sorry, our Beta testers are already enough to test the Application. <b>cale.fasani.de</b> will be the
-            staging server where we test the new features and the live site is:<br>
-            <h3><a href="https://cale.es" class="cale">CALE.es</a></h3>
-
-                The backend will be live on 1st March this year.<br>
-                <b>Just visit us there and register on the live site.</b><br>
-            Thanks! keep tuned!<br>
-            <b>Martin</b>
-            {% endif %}
-
-            <h3>{{ 'Register an account'|trans }}</h3>
-
-            <p>To be notified about the Eink display manager launch just register here:</p>
+            <h3>{{ 'create_account'|trans }}</h3>
 
                 {{ form_start(form) }}
             {{ form_errors(form) }}
             {{ form_row(form.firstname) }}
 
             {{ form_label(form.language) }}
-            <p>We will set this as default for API communication so you get the data in your language</p>
             {{ form_widget(form.language) }}
 
-            <br><br><p>This is what is used for login</p>
+            <br><br><p>{{ 'used_for_login'|trans }}</p>
             {{ form_row(form.email) }}
 
             {{ form_label(form.plainPassword.first, 'Password') }}
