@@ -93,9 +93,7 @@ class PublicScreenRenderController extends AbstractController
                     ['partial' => $p]);
                 $htmlPerColumn[$p->getPlaceholder()] .= $partialHtml->getContent();
 
-                $renderParams[$p->getPlaceholder()] = [
-                    'content' => $htmlPerColumn[$p->getPlaceholder()]
-                ];
+                $renderParams[$p->getPlaceholder()] = $htmlPerColumn[$p->getPlaceholder()];
             }
         }
         return $this->render(
