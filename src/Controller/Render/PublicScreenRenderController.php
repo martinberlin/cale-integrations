@@ -46,10 +46,24 @@ class PublicScreenRenderController extends AbstractController
         }
         // Check if needs Authentication
         if (!$screen->isPublic()) {
-            $username = $request->headers->get('php-auth-user');
-            $password = $request->headers->get('php-auth-pw');
-            $post = $request->request->all();
-            $logger->info("$username PASS: $password BEARER Post: ".print_r($post,false));
+            $headersAuth = $request->headers->get('Authorization');
+            $explodeAuth = explode(" ", $headersAuth);
+            if (count($explodeAuth)>1) {
+                $bearer = $explodeAuth[1];
+                if ($bearer !== $screen->getOutBearer()) {
+                    $message = "BEARER Token sent does not match your screen: ".$screen->getId()." configuration";
+                    $logger->info($message);
+                    $response = new Response();
+                    $response->setContent("<h2>$message</h2>");
+                    return $response;
+                }
+            } else {
+                $message = "BEARER Token was not received for screen: ".$screen->getId()." and it is not public";
+                $logger->info($message);
+                $response = new Response();
+                $response->setContent("<h2>$message</h2>");
+                return $response;
+            }
         }
 
         // Basic stats
