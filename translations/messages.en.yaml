@@ -132,6 +132,8 @@ screen_edit_configure2: different output Screens
 screen_partials_edit_line1: In your Screens you can add partials that will render the content in the template column you choose
 screen_partials_edit_line2: This content partials will render in ascendant order so Sort position 1 will be the first on his column
 screen_partials_edit_line3: 'Please note that you want to output the Screen in a E-Ink display is the best to keep the colors in shades of gray otherwise the resulting Bitmap will not be of 1 bit depth. Another option is to use pure black and white (Rgb HEX: #FFFFFF y #000000)'
+screen_help_5: Click here to add a new content from one or your API connections. Make sure to select in what column of the selected template will display it's contents
+screen_help_6: When you are done adding partials save them to preview your selection and then go to Render Screen
 screen_partials_title: Manage partials for Screen
 # Screenshot options
 only_esp32_supported: Only for the right ESP32 Firmware

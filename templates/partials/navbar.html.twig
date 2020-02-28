@@ -20,19 +20,24 @@
 
         <nav id="bs-navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="{{ path('about-cale') }}" data-toggle="tooltip" title="{{ 'nav_about_tooltip'|trans }}">
+                <li class="dropdown"><a href="#" data-toggle="dropdown" aria-expanded="false">
+                        {{ 'nav_about'|trans }} <span
+                                class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('about-cale') }}" data-toggle="tooltip" title="{{ 'nav_about_tooltip'|trans }}">
                         {{ 'nav_about'|trans }}</a></li>
+                        <li><a href="{{ path('transparently') }}" data-toggle="tooltip" title="{{ 'nav_transparently_built_tooltip'|trans }}">
+                                {{ 'nav_transparently_built'|trans }}</a></li>
+                    </ul>
+                </li>
                 <li><a href="{{ path('apis') }}" data-toggle="tooltip" title="{{ 'nav_apis_tooltip'|trans }}">
                         {{ 'nav_apis'|trans }}</a></li>
                 <li><a href="{{ path('displays') }}" data-toggle="tooltip" title="{{ 'nav_displays_tooltip'|trans }}">Displays</a></li>
-                <li><a href="https://github.com/martinberlin/eink-calendar">Firmware</a></li>
-                <li><a href="{{ path('transparently') }}" data-toggle="tooltip" title="{{ 'nav_transparently_built_tooltip'|trans }}">
-                        {{ 'nav_transparently_built'|trans }}</a></li>
+                <li><a href="https://github.com/martinberlin/eink-calendar/tree/cale">ESP32 Firmware</a></li>
+
                 <li><a href="{{ path('privacy-policy') }}">
                         {{ 'nav_privacy'|trans }}</a></li>
 
-                {# This was added since it brings issues when returning from Password reset #}
-                {# {% if _locale is defined %}#}
                 <li class="dropdown"><a href="#" data-toggle="dropdown" aria-expanded="false">
                         {{ 'nav_language'|trans }} <span
                                 class="caret"></span></a>
@@ -41,11 +46,10 @@
                         <li><a href="{{ path(app.request.attributes.get('_route'), {'_locale':'es'}) }}" >Español</a></li>
                     </ul>
                 </li>
-                {#{% endif %}#}
 
-                {% if app.environment == 'dev' %}
+                {#{% if app.environment == 'dev' %}#}
                 <li class="login"><a href="{{ path('login') }}">Login</a></li>
-                {% endif %}
+
 
             </ul>
         </nav>

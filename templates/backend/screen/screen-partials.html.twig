@@ -49,11 +49,9 @@
 
 {% block body %}
 <div class="row">
-    <div class="col-md-8 col-sm-6">
+    <div class="col-md-8 col-sm-6" data-step="4" data-intro="{{ 'screen_partials_edit_line2'|trans }}. {{ 'screen_partials_edit_line3'|trans }}">
 <p>
-    <b>{{ 'screen_partials_edit_line1'|trans }}</b>.
-    {{ 'screen_partials_edit_line2'|trans }}.
-    {{ 'screen_partials_edit_line3'|trans }}
+    <b>{{ 'screen_partials_edit_line1'|trans }}</b>
 
     {% if form.partials|length == 0 %}
         <br>Start adding your first content partial for this Screen with the <span class="glyphicon glyphicon-plus"></span> button below.
@@ -63,9 +61,7 @@
     <div class="col-md-4 col-sm-6">
         <div class="row">
         <div class="col-md-9 col-sm-6">
-
-
-            <br><a href="{{ path('b_screen_edit', {'uuid':uuid}) }}">{{ 'screen_edit_config'|trans }}</a>
+<a href="{{ path('b_screen_edit', {'uuid':uuid}) }}">{{ 'screen_edit_config'|trans }}</a>
         </div>
         <div class="col-md-3 col-sm-6 text-right">
             <img id="template" width="100" style="margin-top: -1em;padding-right: 1em"
@@ -78,23 +74,27 @@
 {{ form_errors(form) }}
 
     <div class="collection_container">
-        {#{{ form_row(form.partials) }}#}
         <div class="row">
             <div class="col-md-3 col-sm-6">
-              <button type="button" class="add_item btn btn-default">
+              <button type="button" class="add_item btn btn-default" data-step="5"
+                      data-intro="{{ 'screen_help_5'|trans }}">
                   <span class="glyphicon glyphicon-plus"></span> {{ 'screen_add_partial'|trans }}</button>
              </div>
             <div class="col-md-3 col-sm-6">
-            {{ form_widget(form.submit) }}
+            {{ form_widget(form.submit, {'attr': {'data-step': '6', 'data-intro': 'screen_help_6'|trans }}) }}
             </div>
-            <div class="col-md-3 col-sm-6">
+            <div class="col-md-2 col-sm-6">
                 {% if form.partials|length %}
                 <button type="button" class="btn btn-success"
                 onclick="window.location='{{ path('b_screen_render', {'uuid':uuid}) }}'">
                     {{'screen_render'|trans}}</button>
                 {% endif %}
             </div>
-            <div class="col-md-3 col-sm-6 text-right">
+            <div class="col-md-2">
+            <button type="button" class="btn btn-default" onclick="introJs().start().goToStep(4)">
+                <span class="glyphicon glyphicon-question-sign"></span></button>
+            </div>
+            <div class="col-md-2 col-sm-6 text-right">
                 {% if form.partials|length %}
                   <img src="{{ thumbnail_src }}">
                 {% endif %}
@@ -180,7 +180,7 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        drawPickers()
+        drawPickers();
     });
 
         function drawPickers() {

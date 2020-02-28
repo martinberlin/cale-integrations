@@ -29,7 +29,7 @@ like Google calendar, Weather or shared calendars. APIs will deliver content to 
                 content pieces called 'partials' that will render HTML with your API output data"><a  href="{{ path('b_screens') }}">Screens</a></li>
 
                 <li data-step="3" data-intro="Here you can configure your user profile. Make sure your timezone is correct
- so we can output the content with right hour for your location" class="dropdown"><a href="#" data-toggle="dropdown" aria-expanded="false">User <span
+ so we can output the content with right hour for your location. When your timezone is set you should see here the correct day and hour in the top right" class="dropdown"><a href="#" data-toggle="dropdown" aria-expanded="false">User <span
                                 class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ path('b_user_profile') }}" >User profile</a> </li>
@@ -49,9 +49,9 @@ like Google calendar, Weather or shared calendars. APIs will deliver content to 
                 {% endif %}
             </ul>
             <div class="text-right" style="margin-top:.7em;margin-right:1em">
-                <span data-step="4" data-intro="When your timezone is set you should see here the correct day and hour">
+
                {{ app.user.timezone }} {{ "now"|date(app.user.dateFormat) }} {{ "now"|date(app.user.hourFormat) }}
-                </span>
+
             </div>
         </nav>
     </div>

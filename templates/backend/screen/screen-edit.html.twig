@@ -8,7 +8,7 @@
     {{ form_errors(form) }}
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-7">
             {{ form_row(form.name) }}
 
             {{ form_row(form.templateTwig) }}
@@ -26,7 +26,7 @@
 
             {{ form_widget(form.submit) }}
         </div>
-        <div class="col-md-6 text-right" style="margin-top: -1.4em">
+        <div class="col-md-5 text-right" style="margin-top: -1.4em">
             {% if uuid is not null %}
                 <a href="{{ path('b_screen_partials', {'uuid':uuid}) }}">{% endif %}
 

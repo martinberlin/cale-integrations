@@ -132,6 +132,9 @@ screen_edit_configure2: Screens con distintas plantillas y contenidos
 screen_partials_edit_line1: En tus Screens puedes agregar secciones que renderizan el output de tus APIs en la columna que elijas
 screen_partials_edit_line2: Estas secciones se renderizan en orden ascendente. La posicion 1 saldrá primera en su columna
 screen_partials_edit_line3: 'Tenga en cuenta que si el display para mostrar esta imagen es un E-Ink lo mejor es mantener la imagen en escala de grises o solo blanco y negro (Rgb HEXA: #FFFFFF y #000000)'
+screen_help_5: Haz click aqui para agregar contenidos de tus APIs. No olvides marcar la columna donde quieres que salga el contenido
+screen_help_6: Cuando termines de agregar las secciones de contenido, haz click en Guardar y luego en Renderizar Screen
+
 screen_partials_title: Secciones del Screen
 # Screenshot options
 only_esp32_supported: Solo para el ESP32 Firmware adecuado
