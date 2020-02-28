@@ -44,6 +44,12 @@ class PublicScreenRenderController extends AbstractController
         if (!$screen instanceof Screen) {
             throw $this->createNotFoundException("$uuid is not a valid screen");
         }
+        // Check if needs Authentication
+        if (!$screen->isPublic()) {
+            $post = $this->get('request')->request->all();
+            $logger->info('BEARER Post: '.print_r($post,true));
+        }
+
         // Basic stats
         $isPreview = $request->get('preview',0);
         if (!$isPreview) {
