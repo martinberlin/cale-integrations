@@ -48,8 +48,8 @@ class PublicScreenRenderController extends AbstractController
         if (!$screen->isPublic()) {
             $username = $request->headers->get('php-auth-user');
             $password = $request->headers->get('php-auth-pw');
-            $post = $request->all();
-            $logger->info("$username pass: $password BEARER Post: ".print_r($post,true));
+            $post = $request->request->all();
+            $logger->info("$username PASS: $password BEARER Post: ".print_r($post,false));
         }
 
         // Basic stats
