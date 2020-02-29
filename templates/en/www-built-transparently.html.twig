@@ -48,6 +48,16 @@ If you have any doubts about:<br>
         <a href="https://github.com/martinberlin/cale-integrations/tree/master/templates">this directory with the name of
             www-built-transparently.html.twig</a>
     </p>
+
+    <h4>There is only one part that is not public in github</h4>
+
+    But it's not about corporate secrets at all. The screenshot tool is made for this project a little bit different as is
+    <a href="https://github.com/martinberlin/eink-calendar/tree/master/screenshot">documented here</a> on our initial
+    firmware. We installed the screenshot tool using a "Microservice" architecture so we can escalate it and to make it
+    faster, we are not using Doctrine ORM, we are just using DBAL to make very fast queries.
+    The nature of this and the fact that is taking care of receiving your security token and forward it to CALE.es, to grant
+    the right permissions to access your Screeens, will expose too much and put our privacy at risk. We are open to explain how
+    it works and more documentation is on the way.
 {% endblock %}
 
 {% block javascripts %}

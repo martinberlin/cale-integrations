@@ -26,8 +26,10 @@
     <h3>Firmware for Espressif boards</h3>
     <p>
     <b>We believe that embedded software has to be solid, simple and secure.</b><br>
-        That's why since we started developing CALE, there where many experiments done, like Zlib compression and other interesting
-        features like making the ESP32 a Server for some minutes and let the user send a custom text or website URL to render in the display.
+        That's why since we started developing CALE, there where many
+        <a href="https://github.com/martinberlin/eink-calendar/issues?utf8=%E2%9C%93&q=is%3Aissue">experiments tested</a>,
+        including Zlib compression and other interesting features, like sending WiFi configuration via Bluetooth or making the ESP32 a Server
+        for some minutes and let the user send a custom text or website URL to render in the display.<br>
         But for this version the decision was to leave everything out and leave only the essential, that is: <br>
 
         <ul>
@@ -35,15 +37,18 @@
     <li><b>An interpreter that reads this Bitmap</b> and prepares a Buffer for the display (based on gxEPD library examples)</li>
     <li><b>An authorization Token</b> to make sure you don't need to leave your Calendar events open to the world (Bearer token)</li>
     </ul>
-    The part that still not fully tested and hence not included on this release, is the WiFi Client Secure addition so we can also
-    send this token using SSL and not in the plain text of the HTTP request.
+    The part that still not fully tested and hence not included on this release, is to add the WiFi Secure Client so we can send this
+        token with TLS encryption over secure socket layer. We also don't discard that we could add an additional security step if
+    users wanted based on Private / Public keys just as we use to any server.
+
 <br>The open source Firmware is here:<br>
+
     <h4><a href="https://github.com/martinberlin/eink-calendar/tree/cale">https://github.com/martinberlin/eink-calendar/tree/cale</a></h4>
     </p>
 
     <h4>How to compile and upload to your board</h4>
 
-    We assume that you are familiar with the installation of Platformio that is a great IDE to upload firmware to your boards and also to
+   <p>We assume that you are familiar with the <a href="https://fasani.de/2018/11/24/platformio-an-alternative-to-arduino-ide-and-a-complete-ecosystem-for-iot/">installation of Platformio</a> that is a great IDE to upload firmware to your boards and also to
     keep your dependencies contained in your project.
 
     The configuration is not complicated. After downloading just rename:<br>
@@ -51,6 +56,7 @@
     Config.h<br><br>
 
     and fill it with your WiFi name and password.<br>
+   </p>
 
     Most important part of the configuration:<br>
 
@@ -61,9 +67,10 @@
     String bearer = "";
 </pre>
 
-    <h5>GPIOs for the E-Ink SPI interface</h5>
-    Wiring the E-Ink SPI to the Espressif board is not super complicated. They are 6 cables plus VIN that should be connected to 3.3v
-    and ground, the E-Ink consumes minimally so you can test this always with the USB until you decide to connect a Lipo 3.7v battery.<br>
+    <h5><b>GPIOs for the E-Ink SPI interface</b></h5>
+    Wiring the E-Ink SPI to the Espressif board is not super complicated.
+    The E-Ink SPI has 6 cables plus VIN that should be connected to the 3.3v of your board plus ground.
+    The E-Ink consume really little so you can test this always with the USB until you decide to connect a Lipo 3.7v battery.<br>
     <pre>
     // Configuration example for ESP32 TinyPICO:
     int8_t EINK_CS = 5;
@@ -74,8 +81,9 @@
     // Handles display rotation
     int8_t eink_rotation = 0;
     </pre>
-    Using gxEPD library the DataIn is MOSI in your board (In ESP32 is GPIO 23)<br>
-    And clock CLK should be in GPIO 18. Please check the schematics below to understand how it should be wired the E-Ink SPI to the Espressif board.
+    Using gxEPD library the DataIn from the display goes to MOSI in your board (In ESP32 is GPIO 23)<br>
+    And display clock should be in GPIO 18 (CLK).
+    Please check the schematics below to understand how it should be wired the E-Ink SPI interface to the Espressif board.
 
     <br>For more detailed configuration notes please check the repository README file.
 
