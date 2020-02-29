@@ -57,6 +57,9 @@
 
         </div>
 
+    <div class="row" style="height: 60px">
+        <div class="col-md-12"></div>
+    </div>
 
     <nav class="navbar-wrapper">
         <div class="container-fluid">
@@ -65,7 +68,7 @@
                 <a href="{{ path('impressum') }}">{{ 'nav_legal'|trans }}</a> |
                 <a href="{{ path('privacy-policy') }}">{{ 'nav_privacy'|trans }}</a> |
                 <a href="{{ path('apis') }}">{{ 'nav_apis'|trans }}</a> |
-                <a href="https://github.com/martinberlin/eink-calendar/tree/cale">ESP32 Firmware</a>
+                <a href="{{ path('firmware') }}">ESP32 Firmware</a>
             </p>
 
             {% if app.user is null and app.request.attributes.get('_route') != 'home' %}

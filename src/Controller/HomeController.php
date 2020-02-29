@@ -5,9 +5,6 @@ use App\Repository\ApiRepository;
 use App\Repository\DisplayRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Class HomeController
@@ -16,6 +13,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  */
 class HomeController extends AbstractController
 {
+    // This Routes are defined in routes.yaml
     public function index(Request $request)
     {
 
@@ -23,6 +21,13 @@ class HomeController extends AbstractController
             $request->getLocale().'/www-index.html.twig'
         );
         //return $this->redirectToRoute('register', [], 301);
+    }
+
+    public function firmware(Request $request)
+    {
+        return $this->render(
+            $request->getLocale().'/www-firmware.html.twig'
+        );
     }
 
     public function aboutCale(Request $request)
@@ -43,9 +48,6 @@ class HomeController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/apis", name="apis")
-     */
     public function apis(Request $request, ApiRepository $apiRepository)
     {
         $apis = $apiRepository->findAll();
@@ -64,9 +66,6 @@ class HomeController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/thanks", name="thanks")
-     */
     public function thanks(Request $request)
     {
         return $this->render(
@@ -74,9 +73,6 @@ class HomeController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/impressum", name="impressum")
-     */
     public function impressum(Request $request)
     {
         return $this->render(
@@ -84,9 +80,6 @@ class HomeController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/privacy-policy", name="privacy-policy")
-     */
     public function privacyPolicy(Request $request)
     {
         return $this->render(

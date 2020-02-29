@@ -51,3 +51,16 @@ privacy-policy:
   controller: App\Controller\HomeController::privacyPolicy
   defaults:
     _locale: en
+
+
+impressum:
+  path:       /impressum/{_locale}
+  controller: App\Controller\HomeController::impressum
+  defaults:
+    _locale: en
+
+firmware:
+  path:       /firmware/{_locale}
+  controller: App\Controller\HomeController::firmware
+  defaults:
+    _locale: en

@@ -11,6 +11,14 @@ body {
 
 footer { padding: 20px 0 10px; background: #e6f0f8 }
 
+/* CODE in Firmware */
+pre {
+    background-color: #ffffff;
+    border: 1px solid #898989;
+    padding: 5px;
+    color:#0a0a0a !important;
+}
+
 /* JSON highlight */
 pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; background-color: #f5f5f5 !important}
 .string { color: green; }

@@ -24,16 +24,16 @@
                         {{ 'nav_about'|trans }} <span
                                 class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ path('about-cale') }}" data-toggle="tooltip" title="{{ 'nav_about_tooltip'|trans }}">
+                        <li><a href="{{ path('about-cale') }}">
                         {{ 'nav_about'|trans }}</a></li>
-                        <li><a href="{{ path('transparently') }}" data-toggle="tooltip" title="{{ 'nav_transparently_built_tooltip'|trans }}">
+                        <li><a href="{{ path('transparently') }}">
                                 {{ 'nav_transparently_built'|trans }}</a></li>
                     </ul>
                 </li>
-                <li><a href="{{ path('apis') }}" data-toggle="tooltip" title="{{ 'nav_apis_tooltip'|trans }}">
+                <li><a href="{{ path('apis') }}">
                         {{ 'nav_apis'|trans }}</a></li>
                 <li><a href="{{ path('displays') }}" data-toggle="tooltip" title="{{ 'nav_displays_tooltip'|trans }}">Displays</a></li>
-                <li><a href="https://github.com/martinberlin/eink-calendar/tree/cale">Firmware</a></li>
+                <li><a href="{{ path('firmware') }}">ESP32 Firmware</a></li>
 
                 <li class="dropdown"><a href="#" data-toggle="dropdown" aria-expanded="false">
                         {{ 'nav_language'|trans }} <span

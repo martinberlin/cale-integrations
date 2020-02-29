@@ -1,0 +1,98 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+        body {
+            background-color: #e0e0e0;
+            color:black;
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+
+    <h3>Firmware for Espressif boards</h3>
+    <p>
+    <b>We believe that embedded software has to be solid, simple and secure.</b><br>
+        That's why since we started developing CALE, there where many experiments done, like Zlib compression and other interesting
+        features like making the ESP32 a Server for some minutes and let the user send a custom text or website URL to render in the display.
+        But for this version the decision was to leave everything out and leave only the essential, that is: <br>
+
+        <ul>
+    <li><b>A way to stream a binary image</b> from an external URL into ESP32/ESP8266 (WiFi.h / WiFiClient.h)</li>
+    <li><b>An interpreter that reads this Bitmap</b> and prepares a Buffer for the display (based on gxEPD library examples)</li>
+    <li><b>An authorization Token</b> to make sure you don't need to leave your Calendar events open to the world (Bearer token)</li>
+    </ul>
+    The part that still not fully tested and hence not included on this release, is the WiFi Client Secure addition so we can also
+    send this token using SSL and not in the plain text of the HTTP request.
+<br>The open source Firmware is here:<br>
+    <h4><a href="https://github.com/martinberlin/eink-calendar/tree/cale">https://github.com/martinberlin/eink-calendar/tree/cale</a></h4>
+    </p>
+
+    <h4>How to compile and upload to your board</h4>
+
+    We assume that you are familiar with the installation of Platformio that is a great IDE to upload firmware to your boards and also to
+    keep your dependencies contained in your project.
+
+    The configuration is not complicated. After downloading just rename:<br>
+    lib/Config/Config.h.dist to <br>
+    Config.h<br><br>
+
+    and fill it with your WiFi name and password.<br>
+
+    Most important part of the configuration:<br>
+
+<pre>
+    char screenUrl[] = "http://img.cale.es/bmp/USERNAME/SCREEN_ID";
+
+    // Security setting, leave empty *only* if your screen is public (Not recommended)
+    String bearer = "";
+</pre>
+
+    <h5>GPIOs for the E-Ink SPI interface</h5>
+    Wiring the E-Ink SPI to the Espressif board is not super complicated. They are 6 cables plus VIN that should be connected to 3.3v
+    and ground, the E-Ink consumes minimally so you can test this always with the USB until you decide to connect a Lipo 3.7v battery.<br>
+    <pre>
+    // Configuration example for ESP32 TinyPICO:
+    int8_t EINK_CS = 5;
+    int8_t EINK_DC = 22;
+    int8_t EINK_RST = 21;
+    int8_t EINK_BUSY = 4;
+
+    // Handles display rotation
+    int8_t eink_rotation = 0;
+    </pre>
+    Using gxEPD library the DataIn is MOSI in your board (In ESP32 is GPIO 23)<br>
+    And clock CLK should be in GPIO 18. Please check the schematics below to understand how it should be wired the E-Ink SPI to the Espressif board.
+
+    <br>For more detailed configuration notes please check the repository README file.
+
+    <h4>Keep your events and API content private</h4>
+
+    Note that we don't recommend to use public screens since your calendar may contain private information like events,
+    bank transfers annotations or doctor appointments that you should not open to the world to see. So use always a security token.
+
+    <h4>ESP32 Schematic</h4>
+    <p>You can use any ESP32. The only requirement if you want your CALE to have a long battery life is that consumes less than 0.8 mA in deeepsleep mode.</p>
+    <img src="/assets/svg/schematic-cale-esp32.svg">
+
+    <h4>ESP8266 Schematic</h4>
+    <img src="/assets/svg/schematic-cale-esp8266.svg">
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="./js/engine/common.js"></script>
+{% endblock %}
