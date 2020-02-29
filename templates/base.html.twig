@@ -54,7 +54,26 @@
             </div>
 
             </div>
+
         </div>
+
+
+    <nav class="navbar-wrapper">
+        <div class="container-fluid">
+
+            <p class="navbar-text pull-left">&copy; 2020 CALE.es
+                <a href="{{ path('impressum') }}">{{ 'nav_legal'|trans }}</a> |
+                <a href="{{ path('privacy-policy') }}">{{ 'nav_privacy'|trans }}</a> |
+                <a href="{{ path('apis') }}">{{ 'nav_apis'|trans }}</a> |
+                <a href="https://github.com/martinberlin/eink-calendar/tree/cale">ESP32 Firmware</a>
+            </p>
+
+            {% if app.user is null and app.request.attributes.get('_route') != 'home' %}
+            <a href="{{ path('register') }}" style="margin-right:2em"
+               class="btn navbar-btn btn-default pull-right">{{ 'register_here'|trans }}</a>
+            {% endif %}
+        </div>
+    </nav>
 
     <script type="text/javascript" src="/js/prism.js"></script>
     <script type="text/javascript" src="/js/bootstrap-native.js"></script>

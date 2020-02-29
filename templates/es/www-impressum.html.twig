@@ -1,0 +1,37 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+
+    <h3>Aviso legal</h3>
+    CALE es un administrador de pantalla donde puede mezclar contenido de diferentes API y controlar la salida de contenido
+    Esta aplicación recopila algunos datos personales de sus usuarios para permitirles el acceso a servicios API externos como Google Calendar, servicios meteorológicos o calendarios compartidos como Timetree. Los usuarios pueden estar sujetos a diferentes estándares de protección y, por lo tanto, pueden aplicarse estándares más amplios a algunos. Para obtener más información sobre los criterios de protección, los usuarios pueden consultar la sección de aplicabilidad. Este documento se puede imprimir como referencia mediante el comando de impresión en la configuración de cualquier navegador.
+
+    <h4>Propietario y controlador de datos</h4>
+    <b>Martin Fasani</b><br>
+    Lohmühlenstr. 38<br>
+    12435 Berlín, Alemania<br><br>
+    <br>
+    Email del propietario: <img src="/assets/svg/martin-email.svg"><br>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="./js/engine/common.js"></script>
+{% endblock %}

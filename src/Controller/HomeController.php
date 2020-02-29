@@ -75,6 +75,16 @@ class HomeController extends AbstractController
     }
 
     /**
+     * @Route("/impressum", name="impressum")
+     */
+    public function impressum(Request $request)
+    {
+        return $this->render(
+            $request->getLocale().'/www-impressum.html.twig'
+        );
+    }
+
+    /**
      * @Route("/privacy-policy", name="privacy-policy")
      */
     public function privacyPolicy(Request $request)
