@@ -310,8 +310,8 @@ class ARenderController extends AbstractController
 
         $responseContent = '<div class="row"'.$colorStyle.'><div class="col-md-12">';
         $responseContent .= "<div class=\"row\">
-            <div class=\"col-md-6\"><$hs>Low&nbsp; {$d['daily-avg-low']}<br>High {$d['daily-avg-high']}</$hs></div>
-            <div class=\"col-md-6 text-right\"><$hs>$iconSunrise {$d['sunrise']}<br>Sunset&nbsp; {$d['sunset']}</$hs></div></div>";
+            <div class=\"col-md-6 col-sm-6\"><$hs>Low&nbsp; {$d['daily-avg-low']}<br>High {$d['daily-avg-high']}</$hs></div>
+            <div class=\"col-md-6 col-sm-6 text-right\"><$hs>$iconSunrise {$d['sunrise']}<br>Sunset&nbsp; {$d['sunset']}</$hs></div></div>";
 
         // Useless craps: style="margin-top:0.55em"
 
@@ -321,9 +321,9 @@ class ARenderController extends AbstractController
             $icon1= str_replace("{icon}", $h->icon, $wIcon);
             $temp = strstr(round($h->temperature,1),'.')===false ? round($h->temperature,1).'.0' : round($h->temperature,1);
             $wHourly .= '<div class="row">';
-            $wHourly .= '<div class="col-md-4"><'.$hs.'>'.$this->convertDateTime($h->time,$hourFormat).' '.$icon1.'</'.$hs.'></div>'.
-                '<div class="col-md-4 text-center"><'.$hs.'>'.$temp.$celsius.'</'.$hs.'></div>'.
-                '<div class="col-md-4 text-right"><'.$hs.'>'.($h->humidity*100).' '.$icon3.'</'.$hs.'></div>'; // .$icon3.$h->windSpeed
+            $wHourly .= '<div class="col-md-4 col-sm-4"><'.$hs.'>'.$this->convertDateTime($h->time,$hourFormat).' '.$icon1.'</'.$hs.'></div>'.
+                '<div class="col-md-4 col-sm-4 text-center"><'.$hs.'>'.$temp.$celsius.'</'.$hs.'></div>'.
+                '<div class="col-md-4 col-sm-4 text-right"><'.$hs.'>'.($h->humidity*100).' '.$icon3.'</'.$hs.'></div>'; // .$icon3.$h->windSpeed
             $wHourly .= '</div>';
             $hourlyCounter++;
             if ($hourlyCounter>$partial->getMaxResults()) break;
@@ -463,7 +463,7 @@ class ARenderController extends AbstractController
 
         $hs1 = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h4':'h3';
         $hs2 = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h5':'h4';
-        $colMd = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'col-md-6':'col-md-4';
+        $colMd = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'col-md-6 col-sm-6':'col-md-4 col-sm-4';
 
         $html = $error.' <div class="row"'.$colorStyle.'>';
         $count = 0;
