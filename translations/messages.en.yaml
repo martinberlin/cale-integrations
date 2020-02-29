@@ -137,6 +137,9 @@ screen_partials_edit_line3: 'Please note that you want to output the Screen in a
 screen_help_5: Click here to add a new content from one or your API connections. Make sure to select in what column of the selected template will display it's contents
 screen_help_6: When you are done adding partials save them to preview your selection and then go to Render Screen
 screen_partials_title: Manage partials for Screen
+screen_token_firmware: To protect this Screen please copy this line into the Config.h file of
+screen_token_request: If this Screen is protected you need to send this header in the request in order to get access
+screen_token_access_title: Access outside the Firmware
 # Screenshot options
 only_esp32_supported: Only for the right ESP32 Firmware
 Brightness level: Brightness level

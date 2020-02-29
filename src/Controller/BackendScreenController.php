@@ -11,6 +11,7 @@ use App\Repository\ScreenRepository;
 use App\Repository\TemplatePartialRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -255,4 +256,37 @@ class BackendScreenController extends AbstractController
             'backend/screen/screen-render.html.twig',
             $renderParams);
     }
+
+    /**
+     * @Route("/render_image/{uuid?}", name="b_render_image")
+     */
+    public function screenRenderImage($uuid, ScreenRepository $screenRepository) {
+        $options = [];
+        if (isset($_ENV['API_PROXY'])) {
+            $options = array('proxy' => 'http://'.$_ENV['API_PROXY']);
+        }
+        $screen = $screenRepository->find($uuid);
+        if (!$screen instanceof Screen) {
+            throw $this->createNotFoundException("$uuid is not a valid screen");
+        }
+        if ($screen->getUser() !== $this->getUser()) {
+            throw $this->createNotFoundException("$uuid is not your screen");
+        }
+        $bmpUrl = ($screen->getDisplay() instanceof Display) ?
+            $this->bmpUrlGenerator($screen->isOutSsl(), 'bmp', $this->getUser()->getName(), $screen->getId()): '';
+
+        // HttpClient
+        $client = HttpClient::create([
+            // HTTP Bearer authentication (also called token authentication)
+            'auth_bearer' => $screen->getOutBearer()
+        ]);
+        $cliResponse = $client->request('GET', $bmpUrl, $options);
+
+        $response = new Response();
+        $cliHeaders = $cliResponse->getHeaders();
+        $response->headers->set('Content-type', reset($cliHeaders['content-type']));
+        $response->setContent($cliResponse->getContent());
+        return $response;
+    }
+
 }

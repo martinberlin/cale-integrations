@@ -121,7 +121,14 @@
 
 <div class="row text-center" style="margin-bottom: 1em">
     {% if bmp_url!='' %}
+        {% if screen_public %}
     <img src="{{ bmp_url }}">
+            {% else %}
+                <small>
+                Authentication: Bearer TOKEN sent in headers so you can preview your image
+                </small><br>
+                <img src="{{ path('b_render_image', {'uuid':uuid}) }}">
+        {% endif %}
 
         {% else %}
         <h4>{{ 'screen_no_display_message'|trans }}

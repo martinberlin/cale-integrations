@@ -64,3 +64,9 @@ firmware:
   controller: App\Controller\HomeController::firmware
   defaults:
     _locale: en
+
+www_server-architecture:
+  path:       /architecture/{_locale}
+  controller: App\Controller\HomeController::architecture
+  defaults:
+    _locale: en

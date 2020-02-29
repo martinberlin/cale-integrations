@@ -136,8 +136,11 @@ screen_partials_edit_line2: Estas secciones se renderizan en orden ascendente. L
 screen_partials_edit_line3: 'Tenga en cuenta que si el display para mostrar esta imagen es un E-Ink lo mejor es mantener la imagen en escala de grises o solo blanco y negro (Rgb HEXA: #FFFFFF y #000000)'
 screen_help_5: Haz click aqui para agregar contenidos de tus APIs. No olvides marcar la columna donde quieres que salga el contenido
 screen_help_6: Cuando termines de agregar las secciones de contenido, haz click en Guardar y luego en Renderizar Screen
-
 screen_partials_title: Secciones del Screen
+screen_token_firmware: Para proteger este Screen copia esta linea en el fichero Config.h del
+screen_token_request: Si este Screen esta protegido con un token de acceso hay que enviarlo en los headers asi
+screen_token_access_title: Acceso fuera del Firmware
+
 # Screenshot options
 only_esp32_supported: Solo para el ESP32 Firmware adecuado
 Brightness level: Brillo

@@ -86,4 +86,11 @@ class HomeController extends AbstractController
             $request->getLocale().'/www-privacy-policy.html.twig'
         );
     }
+
+    public function architecture(Request $request)
+    {
+        return $this->render(
+            $request->getLocale().'/www-server-architecture.html.twig'
+        );
+    }
 }
