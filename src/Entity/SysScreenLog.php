@@ -51,7 +51,7 @@ class SysScreenLog implements CreatedTimestamp
     protected $millis;
 
     /**
-     * @ORM\Column(type="string", length=24, nullable=true)
+     * @ORM\Column(type="string", length=40, nullable=true)
      */
     protected $internalIp;
 

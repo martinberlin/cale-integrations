@@ -8,7 +8,7 @@
     {{ form_errors(form) }}
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-8 col-sm-12 col-xs-12">
             {{ form_row(form.name) }}
 
             {{ form_row(form.templateTwig) }}
@@ -27,10 +27,8 @@
 </pre>
                 </div>
             </div>
-
-
-            {{ form_widget(form.submit) }}
         </div>
+
         <div class="col-md-4 text-right" style="margin-top: -1.4em">
             {% if uuid is not null %}
                 <a href="{{ path('b_screen_partials', {'uuid':uuid}) }}">{% endif %}
@@ -57,7 +55,13 @@ Authorization: Bearer {{ form.vars.value.outBearer }}
 
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-8 col-sm-12 col-xs-12">
+            {{ form_widget(form.submit) }}
+        </div>
+    </div>
     {{ form_end(form) }}
+    <br>
 {% endblock %}
 
 {% block javascripts %}

@@ -79,7 +79,7 @@ class ScreenType extends AbstractType
             ->add('submit', SubmitType::class,
                 [
                     'label' => 'Save screen',
-                    'attr' => ['class' => 'btn btn-primary', 'style' => 'margin-top:-0.2em']
+                    'attr' => ['class' => 'btn btn-primary form-control']
                 ]);
     }
 
