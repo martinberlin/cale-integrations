@@ -6,38 +6,38 @@
 
 {% macro rowPrototype(form) %}
     <div class="item row" style="margin:0.4em;padding:0.4em;border: 1px solid #2d545e">
-       <div class="col-md-12">
+       <div class="col-md-12 col-sm-12 col-xs-12">
            <div class="row">
-               <div class="col-md-4 col-sm-6">
+               <div class="col-md-4 col-sm-6 col-xs-12">
                    {{ form_row(form.partials.vars.prototype.integrationApi) }}
                    <div class="row">
-                       <div class="col-md-2">
+                       <div class="col-md-2 col-sm-2 col-xs-2">
                            {{ form_label(form.partials.vars.prototype.maxResults) }}
                        </div>
-                       <div class="col-md-2">
+                       <div class="col-md-2 col-sm-2 col-xs-2">
                            {{ form_widget(form.partials.vars.prototype.maxResults) }}
                        </div>
-                       <div class="col-md-2">
+                       <div class="col-md-2 col-sm-1 col-xs-2">
                            {{ form_label(form.partials.vars.prototype.sortPos) }}
                        </div>
-                       <div class="col-md-2">
+                       <div class="col-md-2 col-sm-1 col-xs-2">
                            {{ form_widget(form.partials.vars.prototype.sortPos) }}
                        </div>
                    </div>
                </div>
-               <div class="col-md-2">
+               <div class="col-md-2 col-sm-6 col-xs-12">
                    {{ form_row(form.partials.vars.prototype.placeholder) }}
                    {{ form_widget(form.partials.vars.prototype.invertedColor) }}
                    {{ form_label(form.partials.vars.prototype.invertedColor) }}
                </div>
-               <div class="col-md-2">
+               <div class="col-md-2 col-sm-6 col-xs-6">
                    {{ form_row(form.partials.vars.prototype.foregroundColor, {'attr': {'value': '#000000'}}) }}
                </div>
-               <div class="col-md-2">
+               <div class="col-md-2 col-sm-6 col-xs-6">
                    {{ form_row(form.partials.vars.prototype.backgroundColor, {'attr': {'value': '#FFFFFF'}}) }}
                </div>
 
-               <div class="col-md-2">
+               <div class="col-md-2 col-sm-6 col-xs-6">
                    <button type="button" style="margin-top: 2.2em"
                            class="delete_item btn btn-danger btn-sm">{{'Delete'|trans}}</button>
                </div>
@@ -119,39 +119,39 @@
             {# Iterate over each existing partials #}
             {% for partial in form.partials %}
                 <div class="item row" style="margin:0.4em;padding:0.4em;border: 1px solid #2d545e">
-                    <div class="col-md-12">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="row">
-                            <div class="col-md-4 col-sm-6">
+                            <div class="col-md-4 col-sm-6 col-xs-12">
                                 {{ form_row(partial.integrationApi) }}
                                 <div class="row">
                                     {{ form_errors(partial.sortPos) }}
                                     {{ form_errors(partial.maxResults) }}
-                                <div class="col-md-2">
+                                <div class="col-md-2 col-sm-2 col-xs-2">
                                     {{ form_label(partial.maxResults) }}
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-2 col-sm-2 col-xs-2">
                                     {{ form_widget(partial.maxResults) }}
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-2 col-sm-1 col-xs-2">
                                     {{ form_label(partial.sortPos) }}
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-2 col-sm-1 col-xs-2">
                                     {{ form_widget(partial.sortPos) }}
                                 </div>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-2 col-sm-6 col-xs-12">
                                 {{ form_row(partial.placeholder) }}
                                 {{ form_widget(partial.invertedColor) }}
                                 {{ form_label(partial.invertedColor) }}
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-2 col-sm-6 col-xs-6">
                                 {{ form_row(partial.backgroundColor) }}
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-2 col-sm-6 col-xs-6">
                                 {{ form_row(partial.foregroundColor) }}
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-2 col-sm-6 col-xs-6">
                                 <button type="button" style="margin-top: 2.2em"
                                         class="delete_item btn btn-danger btn-sm">{{'Delete'|trans}}</button><br>
                                 <img src="" id="t_{{ loop.index0 }}">

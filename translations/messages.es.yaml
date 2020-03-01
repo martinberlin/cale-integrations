@@ -124,7 +124,7 @@ Choose a template: Elige una plantilla
 Output display: Output display
 Optional choose an Eink display: Opcional elige un display de E-Ink
 Save screen: Guardar Screen
-screen_edit_partials: Editar secciones de contenido
+screen_edit_partials: Editar secciones
 screen_edit_config: Editar configuración de Screen
 screen_edit_line1: Aquí puedes configurar que plantilla de diseño usas para renderizar tu Screen
 screen_edit_line2: Llamamos secciones a las partes de la plantilla donde sale el contenido de tus APIs
