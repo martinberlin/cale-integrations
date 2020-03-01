@@ -138,10 +138,11 @@ class BackendScreenController extends AbstractController
         return $this->render(
             'backend/screen/screen-partials.html.twig',
             [
-                'title' => $title,
-                'form' => $form->createView(),
-                'uuid'     => $uuid,
+                'title'   => $title,
+                'form'    => $form->createView(),
+                'uuid'    => $uuid,
                 'display' => $display,
+                'screen_public' => $screen->isPublic(),
                 'template_twig' => str_replace('.html.twig','',$screen->getTemplateTwig()),
                 'thumbnail_src' => $this->thumbnailUrlGenerator($this->getUser()->getName(), $uuid)
             ]
@@ -258,9 +259,9 @@ class BackendScreenController extends AbstractController
     }
 
     /**
-     * @Route("/render_image/{uuid?}", name="b_render_image")
+     * @Route("/render_image/{uuid}/{isThumbnail}", name="b_render_image")
      */
-    public function screenRenderImage($uuid, ScreenRepository $screenRepository) {
+    public function screenRenderImage($uuid, $isThumbnail, ScreenRepository $screenRepository) {
         $options = [];
         if (isset($_ENV['API_PROXY'])) {
             $options = array('proxy' => 'http://'.$_ENV['API_PROXY']);
@@ -274,6 +275,9 @@ class BackendScreenController extends AbstractController
         }
         $bmpUrl = ($screen->getDisplay() instanceof Display) ?
             $this->bmpUrlGenerator($screen->isOutSsl(), 'bmp', $this->getUser()->getName(), $screen->getId()): '';
+        if ($isThumbnail) {
+            $bmpUrl.= '?thumbnail=1';
+        }
 
         // HttpClient
         $client = HttpClient::create([

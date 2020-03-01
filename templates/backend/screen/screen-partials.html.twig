@@ -96,7 +96,13 @@
             </div>
             <div class="col-md-2 col-sm-6 text-right">
                 {% if form.partials|length %}
-                  <img src="{{ thumbnail_src }}">
+
+                    {% if screen_public %}
+                        <img src="{{ thumbnail_src }}">
+                    {% else %}
+                        <img src="{{ path('b_render_image', {'uuid':uuid, 'isThumbnail':1}) }}">
+                    {% endif %}
+
                 {% endif %}
             </div>
         </div>

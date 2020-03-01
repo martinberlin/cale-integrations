@@ -127,7 +127,7 @@
                 <small>
                 Authentication: Bearer TOKEN sent in headers so you can preview your image
                 </small><br>
-                <img src="{{ path('b_render_image', {'uuid':uuid}) }}">
+                <img src="{{ path('b_render_image', {'uuid':uuid, 'isThumbnail':0}) }}">
         {% endif %}
 
         {% else %}
