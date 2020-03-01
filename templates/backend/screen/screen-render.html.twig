@@ -13,14 +13,17 @@
 
                 <div class="col-md-6 col-sm-6">
                     <label for="route_html">Html URL:</label>
-                    <input type="text" value="{{ html_url }}" id="route_html" class="form-control">
+                    <input type="text" value="{{ html_url }}" id="route_html"
+                           onclick="this.setSelectionRange(0, this.value.length)" class="form-control">
                 </div>
 
                 <div class="col-md-3 col-sm-6">
+                    {% if screen_public %}
                     <button type="button" class="btn btn-default" onclick="window.location='{{ html_url }}'"
                             id="route_html"
                             style="margin-top:1.8em">Preview HTML
                     </button>
+                    {% endif %}
                 </div>
 
             <div class="col-md-3">
@@ -38,11 +41,12 @@
                     <label for="route_html">Bitmap URL for the ESP32:</label>
 
                     {% if screen_display is not null %}
-                        <input type="text" value="{{ bmp_url }}" id="route_bmp" class="form-control">
+                        <input type="text" value="{{ bmp_url }}" id="route_bmp"
+                               onclick="this.setSelectionRange(0, this.value.length)" class="form-control" style="font-weight:bold">
                     {% endif %}
                     {% if screen_display is not null and screen_public == false %}
-                        The screen is not public. Send headers to access:<br>
-                        <small>Authentication: Bearer {{ screen_bearer }}</small>
+                        <small>This screen is not public so you cannot access this URLs directly. Access headers:<br>
+                        Authentication: Bearer {{ screen_bearer }}</small>
                     {% endif %}
 
                     {% if screen_display is null and screen_public %}
