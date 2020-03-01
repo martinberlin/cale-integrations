@@ -30,7 +30,9 @@
     {% for s in screens %}
         <tr>
             <td><b>{{ s.name }}</b><br>
-            <small>{{ s.id }}</small></td>
+            {% if s.public ==false %}
+                <span class="glyphicon glyphicon-lock" title="Not public"></span>
+                {% endif %}<small>{{ s.id }}</small></td>
             <td><img width="80" src="/img/display-templates/{{ s.templateTwig|replace({"html.twig": "svg"}) }}"></td>
             <td>{{ s.display }}</td>
             <td><h4><a href="{{ path('b_screen_partials', {'uuid':s.id}) }}">

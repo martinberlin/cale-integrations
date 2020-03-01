@@ -64,7 +64,11 @@ Authorization: Bearer {{ form.vars.value.outBearer }}
     <script>
         let template_twig = document.getElementById('templateTwig');
         let template_img = document.getElementById('template');
+        let bearerInput = document.getElementById('outBearer');
 
+        bearerInput.onclick = function() {
+            bearerInput.setSelectionRange(0, bearerInput.value.length);
+        };
         setTemplateImage();
 
         template_twig.onchange = function () {
