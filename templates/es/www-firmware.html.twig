@@ -66,6 +66,28 @@
     String bearer = "";
 </pre>
 
+    <a name="a2"></a><br><br>
+    <h5><b>Logging del IP interno del ESP32</b></h5>
+    Por defecto CALE guarda el IP interno ya que es útil para diferenciarlo de las consultas que el mismo sitio hace cuando
+    renderizas tus Screens. Si por alguna razón deseas desabilitar este logging solo tienes que comentar esta linea:
+
+    <pre>
+#define ENABLE_INTERNAL_IP_LOG
+</pre>
+
+    <a name="a3"></a><br><br>
+    <h5><b>Seleccione la clase correcta para su display</b></h5>
+    Solo tiene quitar los comentarios de la parte del Config donde estan listados todos los modelos.
+    Por ej. para un Waveshare o Good display de 7.5" y 800x480 pixels hay que quitar los comentarios de esta linea:
+
+    <pre>
+//#define GDEW075T7  // Antes. Sin comentarios:
+
+#define GDEW075T7    // 7.5" b/w 800x480
+</pre>
+
+    Deje los otros modelos comentados o quitelos. De esta manera ya tiene la clase correcta para enviar datos a su display E-Ink.
+
     <h5>Conecciones GPIOs para la interfaz SPI del display E-Ink</h5>
     Las conecciones entre el SPI del display y el micro Espressif no son complicadas.
     Son 6 cables mas VIN que debe ir conectado a 3.3 volts y

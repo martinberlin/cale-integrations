@@ -24,6 +24,21 @@
 {% block body %}
 
     <h3>Firmware for Espressif boards</h3>
+
+
+    <div class="panel panel-default" style="margin-top: 1em">
+                <div class="panel-heading">Quick access:</div>
+                <div class="panel-body">
+    <ul>
+        <li><a href="#a1">How to compile and upload to your board</a></li>
+        <li><a href="#a2">Logging of the internal ESP32 IP Address</a></li>
+        <li><a href="#a3">Selecting the right driver for your display</a></li>
+        <li><a href="#s_esp32">Schematics ESP32</a></li>
+        <li><a href="#s_esp8266">Schematics ESP8266</a></li>
+    </ul>
+
+    </div></div>
+
     <p>
     <b>We believe that embedded software has to be solid, simple and secure.</b><br>
         That's why since we started developing CALE, there where many
@@ -39,7 +54,7 @@
     </ul>
     The part that still not fully tested and hence not included on this release, is to add the WiFi Secure Client so we can send this
         token with TLS encryption over secure socket layer.
-
+    <a name="a1"></a><br><br>
 <br>The open source Firmware is here:<br>
 
     <h4><a href="https://github.com/martinberlin/eink-calendar/tree/cale">https://github.com/martinberlin/eink-calendar/tree/cale</a></h4>
@@ -66,6 +81,27 @@
     String bearer = "";
 </pre>
 
+    <a name="a2"></a><br><br>
+    <h5><b>Logging of the internal ESP32 IP Address</b></h5>
+    By default CALE is logging the internal IP Address since it may be useful for statistics and to identify
+    a device if you need support. If for any reason you want to disable this just comment this line on the Config file:
+
+<pre>
+#define ENABLE_INTERNAL_IP_LOG
+</pre>
+
+    <a name="a3"></a><br><br>
+    <h5><b>Selecting the right driver for your display</b></h5>
+    We prepared the Config file so you can just uncomment a single line to select the right gxEPD class for your display.
+    For example to use a Waveshare or Good display 7.5 of 800x480 pixels, uncomment:
+
+    <pre>
+#define GDEW075T7    // 7.5" b/w 800x480
+</pre>
+
+    Leave all the others models commented. This way you are already inserting the right include for your E-Ink display.
+
+
     <h5><b>GPIOs for the E-Ink SPI interface</b></h5>
     Wiring the E-Ink SPI to the Espressif board is not super complicated.
     The E-Ink SPI has 6 cables plus VIN that should be connected to the 3.3v of your board plus ground.
@@ -91,10 +127,12 @@
     Note that we don't recommend to use public screens since your calendar may contain private information like events,
     bank transfers annotations or doctor appointments that you should not open to the world to see. So use always a security token.
 
+    <a name="s_esp32"></a>
     <h4>ESP32 Schematic</h4>
     <p>You can use any ESP32. The only requirement if you want your CALE to have a long battery life is that consumes less than 0.8 mA in deeepsleep mode.</p>
     <img src="/assets/svg/schematic-cale-esp32.svg">
 
+    <a name="s_esp8266"></a>
     <h4>ESP8266 Schematic</h4>
     <img src="/assets/svg/schematic-cale-esp8266.svg">
 
