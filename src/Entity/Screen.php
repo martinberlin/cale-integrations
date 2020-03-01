@@ -61,7 +61,7 @@ class Screen implements Created
 
     /**
      * @var string
-     * @ORM\Column(name="zoom", type="decimal", precision=1, scale=1, nullable=true)
+     * @ORM\Column(name="zoom", type="decimal", precision=4, scale=2, nullable=true)
      */
     private $outZoomFactor;
 
