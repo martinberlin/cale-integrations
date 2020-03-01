@@ -51,6 +51,11 @@ class SysScreenLog implements CreatedTimestamp
     protected $millis;
 
     /**
+     * @ORM\Column(type="string", length=24, nullable=true)
+     */
+    protected $internalIp;
+
+    /**
      * @var bool
      * @ORM\Column(type="boolean", nullable=true)
      */
@@ -165,4 +170,21 @@ class SysScreenLog implements CreatedTimestamp
     {
         $this->cached = $cached;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getInternalIp()
+    {
+        return $this->internalIp;
+    }
+
+    /**
+     * @param mixed $internalIp
+     */
+    public function setInternalIp($internalIp)
+    {
+        $this->internalIp = $internalIp;
+    }
+
 }
