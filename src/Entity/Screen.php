@@ -47,6 +47,12 @@ class Screen implements Created
     private $partials;
 
     /**
+     * One screen has many sysScreenLog entries. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="SysScreenLog", mappedBy="screen", orphanRemoval=true)
+     */
+    private $sysScreenLogs;
+
+    /**
      * @var string
      * @ORM\Column(type="string", length=130, nullable=true)
      */
@@ -121,6 +127,7 @@ class Screen implements Created
         $this->outSsl = 0;
         $this->hits = 0;
         $this->partials = new ArrayCollection();
+        $this->sysScreenLogs = new ArrayCollection();
         $this->setCreated(new \DateTime());
     }
 
@@ -221,11 +228,19 @@ class Screen implements Created
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection
      */
     public function getPartials()
     {
         return $this->partials;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getSysScreenLogs()
+    {
+        return $this->sysScreenLogs;
     }
 
     /**

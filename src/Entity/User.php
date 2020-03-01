@@ -120,6 +120,12 @@ class User implements UserInterface, Language, Created
     private $sysLogs;
 
     /**
+     * One user has many sysScreenLog entries. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="SysScreenLog", mappedBy="user", orphanRemoval=true)
+     */
+    private $sysScreenLogs;
+
+    /**
      * @var string
      * @ORM\Column(type="boolean")
      */
@@ -152,6 +158,7 @@ class User implements UserInterface, Language, Created
         $this->userApis = new ArrayCollection();
         $this->screens = new ArrayCollection();
         $this->sysLogs = new ArrayCollection();
+        $this->sysScreenLogs = new ArrayCollection();
         $this->doNotDisturb = false;
         $this->setCreated(new \DateTime());
     }
@@ -500,6 +507,13 @@ class User implements UserInterface, Language, Created
      */
     public function getSysLogs() {
         return $this->sysLogs;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getSysScreenLogs() {
+        return $this->sysScreenLogs;
     }
 
     public function __toString()
