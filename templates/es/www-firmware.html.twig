@@ -20,6 +20,20 @@
 {% block body %}
 
     <h3>Firmware para los boards Espressif</h3>
+
+    <div class="panel panel-default" style="margin-top: 1em">
+        <div class="panel-heading">Quick access:</div>
+        <div class="panel-body">
+            <ul>
+                <li><a href="#a1">Como compilar el Firmware</a></li>
+                <li><a href="#a2">Logging de la IP interna del ESP32</a></li>
+                <li><a href="#a3">Seleccione la clase correcta para su display</a></li>
+                <li><a href="#s_esp32">Schematic para el ESP32</a></li>
+                <li><a href="#s_esp8266">Schematic para el ESP8266</a></li>
+            </ul>
+
+        </div></div>
+
     <p>
         <b>Tenemos la certeza de que el embedded software tiene que ser solido, simple y seguro.</b> (software embebido)<br>
 
@@ -39,12 +53,13 @@
     La única parte que aun esta en periodo de pruebas y no incluida en esta release, es la implementación del WiFi Secure Client.
     La idea es que el Token viaje seguro usando encriptación SSL / TLS (<a href="https://github.com/espressif/arduino-esp32/blob/master/libraries/WiFiClientSecure/examples/WiFiClientSecure/WiFiClientSecure.ino">
     mbedTLS</a>)
-    <br>
+
+    <a name="a1"></a><br><br>
     <br>El firmware es código abierto y esta aquí:<br>
     <h4><a href="https://github.com/martinberlin/eink-calendar/tree/cale">https://github.com/martinberlin/eink-calendar/tree/cale</a></h4>
     </p>
 
-    <h4>Como compilarlo</h4>
+    <h4>Como compilar el Firmware</h4>
 
     Asumimos que tienes familiaridad con la instalación de Platformio que es un IDE para hacer upload de Firmware
     como hace Arduino, pero con la particularidad de mantener tus dependencias dentro del proyecto.<br><br>
@@ -66,16 +81,16 @@
     String bearer = "";
 </pre>
 
-    <a name="a2"></a><br><br>
-    <h5><b>Logging del IP interno del ESP32</b></h5>
-    Por defecto CALE guarda el IP interno ya que es útil para diferenciarlo de las consultas que el mismo sitio hace cuando
+    <a name="a2"></a><br><br><br><br>
+    <h5><b>Logging de la IP interna del ESP32</b></h5>
+    Por defecto CALE guarda la IP interna ya que es útil para diferenciarla de las consultas que el mismo sitio hace cuando
     renderizas tus Screens. Si por alguna razón deseas desabilitar este logging solo tienes que comentar esta linea:
 
     <pre>
 #define ENABLE_INTERNAL_IP_LOG
 </pre>
 
-    <a name="a3"></a><br><br>
+    <a name="a3"></a><br><br><br><br>
     <h5><b>Seleccione la clase correcta para su display</b></h5>
     Solo tiene quitar los comentarios de la parte del Config donde estan listados todos los modelos.
     Por ej. para un Waveshare o Good display de 7.5" y 800x480 pixels hay que quitar los comentarios de esta linea:
@@ -116,10 +131,12 @@
     como anotaciones de transferencias bancarias o citas con el doctor, cosas privadas que no te gustaría que esten abiertas al mundo en
     internet. Recomendamos usar siempre el token de seguridad en el Firmware.
 
+    <a name="s_esp32"></a><br>
     <h4>Schematic para el ESP32</h4>
     <p>You can use any ESP32. The only requirement if you want your CALE to have a long battery life is that consumes less than 0.8 mA in deeepsleep mode.</p>
     <img src="/assets/svg/schematic-cale-esp32.svg">
 
+    <a name="s_esp8266"></a><br>
     <h4>Schematic para el ESP8266</h4>
     <img src="/assets/svg/schematic-cale-esp8266.svg">
 

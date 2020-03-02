@@ -21,9 +21,14 @@
                 {{ form_row(form.public) }}
 
                 {{ form_row(form.outBearer) }}
-        {{ 'screen_token_firmware'|trans }}
+
+
+                    {{ 'screen_token_firmware'|trans }}
                     <a href="{{ path('firmware', {'_locale': 'en'}) }}">CALE Firmware</a>:
-<pre class="small">String bearer = "{{ form.vars.value.outBearer }}";
+
+<pre class="small">{% if bmp_url !='' %}char screenUrl[] = "{{ bmp_url }}";
+{% else %}// Please select a display and save to generate the screenUrl line for your Config{% endif %}
+String bearer = "{{ form.vars.value.outBearer }}";
 </pre>
                 </div>
             </div>

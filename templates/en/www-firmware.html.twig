@@ -25,7 +25,6 @@
 
     <h3>Firmware for Espressif boards</h3>
 
-
     <div class="panel panel-default" style="margin-top: 1em">
                 <div class="panel-heading">Quick access:</div>
                 <div class="panel-body">
@@ -83,7 +82,7 @@
     String bearer = "";
 </pre>
 
-    <a name="a2"></a><br><br>
+    <a name="a2"></a><br><br><br><br>
     <h5><b>Logging of the internal ESP32 IP Address</b></h5>
     By default CALE is logging the internal IP Address since it may be useful for statistics and to identify
     your device image requests from the adminstration image requests. If for any reason you want to disable this just comment this line on the Config file:
@@ -92,7 +91,7 @@
 #define ENABLE_INTERNAL_IP_LOG
 </pre>
 
-    <a name="a3"></a><br><br>
+    <a name="a3"></a><br><br><br>
     <h5><b>Selecting the right driver for your display</b></h5>
     We prepared the Config file so you can just uncomment a single line to select the right gxEPD class for your display.
     For example to use a Waveshare or Good display 7.5 of 800x480 pixels, uncomment:
@@ -118,8 +117,8 @@
     // Handles display rotation
     int8_t eink_rotation = 0;
     </pre>
-    Using gxEPD library the DataIn from the display goes to MOSI in your board (In ESP32 is GPIO 23)<br>
-    And display clock should be in GPIO 18 (CLK).
+    Using gxEPD library the DataIn from the display should be connected to MOSI in your board (In ESP32 is GPIO 23)<br>
+    And display clock pi should be wired to GPIO 18 in the ESP32 (CLK).
     Please check the schematics below to understand how it should be wired the E-Ink SPI interface to the Espressif board.
 
     <br>For more detailed configuration notes please check the repository README file.
@@ -129,12 +128,12 @@
     Note that we don't recommend to use public screens since your calendar may contain private information like events,
     bank transfers annotations or doctor appointments that you should not open to the world to see. So use always a security token.
 
-    <a name="s_esp32"></a>
+    <a name="s_esp32"></a><br>
     <h4>ESP32 Schematic</h4>
     <p>You can use any ESP32. The only requirement if you want your CALE to have a long battery life is that consumes less than 0.8 mA in deeepsleep mode.</p>
     <img src="/assets/svg/schematic-cale-esp32.svg">
 
-    <a name="s_esp8266"></a>
+    <a name="s_esp8266"></a><br>
     <h4>ESP8266 Schematic</h4>
     <img src="/assets/svg/schematic-cale-esp8266.svg">
 

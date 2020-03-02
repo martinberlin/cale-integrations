@@ -85,7 +85,9 @@ class BackendScreenController extends AbstractController
             [
                 'title' => $title,
                 'form' => $form->createView(),
-                'uuid' => $uuid
+                'uuid' => $uuid,
+                'bmp_url' => ($screen->getDisplay() instanceof Display) ?
+                    $this->bmpUrlGenerator($screen->isOutSsl(), 'bmp', $this->getUser()->getName(), $screen->getId()): ''
             ]
         );
     }
