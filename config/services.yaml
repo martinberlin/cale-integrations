@@ -10,7 +10,9 @@ parameters:
     # Email config
     email_reset_password:   'dontreply@cale.es'
     email_reset_pass_title: 'CALE password recovery'
-
+    # Datatables
+    datatables:
+        date_format: 'Y.m.d H:i'
     # Configuration of mysql API 1st level cache
     cache_config:
         enabled: 1

@@ -186,7 +186,7 @@ class BackendController extends AbstractController
         $response = new JsonResponse();
         $json = [];
         $json['data'] = [];
-
+        $datatablesDateFormat = $this->getParameter('datatables')['date_format'];
         switch ($type) {
             case 'screen_log':
                 $logs = $screenLogRepository->findBy(['user' => $this->getUser()],[],100);
@@ -195,7 +195,7 @@ class BackendController extends AbstractController
                     $display = $log->getScreen()->getDisplay();
                     $created = $log->getCreated()+date("Z");
                     $json['data'][] = [
-                        'created'=> gmdate($this->getUser()->getDateFormat().' H:i', $created),
+                        'created'=> gmdate($datatablesDateFormat, $created),
                         'screen' => $log->getScreen()->getId(),
                         'pixels' => ($display instanceof Display) ? $display->getWidth().'x'.$display->getHeight() : '',
                         'b'      => $log->getBytes(),
@@ -215,7 +215,7 @@ class BackendController extends AbstractController
                     $display = $log->getScreen()->getDisplay();
                     $created = $log->getCreated()+date("Z");
                     $json['data'][] = [
-                        'created'=> gmdate($this->getUser()->getDateFormat().' H:i', $created),
+                        'created'=> gmdate($datatablesDateFormat, $created),
                         'screen' => $log->getScreen()->getId(),
                         'user'  => $log->getScreen()->getUser()->getName(),
                         'pixels' => ($display instanceof Display) ? $display->getWidth().'x'.$display->getHeight() : '',
