@@ -7,12 +7,11 @@
     </tr>
       <th>ID</th>
       <th>First</th>
-      <th>Username</th>
       <th>Email</th>
       <th>Apis</th>
       <th>Screens</th>
       <th>Created</th>
-      <th>First login</th>
+      <th>Last login</th>
     </tr>
     </thead>
     <tbody>
@@ -20,7 +19,6 @@
       <tr style="border:1px #1b6d85 dashed">
         <td>{{ user.id }}</td>
         <td>{{ user.firstname }}</td>
-        <td>{{ user.name }}</td>
         <td>{{ user.email }}</td>
         <td>{{ user.userApis|length }}</td>
         <td>{% for s in user.screens %}

@@ -30,7 +30,7 @@ class BackendAdminController extends AbstractController
     public function users(UserRepository $userRepository)
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
-        $users = $userRepository->findAll();
+        $users = $userRepository->findBy([], ['lastLogin' => 'DESC']);
 
         return $this->render(
             'backend/admin/admin-users.html.twig',
