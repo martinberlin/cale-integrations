@@ -1,5 +1,8 @@
 body {
-    background-color: #e0e0e0;
+    background-color: #eFeFeF !important;
+}
+.dataTable thead {
+    background-color: #FFFFFF;
 }
 #bs-navbar {
     margin-top: 0.6em;

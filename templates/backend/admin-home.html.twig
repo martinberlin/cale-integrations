@@ -10,8 +10,11 @@
     <div class="row">
 
         <div class="col-md-5">
-            <ul>
+            <p>Click here if you want to understand the sections of the admin for a small on-boarding tour:</p>
+            <button class="btn btn-default" onclick="introJs().start();">
+                <span class="glyphicon glyphicon-question-sign"></span> Give me an Admin-tour</button>
 
+            <ul>
                 <li>
                     <h4>
                         Step 1 <a href="{{ path('b_api_configure') }}">Configure your APIs</a>
@@ -26,19 +29,11 @@
 
                 <li>
                     <h4>
-                        Step 3 Preview your screens with your content
-                    </h4>
-                </li>
-
-                <li>
-                    <h4>
-                        Step 4 Get an image link that you can use on your connected devices (Coming soon at launch day)
+                        Step 3 Preview your screens with your content and get an image link that you can use on your connected devices
                     </h4>
                 </li>
             </ul>
-            <p>Click here if you want to understand the sections of the admin for a small on-boarding tour:</p>
-            <button class="btn btn-default" onclick="introJs().start();">
-                <span class="glyphicon glyphicon-question-sign"></span> Give me an Admin-tour</button>
+
 
         </div>
 
