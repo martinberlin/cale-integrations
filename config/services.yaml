@@ -70,9 +70,6 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
-    App\EventSubscriber\LocaleSubscriber:
-        arguments: ['%kernel.default_locale%']
-
     # Let inject Profiler into a Controller
     Symfony\Component\HttpKernel\Profiler\Profiler: '@profiler'
 
@@ -81,9 +78,14 @@ services:
         tags:
             - { name: kernel.event_listener }
 
-    App\EventListener\:
-        resource: ../src/EventListener/*
-        tags: [kernel.event_listener]
+    # Event subscribers
+    App\EventSubscriber\LocaleSubscriber:
+        arguments: ['%kernel.default_locale%']
+
+    App\EventSubscriber\AuthenticationSuccessSubscriber: ~
+    # Arguments are auto injected, just as a reference:
+    #    arguments:
+    #        - '@security'
 
     # Makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
