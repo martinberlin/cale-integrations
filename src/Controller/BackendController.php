@@ -167,7 +167,7 @@ class BackendController extends AbstractController
         if ($isAdmin) {
             $json['columns'][] = (object)['data' => 'user',  'n'=>'User'];
         }
-        $json['columns'][] = (object)['data' => 'created',  'n'=>'Created'];
+        $json['columns'][] = (object)['data' => 'created',  'n'=>'Access'];
         $json['columns'][] = (object)['data' => 'pixels',   'n'=>'Pixels'];
         $json['columns'][] = (object)['data' => 'b',        'n'=>'Bytes'];
         $json['columns'][] = (object)['data' => 'millis',   'n'=>'Millis'];
