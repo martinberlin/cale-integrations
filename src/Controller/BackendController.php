@@ -162,6 +162,21 @@ class BackendController extends AbstractController
         return $r;
     }
 
+    private function datatablesScreenColumns(&$json, $isAdmin = false) {
+        $json['columns'][] = (object)['data' => 'screen',   'n'=>'Screen'];
+        if ($isAdmin) {
+            $json['columns'][] = (object)['data' => 'user',  'n'=>'User'];
+        }
+        $json['columns'][] = (object)['data' => 'created',  'n'=>'Created'];
+        $json['columns'][] = (object)['data' => 'pixels',   'n'=>'Pixels'];
+        $json['columns'][] = (object)['data' => 'b',        'n'=>'Bytes'];
+        $json['columns'][] = (object)['data' => 'millis',   'n'=>'Millis'];
+        $json['columns'][] = (object)['data' => 'ip',       'n'=>'IP'];
+        if (!$isAdmin) {
+            $json['columns'][] = (object)['data' => 'cached', 'n' => 'Cache hit'];
+        }
+    }
+
     /**
      * @Route("/json/data/{type}", name="b_json_datatables")
      */
@@ -179,7 +194,6 @@ class BackendController extends AbstractController
                 foreach ($logs as $log){
                     $display = $log->getScreen()->getDisplay();
                     $created = $log->getCreated()+date("Z");
-
                     $json['data'][] = [
                         'created'=> gmdate($this->getUser()->getDateFormat().' H:i', $created),
                         'screen' => $log->getScreen()->getId(),
@@ -190,17 +204,32 @@ class BackendController extends AbstractController
                         'cached' => ($log->isCached()) ? 'Yes' : 'No'
                     ];
                 }
-                $json['columns'][] = (object)['data' => 'screen',   'n'=>'Screen'];
-                $json['columns'][] = (object)['data' => 'created',  'n'=>'Created'];
-                $json['columns'][] = (object)['data' => 'pixels',   'n'=>'Pixels'];
-                $json['columns'][] = (object)['data' => 'b',        'n'=>'Bytes'];
-                $json['columns'][] = (object)['data' => 'millis',   'n'=>'Millis'];
-                $json['columns'][] = (object)['data' => 'ip',       'n'=>'IP'];
-                $json['columns'][] = (object)['data' => 'cached',   'n'=>'Cache hit'];
-
+                $this->datatablesScreenColumns($json);
                 break;
-            default:
 
+            case 'screen_log_admin':
+                $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'No report without ROLE_ADMIN');
+                $logs = $screenLogRepository->findBy([],[],500);
+
+                foreach ($logs as $log){
+                    $display = $log->getScreen()->getDisplay();
+                    $created = $log->getCreated()+date("Z");
+                    $json['data'][] = [
+                        'created'=> gmdate($this->getUser()->getDateFormat().' H:i', $created),
+                        'screen' => $log->getScreen()->getId(),
+                        'user'  => $log->getScreen()->getUser()->getName(),
+                        'pixels' => ($display instanceof Display) ? $display->getWidth().'x'.$display->getHeight() : '',
+                        'b'      => $log->getBytes(),
+                        'millis' => $log->getMillis(),
+                        'ip'     => $log->getInternalIp(),
+                        'cached' => ($log->isCached()) ? 'Yes' : 'No'
+                    ];
+                }
+                $this->datatablesScreenColumns($json, true);
+                break;
+
+            default:
+                $this->createNotFoundException('No report of this type');
                 break;
         }
         $encodedJson = json_encode($json);

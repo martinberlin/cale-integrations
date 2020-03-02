@@ -25,7 +25,7 @@ class BackendAdminController extends AbstractController
 {
 
     /**
-     * @Route("/users", name="b_admin_users")
+     * @Route("/admindash", name="b_admin_dashboard")
      */
     public function users(UserRepository $userRepository)
     {
@@ -33,9 +33,9 @@ class BackendAdminController extends AbstractController
         $users = $userRepository->findBy([], ['lastLogin' => 'DESC']);
 
         return $this->render(
-            'backend/admin/admin-users.html.twig',
+            'backend/admin/admin-dashboard.html.twig',
             [
-                'title' => 'List users',
+                'title' => 'Superadmin dashboard',
                 'users' => $users
             ]
         );
