@@ -1,7 +1,9 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\Display;
 use App\Form\UsernameAgreementType;
+use App\Repository\SysScreenLogRepository;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
@@ -158,6 +160,52 @@ class BackendController extends AbstractController
             $r->setContent('{"error":"Location API returned status:".$response->getStatusCode()."}")');
         }
         return $r;
+    }
+
+    /**
+     * @Route("/json/data/{type}", name="b_json_datatables")
+     */
+    public function datatablesJson(Request $request, $type,
+                                   SysScreenLogRepository $screenLogRepository)
+    {
+        $response = new JsonResponse();
+        $json = [];
+        $json['data'] = [];
+
+        switch ($type) {
+            case 'screen_log':
+                $logs = $screenLogRepository->findBy(['user' => $this->getUser()],[],100);
+
+                foreach ($logs as $log){
+                    $display = $log->getScreen()->getDisplay();
+                    $created = $log->getCreated()+date("Z");
+
+                    $json['data'][] = [
+                        'created'=> gmdate($this->getUser()->getDateFormat().' H:i', $created),
+                        'screen' => $log->getScreen()->getId(),
+                        'pixels' => ($display instanceof Display) ? $display->getWidth().'x'.$display->getHeight() : '',
+                        'b'      => $log->getBytes(),
+                        'millis' => $log->getMillis(),
+                        'ip'     => $log->getInternalIp(),
+                        'cached' => ($log->isCached()) ? 'Yes' : 'No'
+                    ];
+                }
+                $json['columns'][] = (object)['data' => 'screen',   'n'=>'Screen'];
+                $json['columns'][] = (object)['data' => 'created',  'n'=>'Created'];
+                $json['columns'][] = (object)['data' => 'pixels',   'n'=>'Pixels'];
+                $json['columns'][] = (object)['data' => 'b',        'n'=>'Bytes'];
+                $json['columns'][] = (object)['data' => 'millis',   'n'=>'Millis'];
+                $json['columns'][] = (object)['data' => 'ip',       'n'=>'IP'];
+                $json['columns'][] = (object)['data' => 'cached',   'n'=>'Cache hit'];
+
+                break;
+            default:
+
+                break;
+        }
+        $encodedJson = json_encode($json);
+        $response->setContent($encodedJson);
+        return $response;
     }
 
     }

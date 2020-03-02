@@ -2,14 +2,14 @@
 
 {# Datatables include let's make this one line #}
 {% block stylesheets %}
-    <link href="/js/datatables/datatables.min.css" rel="stylesheet">
+    <link href="/js/datatables/datatables.css" rel="stylesheet">
     <script type="text/javascript" src="/js/datatables/datatables.min.js"></script>
 {% endblock %}
 
 {% block body %}
     <div class="row">
 
-        <div class="col-md-6">
+        <div class="col-md-5">
             <ul>
 
                 <li>
@@ -40,19 +40,11 @@
             <button class="btn btn-default" onclick="introJs().start();">
                 <span class="glyphicon glyphicon-question-sign"></span> Give me an Admin-tour</button>
 
-            <div class="row" style="height: 40px"></div>
-
-            <p>This admin dashboard part is still in development. The idea is to make a full control panel where you can:</p>
-            <ul>
-                <li>Preview your screens - DONE</li>
-                <li>See statistics and logs to check that your displays are being updated correctly</li>
-                <li>Documentation content about how to install the Firmware and to test it with the Screens generated here</li>
-                <li>Quick access to support in case you need help</li>
-            </ul>
         </div>
 
-        <div class="col-md-6">
-        <table id="demotable" class="table table-striped table-condensed dataTable">
+        <div class="col-md-7">
+            <h4>Screen log</h4>
+        <table id="screen_log" class="table table-striped table-condensed dataTable">
             <thead><tr></tr></thead>
         </table>
         </div>
@@ -66,25 +58,23 @@
     });
 
     var data,
-        tableName= '#demotable',
+        tableName= '#screen_log',
         columns,
         str,
-        jqxhr = $.ajax('/js/datatables/data.json')
+        jqxhr = $.ajax('{{ path('b_json_datatables', {'type': 'screen_log'}) }}')
             .done(function () {
                 data = JSON.parse(jqxhr.responseText);
 
                 // Iterate each column and print table headers for Datatables
                 $.each(data.columns, function (k, colObj) {
-                    str = '<th>' + colObj.name + '</th>';
+                    str = '<th>' + colObj.n + '</th>';
                     $(str).appendTo(tableName+'>thead>tr');
                 });
 
                 // Add some Render transformations to Columns
-                // Not a good practice to add any of this in API/ Json side
-                data.columns[0].render = function (data, type, row) {
+                /*data.columns[0].render = function (data, type, row) {
                     return '<h4>' + data + '</h4>';
-                }
-                // Debug? console.log(data.columns[0]);
+                };*/
 
                 $(tableName).dataTable({
                     "data": data.data,
@@ -99,16 +89,8 @@
                 var msg = '';
                 if (jqXHR.status === 0) {
                     msg = 'Not connect.\n Verify Network.';
-                } else if (jqXHR.status == 404) {
-                    msg = 'Requested page not found. [404]';
-                } else if (jqXHR.status == 500) {
-                    msg = 'Internal Server Error [500].';
                 } else if (exception === 'parsererror') {
                     msg = 'Requested JSON parse failed.';
-                } else if (exception === 'timeout') {
-                    msg = 'Time out error.';
-                } else if (exception === 'abort') {
-                    msg = 'Ajax request aborted.';
                 } else {
                     msg = 'Uncaught Error.\n' + jqXHR.responseText;
                 }
