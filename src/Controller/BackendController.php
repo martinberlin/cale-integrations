@@ -97,7 +97,8 @@ class BackendController extends AbstractController
         return $this->render(
             'backend/admin-home.html.twig',
             [
-                'title' => 'Admin dashboard'
+                'title' => 'Admin dashboard',
+                'hasScreen' => count($this->getUser()->getScreens())
             ]
         );
     }

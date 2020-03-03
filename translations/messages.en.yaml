@@ -17,6 +17,8 @@ nav_displays_tooltip: E-Ink displays
 nav_transparently_built_tooltip: Open source and transparent
 nav_legal: Impressum
 
+# Admin dashboard
+no_screen_logs_yet: Create some Screens to see a log of your devices requests here
 # Registration
 create_account: Create an account
 used_for_login: This is what is used for login

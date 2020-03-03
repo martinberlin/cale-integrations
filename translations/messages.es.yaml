@@ -17,6 +17,8 @@ nav_displays_tooltip: E-Inks soportados
 nav_transparently_built_tooltip: El código detras de este sitio puedes verlo aquí
 nav_legal: Aviso legal
 
+# Admin dashboard
+no_screen_logs_yet: Crea un Screen para ver el log con los requests de imágen aquí
 # Registration
 create_account: Crea tu cuenta
 used_for_login: El email y la contraseña se usan para el login

@@ -40,9 +40,13 @@
 
         <div class="col-md-7">
             <h4>Screen log</h4>
+        {% if (hasScreen) %}
         <table id="screen_log" class="table table-striped table-condensed dataTable">
             <thead><tr></tr></thead>
         </table>
+            {% else %}
+            {{ 'no_screen_logs_yet'|trans }}
+        {% endif %}
         </div>
 
     </div>
@@ -52,11 +56,19 @@
     document.addEventListener("DOMContentLoaded", function() {
         introJs().setOption("overlayOpacity", 0.1);
     });
+    //Returns true if it is a DOM element
+    function isElement(o){
+        return (
+                typeof HTMLElement === "object" ? o instanceof HTMLElement : //DOM2
+                o && typeof o === "object" && o !== null && o.nodeType === 1 && typeof o.nodeName==="string"
+        );
+    }
 
-    var data,
-        tableName= '#screen_log',
-        columns,
-        str,
+    screenLogTable = 'screen_log';
+
+    if (isElement(document.getElementById(screenLogTable))) {
+    // datatables wants the tablename in jquery notation
+    var data,tableName= '#'+screenLogTable,columns,str,
         jqxhr = $.ajax('{{ path('b_json_datatables', {'type': 'screen_log'}) }}')
             .done(function () {
                 data = JSON.parse(jqxhr.responseText);
@@ -92,6 +104,7 @@
                 }
                 console.log(msg);
             });
+    }
 
     </script>
 
