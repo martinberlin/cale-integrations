@@ -44,7 +44,7 @@
 
             <input id="autorefresh" type="checkbox" data-toggle="toggle">
                 <span class="glyphicon glyphicon-refresh"></span>
-                Auto-refresh every 15 seconds
+            <label id="autorefresh-label" style="font-size: 14px">Auto-refresh</label>
 
         <table id="screen_log" class="table table-striped table-condensed dataTable" style="border:1px white solid !important">
             <thead><tr></tr></thead>
@@ -63,13 +63,18 @@
         let autorefresh = 0;
         let t;
         let auto = document.getElementById('autorefresh');
+        let autoLabel = document.getElementById('autorefresh-label');
         let interval;
     if (isElement(document.getElementById(screenLogTable))) {
         tableScreenLog()
     }
 
-    auto.onchange = function () {
-            tableScreenLog()
+    {# Events . autorefresh does not work without jquery #}
+    autoLabel.onclick = function() {
+        $('#autorefresh').bootstrapToggle('toggle')
+    };
+    auto.onchange = function() {
+        tableScreenLog()
     };
 
     function tableScreenLog() {

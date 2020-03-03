@@ -1,0 +1,31 @@
+{% extends '/base.html.twig' %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="col-md-8" style="margin-top: -2em">
+        <h4>
+            <span class="cale">CALE</span> is gratis usando hasta 3 displays y para uso personal
+        </h4>
+
+        <h5>Lo que si no es gratis para nosotros son los costes del servidor y mantenimiento del sitio.
+            Con lo cual pedimos que si se usa con fines comerciales nos soporten con 10 dolares o 9€ al mes como
+            <a href="https://github.com/martinberlin/cale-integrations">Sponsors en Github</a> para administrar hasta 8 displays.
+        </h5>
+    </div>
+
+    <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 text-center">
+    <button type="button" class="btn btn-success form-control" onclick="window.location='{{ path('register') }}'">
+        Registrarse aquí</button>
+    </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="./js/engine/common.js"></script>
+{% endblock %}

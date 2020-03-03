@@ -93,4 +93,10 @@ class HomeController extends AbstractController
             $request->getLocale().'/www-server-architecture.html.twig'
         );
     }
+    public function pricing(Request $request)
+    {
+        return $this->render(
+            $request->getLocale().'/www-service-pricing.html.twig'
+        );
+    }
 }

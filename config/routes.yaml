@@ -70,3 +70,9 @@ www_server-architecture:
   controller: App\Controller\HomeController::architecture
   defaults:
     _locale: en
+
+www_service-pricing:
+  path:       /pricing/{_locale}
+  controller: App\Controller\HomeController::pricing
+  defaults:
+    _locale: en
