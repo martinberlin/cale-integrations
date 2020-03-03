@@ -16,6 +16,8 @@ nav_apis_tooltip: Application Programming Interfaces to access your connected un
 nav_displays_tooltip: E-Ink displays
 nav_transparently_built_tooltip: Open source and transparent
 nav_legal: Impressum
+nav_service: Our service
+nav_pricing: Pricing
 
 # Admin dashboard
 no_screen_logs_yet: Create some Screens to see a log of your devices requests here

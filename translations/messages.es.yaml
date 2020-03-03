@@ -16,6 +16,8 @@ nav_apis_tooltip: Las Interfaces de Programación de Aplicaciones permiten const
 nav_displays_tooltip: E-Inks soportados
 nav_transparently_built_tooltip: El código detras de este sitio puedes verlo aquí
 nav_legal: Aviso legal
+nav_service: Nuestro servicio
+nav_pricing: Cuánto cuesta
 
 # Admin dashboard
 no_screen_logs_yet: Crea un Screen para ver el log con los requests de imágen aquí
