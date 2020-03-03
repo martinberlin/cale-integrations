@@ -41,8 +41,10 @@
         <div class="col-md-7">
             <h4>Screen log</h4>
         {% if (hasScreen) %}
-            <input id="autorefresh" type="checkbox" value="1"> <span class="glyphicon glyphicon-refresh"></span>
-            <label for="autorefresh">Auto-refresh every 15 seconds</label><br>
+
+            <input id="autorefresh" type="checkbox" data-toggle="toggle">
+                <span class="glyphicon glyphicon-refresh"></span>
+                Auto-refresh every 15 seconds
 
         <table id="screen_log" class="table table-striped table-condensed dataTable" style="border:1px white solid !important">
             <thead><tr></tr></thead>
