@@ -2,7 +2,7 @@
 
 {# Datatables include let's make this one line #}
 {% block stylesheets %}
-    <link href="/js/datatables/datatables.min.css" rel="stylesheet">
+    <link href="/js/datatables/datatables.css" rel="stylesheet">
     <script src="/js/jquery/jquery-2.1.0.min.js"></script>
     <script type="text/javascript" src="/js/datatables/datatables.min.js"></script>
 {% endblock %}
@@ -87,6 +87,7 @@
                 $(tableName).dataTable({
                     "data": data.data,
                     "columns": data.columns,
+                    "order": [[ 1, 'desc' ], [ 5, 'desc' ]],
                     "fnInitComplete": function () {
                         // Event handler to be fired when rendering is complete (Turn off Loading gif for example)
                         console.log('Datatable rendering complete');

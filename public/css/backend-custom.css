@@ -1,6 +1,9 @@
 body {
     background-color: #eFeFeF !important;
 }
+.DataTable thead {
+    background-color: #FFFFFF;
+}
 .dataTable thead {
     background-color: #FFFFFF;
 }
