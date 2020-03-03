@@ -27,3 +27,26 @@ function formatBytes(bytes, decimals = 2) {
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
+// datatables auto-refresh
+function refreshTable(tableName, data, orderColumns = []) {
+    refreshes++;
+    if (refreshes>1) {
+        t = $(tableName).DataTable();
+        t.destroy();
+    }
+    t = $(tableName).dataTable({
+        retrieve: true,
+        data: data.data,
+        columns: data.columns,
+        order: orderColumns,
+        "fnInitComplete": function () {
+            console.log('Refresh:' + refreshes);
+        }
+    });
+}
+//Returns true if it is a DOM element
+function isElement(o){
+    return (
+        typeof HTMLElement === "object" ? o instanceof HTMLElement : o && typeof o === "object" && o !== null && o.nodeType === 1 && typeof o.nodeName==="string"
+    );
+}

@@ -8,9 +8,9 @@
 
 {% block body %}
     <div class="row">
-        <div class="col-md-5 col-sm-5 col-xs-12">
+        <div class="col-md-5 col-sm-5 col-xs-12" style="margin-top:0.3em">
             <table id="users" class="table table-striped table-condensed dataTable"
-                   style="border-spacing:4px;width: 100%">
+                   style="border:1px white solid;">
                 <thead>
                 </tr>
                 <th>Email</th>
@@ -44,8 +44,8 @@
             </table>
         </div>
         <div class="col-md-7 col-sm-7 col-xs-12" style="margin-top: 0.3em">
-            <a href="javascript:tableScreenLog()"><span class="glyphicon glyphicon-refresh"></span> Refresh table</a>
-            <table id="screen_log" class="table table-striped table-condensed DataTable">
+            <h4 class="pull-left" style="margin-top:0.12em"><a href="javascript:tableScreenLog()"><span class="glyphicon glyphicon-refresh"></span> Refresh table</a> &nbsp;&nbsp;</h4>
+            <table id="screen_log" class="table table-striped table-condensed DataTable" style="border:1px white solid !important">
                 <thead>
                 <tr></tr>
                 </thead>
@@ -83,7 +83,7 @@
                             return formatBytes(data);
                         };
 
-                        refreshTable(tableName, data);
+                        refreshTable(tableName, data, [[2, 'desc'], [6, 'desc']]);
                     })
                     .fail(function (jqXHR, exception) {
                         var msg = '';
@@ -96,24 +96,6 @@
                         }
                         console.log(msg);
                     });
-        }
-
-        function refreshTable(tableName, data) {
-            refreshes++;
-            if (refreshes>1) {
-                t = $(tableName).DataTable();
-                t.destroy();
-            }
-            t = $(tableName).dataTable({
-                retrieve: true,
-                data: data.data,
-                columns: data.columns,
-                order: [[2, 'desc'], [6, 'desc']],
-                "processing": true,
-                "fnInitComplete": function () {
-                    console.log('Refresh:' + refreshes);
-                }
-            });
         }
     </script>
 {% endblock %}
