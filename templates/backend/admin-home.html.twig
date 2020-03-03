@@ -79,7 +79,7 @@
 
     function tableScreenLog() {
         var data, tableName = '#screen_log', columns, str,
-            jqxhr = $.ajax('{{ path('b_json_datatables', {'type': 'screen_log_admin'}) }}')
+            jqxhr = $.ajax('{{ path('b_json_datatables', {'type': 'screen_log'}) }}')
                 .done(function () {
                     data = JSON.parse(jqxhr.responseText);
                     if (!refreshes) {
