@@ -28,6 +28,7 @@ class WizardController extends AbstractController
         $intApi = $this->getIntegrationApi($intApiRepository, $intapi_uuid);
         $api = $intApi->getUserApi();
         $error = "";
+        $response = new Response();
         try {
             $ical = new ICal();
             $ical->initUrl($api->getResourceUrl(),
@@ -36,6 +37,8 @@ class WizardController extends AbstractController
             $events = $ical->eventsFromInterval('1 week');
         } catch (\Exception $e) {
             $error = "Could not access iCal. ".$e->getMessage();
+            $response->setContent($error);
+            return $response;
         }
         $html = '';$count = 0;
         if (isset($events)) {
@@ -61,8 +64,6 @@ class WizardController extends AbstractController
             $count++;
         }
         }
-
-        $response = new Response();
         $response->setContent($html);
         return $response;
     }

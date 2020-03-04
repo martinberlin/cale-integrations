@@ -80,6 +80,9 @@ Configure API: Configurar API
 no_apis_configured: Aun no tiene ninguna API configurada
 api_configure_first: Configura tu primera API
 apis_header: Los APIs son responsables de traer contenido actualizado a tus Screens
+'Name:': 'Nombre:'
+iCal URL: iCal URL
+Encrypted before persisting: Encriptado en nuestra DB antes de guardarlo
 
 # Configure
 Name your Api: Nombre de la Api

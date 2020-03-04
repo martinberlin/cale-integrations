@@ -56,7 +56,7 @@ class UserApiIcalType extends AbstractType
             ->add('password', PasswordType::class,
                 [
                     'label' => 'Password',
-                    'required' => true,
+                    'required' => false,
                     'attr' => [
                         'placeholder' => 'Encrypted before persisting',
                         'class' => 'form-control'

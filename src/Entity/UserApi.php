@@ -299,9 +299,11 @@ class UserApi implements Created
     /**
      * @param string
      */
-    public function setPassword(string $pass)
+    public function setPassword(?string $pass)
     {
-       $this->password = $pass;
+        if ($pass) {
+         $this->password = $pass;
+        }
     }
 
 }

@@ -80,6 +80,9 @@ Configure API: Configure API
 no_apis_configured: You still don't have any APIs configured
 api_configure_first: Configure your first API
 apis_header: The APIs will deliver your Screen partials fresh information
+'Name:': 'Name:'
+iCal URL: iCal URL
+Encrypted before persisting: Encrypted before persisting
 
 # Configure
 Name your Api: Name your Api
