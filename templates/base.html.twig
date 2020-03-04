@@ -1,5 +1,6 @@
 {% set http_host = app.request.getSchemeAndHttpHost()|replace({'www.': ''}) %}
-{% set canonical = http_host ~ path(app.request.attributes.get('_route')) %}
+{% set the_route = app.request.attributes.get('_route') %}
+{% set canonical = http_host ~ path(the_route) %}
 <!DOCTYPE html>
 <!--[if gte IE 10 | !IE ]><!--> <html lang="en"> <!--<![endif]-->
 
@@ -70,7 +71,8 @@
                         <a href="{{ path('firmware') }}">ESP32 Firmware</a>
                     </p>
 
-                    {% if app.user is null and app.request.attributes.get('_route') != 'home' %}
+                    {% if app.user is null and the_route != 'home'
+                    and the_route != 'www_service-pricing' and the_route != 'login'  %}
                         <a href="{{ path('register') }}" style="margin-right:2em"
                            class="btn navbar-btn btn-default pull-right">{{ 'register_here'|trans }}</a>
                     {% endif %}

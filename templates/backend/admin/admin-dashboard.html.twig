@@ -36,7 +36,7 @@
                                 </div>
                             {% endfor %}
                         </td>
-                        <td><small>{{ user.lastLogin|date("Y.m.d H:i") }}</small></td>
+                        <td><small>{% if user.lastLogin is not null %}{{ user.lastLogin|date("Y.m.d H:i") }}{% endif %}</small></td>
                         <td><small>{% if user.doNotDisturb %}No emails{% endif %}</small></td>
                     </tr>
                 {% endfor %}
