@@ -59,8 +59,7 @@ class PartialType extends AbstractType
                 ])
             ->add('placeholder', ChoiceType::class,
                 [
-                    'label' => 'in',
-                    'placeholder' => 'template area:',
+                    'label' => 'template area:',
                     'required' => true,
                     'choices' => $options['placeholders'],
                     'attr' => ['class' => 'form-control', 'style' => 'margin-bottom:0.4em'],
