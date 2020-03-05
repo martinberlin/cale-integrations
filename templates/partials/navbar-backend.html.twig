@@ -8,8 +8,7 @@
             </button>
 
             <span class="visible-lg-inline-block" style="margin-top: -2em">
-                    <a href="{{ path('b_home') }}">
-
+                    <a href="{% if is_granted('ROLE_ADMIN') %}{{ path('b_admin_dashboard') }}{% else %}{{ path('b_home') }}{% endif %}">
                             <div class="row">
                                 <div class="col-md-3" style="margin-top: 1.4em;margin-left: 0.4em">
                                 <img src="/assets/cale-logo.svg" width="150">
