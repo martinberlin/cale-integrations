@@ -46,6 +46,28 @@ function refreshTable(tableName, data, orderColumns = []) {
         }
     });
 }
+
+function refreshLogTable(tableName, data, orderColumns = []) {
+    refreshes++;
+    if (refreshes>1) {
+        t = $(tableName).DataTable();
+        t.destroy();
+    }
+    t = $(tableName).dataTable({
+        retrieve: true,
+        dom: '<"col-md-12 text-left">f<"col-md-12 text-right">tip',
+        data: data.data,
+        columns: data.columns,
+        order: orderColumns,
+        "fnInitComplete": function (oSettings) {
+            let purge = document.getElementById('purge');
+            if (oSettings.aoData.length>99) {
+                purge.style.visibility = 'visible';
+            }
+        }
+    });
+}
+
 //Returns true if it is a DOM element
 function isElement(o){
     return (

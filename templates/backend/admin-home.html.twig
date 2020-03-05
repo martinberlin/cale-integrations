@@ -48,9 +48,9 @@
                 <span class="glyphicon glyphicon-refresh"></span>
             <label id="autorefresh-label" style="font-size: 14px">Auto-refresh</label>
             </div>
-                <div class="col-md-2 col-sm-2 col-xs-12" style="margin-top: 0.3em">
+                <div id="purge" class="col-md-2 col-sm-2 col-xs-12" style="margin-top: 0.3em;visibility: hidden">
                     <a href="javascript:logPurge()"><span class="glyphicon glyphicon-remove" style="color:darkred"></span></a>
-                        <a href="javascript:logPurge()"><span style="font-size: 14px">Purge logs</span></a>
+                        <a href="javascript:logPurge()" data-toggle="tooltip" title="{{ 'logs_purge_tooltip'|trans }}"><span style="font-size: 14px">Purge logs</span></a>
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-12" style="margin-top: -0.3em">
                     <div class="small alert alert-success" style="visibility: hidden" id="response_msg"></div>
@@ -108,7 +108,7 @@
                         return formatBytes(data);
                     };
 
-                    refreshTable(tableName, data, [[1, 'desc'], [5, 'desc']]);
+                    refreshLogTable(tableName, data, [[1, 'desc'], [5, 'desc']]);
                 })
                 .fail(function (jqXHR, exception) {
                     var msg = '';
