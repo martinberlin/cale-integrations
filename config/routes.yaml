@@ -76,3 +76,9 @@ www_service-pricing:
   controller: App\Controller\HomeController::pricing
   defaults:
     _locale: en
+
+www_getting-started:
+  path:       /get-started/{_locale}
+  controller: App\Controller\HomeController::getStarted
+  defaults:
+    _locale: en

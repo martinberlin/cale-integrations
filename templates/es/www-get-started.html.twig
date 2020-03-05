@@ -1,0 +1,61 @@
+{% extends '/base.html.twig' %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="col-md-12" style="margin-top: -2em">
+        <h2>
+            <span class="glyphicon glyphicon-play-circle"></span>
+            Como empezar a usarlo
+        </h2>
+
+        <h3>Estamos trabajando en una aplicación Android para poder configurar el Firmware
+        </h3>
+        <p>Pero en esta etapa todavia no esta lista para el Android play store.
+            Esperamos que este disponible a fines de Marzo del 2020.</p>
+
+        <h3>1. Registrarse en este sitio y crear una Screen</h3>
+        <p>Conectar una API como el Google Calendar o el calendario compartido de Timetree
+            que tienen una configuración sencilla. Asocia esta API a tu Screen y configura un display
+            de prueba. Prueba de hacer render y ver como se ve. En el Screen config puedes copiar
+            dos lineas de configuración que necesitaras para el Firmware en el punto 3.</p>
+
+        <h3>2. Consigue el Hardware para armar uno</h3>
+        <p><a href="{{ path('displays') }}">Necesitas un E-Ink display con cualquier ESP32 o ESP8266</a>.
+            Recomendamos el ESP32 por que se pueden configurar periodos de deepsleep mas largos.
+            Si quieres probarlo sin soldar un cable también hay modulos de E-Ink que ya vienen con
+            un microchip ESP32 como el TTGO T5.</p>
+
+        <h3>3. Baja y compila el Firmware</h3>
+        <p><a href="{{ path('firmware') }}">La configuración necesaria para el firmware esta expliada aquí</a>.
+        En el Config puedes empezar copiando las dos lineas que salen en el punto 1 al configurar tu Screen.</p>
+
+        <h3>4. Enciende CALE</h3>
+        <p>En este último punto ya tendría que poder encender su cliente de E-Ink
+            y debería estar online pidiendo una imágen a CALE. Prueba de jugar con el render, agregar
+            nuevo contenido dínamico usando APIs, y prueba de ver como se ve. En el Render puedes
+            cambiar parametros como Zoom hasta encontrar la imágen ideal para tu pantalla.
+            Una vez que estes conforme en el punto 3 puedes decidir cada cuanto se refresca tu pantalla. </p>
+
+        <a id="blue"></a>
+        <h3>
+            <span class="glyphicon glyphicon-blackboard"></span>
+            Como será la configuración a traves de una aplicación Android
+        </h3>
+        <p>Cuando este listo un producto terminado que se pueda comprar ya armado la idea es hacer la configuración
+            mas sencilla. Podrás encargar un modelo ya armado con una única página de configuración donde explique
+            en 4 pasos muy sencillos como configurarlo con una aplicación de Android con Bluetooth
+            sin tener que compilar el Firmware.</p>
+        <img src="/assets/svg/cale-bluetooth-conf.svg"><br><br><br>
+    <p>Aun no esta disponible en el Android play store.</p>
+    </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="./js/engine/common.js"></script>
+{% endblock %}

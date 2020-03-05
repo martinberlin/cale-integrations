@@ -99,4 +99,11 @@ class HomeController extends AbstractController
             $request->getLocale().'/www-service-pricing.html.twig'
         );
     }
+
+    public function getStarted(Request $request)
+    {
+        return $this->render(
+            $request->getLocale().'/www-get-started.html.twig'
+        );
+    }
 }
