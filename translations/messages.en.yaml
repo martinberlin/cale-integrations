@@ -21,6 +21,8 @@ nav_pricing: Pricing
 
 # Admin dashboard
 no_screen_logs_yet: Create some Screens to see a log of your devices requests here
+logs_purged: log rows deleted. Thanks!
+
 # Registration
 create_account: Create an account
 used_for_login: This is what is used for login

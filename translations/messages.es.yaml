@@ -21,6 +21,8 @@ nav_pricing: Cuánto cuesta
 
 # Admin dashboard
 no_screen_logs_yet: Crea un Screen para ver el log con los requests de imágen aquí
+logs_purged: logs borrados. Gracias!
+
 # Registration
 create_account: Crea tu cuenta
 used_for_login: El email y la contraseña se usan para el login

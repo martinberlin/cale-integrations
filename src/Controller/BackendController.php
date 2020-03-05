@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/backend")
@@ -182,15 +183,32 @@ class BackendController extends AbstractController
      * @Route("/json/data/{type}", name="b_json_datatables")
      */
     public function datatablesJson(Request $request, $type,
-                                   SysScreenLogRepository $screenLogRepository)
+                                   SysScreenLogRepository $screenLogRepository, EntityManagerInterface $em, TranslatorInterface $translator)
     {
         $response = new JsonResponse();
         $json = [];
         $json['data'] = [];
         $datatablesDateFormat = $this->getParameter('datatables')['date_format'];
+        $amount = $request->get('amount', 100);
+
         switch ($type) {
+            case 'screen_log_purge':
+                $logs = $screenLogRepository->findBy(['user' => $this->getUser()],['created' => 'ASC'],$amount);
+                $count = 0;
+                foreach ($logs as $log){
+                    try {
+                        $em->remove($log);
+                        $count++;
+                    } catch(\Exception $e ) {
+                        $count--;
+                    }
+                }
+                $json = ['status' => $count.' '.$translator->trans('logs_purged')];
+                $em->flush();
+                break;
+
             case 'screen_log':
-                $logs = $screenLogRepository->findBy(['user' => $this->getUser()],[],100);
+                $logs = $screenLogRepository->findBy(['user' => $this->getUser()],['created' => 'DESC'],1000);
 
                 foreach ($logs as $log){
                     $display = $log->getScreen()->getDisplay();
@@ -210,7 +228,7 @@ class BackendController extends AbstractController
 
             case 'screen_log_admin':
                 $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'No report without ROLE_ADMIN');
-                $logs = $screenLogRepository->findBy([],[],500);
+                $logs = $screenLogRepository->findBy([],[],2000);
 
                 foreach ($logs as $log){
                     $display = $log->getScreen()->getDisplay();
