@@ -39,7 +39,7 @@ class HomeController extends AbstractController
 
     public function displays(Request $request, DisplayRepository $displayRepository)
     {
-        $displays = $displayRepository->findAll();
+        $displays = $displayRepository->findBy([],['width' => 'DESC']);
         return $this->render(
             $request->getLocale().'/www-display.html.twig',
         [
