@@ -42,11 +42,7 @@ class ApiType extends AbstractType
                 'label' => 'Url name',
                 'attr' => ['class' => 'form-control']
             ])
-            ->add('jsonRoute', TextType::class,
-                [
-                    'label' => 'Renderer route',
-                    'attr' => ['class' => 'form-control']
-                ])
+
             ->add('url', TextType::class,
                 [
                     'required' => false,
@@ -73,6 +69,19 @@ class ApiType extends AbstractType
             ->add('editRoute', TextType::class,
                 [
                     'label' => 'Important: Controller route that will edit this API',
+                    'required' => true,
+                    'attr' => ['class' => 'form-control']
+                ])
+
+            ->add('jsonRoute', TextType::class,
+                [
+                    'label' => 'Renderer route',
+                    'required' => true,
+                    'attr' => ['class' => 'form-control']
+                ])
+
+            ->add('documentationUrl', TextType::class,
+                [
                     'required' => true,
                     'attr' => ['class' => 'form-control']
                 ])

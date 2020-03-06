@@ -82,3 +82,10 @@ www_getting-started:
   controller: App\Controller\HomeController::getStarted
   defaults:
     _locale: en
+
+
+www_api-ical:
+  path:       /api-ical/{_locale}
+  controller: App\Controller\HomeController::apiIcal
+  defaults:
+    _locale: en

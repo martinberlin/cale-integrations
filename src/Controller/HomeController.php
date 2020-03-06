@@ -106,4 +106,11 @@ class HomeController extends AbstractController
             $request->getLocale().'/www-get-started.html.twig'
         );
     }
+
+    public function apiIcal(Request $request)
+    {
+        return $this->render(
+            $request->getLocale().'/www-api-ical.html.twig'
+        );
+    }
 }
