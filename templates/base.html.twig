@@ -1,5 +1,6 @@
 {% set http_host = app.request.getSchemeAndHttpHost()|replace({'www.': ''}) %}
-{% set the_route = app.request.attributes.get('_route') %}
+{% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params'))  %}
+
 <!DOCTYPE html>
 <!--[if gte IE 10 | !IE ]><!--> <html lang="en"> <!--<![endif]-->
 
@@ -8,8 +9,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+
     {% if the_route != 'reset_password_confirm' %}
-        {% set canonical = http_host ~ path(the_route) %}
+        {% set canonical = http_host ~ currentPath %}
         <link rel=”canonical” href=”{{ canonical }}">
     {% endif %}
 

@@ -23,13 +23,6 @@ class HomeController extends AbstractController
         //return $this->redirectToRoute('register', [], 301);
     }
 
-    public function firmware(Request $request)
-    {
-        return $this->render(
-            $request->getLocale().'/www-firmware.html.twig'
-        );
-    }
-
     public function aboutCale(Request $request)
     {
         return $this->render(
@@ -111,6 +104,27 @@ class HomeController extends AbstractController
     {
         return $this->render(
             $request->getLocale().'/www-api-ical.html.twig'
+        );
+    }
+    // Good idea but does not work because of locale lang. switch
+    public function serve(Request $request, $page)
+    {
+        return $this->render(
+            $request->getLocale().'/'.$page.'.html.twig'
+        );
+    }
+
+    public function firmware(Request $request)
+    {
+        return $this->render(
+            $request->getLocale().'/www-firmware.html.twig'
+        );
+    }
+
+    public function firmwareT5(Request $request)
+    {
+        return $this->render(
+            $request->getLocale().'/www-firmware-t5.html.twig'
         );
     }
 }

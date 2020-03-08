@@ -65,6 +65,12 @@ firmware:
   defaults:
     _locale: en
 
+firmware-t5:
+  path:       /firmware-t5/{_locale}
+  controller: App\Controller\HomeController::firmwareT5
+  defaults:
+    _locale: en
+
 www_server-architecture:
   path:       /architecture/{_locale}
   controller: App\Controller\HomeController::architecture
