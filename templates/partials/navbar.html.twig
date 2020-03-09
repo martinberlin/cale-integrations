@@ -20,7 +20,6 @@
 
         <nav id="bs-navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="{{ path('login') }}">Login</a></li>
                 <li><a href="{{ path('www_getting-started') }}"><span class="glyphicon glyphicon-play-circle"></span>
                         {{ 'nav_get_started'|trans }}</a></li>
                 <li class="dropdown"><a href="#" data-toggle="dropdown" aria-expanded="false">
@@ -41,11 +40,10 @@
                                 {{ 'nav_pricing'|trans }}</a></li>
                         <li><a href="{{ path('www_server-architecture') }}">
                                 Server architecture</a></li>
+                        <li><a href="{{ path('apis') }}">{{ 'nav_apis'|trans }}</a></li>
+                        <li><a href="{{ path('displays') }}" data-toggle="tooltip" title="{{ 'nav_displays_tooltip'|trans }}">Displays</a></li>
                     </ul>
                 </li>
-                <li><a href="{{ path('apis') }}">
-                        {{ 'nav_apis'|trans }}</a></li>
-                <li><a href="{{ path('displays') }}" data-toggle="tooltip" title="{{ 'nav_displays_tooltip'|trans }}">Displays</a></li>
                 <li><a href="{{ path('firmware') }}" data-toggle="tooltip" title="ESP32">Firmware</a></li>
 
                 <li class="dropdown"><a href="#" data-toggle="dropdown" aria-expanded="false">
@@ -56,6 +54,7 @@
                         <li><a href="{{ path(app.request.attributes.get('_route'), {'_locale':'es'}) }}" >Español</a></li>
                     </ul>
                 </li>
+                <li><a href="{{ path('login') }}">Login</a></li>
             </ul>
         </nav>
     </div>
