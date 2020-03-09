@@ -26,6 +26,8 @@
                         <td><small>{{ user.email }}</small></td>
                         <td>{{ user.userApis|length }}</td>
                         <td valign="top">{% for s in user.screens %}
+
+                                {% if loop.index < 3 %}
                                 <div class="row" style="height: 20px">
                                     <div class="col-md-12 col-sm-12 col-xs-12">
                                         <small><a href="{{ path('public_screen_render', {'username':user.name,'uuid':s.id}) }}"
@@ -34,6 +36,8 @@
                                             </a></small>
                                     </div>
                                 </div>
+                                {% endif %}
+
                             {% endfor %}
                         </td>
                         <td><small>{% if user.lastLogin is not null %}{{ user.lastLogin|date("Y.m.d H:i") }}{% endif %}</small></td>
@@ -43,7 +47,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-md-7 col-sm-7 col-xs-12" style="margin-top: 0.3em">
+        <div class="col-md-7 col-sm-7 col-xs-12" style="margin-top: 0.1em">
             <h4 class="pull-left" style="margin-top:0.12em"><a href="javascript:tableScreenLog()"><span class="glyphicon glyphicon-refresh"></span> Refresh table</a> &nbsp;&nbsp;</h4>
             <table id="screen_log" class="table table-striped table-condensed DataTable" style="border:1px white solid !important">
                 <thead>
@@ -56,7 +60,10 @@
 
 {% block javascripts %}
     <script>
-        $('#users').dataTable({"order": [[3, 'desc']]});
+        $('#users').dataTable({
+            "order": [[3, 'desc']],
+            "dom": "itipf"
+        });
         // Let's draw table columns only on initialization
         let refreshes = 0;
         let t;

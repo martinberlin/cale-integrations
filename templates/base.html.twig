@@ -1,4 +1,5 @@
 {% set http_host = app.request.getSchemeAndHttpHost()|replace({'www.': ''}) %}
+{% set the_route = app.request.attributes.get('_route') %}
 {% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params'))  %}
 
 <!DOCTYPE html>
