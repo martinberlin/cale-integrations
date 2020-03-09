@@ -15,6 +15,10 @@
             color:black;
         }
     </style>
+    {# Datatables include let's make this one line #}
+        <link href="/js/datatables/datatables.css" rel="stylesheet">
+        <script src="/js/jquery/jquery-2.1.0.min.js"></script>
+        <script type="text/javascript" src="/js/datatables/datatables.min.js"></script>
 {% endblock stylesheets %}
 
 {% block carousel %}
@@ -30,14 +34,13 @@
                 <div class="panel-body">
     <ul>
         <li><a href="#a1">Quick start with the Lilygo T5</a></li>
-        <li><a href="#a2">3Dprint a case</a></li>
+        <li><a href="#a2">GPIO reference</a></li>
+        <li><a href="#a3">3Dprint a case</a></li>
     </ul>
 
     </div></div>
 
     <p>
-    <b>We believe that embedded software has to be solid, simple and secure.</b><br>
-
         Lilygo is a <a href="http://www.lilygo.cn/prod_view.aspx?TypeId=50031&Id=1088&FId=t3:50031:3">chinese firma</a>
         that offers boards that come with an ESP32 and a SPI interface already wired in the PCB. So this boards
         should offer a quick start to try CALE since you don't need to soldier or assemble anything.<br>
@@ -77,6 +80,8 @@
     String bearer = "";
 </pre>
 
+
+    <a id="a2">PINs for this boards</a><br><br>
     The Eink is already wired to the SPI interface, so please check their documentation in the
     <a href="https://github.com/lewisxhe/TTGO-EPaper-Series" target="_blank"
        data-toggle="tooltip" title="External link -> Github.com">TTGO E-paper repository</a>, to see
@@ -90,7 +95,276 @@ int8_t EINK_DC   = 17;
 int8_t EINK_BUSY = 4;
     </pre>
 
-    <a id="a2"></a><br><br>
+
+    <h4>GPIO reference</h4>
+    <table id="gpios" class="table table-striped table-condensed dataTable">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>T5 V1.2 / V2.4</th>
+            <th>T5 V2.0</th>
+            <th>T5 V2.1</th>
+            <th>T5 V2.2</th>
+            <th>T5 V2.3</th>
+            <th>T5 V2.8</th>
+            <th>T5 xxxx</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>EPaper BUSY</td>
+            <td>4</td>
+            <td>4</td>
+            <td>4</td>
+            <td>4</td>
+            <td>4</td>
+            <td>4</td>
+            <td>4</td>
+        </tr>
+        <tr>
+            <td>EPaper RST</td>
+            <td>16</td>
+            <td>16</td>
+            <td>16</td>
+            <td>12</td>
+            <td>16</td>
+            <td>16</td>
+            <td>12</td>
+        </tr>
+        <tr>
+            <td>EPaper DC</td>
+            <td>17</td>
+            <td>17</td>
+            <td>17</td>
+            <td>19</td>
+            <td>17</td>
+            <td>17</td>
+            <td>13</td>
+        </tr>
+        <tr>
+            <td>EPaper CS</td>
+            <td>5</td>
+            <td>5</td>
+            <td>5</td>
+            <td>5</td>
+            <td>5</td>
+            <td>5</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>EPaper MOSI</td>
+            <td>23</td>
+            <td>23</td>
+            <td>23</td>
+            <td>23</td>
+            <td>23</td>
+            <td>23</td>
+            <td>15</td>
+        </tr>
+        <tr>
+            <td>EPaper MISO</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+        </tr>
+        <tr>
+            <td>EPaper SCLK</td>
+            <td>18</td>
+            <td>18</td>
+            <td>18</td>
+            <td>18</td>
+            <td>18</td>
+            <td>18</td>
+            <td>14</td>
+        </tr>
+        <tr>
+            <td>SDCard CS</td>
+            <td>13</td>
+            <td>13</td>
+            <td>13</td>
+            <td>13</td>
+            <td>13</td>
+            <td>13</td>
+            <td>N/A</td>
+        </tr>
+        <tr>
+            <td>SDCard MOSI</td>
+            <td>15</td>
+            <td>15</td>
+            <td>15</td>
+            <td>23</td>
+            <td>15</td>
+            <td>15</td>
+            <td>N/A</td>
+        </tr>
+        <tr>
+            <td>SDCard MISO</td>
+            <td>2</td>
+            <td>2</td>
+            <td>2</td>
+            <td>2</td>
+            <td>2</td>
+            <td>2</td>
+            <td>N/A</td>
+        </tr>
+        <tr>
+            <td>SDCard SCLK</td>
+            <td>14</td>
+            <td>14</td>
+            <td>14</td>
+            <td>18</td>
+            <td>14</td>
+            <td>14</td>
+            <td>N/A</td>
+        </tr>
+        <tr>
+            <td>Button 1</td>
+            <td>37</td>
+            <td>39</td>
+            <td>37</td>
+            <td>37</td>
+            <td>39</td>
+            <td>37</td>
+            <td>37</td>
+        </tr>
+        <tr>
+            <td>Button 2</td>
+            <td>38</td>
+            <td>N/A</td>
+            <td>38</td>
+            <td>38</td>
+            <td>N/A</td>
+            <td>38</td>
+            <td>38</td>
+        </tr>
+        <tr>
+            <td>Button 3</td>
+            <td>39</td>
+            <td>N/A</td>
+            <td>39</td>
+            <td>39</td>
+            <td>N/A</td>
+            <td>39</td>
+            <td>39</td>
+        </tr>
+        <tr>
+            <td>DAC OUT</td>
+            <td>25</td>
+            <td>N/A</td>
+            <td>25</td>
+            <td>25</td>
+            <td>N/A</td>
+            <td>Note1</td>
+            <td>N/A</td>
+        </tr>
+        <tr>
+            <td>DS3231 SDA</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>21</td>
+        </tr>
+        <tr>
+            <td>DS3231 SCL</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>22</td>
+        </tr>
+        <tr>
+            <td>LORA MOSI</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>27</td>
+        </tr>
+        <tr>
+            <td>LORA MISO</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>19</td>
+        </tr>
+        <tr>
+            <td>LORA SCLK</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>5</td>
+        </tr>
+        <tr>
+            <td>LORA CS</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>18</td>
+        </tr>
+        <tr>
+            <td>LORA RST</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>23</td>
+        </tr>
+        <tr>
+            <td>LORA DIO0</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>2N/A</td>
+            <td>26</td>
+        </tr>
+        <tr>
+            <td>SPRAM</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>supported</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>supported</td>
+        </tr>
+        <tr>
+            <td>Support EPaper Size</td>
+            <td>Full Size</td>
+            <td>Full Size</td>
+            <td>Full Size</td>
+            <td>Full Size</td>
+            <td>Full Size</td>
+            <td>Full Size</td>
+            <td>Full Size</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a id="a3"></a><br><br>
     <h3>3D print a case</h3>
 
     Doing a search for <a href="https://www.thingiverse.com/search?q=TTGO+T5" target="_blank">"ttgo T5" in Thingiverse</a>
@@ -103,4 +377,7 @@ int8_t EINK_BUSY = 4;
 
 {% block javascripts %}
     <script type="text/javascript" src="./js/engine/common.js"></script>
+<script>
+    $('#gpios').dataTable();
+</script>
 {% endblock %}

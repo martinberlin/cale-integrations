@@ -10,10 +10,6 @@
             height: {{ carousel_high }}px; width: 100%;
             background-color: #333;
         }
-        body {
-            background-color: #e0e0e0;
-            color:black;
-        }
     </style>
 {% endblock stylesheets %}
 
@@ -29,8 +25,9 @@
                 <div class="panel-heading">Acceso rápido:</div>
                 <div class="panel-body">
     <ul>
-        <li><a href="#a1">Quick start con Lilygo T5</a></li>
+        <li><a href="#a1">Firmware para el Lilygo T5</a></li>
         <li><a href="#a2">Imprimir el Case en 3D</a></li>
+        <li><a href="{{ path('firmware') }}">Firmware para el ESP32/8266</a></li>
     </ul>
 
     </div></div>
