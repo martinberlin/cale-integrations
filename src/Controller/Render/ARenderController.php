@@ -195,19 +195,26 @@ class ARenderController extends AbstractController
         $googleClientService = new GoogleClientService($googleClient);
         $googleClientService->setAccessToken($userApi->getJsonToken());
         $googleClientService->setCredentials($_ENV['OAUTH_GOOGLE_CALENDAR_CREDENTIALS']);
-        $service = new \Google_Service_Calendar($googleClientService->getClient());
-        $calendarId = 'primary';
-        $optParams = array(
-            'maxResults' => 2,
-            'orderBy' => 'startTime',
-            'singleEvents' => true,
-            'timeMin' => date('c'),
-        );
-        $results = $service->events->listEvents($calendarId, $optParams);
-        $events = $results->getItems();
+        $googleClient = $googleClientService->getClient();
 
-        $response = new JsonResponse();
-        $response->setContent(json_encode($events));
+        if ($googleClient instanceof \Google_Client) {
+            $service = new \Google_Service_Calendar($googleClient);
+            $calendarId = 'primary';
+            $optParams = array(
+                'maxResults' => 2,
+                'orderBy' => 'startTime',
+                'singleEvents' => true,
+                'timeMin' => date('c'),
+            );
+            $results = $service->events->listEvents($calendarId, $optParams);
+            $events = $results->getItems();
+
+            $response = new JsonResponse();
+            $response->setContent(json_encode($events));
+        } else {
+            // Google client replies with an HttpFundation Response
+            $response = $googleClient;
+        }
         return $response;
     }
 
