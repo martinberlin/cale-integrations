@@ -4,7 +4,6 @@ namespace App\Controller;
 use App\Entity\Display;
 use App\Form\UsernameAgreementType;
 use App\Repository\SysScreenLogRepository;
-use App\Repository\UserRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

@@ -78,6 +78,20 @@ class IntegrationApi implements Language, Location, Created
     protected $jsonSettings;
 
     /**
+     * Internal content: Used for internal Html storage
+     * @var string
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $html;
+
+    /**
+     * Internal content: Image path
+     * @var string
+     * @ORM\Column(type="string", length=120, nullable=true)
+     */
+    protected $imagePath;
+
+    /**
      * @var \DateTime
      * @ORM\Column(type="datetime")
      */
@@ -231,6 +245,39 @@ class IntegrationApi implements Language, Location, Created
     {
         $this->jsonSettings = $jsonSettings;
     }
+
+    /**
+     * @return string
+     */
+    public function getHtml():?string
+    {
+        return $this->html;
+    }
+
+    /**
+     * @param string $html
+     */
+    public function setHtml(string $html): void
+    {
+        $this->html = $html;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImagePath():?string
+    {
+        return $this->imagePath;
+    }
+
+    /**
+     * @param string $imagePath
+     */
+    public function setImagePath(string $imagePath): void
+    {
+        $this->imagePath = $imagePath;
+    }
+
     public function getCreated() {
         return $this->created;
     }

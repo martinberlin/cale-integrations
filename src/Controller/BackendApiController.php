@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\IntegrationApi;
 use App\Entity\UserApi;
 use App\Form\Api\ApiConfigureSelectionType;
+use App\Form\Api\IntegrationHtmlType;
 use App\Form\Api\IntegrationSharedCalendarApiType;
 use App\Form\Api\IntegrationWeatherApiType;
 use App\Form\Api\Wizard\ApiDeleteConfirmationType;
@@ -99,6 +100,7 @@ class BackendApiController extends AbstractController
                 if ($api->isLocationApi()) {
                     return $this->redirectToRoute('b_api_customize_location', $userApiUuidParameter);
                 }
+                // TODO: Check that there is a new field for this in app_api:  edit_route
                 // Any exceptions should go here, otherwise there is a configurator wizard:
                 return $this->redirectToRoute('b_api_wizard_'.$api->getUrlName(), $userApiUuidParameter);
             }
@@ -393,5 +395,55 @@ class BackendApiController extends AbstractController
             ]
         );
     }
+
+    /**
+     * Wizard to configure HTML internal API
+     * @Route("/html/{uuid}/{intapi_uuid?}/{step?1}", name="b_api_wizard_cale-html")
+     */
+    public function apiInternalHtml(
+        $uuid, $intapi_uuid, $step, Request $request,
+        UserApiRepository $userApiRepository,
+        IntegrationApiRepository $intApiRepository,
+        EntityManagerInterface $entityManager) {
+
+        $userApi = $this->getUserApi($userApiRepository, $uuid);
+        $api = $this->getIntegrationApi($intApiRepository, $intapi_uuid);
+        if (!$api instanceof IntegrationApi) {
+            $api = new IntegrationApi();
+        }
+        $form = $this->createForm(IntegrationHtmlType::class, $api);
+        $form->handleRequest($request);
+        $error = "";
+        if ($form->isSubmitted() && $form->isValid()) {
+            $api->setUserApi($userApi);
+            try {
+                $entityManager->persist($api);
+                $entityManager->flush();
+            } catch (\Exception $e) {
+                $error = $e->getMessage();
+                $this->addFlash('error', $error);
+            }
+
+            if ($error === '') {
+                $this->addFlash('success', "Saved");
+
+                return $this->redirectToRoute('b_api_wizard_cale-html',
+                    ['uuid' => $userApi->getId(), 'intapi_uuid' => $api->getId(), 'step' => 1]);
+            }
+        }
+
+        return $this->render(
+            'backend/api/conf-html-content.html.twig',
+            [
+                'title' => 'Step 1: Write your HTML content',
+                'form'  => $form->createView(),
+                'intapi_uuid' => $intapi_uuid,
+                'userapi_id'  => $userApi->getId(),
+                'date_format' => $this->getUser()->getDateFormat(),
+                'hour_format' => $this->getUser()->getHourFormat(),
+            ]
+        );
+    }
+
 
 }

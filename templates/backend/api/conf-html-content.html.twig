@@ -1,0 +1,27 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        {{ form_start(form) }}
+        <div class="col-md-12">
+
+            {{ form_errors(form) }}
+            {{ form_row(form.name) }}
+
+            {{ form_row(form.html) }}
+
+            <br>Using {date} will be replaced by the actual date. The date and time format can be customized in your
+            <a href="{{ path('b_user_profile') }}">user Profile</a><br>
+            Using {time} will be replaced by the time. Example: {date} &lt;b&gt;{time}&lt;/b&gt; will render:<br>
+            {{ "now"|date(date_format) }} <b>{{ "now"|date(hour_format) }}</b>
+            <br>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+
+    </script>
+{% endblock %}
