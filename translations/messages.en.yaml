@@ -7,6 +7,7 @@ forgot_password: I forgot my password
 register_here: Create an account
 # NAV
 nav_about: About us
+nav_displays: E-Ink displays supported
 nav_apis: Supported APIs
 nav_transparently_built: Transparently built
 nav_privacy: Privacy policy
@@ -19,6 +20,10 @@ nav_legal: Impressum
 nav_service: Our service
 nav_pricing: Pricing
 nav_get_started: Get started
+nav_server_architecture: Server architecture
+title_ical: Importing iCal calendars
+title_firmware: Espressif Firmware
+title_firmware_t5: Firmware for T5 ESP32 boards
 
 # Admin dashboard
 no_screen_logs_yet: Create some Screens to see a log of your devices requests here

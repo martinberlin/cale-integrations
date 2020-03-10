@@ -16,10 +16,14 @@
         <link rel=”canonical” href=”{{ canonical }}">
     {% endif %}
 
-        <title>{% block title %}CALE Integrations{% endblock %}</title>
+        <title>{% if title is defined %}CALE {{title}}{% else %}CALE Screen manager{% endif %}</title>
 
         {# Bootstrap 3 core CSS #}
+    {% if app.environment != 'dev' %}
         <link href="https://cale.s3.eu-central-1.amazonaws.com/css/bootstrap.min.css" rel="stylesheet">
+    {% else %}
+        <link href="/css/bootstrap.min.css" rel="stylesheet">
+    {% endif %}
         <link href="/css/theme.css" rel="stylesheet">
         <link href="/css/prism.css" rel="stylesheet">
 
