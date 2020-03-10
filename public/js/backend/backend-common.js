@@ -37,7 +37,7 @@ function refreshTable(tableName, data, orderColumns = []) {
     // Btip
     t = $(tableName).dataTable({
         retrieve: true,
-        dom: '<"col-md-12 text-left">f<"col-md-12 text-right">tip',
+        dom: 'l<"col-md-12 text-left">f<"col-md-12 text-right">tip',
         data: data.data,
         columns: data.columns,
         order: orderColumns,
