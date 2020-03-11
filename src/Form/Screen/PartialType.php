@@ -34,6 +34,7 @@ class PartialType extends AbstractType
                         '1st Column' => 'Column_1st',
                         '2nd Column' => 'Column_2nd',
                         '3rd Column' => 'Column_3rd',
+                        'Header' => 'Header',
                     ],
                 'screen' => false
             ]);

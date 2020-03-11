@@ -240,6 +240,7 @@ class BackendScreenController extends AbstractController
             'html_url' => $htmlUrl,
             'bmp_url' => $bmpUrl
         ];
+        $htmlPerColumn['Header'] = '';
         $htmlPerColumn['Column_1st'] = '';
         $htmlPerColumn['Column_2nd'] = '';
         $htmlPerColumn['Column_3rd'] = '';

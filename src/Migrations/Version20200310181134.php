@@ -23,7 +23,7 @@ final class Version20200310181134 extends AbstractMigration
  `json_route`, `edit_route`) 
 VALUES ('5', 
 'cale-html', 'CALE HTML editor', 'https://cale.es', NULL, 'html', '0', 'https://cale.es', NULL, '6', NULL, 
-'App\Controller\Render\HRenderController::render_html', 'b_api_wizard_cale-html')");
+'App\\\Controller\\\Render\\\HRenderController::render_html', 'b_api_wizard_cale-html')");
     }
 
     public function down(Schema $schema) : void
