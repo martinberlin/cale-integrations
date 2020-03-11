@@ -92,6 +92,13 @@ class IntegrationApi implements Language, Location, Created
     protected $imagePath;
 
     /**
+     * Internal content: Image alignment
+     * @var string
+     * @ORM\Column(type="string", length=120, nullable=true, name="image_pos")
+     */
+    protected $imagePosition;
+
+    /**
      * @var \DateTime
      * @ORM\Column(type="datetime")
      */
@@ -270,12 +277,25 @@ class IntegrationApi implements Language, Location, Created
         return $this->imagePath;
     }
 
-    /**
-     * @param string $imagePath
-     */
     public function setImagePath(string $imagePath): void
     {
         $this->imagePath = $imagePath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImagePosition():?string
+    {
+        return $this->imagePosition;
+    }
+
+    /**
+     * @param string
+     */
+    public function setImagePosition(string $imagePos): void
+    {
+        $this->imagePosition = $imagePos;
     }
 
     public function getCreated() {

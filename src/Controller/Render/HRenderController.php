@@ -28,7 +28,13 @@ class HRenderController extends AbstractController
      */
     public function render_html(TemplatePartial $partial, IntegrationApiRepository $intApiRepository, UserApiRepository $userApiRepository)
     {
-        $html = $partial->getIntegrationApi()->getHtml();
+        $image = $partial->getIntegrationApi()->getImagePath();
+        $imagePosition = $partial->getIntegrationApi()->getImagePosition();
+        $html = '<div class="row">';
+        if (!is_null($image)) {
+            $html = '<div class="row" style="background-image:url('.$image.');background-position:'.$imagePosition.'">';
+        }
+        $html .= $partial->getIntegrationApi()->getHtml();
         $user = $partial->getScreen()->getUser();
         $dateFormat = $user->getDateFormat();
         $hourFormat = $user->getHourFormat();
@@ -36,6 +42,7 @@ class HRenderController extends AbstractController
         $html = str_replace('{date}', $now->format($dateFormat), $html);
         $html = str_replace('{time}', $now->format($hourFormat), $html);
         // Render the content partial and return the composed HTML
+        $html.= '</div>';
         $response = new Response();
         $response->setContent($html);
         return $response;
