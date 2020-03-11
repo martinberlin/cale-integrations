@@ -19,20 +19,22 @@ class ScreenPartialsType extends AbstractType
             [
                 'data_class' => Screen::class,
                 'screen' => false,
+                'screen_template' => null,
+                'template_placeholders'   => null
             ]);
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-
             ->add('partials', CollectionType::class,
                 [
                     'label' => false,
                     'entry_type'    => PartialType::class,
                     'entry_options' => [
                         'label' => false,
-                        'screen' => $options['screen']
+                        'screen' => $options['screen'],
+                        'template_placeholders' => $options['template_placeholders'][$options['screen_template']]
                     ],
                     'allow_add'     => true,
                     'allow_delete'  => true, /* Needs orphanRemoval=true in oneToMany!*/

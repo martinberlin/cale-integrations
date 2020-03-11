@@ -104,7 +104,8 @@ class BackendScreenController extends AbstractController
     public function screenPartialsEdit($uuid, Request $request, ScreenRepository $screenRepository,
                                        EntityManagerInterface $entityManager, TranslatorInterface $translator)
     {
-       $screen = $screenRepository->find($uuid);
+        $templateContents = $this->getParameter('screen_templates_contents');
+        $screen = $screenRepository->find($uuid);
         if (!$screen instanceof Screen) {
             throw $this->createNotFoundException("$uuid is not a valid screen");
         }
@@ -116,7 +117,9 @@ class BackendScreenController extends AbstractController
 
         $form = $this->createForm(ScreenPartialsType::class, $screen,
             [
-                'screen' => $screen
+                'screen' => $screen,
+                'screen_template' => $screen->getTemplateTwig(),
+                'template_placeholders' => $templateContents
             ]);
         $form->handleRequest($request);
         $error = '';

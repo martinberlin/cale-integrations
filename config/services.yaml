@@ -7,6 +7,26 @@ parameters:
         '2 Columns with header': 2-col-header.html.twig
         '3 Columns': 3-col.html.twig
         '3 Columns with header': 3-col-header.html.twig
+    screen_templates_contents:
+         1-col.html.twig:
+             '1st Column': 'Column_1st'
+         2-col.html.twig:
+             '1st Column': 'Column_1st'
+             '2nd Column': 'Column_2nd'
+         3-col.html.twig:
+             '1st Column': 'Column_1st'
+             '2nd Column': 'Column_2nd'
+             '3rd Column': 'Column_3rd'
+         2-col-header.html.twig:
+             'Header': 'Header'
+             '1st Column': 'Column_1st'
+             '2nd Column': 'Column_2nd'
+         3-col-header.html.twig:
+             'Header': 'Header'
+             '1st Column': 'Column_1st'
+             '2nd Column': 'Column_2nd'
+             '3rd Column': 'Column_3rd'
+
     # Notice that ../public is hardcoded in BackendApiController::apiInternalHtml
     screen_images_directory: /screenimg
     # Email config
