@@ -32,7 +32,7 @@ class HRenderController extends AbstractController
         $imagePosition = $partial->getIntegrationApi()->getImagePosition();
         $html = '<div class="row">';
         if (!is_null($image)) {
-            $html = '<div class="row" style="background-image:url('.$image.');background-position:'.$imagePosition.'">';
+            $html = '<div class="row" style="background-image:url('.$image.');background-position:'.$imagePosition.';background-repeat:no-repeat">';
         }
         $html .= $partial->getIntegrationApi()->getHtml();
         $user = $partial->getScreen()->getUser();
