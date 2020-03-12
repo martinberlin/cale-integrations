@@ -28,13 +28,24 @@ class HRenderController extends AbstractController
      */
     public function render_html(TemplatePartial $partial, IntegrationApiRepository $intApiRepository, UserApiRepository $userApiRepository)
     {
-        $image = $partial->getIntegrationApi()->getImagePath();
-        $imagePosition = $partial->getIntegrationApi()->getImagePosition();
-        $html = '<div class="row">';
+        $api = $partial->getIntegrationApi();
+        $image = $api->getImagePath();
+        $imagePosition = $api->getImagePosition();
+        $html = '';
+        $imageHtml = '';
+
         if (!is_null($image)) {
-            $html = '<div class="row" style="background-image:url('.$image.');background-position:'.$imagePosition.';background-repeat:no-repeat">';
+            switch ($api->getImageType()) {
+                case 'background':
+                    $html = '<div class="row" style="background-image:url('.$image.');background-position:'.$imagePosition.';background-repeat:no-repeat">';
+                    break;
+                case 'float':
+                    $imageHtml = '<img src="'.$image.'" class="float-'.$imagePosition.'">';
+                    $html .= $imageHtml;
+                    break;
+            }
         }
-        $html .= $partial->getIntegrationApi()->getHtml();
+        $html .= $api->getHtml();
         $user = $partial->getScreen()->getUser();
         $dateFormat = $user->getDateFormat();
         $hourFormat = $user->getHourFormat();
@@ -42,7 +53,6 @@ class HRenderController extends AbstractController
         $html = str_replace('{date}', $now->format($dateFormat), $html);
         $html = str_replace('{time}', $now->format($hourFormat), $html);
         // Render the content partial and return the composed HTML
-        $html.= '</div>';
         $response = new Response();
         $response->setContent($html);
         return $response;

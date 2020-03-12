@@ -99,6 +99,13 @@ class IntegrationApi implements Language, Location, Created
     protected $imagePosition;
 
     /**
+     * Internal content: Image type (Floating or background)
+     * @var string
+     * @ORM\Column(type="string", length=20, nullable=true, name="image_type")
+     */
+    protected $imageType;
+
+    /**
      * @var \DateTime
      * @ORM\Column(type="datetime")
      */
@@ -296,6 +303,22 @@ class IntegrationApi implements Language, Location, Created
     public function setImagePosition(string $imagePos): void
     {
         $this->imagePosition = $imagePos;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageType():?string
+    {
+        return $this->imageType;
+    }
+
+    /**
+     * @param string
+     */
+    public function setImageType(string $imageType): void
+    {
+        $this->imageType = $imageType;
     }
 
     public function getCreated() {

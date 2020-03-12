@@ -217,3 +217,18 @@ Template: Plantilla
 Partials: Secciones
 Created: Creado el
 Integrations: Integraciones
+
+#HTML editor
+Your HTML Content: Contenido HTML
+Upload an image: Subir una imagen
+Image type: Tipo de imagen
+background: background
+floating: flotante
+Image position: Posición
+left: izquierda
+center: centro
+right: derecha
+Save contents: Guardar cambios
+image_float_note: 'La imagen flotante es una buena opción para agregar un logo. Flota solo izq. o derecha pero no al centro. Ej: <img style="float:left">'
+image_background_note: 'La imagen de fondo queda debajo del texto HTML: <div style="background-image: url(your/image)">'
+

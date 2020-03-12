@@ -37,7 +37,7 @@ class IntegrationHtmlType extends AbstractType
 
             ->add('imageFile', FileType::class,
                 [
-                    'label' => 'Upload a background image',
+                    'label' => 'Upload an image',
                     'required' => false,
                     'mapped' => false,
                     'attr' => [
@@ -56,7 +56,6 @@ class IntegrationHtmlType extends AbstractType
                         ])
                     ]
                 ])
-
             ->add('imagePosition', ChoiceType::class,
                 [
                     'choices' => [
@@ -64,7 +63,16 @@ class IntegrationHtmlType extends AbstractType
                         'center' => 'center',
                         'right' => 'right',
                     ],
-                    'label' => 'Backround image position',
+                    'label' => 'Image position',
+                    'attr' => ['class' => 'form-control']
+                ])
+            ->add('imageType', ChoiceType::class,
+                [
+                    'choices' => [
+                        'background' => 'background',
+                        'floating' => 'float'
+                    ],
+                    'label' => 'Image type',
                     'attr' => ['class' => 'form-control']
                 ])
 

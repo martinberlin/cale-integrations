@@ -23,7 +23,10 @@
                 <div class="col-md-6 col-sm-12 col-xs-12">
                     {{ form_row(form.imageFile) }}
                 </div>
-                <div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="col-md-3 col-sm-12 col-xs-12">
+                    {{ form_row(form.imageType) }}
+                </div>
+                <div class="col-md-3 col-sm-12 col-xs-12">
                     {{ form_row(form.imagePosition) }}
                 </div>
             </div>
@@ -35,8 +38,10 @@
             Using {time} will be replaced by the time. Example: {date} &lt;b&gt;{time}&lt;/b&gt; will render:<br>
             {{ "now"|date(date_format) }} <b>{{ "now"|date(hour_format) }}</b>
 
+            <div style="margin-top: 2em;height:5em" id="note">
+            </div>
             {% if image_path != '' %}
-                <div style="margin-top: 5em">
+                <div style="margin-top: 2em">
                 BACKGROUND IMG:<br>
                 <img style="max-width: 100%" src="{{ image_path }}">
                 </div>
@@ -47,16 +52,29 @@
 
 {% block javascripts %}
     <script>
+        let image_type = document.getElementById('imageType');
+        let note = document.getElementById('note');
+
         $('.summernote').summernote({
             toolbar: [
                 ['style', ['bold', 'italic', 'clear']],
                 ['font', ['strikethrough', 'superscript', 'subscript']],
-                ['fontsize', ['fontsize']],
+                ['fontsize', ['fontsize','height']],
                 ['color', ['color']],
                 ['para', ['ul', 'ol', 'paragraph']],
-                ['height', ['height']],
-                ['insert', ['link', 'table']]
+                ['insert', ['link', 'table','codeview']]
             ]
         });
+
+        image_type.onchange = function () {
+            switch (image_type.value) {
+                case 'float':
+                    note.innerText = '{{ 'image_float_note'|trans|raw }}';
+                    break;
+                case 'background':
+                    note.innerText = '{{ 'image_background_note'|trans|raw }}';
+                    break;
+            }
+        };
     </script>
 {% endblock %}

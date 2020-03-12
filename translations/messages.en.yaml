@@ -216,3 +216,17 @@ Template: Template
 Partials: Partials
 Created: Created
 Integrations: Integrations
+
+#HTML editor
+Your HTML Content: Your HTML Content
+Upload an image: Upload an image
+Image type: Image type
+background: background
+floating: float
+Image position: Image position
+left: left
+center: center
+right: right
+Save contents: Save contents
+image_float_note: 'A float image type is good to add a logo. The position should be only left or right, it does not float center. It stays on top of everything with an: <img style="float:left">'
+image_background_note: 'A background image is below the HTML text useful to personalize a header: <div style="background-image: url(your/image)">'

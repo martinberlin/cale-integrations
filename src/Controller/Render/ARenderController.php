@@ -483,9 +483,10 @@ class ARenderController extends AbstractController
         $colMd = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'col-md-6 col-sm-6':'col-md-4 col-sm-4';
 
         $html = $error.' <div class="row"'.$colorStyle.'>';
-        $count = 0;
+        $count = 1;
 
         foreach ($events as $event) {
+            if ($count>$partial->getMaxResults()) break;
             $dateStart = ($ical->iCalDateToDateTime($event->dtstart));
             $dateEnd = ($ical->iCalDateToDateTime($event->dtend));
 
@@ -495,8 +496,6 @@ class ARenderController extends AbstractController
                         <'.$hs1.'>'.$summary."</$hs1>";
             $html .= "<$hs2>". $dateStart->format($user->getHourFormat())." to ".$dateEnd->format($user->getHourFormat())."</$hs1>
                       </div>";
-            // Optional: Cut in rows, we are going to let this happen automatically with bootstrap
-            /*if ($count > 1 && $count % 3 === 0) { $html .= '</div>';  }*/
             $count++;
         }
         $html.= '</div>';
