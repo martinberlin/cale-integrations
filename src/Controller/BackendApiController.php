@@ -442,6 +442,7 @@ class BackendApiController extends AbstractController
 
                 $api->setImagePath($imagePublicPath.'/'.$newFilename);
             }
+            $userApi->setIsConfigured(true);
             $api->setUserApi($userApi);
             try {
                 $entityManager->persist($api);
