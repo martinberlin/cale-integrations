@@ -85,7 +85,9 @@ class BackendScreenController extends AbstractController
             [
                 'title' => $title,
                 'form' => $form->createView(),
-                'uuid' => $uuid
+                'uuid' => $uuid,
+                'bmp_url' => ($screen->getDisplay() instanceof Display) ?
+                    $this->bmpUrlGenerator($screen->isOutSsl(), 'bmp', $this->getUser()->getName(), $screen->getId()): ''
             ]
         );
     }
@@ -102,7 +104,8 @@ class BackendScreenController extends AbstractController
     public function screenPartialsEdit($uuid, Request $request, ScreenRepository $screenRepository,
                                        EntityManagerInterface $entityManager, TranslatorInterface $translator)
     {
-       $screen = $screenRepository->find($uuid);
+        $templateContents = $this->getParameter('screen_templates_contents');
+        $screen = $screenRepository->find($uuid);
         if (!$screen instanceof Screen) {
             throw $this->createNotFoundException("$uuid is not a valid screen");
         }
@@ -114,7 +117,9 @@ class BackendScreenController extends AbstractController
 
         $form = $this->createForm(ScreenPartialsType::class, $screen,
             [
-                'screen' => $screen
+                'screen' => $screen,
+                'screen_template' => $screen->getTemplateTwig(),
+                'template_placeholders' => $templateContents
             ]);
         $form->handleRequest($request);
         $error = '';
@@ -238,6 +243,7 @@ class BackendScreenController extends AbstractController
             'html_url' => $htmlUrl,
             'bmp_url' => $bmpUrl
         ];
+        $htmlPerColumn['Header'] = '';
         $htmlPerColumn['Column_1st'] = '';
         $htmlPerColumn['Column_2nd'] = '';
         $htmlPerColumn['Column_3rd'] = '';

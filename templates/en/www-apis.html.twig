@@ -38,7 +38,7 @@
                 <td>&nbsp;<b>{{ a.name }}</b> </td>
                 <td>{{ a.category.name }}</td>
                 <td>
-                    <a href="{{ a.documentationUrl }}" target="_blank" class="alert alert-info">
+                    <a href="{{ a.documentationUrl }}" class="alert alert-info">
                         <span class="glyphicon glyphicon-link"></span></a>
                 </td>
                 <td>{{ a.authNote }}</td>
@@ -56,6 +56,7 @@
         </tbody>
     </table>
     <br>
+    UPDATE: We recently added <a href="{{ path('www_api-ical') }}">Internet Calendaring (iCal) support</a> as an internal API you can use to import your events from any external provider.
     <p>If the application programming interface you want to use is not listed here, please send un a public message on twitter mentioning @martinfasani on it,
     or to add it to the fast track you can directly add a
         <a href="https://github.com/martinberlin/cale-integrations/issues">Github Issue in <span class="cale">CALE</span> public repository</a> where the code to render this lines is coming.</p>

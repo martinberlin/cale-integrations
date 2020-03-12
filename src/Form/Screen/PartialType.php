@@ -29,13 +29,8 @@ class PartialType extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class' => TemplatePartial::class,
-                'placeholders' =>
-                    [
-                        '1st Column' => 'Column_1st',
-                        '2nd Column' => 'Column_2nd',
-                        '3rd Column' => 'Column_3rd',
-                    ],
-                'screen' => false
+                'screen' => false,
+                'template_placeholders' => null
             ]);
     }
 
@@ -59,10 +54,9 @@ class PartialType extends AbstractType
                 ])
             ->add('placeholder', ChoiceType::class,
                 [
-                    'label' => 'in',
-                    'placeholder' => 'template area:',
+                    'label' => 'template area:',
                     'required' => true,
-                    'choices' => $options['placeholders'],
+                    'choices' => $options['template_placeholders'],
                     'attr' => ['class' => 'form-control', 'style' => 'margin-bottom:0.4em'],
                     'constraints' => [
                         new NotBlank()

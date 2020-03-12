@@ -1,0 +1,62 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+{# HTML editor include #}
+{% block stylesheets %}
+    <link href="/js/summernote/summernote-lite.min.css" rel="stylesheet">
+    <script src="/js/jquery/jquery-2.1.0.min.js"></script>
+    <script src="/js/summernote/summernote-lite.min.js"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        {{ form_start(form) }}
+        <div class="col-md-8 col-sm-8 col-xs-12">
+
+            {{ form_errors(form) }}
+            {{ form_row(form.name) }}
+
+            {{ form_row(form.html) }}
+
+            <br>Image is optional. Supported extensions are jpg, png, gif, bmp and svg. Max size: 100 Kb
+
+            <div class="row">
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    {{ form_row(form.imageFile) }}
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    {{ form_row(form.imagePosition) }}
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-12">PLACEHOLDERS:<br>
+            Using {date} will be replaced by the actual date. The date and time format can be customized in your
+            <a href="{{ path('b_user_profile') }}">user Profile</a><br>
+            Using {time} will be replaced by the time. Example: {date} &lt;b&gt;{time}&lt;/b&gt; will render:<br>
+            {{ "now"|date(date_format) }} <b>{{ "now"|date(hour_format) }}</b>
+
+            {% if image_path != '' %}
+                <div style="margin-top: 5em">
+                BACKGROUND IMG:<br>
+                <img style="max-width: 100%" src="{{ image_path }}">
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $('.summernote').summernote({
+            toolbar: [
+                ['style', ['bold', 'italic', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['insert', ['link', 'table']]
+            ]
+        });
+    </script>
+{% endblock %}

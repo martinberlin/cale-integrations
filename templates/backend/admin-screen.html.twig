@@ -21,7 +21,7 @@
         <th>{{'Name'|trans}}</th>
         <th>{{'Template'|trans}}</th>
         <th>E-Ink display</th>
-        <th>{{'Partials'|trans}}</th>
+
         <th>{{'Created'|trans}}</th>
         <th>Admin</th>
     </tr>
@@ -32,23 +32,26 @@
             <td><b>{{ s.name }}</b><br>
             {% if s.public ==false %}
                 <span class="glyphicon glyphicon-lock" title="Not public"></span>
-                {% endif %}<small>{{ s.id }}</small></td>
+                {% endif %}<small>{{ s.id }} - {{ s.hits }} views</small></td>
             <td><img width="80" src="/img/display-templates/{{ s.templateTwig|replace({"html.twig": "svg"}) }}"></td>
             <td>{{ s.display }}</td>
-            <td><h4><a href="{{ path('b_screen_partials', {'uuid':s.id}) }}">
-                    <span class="glyphicon glyphicon-paperclip"></span> {{ s.partials|length }}</a>
-                </h4></td>
             <td>{{ s.created|date("d.m.Y") }}</td>
             <td>
                 <a class="btn btn-default" href="{{ path('b_screen_edit', {'uuid':s.id}) }}">
                     <span class="glyphicon glyphicon-picture"></span> {{'Config'|trans}}</a>
+
+                <a class="btn btn-default" href="{{ path('b_screen_partials', {'uuid':s.id}) }}">
+                    <span class="glyphicon glyphicon-paperclip"></span> {{ s.partials|length }} {{'Partials'|trans}}</a>
+
                 {% if s.partials|length %}
                 <a class="btn btn-default" href="{{ path('b_screen_render', {'uuid':s.id}) }}"
                    data-toggle="tooltip" title="Preview your screen in HTML">
                             <span class="glyphicon glyphicon-screenshot"></span> {{'screen_render'|trans}}</a>
-                    {% else %}
-                        <a class="btn btn-default" href="{{ path('b_screen_delete', {'uuid':s.id}) }}">
-                            <span class="glyphicon glyphicon-remove"></span> {{'Delete'|trans}}</a>
+                {% endif %}
+
+                {% if s.partials|length==0 %}
+                <a class="btn btn-default" href="{{ path('b_screen_delete', {'uuid':s.id}) }}">
+                    <span class="glyphicon glyphicon-remove"></span> {{'Delete'|trans}}</a>
                 {% endif %}
             </td>
         </tr>

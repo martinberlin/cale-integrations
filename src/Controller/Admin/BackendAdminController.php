@@ -25,17 +25,17 @@ class BackendAdminController extends AbstractController
 {
 
     /**
-     * @Route("/users", name="b_admin_users")
+     * @Route("/admindash", name="b_admin_dashboard")
      */
     public function users(UserRepository $userRepository)
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
-        $users = $userRepository->findAll();
+        $users = $userRepository->findBy([], ['lastLogin' => 'DESC']);
 
         return $this->render(
-            'backend/admin/admin-users.html.twig',
+            'backend/admin/admin-dashboard.html.twig',
             [
-                'title' => 'List users',
+                'title' => 'Superadmin dashboard',
                 'users' => $users
             ]
         );

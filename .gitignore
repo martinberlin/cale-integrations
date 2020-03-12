@@ -19,3 +19,6 @@ public/robots.txt
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
+
+# Screen image upload
+/public/screenimg/

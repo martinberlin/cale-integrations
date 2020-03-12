@@ -84,6 +84,7 @@ class PublicScreenRenderController extends AbstractController
         $renderParams = [
             'template' => '/screen-templates/' . $template
         ];
+        $htmlPerColumn['Header'] = '';
         $htmlPerColumn['Column_1st'] = '';
         $htmlPerColumn['Column_2nd'] = '';
         $htmlPerColumn['Column_3rd'] = '';

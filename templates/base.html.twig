@@ -1,5 +1,7 @@
 {% set http_host = app.request.getSchemeAndHttpHost()|replace({'www.': ''}) %}
-{% set canonical = http_host ~ path(app.request.attributes.get('_route')) %}
+{% set the_route = app.request.attributes.get('_route') %}
+{% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params'))  %}
+
 <!DOCTYPE html>
 <!--[if gte IE 10 | !IE ]><!--> <html lang="en"> <!--<![endif]-->
 
@@ -7,12 +9,21 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel=”canonical” href=”{{ canonical }}">
 
-        <title>{% block title %}CALE Integrations{% endblock %}</title>
+
+    {% if the_route != 'reset_password_confirm' %}
+        {% set canonical = http_host ~ currentPath %}
+        <link rel=”canonical” href=”{{ canonical }}">
+    {% endif %}
+
+        <title>{% if title is defined %}CALE {{title}}{% else %}CALE Screen manager{% endif %}</title>
 
         {# Bootstrap 3 core CSS #}
+    {% if app.environment != 'dev' %}
+        <link href="https://cale.s3.eu-central-1.amazonaws.com/css/bootstrap.min.css" rel="stylesheet">
+    {% else %}
         <link href="/css/bootstrap.min.css" rel="stylesheet">
+    {% endif %}
         <link href="/css/theme.css" rel="stylesheet">
         <link href="/css/prism.css" rel="stylesheet">
 
@@ -70,7 +81,8 @@
                         <a href="{{ path('firmware') }}">ESP32 Firmware</a>
                     </p>
 
-                    {% if app.user is null and app.request.attributes.get('_route') != 'home' %}
+                    {% if app.user is null and the_route != 'home'
+                    and the_route != 'www_service-pricing' and the_route != 'login'  %}
                         <a href="{{ path('register') }}" style="margin-right:2em"
                            class="btn navbar-btn btn-default pull-right">{{ 'register_here'|trans }}</a>
                     {% endif %}
@@ -80,8 +92,7 @@
         </div>
 
     <script type="text/javascript" src="/js/prism.js"></script>
-    <script type="text/javascript" src="/js/bootstrap-native.js"></script>
-
-        {% block javascripts %}{% endblock %}
+    <script type="text/javascript" src="https://cale.s3.eu-central-1.amazonaws.com/js/bootstrap-native.min.js"></script>
+    {% block javascripts %}{% endblock %}
     </body>
 </html>

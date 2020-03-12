@@ -2,13 +2,15 @@
 
 {% block body %}
     <div class="row">
-
-        <div class="col-md-12">
+        <div class="col-md-8 col-sm-8 col-xs-12">
             {{ form_start(form) }}
             {{ form_errors(form) }}
             {{ form_end(form) }}
         </div>
 
+        <div class="col-md-4 col-sm-4 col-xs-12 text-right" style="margin-top: -1.4em">
+               <img id="api_img" src="">
+        </div>
     </div>
 {% endblock %}
 
@@ -19,6 +21,9 @@
     let api = document.getElementById('api');
     let token = document.getElementById('accessToken');
     let tokenlabel = document.getElementById('accessTokenLabel');
+    let api_img = document.getElementById('api_img');
+    let img_src = api.value + '.svg';
+    api_img.src = '/assets/svg/api/' + img_src;
 
     api.onchange = function() {
         switch (apis[api.value]) {
@@ -31,7 +36,10 @@
                 token.style.visibility = 'hidden';
                 tokenlabel.innerText = '';
         }
-
+        if (api.value !== '') {
+            img_src = api.value + '.svg';
+            api_img.src = '/assets/svg/api/' + img_src;
+        }
     }
 </script>
 {% endblock %}

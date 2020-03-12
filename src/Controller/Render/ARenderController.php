@@ -195,19 +195,26 @@ class ARenderController extends AbstractController
         $googleClientService = new GoogleClientService($googleClient);
         $googleClientService->setAccessToken($userApi->getJsonToken());
         $googleClientService->setCredentials($_ENV['OAUTH_GOOGLE_CALENDAR_CREDENTIALS']);
-        $service = new \Google_Service_Calendar($googleClientService->getClient());
-        $calendarId = 'primary';
-        $optParams = array(
-            'maxResults' => 2,
-            'orderBy' => 'startTime',
-            'singleEvents' => true,
-            'timeMin' => date('c'),
-        );
-        $results = $service->events->listEvents($calendarId, $optParams);
-        $events = $results->getItems();
+        $googleClient = $googleClientService->getClient();
 
-        $response = new JsonResponse();
-        $response->setContent(json_encode($events));
+        if ($googleClient instanceof \Google_Client) {
+            $service = new \Google_Service_Calendar($googleClient);
+            $calendarId = 'primary';
+            $optParams = array(
+                'maxResults' => 2,
+                'orderBy' => 'startTime',
+                'singleEvents' => true,
+                'timeMin' => date('c'),
+            );
+            $results = $service->events->listEvents($calendarId, $optParams);
+            $events = $results->getItems();
+
+            $response = new JsonResponse();
+            $response->setContent(json_encode($events));
+        } else {
+            // Google client replies with an HttpFundation Response
+            $response = $googleClient;
+        }
         return $response;
     }
 
@@ -311,9 +318,9 @@ class ARenderController extends AbstractController
         $colMd6 = ($partial->getScreen()->getDisplay() instanceof Display && $partial->getScreen()->getDisplay()->getWidth()>400) ? 'col-md-6 col-sm-6' : 'col-xs-6';
         $colMd4 = ($partial->getScreen()->getDisplay() instanceof Display && $partial->getScreen()->getDisplay()->getWidth()>400) ? 'col-md-4 col-sm-4' : 'col-xs-4';
 
-        $responseContent = '<div class="row"'.$colorStyle.'><div class="col-md-12">';
+        $responseContent = '<div class="row"'.$colorStyle.'><div class="col-md-12 col-sm-12 col-xs-12">';
         $responseContent .= "<div class=\"row\">
-            <div class=\"$colMd6 col-xs-6\"><$hs>Low&nbsp; {$d['daily-avg-low']}<br>High {$d['daily-avg-high']}</$hs></div>
+            <div class=\"$colMd6 col-xs-6 \"><$hs>Low&nbsp; {$d['daily-avg-low']}<br>High {$d['daily-avg-high']}</$hs></div>
             <div class=\"$colMd6 col-xs-6 text-right\"><$hs>$iconSunrise {$d['sunrise']}<br>Sunset&nbsp; {$d['sunset']}</$hs></div></div>";
 
         // Useless craps: style="margin-top:0.55em"
@@ -324,10 +331,15 @@ class ARenderController extends AbstractController
             $icon1= str_replace("{icon}", $h->icon, $wIcon);
             $temp = strstr(round($h->temperature,1),'.')===false ? round($h->temperature,1).'.0' : round($h->temperature,1);
             $wHourly .= '<div class="row">';
-            $wHourly .= '<div class="'.$colMd4.'"><'.$hs.'>'.$this->convertDateTime($h->time,$hourFormat).' '.$icon1.' </'.$hs.'></div>'.
-                '<div class="'.$colMd4.' text-center"><'.$hs.'>'.$temp.$celsius.'</'.$hs.'></div>';
+
             if ($partial->getScreen()->getDisplay() instanceof Display && $partial->getScreen()->getDisplay()->getWidth()>400) {
+                $wHourly .= '<div class="'.$colMd4.'"><'.$hs.'>'.$this->convertDateTime($h->time,$hourFormat).' '.$icon1.' </'.$hs.'></div>';
+                $wHourly .= '<div class="'.$colMd4.' text-center"><'.$hs.'>'.$temp.$celsius.'</'.$hs.'></div>';
                 $wHourly .= '<div class="'.$colMd4.' text-right"><'.$hs.'>'.($h->humidity*100).' '.$icon3.'</'.$hs.'></div>'; // .$icon3.$h->windSpeed
+            } else {
+                $wHourly .= '<div class="'.$colMd4.'"><'.$hs.'>'.$this->convertDateTime($h->time,$hourFormat).' '.$icon1.' </'.$hs.'></div>';
+                $wHourly .= '<div class="'.$colMd4.' text-center" style="margin-left:2.4em"><'.$hs.'>'.$temp.$celsius.'</'.$hs.'></div>';
+                $wHourly .= '<div class="'.$colMd4.' text-right" style="margin-left:2.4em"><'.$hs.'>'.($h->humidity*100).' '.$icon3.'</'.$hs.'></div>';
             }
                 $wHourly .= '</div>';
             $hourlyCounter++;

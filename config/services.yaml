@@ -7,10 +7,34 @@ parameters:
         '2 Columns with header': 2-col-header.html.twig
         '3 Columns': 3-col.html.twig
         '3 Columns with header': 3-col-header.html.twig
+    screen_templates_contents:
+         1-col.html.twig:
+             '1st Column': 'Column_1st'
+         2-col.html.twig:
+             '1st Column': 'Column_1st'
+             '2nd Column': 'Column_2nd'
+         3-col.html.twig:
+             '1st Column': 'Column_1st'
+             '2nd Column': 'Column_2nd'
+             '3rd Column': 'Column_3rd'
+         2-col-header.html.twig:
+             'Header': 'Header'
+             '1st Column': 'Column_1st'
+             '2nd Column': 'Column_2nd'
+         3-col-header.html.twig:
+             'Header': 'Header'
+             '1st Column': 'Column_1st'
+             '2nd Column': 'Column_2nd'
+             '3rd Column': 'Column_3rd'
+
+    # Notice that ../public is hardcoded in BackendApiController::apiInternalHtml
+    screen_images_directory: /screenimg
     # Email config
     email_reset_password:   'dontreply@cale.es'
     email_reset_pass_title: 'CALE password recovery'
-
+    # Datatables
+    datatables:
+        date_format: 'Y.m.d H:i'
     # Configuration of mysql API 1st level cache
     cache_config:
         enabled: 1
@@ -70,9 +94,6 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
-    App\EventSubscriber\LocaleSubscriber:
-        arguments: ['%kernel.default_locale%']
-
     # Let inject Profiler into a Controller
     Symfony\Component\HttpKernel\Profiler\Profiler: '@profiler'
 
@@ -81,9 +102,14 @@ services:
         tags:
             - { name: kernel.event_listener }
 
-    App\EventListener\:
-        resource: ../src/EventListener/*
-        tags: [kernel.event_listener]
+    # Event subscribers
+    App\EventSubscriber\LocaleSubscriber:
+        arguments: ['%kernel.default_locale%']
+
+    App\EventSubscriber\AuthenticationSuccessSubscriber: ~
+    # Arguments are auto injected, just as a reference:
+    #    arguments:
+    #        - '@security'
 
     # Makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

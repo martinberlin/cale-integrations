@@ -7,6 +7,7 @@ forgot_password: Olvide mi contraseña
 register_here: Crear una cuenta
 # NAV
 nav_about: Sobre nosotros
+nav_displays: E-Ink displays
 nav_apis: APIs
 nav_transparently_built: Compromiso de transparencia
 nav_privacy: Política de privacidad
@@ -16,6 +17,18 @@ nav_apis_tooltip: Las Interfaces de Programación de Aplicaciones permiten const
 nav_displays_tooltip: E-Inks soportados
 nav_transparently_built_tooltip: El código detras de este sitio puedes verlo aquí
 nav_legal: Aviso legal
+nav_service: Nuestro servicio
+nav_pricing: Cuánto cuesta
+nav_get_started: Como usarlo
+nav_server_architecture: Arquitectura del servicio
+title_ical: Importando calendarios iCal
+title_firmware: Firmware para boards Espressif
+title_firmware_t5: Firmware para los ESP32 T5
+
+# Admin dashboard
+no_screen_logs_yet: Crea un Screen para ver el log con los requests de imágen aquí
+logs_purged: logs borrados. Gracias!
+logs_purge_tooltip: Borra 100 entradas de log
 
 # Registration
 create_account: Crea tu cuenta
@@ -76,6 +89,9 @@ Configure API: Configurar API
 no_apis_configured: Aun no tiene ninguna API configurada
 api_configure_first: Configura tu primera API
 apis_header: Los APIs son responsables de traer contenido actualizado a tus Screens
+'Name:': 'Nombre:'
+iCal URL: iCal URL
+Encrypted before persisting: Encriptado en nuestra DB antes de guardarlo
 
 # Configure
 Name your Api: Nombre de la Api
@@ -102,7 +118,6 @@ Save screen partials: Guardar esta configuración
 'content from:': 'contenido de:'
 Max results: Entradas
 Sort pos: Posición
-in: en
 'template area:': 'la columna:'
 1st Column: 1ra
 2nd Column:	2da
@@ -137,7 +152,7 @@ screen_partials_edit_line3: 'Tenga en cuenta que si el display para mostrar esta
 screen_help_5: Haz click aqui para agregar contenidos de tus APIs. No olvides marcar la columna donde quieres que salga el contenido
 screen_help_6: Cuando termines de agregar las secciones de contenido, haz click en Guardar y luego en Renderizar Screen
 screen_partials_title: Secciones del Screen
-screen_token_firmware: Para proteger este Screen copia esta linea en el fichero Config.h del
+screen_token_firmware: Para conectar este Screen con tu E-Ink copia estas 2 lineas en el fichero Config.h del
 screen_token_request: Si este Screen esta protegido con un token de acceso hay que enviarlo en los headers asi
 screen_token_access_title: Acceso fuera del Firmware
 

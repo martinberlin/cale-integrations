@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\IntegrationApi;
 use App\Entity\UserApi;
 use App\Form\Api\ApiConfigureSelectionType;
+use App\Form\Api\IntegrationHtmlType;
 use App\Form\Api\IntegrationSharedCalendarApiType;
 use App\Form\Api\IntegrationWeatherApiType;
 use App\Form\Api\Wizard\ApiDeleteConfirmationType;
@@ -18,6 +19,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -99,6 +101,7 @@ class BackendApiController extends AbstractController
                 if ($api->isLocationApi()) {
                     return $this->redirectToRoute('b_api_customize_location', $userApiUuidParameter);
                 }
+                // TODO: Check that there is a new field for this in app_api:  edit_route
                 // Any exceptions should go here, otherwise there is a configurator wizard:
                 return $this->redirectToRoute('b_api_wizard_'.$api->getUrlName(), $userApiUuidParameter);
             }
@@ -393,5 +396,83 @@ class BackendApiController extends AbstractController
             ]
         );
     }
+
+    /**
+     * Wizard to configure HTML internal API
+     * @Route("/html/{uuid}/{intapi_uuid?}/{step?1}", name="b_api_wizard_cale-html")
+     */
+    public function apiInternalHtml(
+        $uuid, $intapi_uuid, $step, Request $request,
+        UserApiRepository $userApiRepository,
+        IntegrationApiRepository $intApiRepository,
+        EntityManagerInterface $entityManager)
+    {
+
+        $userApi = $this->getUserApi($userApiRepository, $uuid);
+        $api = $this->getIntegrationApi($intApiRepository, $intapi_uuid);
+        if (!$api instanceof IntegrationApi) {
+            $api = new IntegrationApi();
+        }
+        $form = $this->createForm(IntegrationHtmlType::class, $api);
+        $form->handleRequest($request);
+        $error = "";
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $imageFile = $form->get('imageFile')->getData();
+
+            // This condition is needed because the 'imageFile' field is not required
+            if ($imageFile) {
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL. We will allow only one image per HTML API so name does not matter:
+                // $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                $newFilename = $api->getId() . '.' . $imageFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                $imagePublicPath = $this->getParameter('screen_images_directory') . '/' . $this->getUser()->getId();
+                $imageUploadPath = '../public'.$imagePublicPath;
+                try {
+                    $imageFile->move(
+                        $imageUploadPath,
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                    $error = $e->getMessage();
+                }
+
+                $api->setImagePath($imagePublicPath.'/'.$newFilename);
+            }
+            $userApi->setIsConfigured(true);
+            $api->setUserApi($userApi);
+            try {
+                $entityManager->persist($api);
+                $entityManager->flush();
+            } catch (\Exception $e) {
+                $error = $e->getMessage();
+                $this->addFlash('error', $error);
+            }
+
+            if ($error === '') {
+                $this->addFlash('success', "Saved");
+
+                return $this->redirectToRoute('b_api_wizard_cale-html',
+                    ['uuid' => $userApi->getId(), 'intapi_uuid' => $api->getId(), 'step' => 1]);
+            }
+        }
+
+        return $this->render(
+            'backend/api/conf-html-content.html.twig',
+            [
+                'title' => 'Step 1: Write your HTML content',
+                'form' => $form->createView(),
+                'intapi_uuid' => $intapi_uuid,
+                'userapi_id' => $userApi->getId(),
+                'date_format' => $this->getUser()->getDateFormat(),
+                'hour_format' => $this->getUser()->getHourFormat(),
+                'image_path' => $api->getImagePath()
+            ]
+        );
+    }
+
 
 }

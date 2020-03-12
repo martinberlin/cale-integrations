@@ -21,15 +21,20 @@
                 {{ form_row(form.public) }}
 
                 {{ form_row(form.outBearer) }}
-        {{ 'screen_token_firmware'|trans }}
+
+
+                    {{ 'screen_token_firmware'|trans }}
                     <a href="{{ path('firmware', {'_locale': 'en'}) }}">CALE Firmware</a>:
-<pre class="small">String bearer = "{{ form.vars.value.outBearer }}";
+
+<pre class="small">{% if bmp_url !='' %}char screenUrl[] = "{{ bmp_url }}";
+{% else %}// Please select a display and save to generate the screenUrl line for your Config
+{% endif %}String bearer = "{{ form.vars.value.outBearer }}";
 </pre>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4 text-right" style="margin-top: -1.4em">
+        <div class="col-md-4 col-sm-12 col-xs-12 text-right" style="margin-top: -1.4em">
             {% if uuid is not null %}
                 <a href="{{ path('b_screen_partials', {'uuid':uuid}) }}">{% endif %}
 

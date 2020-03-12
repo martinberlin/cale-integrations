@@ -1,0 +1,105 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+
+    <h3>Firmware para el Lilygo T5</h3>
+
+    <div class="panel panel-default" style="margin-top: 1em">
+                <div class="panel-heading">Acceso rápido:</div>
+                <div class="panel-body">
+    <ul>
+        <li><a href="#a1">Firmware para el Lilygo T5</a></li>
+        <li><a href="#a2">Imprimir el Case en 3D</a></li>
+        <li><a href="{{ path('firmware') }}">Firmware para el ESP32/8266</a></li>
+    </ul>
+
+    </div></div>
+
+    <p>
+
+        Lilygo es una <a href="http://www.lilygo.cn/prod_view.aspx?TypeId=50031&Id=1088&FId=t3:50031:3">empresa China</a>
+        que ofrece boards que ya tienen el ESP32 y una interfaz SPI en la misma plaqueta. Esta opción
+        es rápida para probar cosas y muy portable, con lo cual preparamos también una rama de nuestro repositorio para estos boards.
+        Se puede compilar facilmente con el ejemplo que damos y al estar ya cableado internamente hace mucho más simple
+        probar CALE.<br>
+    Los pasos son solo dos:
+    <ul>
+    <li><b>Comprar uno de estos displays</b> (Aprox. 15€ con envio incluido en Aliexpress)</li>
+    <li><b>Bajar y compilar el Firmware</b></li>
+    </ul>
+
+
+    <a id="a1"></a><br><br>
+<br>El Firmware de código abierto esta aquí:<br>
+
+    <h4><a href="https://github.com/martinberlin/eink-calendar/tree/cale_t5">https://github.com/martinberlin/eink-calendar/tree/cale_t5</a></h4>
+    </p>
+
+    <h4>Como compilar el Firmware</h4>
+
+    Asumimos que tienes familiaridad con la instalación de Platformio que es un IDE para hacer upload de Firmware
+    como hace Arduino, pero con la particularidad de mantener tus dependencias dentro del proyecto.<br><br>
+
+
+
+    La configuración no es complicada. Despues de bajarlo simplemente renombra:<br>
+    lib/Config/Config.h.dist a <br>
+    Config.h<br><br>
+
+    y copia el nombre de tu WiFi y el password.<br>
+
+    Esta es la parte mas importante de la configuración:<br>
+
+    <pre>
+    char screenUrl[] = "http://img.cale.es/bmp/USERNAME/SCREEN_ID";
+
+    // Setting de seguridad para que solo tu Firmware pueda acceder a la imagen, dejarlo vacio si es publica (No recomendado)
+    String bearer = "";
+</pre>
+
+    Chequea la documentación de los pines que usa tu versión del Epaper en
+    <a href="https://github.com/lewisxhe/TTGO-EPaper-Series" target="_blank"
+       data-toggle="tooltip" title="Link externo -> Github.com">el repositorio de TTGO E-paper</a>, como ejemplo
+    esta es la configuración para la  versión 2.4 y el display de 250x122:
+
+    <pre>
+// 2.13 T5 v2.4
+int8_t EINK_CS = 5;
+int8_t EINK_RST  = 16;
+int8_t EINK_DC   = 17;
+int8_t EINK_BUSY = 4;
+    </pre>
+
+    <a id="a2"></a><br><br>
+    <h3>Imprimir el Case en 3D</h3>
+
+    Buscando <a href="https://www.thingiverse.com/search?q=TTGO+T5" data-toggle="tooltip" title="Link externo -> Thingiverse"
+                target="_blank">"ttgo T5" en Thingiverse</a>
+    salen algunos cases para modelos distintos. En CALE hemos diseñado uno para el display de 2.13 pulgadas
+    (250x122):
+    <a href="https://www.thingiverse.com/thing:4209788" data-toggle="tooltip" title="Link externo -> Thingiverse"
+    target="_blank"><img src="/img/www/ttgo-t5-2-13.jpg"><br>
+    Listo para cualquier impresora 3D</a>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="./js/engine/common.js"></script>
+{% endblock %}

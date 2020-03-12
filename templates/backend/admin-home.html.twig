@@ -1,11 +1,22 @@
 {% extends 'backend/backend-base.html.twig' %}
 
+{# Datatables include let's make this one line #}
+{% block stylesheets %}
+    <link href="/js/datatables/datatables.css" rel="stylesheet">
+    <script src="/js/jquery/jquery-2.1.0.min.js"></script>
+    <script src="/js/jquery/bootstrap-toogle.min.js"></script>
+    <script type="text/javascript" src="/js/datatables/datatables.min.js"></script>
+{% endblock %}
+
 {% block body %}
     <div class="row">
 
-        <div class="col-md-12">
-            <ul>
+        <div class="col-md-5 col-sm-5 col-xs-12">
+            <p>Click here if you want to understand the sections of the admin for a small on-boarding tour:</p>
+            <button class="btn btn-default" onclick="introJs().start();">
+                <span class="glyphicon glyphicon-question-sign"></span> Give me an Admin-tour</button>
 
+            <ul>
                 <li>
                     <h4>
                         Step 1 <a href="{{ path('b_api_configure') }}">Configure your APIs</a>
@@ -20,37 +31,116 @@
 
                 <li>
                     <h4>
-                        Step 3 Preview your screens with your content
-                    </h4>
-                </li>
-
-                <li>
-                    <h4>
-                        Step 4 Get an image link that you can use on your connected devices (Coming soon at launch day)
+                        Step 3 Preview your screens with your content and get an image link that you can use on your connected devices
                     </h4>
                 </li>
             </ul>
-            <p>Click here if you want to understand the sections of the admin for a small on-boarding tour:</p>
-            <button class="btn btn-default" onclick="introJs().start();">
-                <span class="glyphicon glyphicon-question-sign"></span> Give me an Admin-tour</button>
 
-            <div class="row" style="height: 40px"></div>
 
-            <p>This admin dashboard part is still in development. The idea is to make a full control panel where you can:</p>
-            <ul>
-                <li>Preview your screens - DONE</li>
-                <li>See statistics and logs to check that your displays are being updated correctly</li>
-                <li>Documentation content about how to install the Firmware and to test it with the Screens generated here</li>
-                <li>Quick access to support in case you need help</li>
-            </ul>
+        </div>
+
+        <div class="col-md-7 col-sm-7 col-xs-12">
+            <h4>Screen log</h4>
+        {% if (hasScreen) %}
+        <div class="row" style="height: 66px">
+            <div class="col-md-4 col-sm-6 col-xs-12">
+            <input id="autorefresh" type="checkbox" data-toggle="toggle">
+                <span class="glyphicon glyphicon-refresh"></span>
+            <label id="autorefresh-label" style="font-size: 14px">Auto-refresh</label>
+            </div>
+                <div id="purge" class="col-md-2 col-sm-2 col-xs-12" style="margin-top: 0.3em;visibility: hidden">
+                    <a href="javascript:logPurge()"><span class="glyphicon glyphicon-remove" style="color:darkred"></span></a>
+                        <a href="javascript:logPurge()" data-toggle="tooltip" title="{{ 'logs_purge_tooltip'|trans }}"><span style="font-size: 14px">Purge logs</span></a>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12" style="margin-top: -0.3em">
+                    <div class="small alert alert-success" style="visibility: hidden" id="response_msg"></div>
+                </div>
+        </div>
+
+        <table id="screen_log" class="table table-striped table-condensed dataTable" style="border:1px white solid !important">
+            <thead><tr></tr></thead>
+        </table>
+            {% else %}
+            {{ 'no_screen_logs_yet'|trans }}
+        {% endif %}
         </div>
 
     </div>
 {% endblock %}
 {% block javascripts %}
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        introJs().setOption("overlayOpacity", 0.1);
-    });
+        screenLogTable = 'screen_log';
+        let refreshes = 0;
+        let autorefresh = 0;
+        let t;
+        let auto = document.getElementById('autorefresh');
+        let autoLabel = document.getElementById('autorefresh-label');
+        let response_msg = document.getElementById('response_msg');
+        let interval;
+    if (isElement(document.getElementById(screenLogTable))) {
+        tableScreenLog()
+    }
+
+    {# Events . autorefresh does not work without jquery #}
+    autoLabel.onclick = function() {
+        $('#autorefresh').bootstrapToggle('toggle')
+    };
+    auto.onchange = function() {
+        tableScreenLog()
+    };
+
+    function tableScreenLog() {
+        var data, tableName = '#screen_log', columns, str,
+            jqxhr = $.ajax('{{ path('b_json_datatables', {'type': 'screen_log'}) }}')
+                .done(function () {
+                    data = JSON.parse(jqxhr.responseText);
+                    if (!refreshes) {
+                        $.each(data.columns, function (k, colObj) {
+                            str = '<th>' + colObj.n + '</th>';
+                            $(str).appendTo(tableName + '>thead>tr');
+                        });
+
+                    }
+                    data.columns[0].render = function (data) {
+                        return '<small>' + data + '</small>';
+                    };
+                    data.columns[3].render = function (data, type, row) {
+                        return formatBytes(data);
+                    };
+
+                    refreshLogTable(tableName, data, [[1, 'desc'], [5, 'desc']]);
+                })
+                .fail(function (jqXHR, exception) {
+                    var msg = '';
+                    if (jqXHR.status === 0) {
+                        msg = 'Not connect.\n Verify Network.';
+                    } else if (exception === 'parsererror') {
+                        msg = 'Requested JSON parse failed.';
+                    } else {
+                        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                    }
+                    console.log(msg);
+                });
+
+        clearInterval(interval);
+        if (auto.checked) {
+            interval = setInterval( function () {
+                tableScreenLog()
+            }, 15000 );
+        }
+    }
+
+        function logPurge() {
+            var xhr = $.ajax('{{ path('b_json_datatables', {'type': 'screen_log_purge','amount':100}) }}')
+                    .done(function () {
+                            data = JSON.parse(xhr.responseText);
+                        response_msg.style.visibility = 'visible';
+                        response_msg.innerText = data.status;
+                        setTimeout(function(){ response_msg.style.visibility = 'hidden' }, 3000);
+                        }
+                    );
+            setTimeout(tableScreenLog(),1000);
+        }
     </script>
+
 {% endblock %}

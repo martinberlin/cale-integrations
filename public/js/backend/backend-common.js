@@ -17,3 +17,60 @@ function syntaxHighlightJson(json) {
         return '<span class="' + cls + '">' + match + '</span>';
     });
 }
+
+function formatBytes(bytes, decimals = 2) {
+    if (bytes === 0) return '0 Bytes';
+
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['Bytes','Kb','MB','GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+}
+// datatables auto-refresh
+function refreshTable(tableName, data, orderColumns = []) {
+    refreshes++;
+    if (refreshes>1) {
+        t = $(tableName).DataTable();
+        t.destroy();
+    }
+    // Btip
+    t = $(tableName).dataTable({
+        retrieve: true,
+        dom: 'l<"col-md-12 text-left">f<"col-md-12 text-right">tip',
+        data: data.data,
+        columns: data.columns,
+        order: orderColumns,
+        "fnInitComplete": function () {
+            console.log('Refresh:' + refreshes);
+        }
+    });
+}
+
+function refreshLogTable(tableName, data, orderColumns = []) {
+    refreshes++;
+    if (refreshes>1) {
+        t = $(tableName).DataTable();
+        t.destroy();
+    }
+    t = $(tableName).dataTable({
+        retrieve: true,
+        dom: '<"col-md-12 text-left">f<"col-md-12 text-right">tip',
+        data: data.data,
+        columns: data.columns,
+        order: orderColumns,
+        "fnInitComplete": function (oSettings) {
+            let purge = document.getElementById('purge');
+            if (oSettings.aoData.length>99) {
+                purge.style.visibility = 'visible';
+            }
+        }
+    });
+}
+
+//Returns true if it is a DOM element
+function isElement(o){
+    return (
+        typeof HTMLElement === "object" ? o instanceof HTMLElement : o && typeof o === "object" && o !== null && o.nodeType === 1 && typeof o.nodeName==="string"
+    );
+}

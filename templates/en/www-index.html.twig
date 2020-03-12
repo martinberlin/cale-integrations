@@ -6,22 +6,33 @@
 
 {% block body %}
     <div class="text-center" style="margin-top: -2em">
-    <h3>Welcome to <span class="cale">CALE</span></h3>
+    <h3><span class="cale">welcome to CALE</span></h3>
     <h4>
         <span class="cale">CALE</span> is a screen administrator where you can mix content of different APIs
             and control the content output.
     </h4>
 
+        {% if app.environment != 'dev' %}
+        <video width="100%" controls autoplay>
+            <source src="https://cale.s3.eu-central-1.amazonaws.com/v/c-converts-your-screens.mov">
+        </video>
+        {% endif %}
+
+    </div>
     <h5>You can use it on any screen like your tablet, mobile, or ultimately in a
         WiFi E-Paper screen that is every hour fetching new content at a minimum consumption.
     </h5>
-    </div>
     <div class="row">
-    <div class="col-md-4"></div>
-    <div class="col-md-4 text-center">
-    <button type="button" class="btn btn-success form-control" onclick="window.location='{{ path('register') }}'">
-        Register here</button>
+        <div class="col-md-2"></div>
+    <div class="col-md-4 col-sm-6 col-xs-12 text-center">
+        <button type="button" class="btn btn-primary form-control" onclick="window.location='{{ path('login') }}'">
+            Login</button>
     </div>
+    <div class="col-md-4 col-sm-6 col-xs-12 text-center">
+    <button type="button" class="btn btn-success form-control" onclick="window.location='{{ path('register') }}'">
+        Create an account</button>
+    </div>
+        <div class="col-md-2"></div>
     </div>
 
 {% endblock %}

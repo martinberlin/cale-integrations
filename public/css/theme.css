@@ -88,10 +88,6 @@ hr.clearfix {clear: both; width: 100%; float: left}
 .navbar-inverse .navbar-nav>li>a {
     color: #e1e1e8
 }
-.login {
-    font-weight: bold;
-    font-size: 18px;
-}
 /* www colors */
 .bg-bootstrap { background-color: #2d545e }
 /* backend colors */

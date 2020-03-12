@@ -25,7 +25,7 @@
         </tr>
         <th>gxEPD Class name</th>
         <th>Name</th>
-        <th>Resolution</th>
+        <th>Resolution WxH</th>
         <th>Size (mm)</th>
         <th>Grays</th>
         <th>Refresh time</th>
@@ -47,7 +47,7 @@
                     &nbsp;<small>{{ d.brand }}</small>
                 </td>
                 <td>{{ d.name }}</td>
-                <td>W:{{ d.width }} H:{{ d.height }}</td>
+                <td>{{ d.width }}x{{ d.height }}</td>
                 <td>{{ d.activeSize }}</td>
                 <td>{{ d.grayLevels }}</td>
                 <td>{{ d.timeOfRefresh }} sec.</td>

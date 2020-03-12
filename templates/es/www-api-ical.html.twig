@@ -1,0 +1,51 @@
+{% extends '/base.html.twig' %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top: -2em">
+        <h2>
+            <span class="glyphicon glyphicon-calendar"></span> iCal
+        </h2>
+        <p><b>iCalendar es un estándar para el intercambio de información de calendarios</b></p>
+        <p>
+            El estándar también se conoce como "iCal", debido al nombre del programa de Apple, que fue la primera aplicación en implementarlo.
+            iCalendar permite a los usuarios invitar a reuniones o asignar tareas a otros usuarios a través del correo electrónico.
+
+            Los ficheros tienen la extensión <b>ics</b> y usualmente los proovedores de Calendarios ofrecen un URL externo protegido por userio y password.
+            CALE suporta con una API interna leer estos ficheros y mostrar los eventos en orden de aparición. Aún falta adaptar mas
+            templates para que puedan visualizarse de distintas formas pero ya es usable, poder enlazar tus iCal y ver los próximos eventos
+            en tu calendario de tu proovedor externo.
+            <br><br>
+            iCal ha sido implementado por una gran variedad de programas, entre ellos:<br><br>
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <ul>
+                    <li>Google Calendar</li>
+                    <li>Lotus Notes</li>
+                    <li>Microsoft Outlook</li>
+                    <li>Simple Groupware</li>
+                </ul>
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <ul>
+                    <li>Hotmail Caledar</li>
+                    <li><a href="https://addons.thunderbird.net/es/thunderbird/addon/lightning/" target="_blank">Lightning</a> para Mozilla Thunderbird</li>
+                    <li>Mozilla Calendar</li>
+                    <li>y muchos más...</li>
+                </ul>
+            </div>
+        </div>
+
+
+        </p>
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="./js/engine/common.js"></script>
+{% endblock %}

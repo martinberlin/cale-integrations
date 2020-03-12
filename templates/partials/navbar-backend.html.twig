@@ -8,8 +8,7 @@
             </button>
 
             <span class="visible-lg-inline-block" style="margin-top: -2em">
-                    <a href="{{ path('b_home') }}">
-
+                    <a href="{% if is_granted('ROLE_ADMIN') %}{{ path('b_admin_dashboard') }}{% else %}{{ path('b_home') }}{% endif %}">
                             <div class="row">
                                 <div class="col-md-3" style="margin-top: 1.4em;margin-left: 0.4em">
                                 <img src="/assets/cale-logo.svg" width="150">
@@ -32,8 +31,9 @@ like Google calendar, Weather or shared calendars. APIs will deliver content to 
  so we can output the content with right hour for your location. When your timezone is set you should see here the correct day and hour in the top right" class="dropdown"><a href="#" data-toggle="dropdown" aria-expanded="false">User <span
                                 class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ path('b_user_profile') }}" >User profile</a> </li>
-                        <li><a href="{{ path('b_agreement') }}">User agreement</a> </li>
+                        <li><a href="{{ path('b_home') }}" >Dashboard</a></li>
+                        <li><a href="{{ path('b_user_profile') }}" >User profile</a></li>
+                        <li><a href="{{ path('b_agreement') }}">User agreement</a></li>
                         <li><a href="{{ path('logout') }}">Logout</a></li>
                     </ul>
                 </li>
@@ -42,7 +42,7 @@ like Google calendar, Weather or shared calendars. APIs will deliver content to 
                 <li class="dropdown"><a href="#" data-toggle="dropdown" aria-expanded="false">Administration <span
                                 class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a  href="{{ path('b_admin_users') }}">List users</a></li>
+                        <li><a  href="{{ path('b_admin_dashboard') }}">Admin dashboard</a></li>
                         <li><a  href="{{ path('b_admin_apis') }}">Edit APIs</a></li>
                     </ul>
                 </li>

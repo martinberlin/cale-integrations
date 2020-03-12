@@ -22,7 +22,7 @@ class SysScreenLog implements CreatedTimestamp
      * @ORM\Column(name="created", type="integer", nullable=false)
      * @var integer
      */
-    private $created;
+    protected $created;
 
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="sysScreenLogs")

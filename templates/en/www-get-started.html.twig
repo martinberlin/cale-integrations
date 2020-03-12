@@ -1,0 +1,57 @@
+{% extends '/base.html.twig' %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="col-md-12" style="margin-top: -2em">
+        <h2>
+            <span class="glyphicon glyphicon-play-circle"></span>
+            Get started
+        </h2>
+
+        <h3>We are working in a easy way to setup your E-Ink directly with Bluetooth
+        </h3>
+        <p>But in this early stage is not yet ready to be delivered since we need more time to test
+            it and make it user friendly.
+            It will be available at end of March 2020.</p>
+
+        <h3>1. Register on this site and create a demo Screen</h3>
+        <p>Add one API like Google Calendar or Timetree that have easy configuration. Add one
+        Screen with some test display and render this to see your preview. In Screen config
+        you can easily copy the two lines that are needed for point 3.</p>
+
+        <h3>2. Get your Hardware gear</h3>
+        <p><a href="{{ path('displays') }}">One E-Ink plus any ESP32</a>. If you want to
+        test it fast without wiring just get an E-Ink with ESP32 module like TTGO T5 to
+        easily test it without needing to build it.</p>
+
+        <h3>3. Download and compile the Firmware</h3>
+        <p><a href="{{ path('firmware') }}">Configuration and compiling are explained here</a>.
+        Here you can add in the Firmware config the two lines that reference your Screen from
+        point 1.</p>
+
+        <h3>4. Run CALE</h3>
+        <p>At this point your E-Ink client should be connected with our CALE server. Just
+        play around, add new sections/APIs, reset and test how it looks. In step 3 you can
+        decide what is the refresh </p>
+
+        <a id="blue"></a><br>
+        <h3>
+            <span class="glyphicon glyphicon-blackboard"></span>
+            How to configure this in the future
+        </h3>
+        <p>When we have ready made CALE fully build E-Inks the idea is to make your
+        life easier configuring this. You will get a model with an easy one page instruction
+        manual that explains you how to set this up yourself. The idea is to make it
+            configurable using an Android Application</p>
+        <img src="/assets/svg/cale-bluetooth-conf.svg"><br><br><br>
+    <p>Coming soon to the Android store, please wait some weeks until is ready to be published.</p>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="./js/engine/common.js"></script>
+{% endblock %}

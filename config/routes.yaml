@@ -65,8 +65,33 @@ firmware:
   defaults:
     _locale: en
 
+firmware-t5:
+  path:       /firmware-t5/{_locale}
+  controller: App\Controller\HomeController::firmwareT5
+  defaults:
+    _locale: en
+
 www_server-architecture:
   path:       /architecture/{_locale}
   controller: App\Controller\HomeController::architecture
+  defaults:
+    _locale: en
+
+www_service-pricing:
+  path:       /pricing/{_locale}
+  controller: App\Controller\HomeController::pricing
+  defaults:
+    _locale: en
+
+www_getting-started:
+  path:       /get-started/{_locale}
+  controller: App\Controller\HomeController::getStarted
+  defaults:
+    _locale: en
+
+
+www_api-ical:
+  path:       /api-ical/{_locale}
+  controller: App\Controller\HomeController::apiIcal
   defaults:
     _locale: en

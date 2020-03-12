@@ -1,8 +1,9 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\Display;
 use App\Form\UsernameAgreementType;
-use App\Repository\UserRepository;
+use App\Repository\SysScreenLogRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/backend")
@@ -95,7 +97,8 @@ class BackendController extends AbstractController
         return $this->render(
             'backend/admin-home.html.twig',
             [
-                'title' => 'Admin dashboard'
+                'title' => 'Admin dashboard',
+                'hasScreen' => count($this->getUser()->getScreens())
             ]
         );
     }
@@ -158,6 +161,98 @@ class BackendController extends AbstractController
             $r->setContent('{"error":"Location API returned status:".$response->getStatusCode()."}")');
         }
         return $r;
+    }
+
+    private function datatablesScreenColumns(&$json, $isAdmin = false) {
+        $json['columns'][] = (object)['data' => 'screen',   'n'=>'Screen'];
+        if ($isAdmin) {
+            $json['columns'][] = (object)['data' => 'user',  'n'=>'User'];
+        }
+        $json['columns'][] = (object)['data' => 'created',  'n'=>'Access'];
+        $json['columns'][] = (object)['data' => 'pixels',   'n'=>'Pixels'];
+        $json['columns'][] = (object)['data' => 'b',        'n'=>'Bytes'];
+        $json['columns'][] = (object)['data' => 'millis',   'n'=>'Millis'];
+        $json['columns'][] = (object)['data' => 'ip',       'n'=>'IP'];
+        if (!$isAdmin) {
+            $json['columns'][] = (object)['data' => 'cached', 'n' => 'Cache hit'];
+        }
+    }
+
+    /**
+     * @Route("/json/data/{type}", name="b_json_datatables")
+     */
+    public function datatablesJson(Request $request, $type,
+                                   SysScreenLogRepository $screenLogRepository, EntityManagerInterface $em, TranslatorInterface $translator)
+    {
+        $response = new JsonResponse();
+        $json = [];
+        $json['data'] = [];
+        $datatablesDateFormat = $this->getParameter('datatables')['date_format'];
+        $amount = $request->get('amount', 100);
+
+        switch ($type) {
+            case 'screen_log_purge':
+                $logs = $screenLogRepository->findBy(['user' => $this->getUser()],['created' => 'ASC'],$amount);
+                $count = 0;
+                foreach ($logs as $log){
+                    try {
+                        $em->remove($log);
+                        $count++;
+                    } catch(\Exception $e ) {
+                        $count--;
+                    }
+                }
+                $json = ['status' => $count.' '.$translator->trans('logs_purged')];
+                $em->flush();
+                break;
+
+            case 'screen_log':
+                $logs = $screenLogRepository->findBy(['user' => $this->getUser()],['created' => 'DESC'],1000);
+
+                foreach ($logs as $log){
+                    $display = $log->getScreen()->getDisplay();
+                    $created = $log->getCreated()+date("Z");
+                    $json['data'][] = [
+                        'created'=> gmdate($datatablesDateFormat, $created),
+                        'screen' => $log->getScreen()->getId(),
+                        'pixels' => ($display instanceof Display) ? $display->getWidth().'x'.$display->getHeight() : '',
+                        'b'      => $log->getBytes(),
+                        'millis' => $log->getMillis(),
+                        'ip'     => $log->getInternalIp(),
+                        'cached' => ($log->isCached()) ? 'Yes' : 'No'
+                    ];
+                }
+                $this->datatablesScreenColumns($json);
+                break;
+
+            case 'screen_log_admin':
+                $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'No report without ROLE_ADMIN');
+                $logs = $screenLogRepository->findBy([],[],2000);
+
+                foreach ($logs as $log){
+                    $display = $log->getScreen()->getDisplay();
+                    $created = $log->getCreated()+date("Z");
+                    $json['data'][] = [
+                        'created'=> gmdate($datatablesDateFormat, $created),
+                        'screen' => $log->getScreen()->getId(),
+                        'user'  => $log->getScreen()->getUser()->getName(),
+                        'pixels' => ($display instanceof Display) ? $display->getWidth().'x'.$display->getHeight() : '',
+                        'b'      => $log->getBytes(),
+                        'millis' => $log->getMillis(),
+                        'ip'     => $log->getInternalIp(),
+                        'cached' => ($log->isCached()) ? 'Yes' : 'No'
+                    ];
+                }
+                $this->datatablesScreenColumns($json, true);
+                break;
+
+            default:
+                $this->createNotFoundException('No report of this type');
+                break;
+        }
+        $encodedJson = json_encode($json);
+        $response->setContent($encodedJson);
+        return $response;
     }
 
     }

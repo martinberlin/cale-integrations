@@ -11,16 +11,16 @@
                <div class="col-md-4 col-sm-6 col-xs-12">
                    {{ form_row(form.partials.vars.prototype.integrationApi) }}
                    <div class="row">
-                       <div class="col-md-2 col-sm-2 col-xs-2">
+                       <div class="col-md-3 col-sm-6 col-xs-6">
                            {{ form_label(form.partials.vars.prototype.maxResults) }}
                        </div>
-                       <div class="col-md-2 col-sm-2 col-xs-2">
+                       <div class="col-md-3 col-sm-6 col-xs-6">
                            {{ form_widget(form.partials.vars.prototype.maxResults) }}
                        </div>
-                       <div class="col-md-2 col-sm-1 col-xs-2">
+                       <div class="col-md-3 col-sm-6 col-xs-6">
                            {{ form_label(form.partials.vars.prototype.sortPos) }}
                        </div>
-                       <div class="col-md-2 col-sm-1 col-xs-2">
+                       <div class="col-md-3 col-sm-6 col-xs-6">
                            {{ form_widget(form.partials.vars.prototype.sortPos) }}
                        </div>
                    </div>
@@ -132,16 +132,16 @@
                                 <div class="row">
                                     {{ form_errors(partial.sortPos) }}
                                     {{ form_errors(partial.maxResults) }}
-                                <div class="col-md-2 col-sm-2 col-xs-2">
+                                <div class="col-md-3 col-sm-6 col-xs-6">
                                     {{ form_label(partial.maxResults) }}
                                 </div>
-                                <div class="col-md-2 col-sm-2 col-xs-2">
+                                <div class="col-md-3 col-sm-6 col-xs-6">
                                     {{ form_widget(partial.maxResults) }}
                                 </div>
-                                <div class="col-md-2 col-sm-1 col-xs-2">
+                                <div class="col-md-3 col-sm-6 col-xs-6">
                                     {{ form_label(partial.sortPos) }}
                                 </div>
-                                <div class="col-md-2 col-sm-1 col-xs-2">
+                                <div class="col-md-3 col-sm-6 col-xs-6">
                                     {{ form_widget(partial.sortPos) }}
                                 </div>
                                 </div>
@@ -180,9 +180,9 @@
 
 {% block javascripts %}
 {# TODO: Get rid of jquery since we are only using it here for handling the frontend part of Symfony collections #}
-<script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
+<script src="/js/jquery/jquery-2.1.0.min.js"></script>
 <script src="/js/engine/collection.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
+<script src="/js/engine/pickr.min.js"></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
