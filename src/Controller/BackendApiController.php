@@ -407,13 +407,15 @@ class BackendApiController extends AbstractController
         IntegrationApiRepository $intApiRepository,
         EntityManagerInterface $entityManager)
     {
-
+        $htmlMaxChars = $this->getParameter('html_max_chars');
         $userApi = $this->getUserApi($userApiRepository, $uuid);
         $api = $this->getIntegrationApi($intApiRepository, $intapi_uuid);
         if (!$api instanceof IntegrationApi) {
             $api = new IntegrationApi();
         }
-        $form = $this->createForm(IntegrationHtmlType::class, $api);
+        $form = $this->createForm(IntegrationHtmlType::class, $api, [
+            'html_max_chars' => $htmlMaxChars
+        ]);
         $form->handleRequest($request);
         $error = "";
 
@@ -469,7 +471,8 @@ class BackendApiController extends AbstractController
                 'userapi_id' => $userApi->getId(),
                 'date_format' => $this->getUser()->getDateFormat(),
                 'hour_format' => $this->getUser()->getHourFormat(),
-                'image_path' => $api->getImagePath()
+                'image_path' => $api->getImagePath(),
+                'html_max_chars' => $htmlMaxChars
             ]
         );
     }

@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Length;
 
 class IntegrationHtmlType extends AbstractType
 {
@@ -29,9 +30,12 @@ class IntegrationHtmlType extends AbstractType
             ->add('html', TextareaType::class,
                 [
                     'required' => false,
-                    'label' => 'Your HTML Content',
+                    'label' => 'HTML Content',
                     'attr' => [
                         'class' => 'form-control summernote'
+                    ],
+                    'constraints' => [
+                        new Length(['max' => $options['html_max_chars']])
                     ]
                 ])
 
@@ -91,13 +95,13 @@ class IntegrationHtmlType extends AbstractType
 
     /**
      * This form has extra fields because of the summernote HTML editor
-     * But even with this will still run basic integrity checks, for example whether an uploaded file was too large or whether non-existing fields were submitted.
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'validation_groups' => false,
+            'allow_extra_fields' => true,
+            'html_max_chars' => null
         ]);
     }
 }

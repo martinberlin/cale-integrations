@@ -16,6 +16,9 @@
             {{ form_row(form.name) }}
 
             {{ form_row(form.html) }}
+            <div class="col-xs-12 text-right" style="margin-top:1em">
+                <span id="maxCounter">HTML is limited to {{ html_max_chars }} chars</span>
+            </div>
 
             <br>Image is optional. Supported extensions are jpg, png, gif, bmp and svg. Max size: 100 Kb
 
@@ -51,9 +54,12 @@
 {% endblock %}
 
 {% block javascripts %}
+
     <script>
         let image_type = document.getElementById('imageType');
         let note = document.getElementById('note');
+        let maxchars = {{ html_max_chars }};
+        let max_counter = document.getElementById('maxCounter');
 
         $('.summernote').summernote({
             toolbar: [
@@ -63,7 +69,28 @@
                 ['color', ['color']],
                 ['para', ['ul', 'ol', 'paragraph']],
                 ['insert', ['link', 'table','codeview']]
-            ]
+            ],
+            callbacks: {
+                onKeydown: function (e) {
+                    var t = e.currentTarget.innerText;
+                    if (t.length >= maxchars) {
+                        //delete key
+                        if (e.keyCode != 8)
+                            e.preventDefault();
+                    }
+                },
+                onKeyup: function (e) {
+                    var t = e.currentTarget.innerText;
+                    let countdown = (maxchars - t.length);
+                    if (countdown>0) {
+                        max_counter.innerHTML = countdown;
+                    } else {
+                        countdown = countdown*-1;
+                        max_counter.innerHTML = '<span class="alert alert-danger">Max limit reached: '+countdown+' characters too much</span>';
+                    }
+
+                }
+            }
         });
 
         image_type.onchange = function () {
