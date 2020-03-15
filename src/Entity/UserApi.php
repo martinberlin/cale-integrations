@@ -85,6 +85,12 @@ class UserApi implements Created
     protected $scope;
 
     /**
+     * @var string
+     * @ORM\Column(type="string", length=40, nullable=true)
+     */
+    protected $region;
+
+    /**
      * @var \DateTime
      * @ORM\Column(type="datetime")
      */
@@ -304,6 +310,22 @@ class UserApi implements Created
         if ($pass) {
          $this->password = $pass;
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function getRegion():?string
+    {
+        return $this->region;
+    }
+
+    /**
+     * @param string
+     */
+    public function setRegion(string $r)
+    {
+        $this->region = $r;
     }
 
 }

@@ -13,15 +13,14 @@ use App\Form\Api\Wizard\Google\GoogleCalendar1Type;
 use App\Repository\ApiRepository;
 use App\Repository\IntegrationApiRepository;
 use App\Repository\UserApiRepository;
-use App\Service\GoogleClientService;
+use Aws\CloudWatch\CloudWatchClient;
+use Aws\Exception\AwsException;
 use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -477,5 +476,45 @@ class BackendApiController extends AbstractController
         );
     }
 
+    /**
+     * @Route("/c", name="b_api_cloudwatch")
+     */
+    public function apiCloudwatch() {
 
+        $client = new CloudWatchClient([
+            'region' => 'eu-central-1',
+            'version' => '2010-08-01',
+            'credentials' => [
+                'key' => $key, 'secret' => $sec
+            ]
+        ]);
+
+        try {
+            $result = $client->getMetricWidgetImage([
+                'MetricWidget' => '{
+    "view": "timeSeries",
+    "stacked": true,
+    "metrics": [
+        [ "AWS/EC2", "CPUUtilization", "InstanceId", "i-76ddb3b7" ],
+        [ ".", "CPUCreditUsage", ".", "." ]
+    ],
+    "title": "CPU",
+    "period": 300,
+    "width": 400,
+    "height": 200,
+    "start": "-PT1H",
+    "end": "P0D"}']);
+        } catch (AwsException $e) {
+            // output error message if fails
+            error_log($e->getMessage());
+        }
+
+        if ($result instanceof \Aws\Result) {
+            $image = $result->get('MetricWidgetImage');
+            $response = new Response();
+            $response->setContent($image);
+            $response->headers->set('Content-Type', 'image/png');
+            return $response;
+        }
+    }
 }
