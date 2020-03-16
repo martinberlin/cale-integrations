@@ -1,0 +1,29 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+
+{% block body %}
+    <div class="row">
+        {{ form_start(form) }}
+        <div class="col-md-8 col-sm-8 col-xs-12">
+
+            {{ form_errors(form) }}
+
+            {{ form_row(form.username) }}
+            {{ form_row(form.password) }}
+            {{ form_row(form.region) }}
+            {{ form_row(form.submit) }}
+            {{ form_end(form) }}
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-12">CREDENTIALS SECURITY:<br>
+            <b>You don't need to use your root user for this since it provides unrestricted access to your entire AWS account.</b><br>
+            CALE just needs a user with permission to access Cloudwatch monitoring to render the charts you specify, no other privilege is needed.
+            If you need long-term access keys,
+            we recommend creating a new IAM user with limited permissions and generating access keys for that user instead.
+            <a href="https://docs.aws.amazon.com/general/latest/gr/aws-access-keys-best-practices.html"
+               target="_blank">Learn more</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+{% endblock %}

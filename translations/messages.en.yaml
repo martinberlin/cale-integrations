@@ -230,3 +230,29 @@ right: right
 Save contents: Save contents
 image_float_note: 'A float image type is good to add a logo. The position should be only left or right, it does not float center. It stays on top of everything with an: <img style="float:left">'
 image_background_note: 'A background image is below the HTML text useful to personalize a header: <div style="background-image: url(your/image)">'
+
+# API aws cloudwatch
+Key: Key
+Secret: Secret
+AWS Region: AWS Region
+eu-central-1 Frankfurt: eu-central-1 Frankfurt
+eu-west-1 Ireland: eu-west-1 Ireland
+eu-west-2 London: eu-west-2 London
+eu-west-3 Paris: eu-west-3 Paris
+eu-north-1 Stockholm: eu-north-1 Stockholm
+us-east-1 N. Virginia: us-east-1 N. Virginia
+us-east-2 Ohio: us-east-2 Ohio
+us-west-1 N. California: us-west-1 N. California
+us-west-2 Oregon: us-west-2 Oregon
+ap-east-1 Hong Kong: ap-east-1 Hong Kong
+ap-south-1 Mumbai: ap-south-1 Mumbai
+ap-southeast-1 Singapore: ap-southeast-1 Singapore
+ap-southeast-2 Sydney: ap-southeast-2 Sydney
+ap-northeast-1 Tokyo: ap-northeast-1 Tokyo
+ap-northeast-2 Seoul: ap-northeast-2 Seoul
+ap-northeast-3 Osaka: ap-northeast-3 Osaka
+cn-north-1 Beijing: cn-north-1 Beijing
+cn-northwest-1 Ningxia: cn-northwest-1 Ningxia
+me-south-1 Bahrain: me-south-1 Bahrain
+sa-east-1 Sao Paulo: sa-east-1 Sao Paulo
+Save Credentials: Save Credentials

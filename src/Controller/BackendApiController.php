@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\IntegrationApi;
 use App\Entity\UserApi;
 use App\Form\Api\ApiConfigureSelectionType;
+use App\Form\Api\IntegrationAwsCloudwatch1Type;
 use App\Form\Api\IntegrationHtmlType;
 use App\Form\Api\IntegrationSharedCalendarApiType;
 use App\Form\Api\IntegrationWeatherApiType;
@@ -100,9 +101,8 @@ class BackendApiController extends AbstractController
                 if ($api->isLocationApi()) {
                     return $this->redirectToRoute('b_api_customize_location', $userApiUuidParameter);
                 }
-                // TODO: Check that there is a new field for this in app_api:  edit_route
-                // Any exceptions should go here, otherwise there is a configurator wizard:
-                return $this->redirectToRoute('b_api_wizard_'.$api->getUrlName(), $userApiUuidParameter);
+
+                return $this->redirectToRoute($api->getEditRoute(), $userApiUuidParameter);
             }
         }
 
@@ -476,11 +476,71 @@ class BackendApiController extends AbstractController
         );
     }
 
+
     /**
+     * Wizard to configure HTML internal API
+     * @Route("/aws/cloudfront/{uuid}/{intapi_uuid?}/{step?1}", name="b_api_wizard_aws-cloudwatch")
+     */
+    public function apiAwsCloudwatch(
+        $uuid, $intapi_uuid, $step, Request $request,
+        UserApiRepository $userApiRepository,
+        IntegrationApiRepository $intApiRepository,
+        EntityManagerInterface $entityManager)
+    {
+        $userApi = $this->getUserApi($userApiRepository, $uuid);
+        $api = $this->getIntegrationApi($intApiRepository, $intapi_uuid);
+        if (!$api instanceof IntegrationApi) {
+            $api = new IntegrationApi();
+        }
+        switch ($step) {
+            case 1:
+                $form = $this->createForm(IntegrationAwsCloudwatch1Type::class, $userApi);
+                break;
+            case 2:
+                $form = $this->createForm(IntegrationAwsCloudwatch1Type::class, $api);
+                break;
+        }
+
+        $form->handleRequest($request);
+        $error = "";
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            //$userApi->setIsConfigured(true);
+            $api->setUserApi($userApi);
+            try {
+                $entityManager->persist($api);
+                $entityManager->flush();
+            } catch (\Exception $e) {
+                $error = $e->getMessage();
+                $this->addFlash('error', $error);
+            }
+
+            if ($error === '') {
+                $this->addFlash('success', "Saved");
+
+                return $this->redirectToRoute('b_api_wizard_aws-cloudwatch',
+                    ['uuid' => $userApi->getId(), 'intapi_uuid' => $api->getId(), 'step' => 1]);
+            }
+        }
+
+        return $this->render(
+            'backend/api/aws/conf-cloudwatch.html.twig',
+            [
+                'title' => 'Step 1: Setup your Amazon Credentials',
+                'form' => $form->createView(),
+                'intapi_uuid' => $intapi_uuid,
+                'userapi_id' => $userApi->getId()
+            ]
+        );
+    }
+
+    /**
+     * @todo move this to renderers
      * @Route("/c", name="b_api_cloudwatch")
      */
     public function apiCloudwatch() {
-
+        $key = '';
+        $sec = '';
         $client = new CloudWatchClient([
             'region' => 'eu-central-1',
             'version' => '2010-08-01',
