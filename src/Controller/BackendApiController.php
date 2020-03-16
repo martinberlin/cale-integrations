@@ -489,7 +489,7 @@ class BackendApiController extends AbstractController
     {
         $userApi = $this->getUserApi($userApiRepository, $uuid);
         $api = null;
-        if ($intapi_uuid !== '_') {
+        if ($intapi_uuid !== 'new') {
            $api = $this->getIntegrationApi($intApiRepository, $intapi_uuid);
         }
         if (!$api instanceof IntegrationApi) {
@@ -527,7 +527,7 @@ class BackendApiController extends AbstractController
                         $this->addFlash('success', "AWS Credentials saved");
                     }
                     return $this->redirectToRoute('b_api_wizard_aws-cloudwatch',
-                        ['uuid' => $userApi->getId(), 'intapi_uuid' => '_', 'step' => 2]);
+                        ['uuid' => $userApi->getId(), 'intapi_uuid' => 'new', 'step' => 2]);
                     break;
                 case 2:
                     $api->setUserApi($userApi);

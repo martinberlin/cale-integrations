@@ -16,13 +16,19 @@
             Then just on the Tab select Source and view: <b>Image API</b><br>
             Copy and paste the JSON here. Be aware that the width/height should be adapted manually to your display resolution.
             For example, if you want the metric chart to be full screen in a 800x480 display make it 780 width. Or if you use two columns
-            then select the half width.
+            then select the half width.<br><br>
+
+            To send a support ticket please contact us using:<br>
+            <span style="font-size: 18px">support@cale.es</span>
         </div>
     </div>
 <div class="row">
-    <div class="col-md-8 col-sm-8 col-xs-12"><br>PREVIEW:<br><br>
-      {{ path('render_aws_cloudwatch_preview', {'username': app.user.name, 'intapi': intapi_uuid}) }}
-        <img src="{{ path('render_aws_cloudwatch_preview', {'username': app.user.name, 'intapi': intapi_uuid}) }}">
+    <div class="col-md-8 col-sm-8 col-xs-12">
+        {% if intapi_uuid != 'new' %}
+            <br>PREVIEW:<br><br>
+        <img src="{{ path('render_aws_cloudwatch_preview', {'username': app.user.name, 'intapi': intapi_uuid}) }}"><br>
+        <small>Reference: {{ path('render_aws_cloudwatch_preview', {'username': app.user.name, 'intapi': intapi_uuid}) }}</small>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
