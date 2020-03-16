@@ -517,6 +517,7 @@ class BackendApiController extends AbstractController
             switch ($step) {
                 case 1:
                     try {
+                        $userApi->setIsConfigured(true);
                         $entityManager->persist($userApi);
                         $entityManager->flush();
                     } catch (\Exception $e) {
