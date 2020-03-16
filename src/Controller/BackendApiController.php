@@ -4,7 +4,8 @@ namespace App\Controller;
 use App\Entity\IntegrationApi;
 use App\Entity\UserApi;
 use App\Form\Api\ApiConfigureSelectionType;
-use App\Form\Api\IntegrationAwsCloudwatch1Type;
+use App\Form\Api\IntegrationAwsCloudwatchType;
+use App\Form\Api\IntegrationAwsType;
 use App\Form\Api\IntegrationHtmlType;
 use App\Form\Api\IntegrationSharedCalendarApiType;
 use App\Form\Api\IntegrationWeatherApiType;
@@ -22,7 +23,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -488,93 +488,76 @@ class BackendApiController extends AbstractController
         EntityManagerInterface $entityManager)
     {
         $userApi = $this->getUserApi($userApiRepository, $uuid);
-        $api = $this->getIntegrationApi($intApiRepository, $intapi_uuid);
+        $api = null;
+        if ($intapi_uuid !== '_') {
+           $api = $this->getIntegrationApi($intApiRepository, $intapi_uuid);
+        }
         if (!$api instanceof IntegrationApi) {
             $api = new IntegrationApi();
         }
+        $template = 'backend/api/aws/conf-aws-credentials.html.twig';
         switch ($step) {
+            // General AWS Credentials
             case 1:
-                $form = $this->createForm(IntegrationAwsCloudwatch1Type::class, $userApi);
+                $form = $this->createForm(IntegrationAwsType::class, $userApi);
                 break;
+            // This particular AWS service
             case 2:
-                $form = $this->createForm(IntegrationAwsCloudwatch1Type::class, $api);
+                $form = $this->createForm(IntegrationAwsCloudwatchType::class, $api);
+                $template = 'backend/api/aws/conf-cloudwatch.html.twig';
                 break;
         }
 
         $form->handleRequest($request);
         $error = "";
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            //$userApi->setIsConfigured(true);
-            $api->setUserApi($userApi);
-            try {
-                $entityManager->persist($api);
-                $entityManager->flush();
-            } catch (\Exception $e) {
-                $error = $e->getMessage();
-                $this->addFlash('error', $error);
+        $formValid = $form->isSubmitted() && $form->isValid();
+        if ($formValid) {
+            switch ($step) {
+                case 1:
+                    try {
+                        $entityManager->persist($userApi);
+                        $entityManager->flush();
+                    } catch (\Exception $e) {
+                        $error = $e->getMessage();
+                        $this->addFlash('error', $error);
+                        return $this->redirectToRoute('b_api_wizard_aws-cloudwatch',
+                            ['uuid' => $userApi->getId(), 'step' => 1]);
+                    }
+                    if ($error === '') {
+                        $this->addFlash('success', "AWS Credentials saved");
+                    }
+                    return $this->redirectToRoute('b_api_wizard_aws-cloudwatch',
+                        ['uuid' => $userApi->getId(), 'intapi_uuid' => '_', 'step' => 2]);
+                    break;
+                case 2:
+                    $api->setUserApi($userApi);
+                    try {
+                        $entityManager->persist($api);
+                        $entityManager->flush();
+                    } catch (\Exception $e) {
+                        $error = $e->getMessage();
+                        $this->addFlash('error', $error);
+                    }
+                    if ($error === '') {
+                        $this->addFlash('success', "Cloudfront metric configuration saved");
+                    }
+                    break;
             }
 
-            if ($error === '') {
-                $this->addFlash('success', "Saved");
-
-                return $this->redirectToRoute('b_api_wizard_aws-cloudwatch',
-                    ['uuid' => $userApi->getId(), 'intapi_uuid' => $api->getId(), 'step' => 1]);
-            }
+            return $this->redirectToRoute('b_api_wizard_aws-cloudwatch',
+                ['uuid' => $userApi->getId(), 'intapi_uuid' => $api->getId(), 'step' => 2]);
         }
 
         return $this->render(
-            'backend/api/aws/conf-cloudwatch.html.twig',
+            $template,
             [
                 'title' => 'Step 1: Setup your Amazon Credentials',
                 'form' => $form->createView(),
                 'intapi_uuid' => $intapi_uuid,
-                'userapi_id' => $userApi->getId()
+                'userapi_id' => $userApi->getId(),
+                'form_valid' => $formValid
             ]
         );
     }
 
-    /**
-     * @todo move this to renderers
-     * @Route("/c", name="b_api_cloudwatch")
-     */
-    public function apiCloudwatch() {
-        $key = '';
-        $sec = '';
-        $client = new CloudWatchClient([
-            'region' => 'eu-central-1',
-            'version' => '2010-08-01',
-            'credentials' => [
-                'key' => $key, 'secret' => $sec
-            ]
-        ]);
-
-        try {
-            $result = $client->getMetricWidgetImage([
-                'MetricWidget' => '{
-    "view": "timeSeries",
-    "stacked": true,
-    "metrics": [
-        [ "AWS/EC2", "CPUUtilization", "InstanceId", "i-76ddb3b7" ],
-        [ ".", "CPUCreditUsage", ".", "." ]
-    ],
-    "title": "CPU",
-    "period": 300,
-    "width": 400,
-    "height": 200,
-    "start": "-PT1H",
-    "end": "P0D"}']);
-        } catch (AwsException $e) {
-            // output error message if fails
-            error_log($e->getMessage());
-        }
-
-        if ($result instanceof \Aws\Result) {
-            $image = $result->get('MetricWidgetImage');
-            $response = new Response();
-            $response->setContent($image);
-            $response->headers->set('Content-Type', 'image/png');
-            return $response;
-        }
-    }
 }

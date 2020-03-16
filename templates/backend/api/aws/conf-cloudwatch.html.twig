@@ -5,24 +5,26 @@
     <div class="row">
         {{ form_start(form) }}
         <div class="col-md-8 col-sm-8 col-xs-12">
-
             {{ form_errors(form) }}
-
-            {{ form_row(form.username) }}
-            {{ form_row(form.password) }}
-            {{ form_row(form.region) }}
-            {{ form_row(form.submit) }}
+            {{ form_row(form.name) }}
+            {{ form_row(form.jsonSettings) }}
             {{ form_end(form) }}
         </div>
-        <div class="col-md-4 col-sm-4 col-xs-12">CREDENTIALS SECURITY:<br>
-            <b>You don't need to use your root user for this since it provides unrestricted access to your entire AWS account.</b><br>
-            CALE just needs a user with permission to access Cloudwatch monitoring to render the charts you specify, no other privilege is needed.
-            If you need long-term access keys,
-            we recommend creating a new IAM user with limited permissions and generating access keys for that user instead.
-            <a href="https://docs.aws.amazon.com/general/latest/gr/aws-access-keys-best-practices.html"
-               target="_blank">Learn more</a>
+        <div class="col-md-4 col-sm-4 col-xs-12">HINTS:<br>
+            <b>Open an existing Cloudwatch dashboard and select the chart you want to add. On the top-right corner click on the 3 vertical dots
+                and select the Edit option.</b><br>
+            Then just on the Tab select Source and view: <b>Image API</b><br>
+            Copy and paste the JSON here. Be aware that the width/height should be adapted manually to your display resolution.
+            For example, if you want the metric chart to be full screen in a 800x480 display make it 780 width. Or if you use two columns
+            then select the half width.
         </div>
     </div>
+<div class="row">
+    <div class="col-md-8 col-sm-8 col-xs-12"><br>PREVIEW:<br><br>
+      {{ path('render_aws_cloudwatch_preview', {'username': app.user.name, 'intapi': intapi_uuid}) }}
+        <img src="{{ path('render_aws_cloudwatch_preview', {'username': app.user.name, 'intapi': intapi_uuid}) }}">
+    </div>
+</div>
 {% endblock %}
 
 {% block javascripts %}
