@@ -110,14 +110,6 @@ class HomeController extends AbstractController
         );
     }
 
-    public function apiIcal(Request $request, TranslatorInterface $translator)
-    {
-        return $this->render(
-            $request->getLocale().'/www-api-ical.html.twig',
-            ['title' => $translator->trans('title_ical')]
-        );
-    }
-
     public function firmware(Request $request, TranslatorInterface $translator)
     {
         return $this->render(
@@ -134,6 +126,22 @@ class HomeController extends AbstractController
         );
     }
 
+    public function apiIcal(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/www-api-ical.html.twig',
+            ['title' => $translator->trans('title_ical')]
+        );
+    }
+
+    public function cloudwatch(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/www-api-aws-cloudwatch.html.twig',
+            ['title' => $translator->trans('title_cloudwatch')]
+        );
+    }
+
 
     /**
      * Good idea but does not work because of locale lang. switch
@@ -142,7 +150,7 @@ class HomeController extends AbstractController
      * @param $page
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function serve(Request $request, $page)
+    private function serve(Request $request, $page)
     {
         return $this->render(
             $request->getLocale().'/'.$page.'.html.twig'

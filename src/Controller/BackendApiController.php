@@ -500,11 +500,13 @@ class BackendApiController extends AbstractController
             // General AWS Credentials
             case 1:
                 $form = $this->createForm(IntegrationAwsType::class, $userApi);
+                $title = 'Setup your Amazon Credentials';
                 break;
             // This particular AWS service
             case 2:
                 $form = $this->createForm(IntegrationAwsCloudwatchType::class, $api);
                 $template = 'backend/api/aws/conf-cloudwatch.html.twig';
+                $title = 'Add a Cloudfront widget';
                 break;
         }
 
@@ -551,7 +553,7 @@ class BackendApiController extends AbstractController
         return $this->render(
             $template,
             [
-                'title' => 'Step 1: Setup your Amazon Credentials',
+                'title' => $title,
                 'form' => $form->createView(),
                 'intapi_uuid' => $intapi_uuid,
                 'userapi_id' => $userApi->getId(),
