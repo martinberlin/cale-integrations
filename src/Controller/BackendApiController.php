@@ -4,6 +4,8 @@ namespace App\Controller;
 use App\Entity\IntegrationApi;
 use App\Entity\UserApi;
 use App\Form\Api\ApiConfigureSelectionType;
+use App\Form\Api\IntegrationAwsCloudwatchType;
+use App\Form\Api\IntegrationAwsType;
 use App\Form\Api\IntegrationHtmlType;
 use App\Form\Api\IntegrationSharedCalendarApiType;
 use App\Form\Api\IntegrationWeatherApiType;
@@ -13,16 +15,14 @@ use App\Form\Api\Wizard\Google\GoogleCalendar1Type;
 use App\Repository\ApiRepository;
 use App\Repository\IntegrationApiRepository;
 use App\Repository\UserApiRepository;
-use App\Service\GoogleClientService;
+use Aws\CloudWatch\CloudWatchClient;
+use Aws\Exception\AwsException;
 use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -101,9 +101,8 @@ class BackendApiController extends AbstractController
                 if ($api->isLocationApi()) {
                     return $this->redirectToRoute('b_api_customize_location', $userApiUuidParameter);
                 }
-                // TODO: Check that there is a new field for this in app_api:  edit_route
-                // Any exceptions should go here, otherwise there is a configurator wizard:
-                return $this->redirectToRoute('b_api_wizard_'.$api->getUrlName(), $userApiUuidParameter);
+
+                return $this->redirectToRoute($api->getEditRoute(), $userApiUuidParameter);
             }
         }
 
@@ -477,5 +476,90 @@ class BackendApiController extends AbstractController
         );
     }
 
+
+    /**
+     * Wizard to configure HTML internal API
+     * @Route("/aws/cloudfront/{uuid}/{intapi_uuid?}/{step?1}", name="b_api_wizard_aws-cloudwatch")
+     */
+    public function apiAwsCloudwatch(
+        $uuid, $intapi_uuid, $step, Request $request,
+        UserApiRepository $userApiRepository,
+        IntegrationApiRepository $intApiRepository,
+        EntityManagerInterface $entityManager)
+    {
+        $userApi = $this->getUserApi($userApiRepository, $uuid);
+        $api = null;
+        if ($intapi_uuid !== 'new') {
+           $api = $this->getIntegrationApi($intApiRepository, $intapi_uuid);
+        }
+        if (!$api instanceof IntegrationApi) {
+            $api = new IntegrationApi();
+        }
+        $template = 'backend/api/aws/conf-aws-credentials.html.twig';
+        switch ($step) {
+            // General AWS Credentials
+            case 1:
+                $form = $this->createForm(IntegrationAwsType::class, $userApi);
+                $title = 'Setup your Amazon Credentials';
+                break;
+            // This particular AWS service
+            case 2:
+                $form = $this->createForm(IntegrationAwsCloudwatchType::class, $api);
+                $template = 'backend/api/aws/conf-cloudwatch.html.twig';
+                $title = 'Add a Cloudfront widget';
+                break;
+        }
+
+        $form->handleRequest($request);
+        $error = "";
+        $formValid = $form->isSubmitted() && $form->isValid();
+        if ($formValid) {
+            switch ($step) {
+                case 1:
+                    try {
+                        $entityManager->persist($userApi);
+                        $entityManager->flush();
+                    } catch (\Exception $e) {
+                        $error = $e->getMessage();
+                        $this->addFlash('error', $error);
+                        return $this->redirectToRoute('b_api_wizard_aws-cloudwatch',
+                            ['uuid' => $userApi->getId(), 'step' => 1]);
+                    }
+                    if ($error === '') {
+                        $this->addFlash('success', "AWS Credentials saved");
+                    }
+                    return $this->redirectToRoute('b_api_wizard_aws-cloudwatch',
+                        ['uuid' => $userApi->getId(), 'intapi_uuid' => 'new', 'step' => 2]);
+                    break;
+                case 2:
+                    $api->setUserApi($userApi);
+                    try {
+                        $entityManager->persist($api);
+                        $entityManager->flush();
+                    } catch (\Exception $e) {
+                        $error = $e->getMessage();
+                        $this->addFlash('error', $error);
+                    }
+                    if ($error === '') {
+                        $this->addFlash('success', "Cloudfront metric configuration saved");
+                    }
+                    break;
+            }
+
+            return $this->redirectToRoute('b_api_wizard_aws-cloudwatch',
+                ['uuid' => $userApi->getId(), 'intapi_uuid' => $api->getId(), 'step' => 2]);
+        }
+
+        return $this->render(
+            $template,
+            [
+                'title' => $title,
+                'form' => $form->createView(),
+                'intapi_uuid' => $intapi_uuid,
+                'userapi_id' => $userApi->getId(),
+                'form_valid' => $formValid
+            ]
+        );
+    }
 
 }

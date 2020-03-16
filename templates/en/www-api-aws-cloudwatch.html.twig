@@ -1,0 +1,62 @@
+{% extends '/base.html.twig' %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top: -2em">
+        <h2>
+            <img src="/img/svg/api-cloudwatch.svg"> Cloudwatch
+        </h2>
+        <p><b>Amazon CloudWatch is a monitoring and observability service built for DevOps engineers, developers, site reliability engineers (SREs), and IT managers.</b>
+     At CALE we use AWS servers and we monitor them using Cloudwatch so we developed this API, so you can simply insert Cloudwatch metrics into
+            your Screens
+        </p>
+        <h3>How to do it</h3>
+
+        <p>
+            <ol>
+            <li>First go to <a href="https://console.aws.amazon.com/cloudwatch/home" target="_blank">Cloudwatch in your Amazon AWS console</a></li>
+            <li>Create a Dashboard or select one of the existing</li>
+            <li>Mouse over the Widget you want to bring to your Screen and click on the 3 vertical dots
+                (Widget actions <span class="glyphicon glyphicon-arrow-right"></span> Edit)</li>
+            <li>Select the Source tab and below the text area click on the radio button <span class="glyphicon glyphicon-ok-circle"></span> Image API</li>
+            <li>Copy the JSON text in one plain-text file</li>
+            <li>Pass to next Step: "Integration"<br>Then repeat for each chart you like and save it in a temporal text file, keep in mind that the
+            width property of the JSON should be adapted to your Screen size.</li>
+        </ol>
+        </p>
+        <h3>Integrating the Widget into <span class="cale">CALE</span></h3>
+
+        <ol>
+            <li>Log in to CALE Admin-backend and select the API top menu option
+                <span class="glyphicon glyphicon-arrow-right"></span> Connect a new API
+                <span class="glyphicon glyphicon-arrow-right"></span> Amazon Cloudwatch monitoring</li>
+            <li>Fill the 3 required fields: IAM Key, Password and Region that you can get in
+                <a href="https://console.aws.amazon.com/iam/home#/security_credentials" target="_blank">IAM Security Credentials</a>
+                <span class="glyphicon glyphicon-arrow-right"></span> Access Keys (Note that you don't have to use your root credentials)
+            </li>
+            <li>Once the last point is fullfilled, you can name your Widget in next step, and you just copy the
+            JSON text that we grabbed on the "How to do it" section point 5</li>
+            </ol>
+        That's it, after this you should be able to preview your Cloudfront Metrics:<br>
+        <span style="font-size: 18px">My widget</span><br>
+<img src="/img/www/aws-cloudfront-cpu.png">
+
+        <h3>Important security reminder</h3>
+        <p>
+            You shouldn't use your root account in any web service. CALE just needs permissions to access your charts so the ideal way to do it
+            is to Create a new user with <b>CloudWatchReadOnlyAccess</b> and restrict the permissions just to:
+            <ul>
+            <li>GetMetricStatistics</li>
+            <li>ListMetrics</li>
+        </ul>
+        Is all that we require to render your charts. That's it! We hope you enjoy adding dynamic widgets to your Screens
+        </p>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="./js/engine/common.js"></script>
+{% endblock %}

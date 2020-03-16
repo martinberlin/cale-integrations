@@ -77,9 +77,19 @@
                             <a class="btn btn-default" href="{{ a.edit }}"
                                data-step="2" data-intro="Each API can have more than one integration. Example: The same weather API
 can be used to get the weather in Berlin or in New York city."
-                            ><span class="glyphicon glyphicon-plus"></span> {{ 'Add new'|trans }}</a>
+                            >
+                                {% if a.url_name == 'aws-cloudwatch' %}
+                                    <span class="glyphicon glyphicon-log-in"></span> {{ 'Credentials'|trans }}</a>
+                                {% else %}
+                                <span class="glyphicon glyphicon-plus"></span> {{ 'Add new'|trans }}</a>
+                                {% endif %}
                             {% endif %}
-                        </td>
+
+                            {% if a.url_name == 'aws-cloudwatch' %}
+                                <a class="btn btn-default" href="{{ path('b_api_wizard_aws-cloudwatch', {'uuid': a.id,'intapi_uuid': 'new','step': 2}) }}">
+                                    <span class="glyphicon glyphicon-stats"></span> {{ 'Add new'|trans }}</a>
+                            {% endif %}
+                            </td>
                     </tr>
                 {% endfor %}
                 </tbody>

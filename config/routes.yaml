@@ -89,9 +89,13 @@ www_getting-started:
   defaults:
     _locale: en
 
-
 www_api-ical:
   path:       /api-ical/{_locale}
   controller: App\Controller\HomeController::apiIcal
+  defaults:
+    _locale: en
+www_api-cloudwatch:
+  path:       /api-cloudwatch/{_locale}
+  controller: App\Controller\HomeController::cloudwatch
   defaults:
     _locale: en

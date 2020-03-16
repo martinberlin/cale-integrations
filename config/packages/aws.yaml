@@ -1,0 +1,5 @@
+aws:
+    version: latest
+    region: eu-central-1
+    #http:
+    #    proxy: "%env(AWS_PROXY)%"

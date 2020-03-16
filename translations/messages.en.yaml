@@ -17,10 +17,12 @@ nav_service: Our service
 nav_pricing: Pricing
 nav_get_started: Get started
 nav_server_architecture: Server architecture
+nav_api_cloudwatch: AWS Cloudwatch monitoring
+
 title_ical: Importing iCal calendars
 title_firmware: Espressif Firmware
 title_firmware_t5: Firmware for T5 ESP32 boards
-
+title_cloudwatch: Cloudwatch monitoring
 # Admin dashboard
 no_screen_logs_yet: Create some Screens to see a log of your devices requests here
 logs_purged: log rows deleted. Thanks!
@@ -151,6 +153,7 @@ screen_partials_title: Manage partials for Screen
 screen_token_firmware: To link this Screen to your E-Ink copy this 2 lines into the Config.h file of
 screen_token_request: If this Screen is protected you need to send this header in the request in order to get access
 screen_token_access_title: Access outside the Firmware
+
 # Screenshot options
 only_esp32_supported: Only for the right ESP32 Firmware
 Brightness level: Brightness level
@@ -226,3 +229,30 @@ right: right
 Save contents: Save contents
 image_float_note: 'A float image type is good to add a logo. The position should be only left or right, it does not float center. It stays on top of everything with an: <img style="float:left">'
 image_background_note: 'A background image is below the HTML text useful to personalize a header: <div style="background-image: url(your/image)">'
+# API aws cloudwatch
+Key: Key
+Secret: Secret
+AWS Region: Region
+eu-central-1 Frankfurt: eu-central-1 Frankfurt
+eu-west-1 Ireland: eu-west-1 Irlanda
+eu-west-2 London: eu-west-2 Londres
+eu-west-3 Paris: eu-west-3 Paris
+eu-north-1 Stockholm: eu-north-1 Estocolmo
+us-east-1 N. Virginia: us-east-1 N. Virginia
+us-east-2 Ohio: us-east-2 Ohio
+us-west-1 N. California: us-west-1 N. California
+us-west-2 Oregon: us-west-2 Oregon
+ap-east-1 Hong Kong: ap-east-1 Hong Kong
+ap-south-1 Mumbai: ap-south-1 Mumbai
+ap-southeast-1 Singapore: ap-southeast-1 Singapur
+ap-southeast-2 Sydney: ap-southeast-2 Sydney
+ap-northeast-1 Tokyo: ap-northeast-1 Tokyo
+ap-northeast-2 Seoul: ap-northeast-2 Seoul
+ap-northeast-3 Osaka: ap-northeast-3 Osaka
+cn-north-1 Beijing: cn-north-1 Beijing
+cn-northwest-1 Ningxia: cn-northwest-1 Ningxia
+me-south-1 Bahrain: me-south-1 Bahrain
+sa-east-1 Sao Paulo: sa-east-1 San Paulo
+Save Credentials: Guardar Credenciales
+Name your Cloudwatch metric: Nombre del widget
+Image JSON definition: JSON de la imagen

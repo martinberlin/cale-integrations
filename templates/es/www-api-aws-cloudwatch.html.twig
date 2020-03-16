@@ -1,0 +1,63 @@
+{% extends '/base.html.twig' %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top: -2em">
+        <h2>
+            <img src="/img/svg/api-cloudwatch.svg"> Cloudwatch
+        </h2>
+        <p><b>Amazon CloudWatch es un servicio de monitorización y observación creado para ingenieros de DevOps, desarrolladores y administradores de TI.</b>
+     En CALE usamos servers EC2 en servidores de Amazon AWS y los monitoreamos usando Cloudwatch.
+            Con lo cual hemos desarrollado esta API, en un principio para CALE, y la hemos abierto a todos los usuarios asi pueden
+            insertar las metricas de Cloudwatch en sus Screens
+        </p>
+        <h3>Como conectar un widget de Cloudwatch</h3>
+
+        <p>
+            <ol>
+            <li>Primero hay que ir a <a href="https://console.aws.amazon.com/cloudwatch/home" target="_blank">Cloudwatch en la consola de Amazon AWS</a></li>
+            <li>Crear un a Dashboard o seleccionar uno existente</li>
+            <li>Pasar el mouse por encima del Widget y hacer click en los 3 puntos verticales arriba a la derecha
+                (Widget actions <span class="glyphicon glyphicon-arrow-right"></span> Edit)</li>
+            <li>Seleccionar la pestaña Source y debajo del area de texto seleccionar la opción <span class="glyphicon glyphicon-ok-circle"></span> Image API</li>
+            <li>Copiar el texto de JSON y guardarlo</li>
+            <li>Pasa a la sección: "Integración"<br>
+                Una vez que funcione puedes repetir esta operación para cada Widget que quieras copiar. Solo ten en cuenta que hay que ajustar la propiedad width del
+                JSON a un ancho apropiado para que pueda verse en tu Screen.</li>
+        </ol>
+        </p>
+        <h3>Integración del Widget en <span class="cale">CALE</span></h3>
+
+        <ol>
+            <li>Logearse en CALE y seleccionar API
+                <span class="glyphicon glyphicon-arrow-right"></span> Conectar una nueva API
+                <span class="glyphicon glyphicon-arrow-right"></span> Amazon Cloudwatch monitoring</li>
+            <li>Llenar los 3 campos requeridos: IAM Key, Password y Region. Los dos primeros puedes obtenerlos en
+                <a href="https://console.aws.amazon.com/iam/home#/security_credentials" target="_blank">IAM Security Credentials</a>
+                <span class="glyphicon glyphicon-arrow-right"></span> Access Keys (Lee nuestras recomendaciones de seguridad, no necesitas usar el root user)
+            </li>
+            <li>Una vez de que las credenciales queden grabadas, puedes ponerle un nombre al Widge, y copiar el texto JSON de la sección "Como conectar" del punto 5.</li>
+            </ol>
+        Eso es todo, al grabar este último paso, podrá tener un preview del gráfico de las estadísticas de Cloudfront:<br>
+        <span style="font-size: 18px">Mi CPU widget</span><br>
+<img src="/img/www/aws-cloudfront-cpu.png">
+
+        <h3>Notas sobre la seguridad</h3>
+        <p>
+            No debería usar su cuenta root account para este ni ningún otro sitio web. CALE solo necesita permisos para acceder a las estadísticas de Cloudwatch y ningún otro permiso adicional.
+            La mejor manera de hacerlo es creando un usuario solo con acceso a recursos de <b>CloudWatchReadOnlyAccess</b>. Y si aún se desean restringir más, solo permisos de:
+            <ul>
+            <li>GetMetricStatistics</li>
+            <li>ListMetrics</li>
+        </ul>
+        Eso es todo lo que necesita para agreagar las estadisticas de Amazon Cloudwatch a sus Screens en CALE
+        </p>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="./js/engine/common.js"></script>
+{% endblock %}

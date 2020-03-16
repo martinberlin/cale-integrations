@@ -8,6 +8,7 @@
         "ext-iconv": "*",
         "ext-json": "*",
         "ext-openssl": "*",
+        "aws/aws-sdk-php-symfony": "^2.2",
         "doctrine/doctrine-migrations-bundle": "^2.1",
         "google/apiclient": "^2.4",
         "johngrogg/ics-parser": "^2",
