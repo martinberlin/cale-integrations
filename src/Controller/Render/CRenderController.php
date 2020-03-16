@@ -44,10 +44,10 @@ class CRenderController extends AbstractController
         }
 
         $requestOptions = [];
-        if ($_ENV['API_PROXY']) {
-            /*$requestOptions = [
+        if (isset($_ENV['API_PROXY'])) {
+            $requestOptions = [
                 'proxy' => $_ENV['AWS_PROXY']
-            ];*/
+            ];
         }
         $client = new CloudWatchClient([
             'region' => $userApi->getRegion(),
@@ -107,10 +107,10 @@ class CRenderController extends AbstractController
             return $response;
         }
         $requestOptions = [];
-        if ($_ENV['API_PROXY']) {
-            /*$requestOptions = [
+        if (isset($_ENV['API_PROXY'])) {
+            $requestOptions = [
                 'proxy' => $_ENV['AWS_PROXY']
-            ];*/
+            ];
         }
         $userApi = $api->getUserApi();
 
