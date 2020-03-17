@@ -81,7 +81,8 @@ class BackendUserController extends AbstractController
                     $this->renderView(
                         'emails/support.html.twig',
                         [
-                            'body' => $body
+                            'body' => $body,
+                            'host' => $request->getSchemeAndHttpHost()
                         ]
                     ),
                     'text/html'
