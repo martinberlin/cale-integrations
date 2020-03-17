@@ -74,14 +74,13 @@ class BackendUserController extends AbstractController
             $body = $form->get('html')->getViewData();
             $cc = $form->get('cc')->getViewData();
 
-            $message = (new \Swift_Message($this->getParameter('email_reset_pass_title')))
+            $message = (new \Swift_Message($title))
                 ->setFrom($emailFrom)
                 ->setTo($this->getParameter('cale_support_email'))
                 ->setBody(
                     $this->renderView(
                         'emails/support.html.twig',
                         [
-                            'title' => $title,
                             'body' => $body
                         ]
                     ),
