@@ -48,7 +48,7 @@ class HomeController extends AbstractController
     {
         $apis = $apiRepository->findAll();
         return $this->render(
-            $request->getLocale().'/www-apis.html.twig',
+            $request->getLocale().'/api/www-apis.html.twig',
             [
                 'apis' => $apis,
                 'title' => $translator->trans('nav_apis')
@@ -129,7 +129,7 @@ class HomeController extends AbstractController
     public function apiIcal(Request $request, TranslatorInterface $translator)
     {
         return $this->render(
-            $request->getLocale().'/www-api-ical.html.twig',
+            $request->getLocale().'/api/www-api-ical.html.twig',
             ['title' => $translator->trans('title_ical')]
         );
     }
@@ -137,7 +137,7 @@ class HomeController extends AbstractController
     public function cloudwatch(Request $request, TranslatorInterface $translator)
     {
         return $this->render(
-            $request->getLocale().'/www-api-aws-cloudwatch.html.twig',
+            $request->getLocale().'/api/www-api-aws-cloudwatch.html.twig',
             ['title' => $translator->trans('title_cloudwatch')]
         );
     }

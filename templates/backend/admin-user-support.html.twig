@@ -1,0 +1,75 @@
+{% extends 'backend/backend-base.html.twig' %}
+{# HTML editor include #}
+{% block stylesheets %}
+    <link href="/js/summernote/summernote-lite.min.css" rel="stylesheet">
+    <script src="/js/jquery/jquery-2.1.0.min.js"></script>
+    <script src="/js/summernote/summernote-lite.min.js"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-8 col-sm-12 col-xs-12">
+            <p>Please describe how to reproduce your problem so we can help you accordingly.</p>
+            {{ form_start(form) }}
+            {{ form_row(form.type) }}
+            {{ form_row(form.html) }}
+            <div class="col-xs-12 text-right" style="margin-top:1em">
+                <span id="maxCounter">HTML is limited to {{ html_max_chars }} chars</span>
+            </div>
+            {{ form_widget(form.cc) }} {{ form_label(form.cc) }}
+
+            {% if form_submitted %}
+                {{ form_widget(form.submit,{'attr': {'class': 'hidden'}}) }}
+            {% endif %}
+
+            {{ form_end(form) }}
+        </div>
+        <div class="col-md-4 col-sm-12 col-xs-12" style="margin-top: 0.8em">
+            HINT: <br><br>
+            If you want to get help fast please tell us exactly what steps we need to take to reproduce your steps.
+            In exceptional cases, we may ask for your Bearer token or to make your Screens open temporarily, to try to reproduce your Screen issues.
+            After our support we can regenerate the security token for you.
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+
+<script>
+    let maxchars = {{ html_max_chars }};
+    let max_counter = document.getElementById('maxCounter');
+
+    $('.summernote').summernote({
+        toolbar: [
+            ['style', ['bold', 'italic', 'clear']],
+            ['font', ['strikethrough', 'superscript', 'subscript']],
+            ['fontsize', ['fontsize', 'height']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['insert', ['link', 'table', 'codeview']]
+        ],
+        callbacks: {
+            onKeydown: function (e) {
+                var t = e.currentTarget.innerText;
+                if (t.length >= maxchars) {
+//delete key
+                    if (e.keyCode != 8)
+                        e.preventDefault();
+                }
+            },
+            onKeyup: function (e) {
+                var t = e.currentTarget.innerText;
+                let countdown = (maxchars - t.length);
+                if (countdown > 0) {
+                    max_counter.innerHTML = countdown;
+                } else {
+                    countdown = countdown * -1;
+                    max_counter.innerHTML = '<span class="alert alert-danger">Max limit reached: ' + countdown + ' characters too much</span>';
+                }
+
+            }
+        }
+    });
+</script>
+{% endblock %}
