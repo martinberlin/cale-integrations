@@ -2,12 +2,16 @@
 
 {% block body %}
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-6 col-xs-12">
     <p>Is important to set the Timezone to where you live so we can properly calculate what time to show in your area.
        Here you can also configure how the date and hour format will look like across your Screens.</p>
     {{ form_start(form) }}
     {{ form_errors(form) }}
     {{ form_end(form) }}
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12" style="margin-top: 6.4em">
+            <span class="alert alert-danger">I would like to delete my account and all my personal data.
+            <a href="{{ path('b_user_terminate') }}">Terminate my account</a></span>
         </div>
     </div>
 {% endblock %}

@@ -2,6 +2,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     cale_support_email: support@cale.es
+    cale_official_email: martin@cale.es
     screen_templates:
         '1 Column':  1-col.html.twig
         '2 Columns': 2-col.html.twig

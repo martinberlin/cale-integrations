@@ -4,15 +4,11 @@ namespace App\Controller\Admin;
 
 use App\Entity\Api;
 use App\Form\Admin\ApiType;
-use App\Form\UsernameAgreementType;
+use App\Form\Admin\NewsletterType;
 use App\Repository\ApiRepository;
-use App\Repository\ScreenRepository;
 use App\Repository\UserRepository;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpClient\HttpClient;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -95,5 +91,70 @@ class BackendAdminController extends AbstractController
             'title' => $title,
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/newsletter", name="b_admin_newsletter")
+     */
+    public function newsletter(Request $request, \Swift_Mailer $mailer, UserRepository $userRepository)
+    {
+        $maxChars = 1500;
+        $emailFrom = $this->getParameter('cale_official_email');
+        $emailUser = $this->getUser()->getEmail();
+        $form = $this->createForm(NewsletterType::class, null,
+            ['html_max_chars' => $maxChars, 'email_from' => $emailFrom, 'test_email' => $emailUser]);
+        $form->handleRequest($request);
+        $formSubmitted = $form->isSubmitted() && $form->isValid();
+        $error = '';
+
+        if ($formSubmitted) {
+            $title = $form->get('title')->getViewData();
+            $body = $form->get('html')->getViewData();
+            $testEmail = $form->get('testEmail')->getViewData();
+            $users = $userRepository->findBy(['doNotDisturb' => false]);
+            $sentCount = 0;
+
+            foreach ($users as $user) {
+                if ($testEmail && $sentCount>0) break;
+
+                $message = (new \Swift_Message($title))
+                    ->setFrom($emailFrom)
+                    ->setBody(
+                        $this->renderView(
+                            'emails/newsletter.html.twig',
+                            [
+                                'body' => $body,
+                                'host' => $request->getSchemeAndHttpHost()
+                            ]
+                        ),
+                        'text/html'
+                    );
+
+                if ($testEmail) {
+                    $emailTo = $emailUser;
+                } else {
+                    $emailTo = $user->getEmail();
+                }
+                $message->setTo($emailTo);
+
+                if (!$mailer->send($message, $failures)) {
+                    $this->addFlash('error', 'Sorry there was an error trying to send this to email: '.$emailTo.' Errors:'. print_r($failures, true) .
+                        ' Sending aborted here');
+                    break;
+                }
+                $sentCount++;
+            }
+            if ($error === '') {
+               $this->addFlash('success', 'Newsletter was sent to '.$sentCount.' users.');
+            }
+        }
+
+        return $this->render(
+            'backend/admin/newsletter-tool.html.twig', [
+                'title' => 'Newsletter tool',
+                'form' => $form->createView(),
+                'html_max_chars' => $maxChars,
+            ]
+        );
     }
 }

@@ -9,27 +9,23 @@
 {% block body %}
     <div class="row">
         <div class="col-md-8 col-sm-12 col-xs-12">
-            <p>Please describe how to reproduce your problem so we can help you accordingly.</p>
+            <h4><span class="glyphicon glyphicon-calendar"></span> Send only once every start of the week</h4>
             {{ form_start(form) }}
-            {{ form_row(form.type) }}
+            {{ form_row(form.title) }}
             {{ form_row(form.html) }}
             <div class="col-xs-12 text-right" style="margin-top:1em">
                 <span id="maxCounter">HTML is limited to {{ html_max_chars }} chars</span>
             </div>
-            {{ form_widget(form.cc) }} {{ form_label(form.cc) }}
+            {{ form_widget(form.testEmail) }} {{ form_label(form.testEmail) }}
 
-            {% if form_submitted %}
-                {{ form_widget(form.submit,{'attr': {'class': 'hidden'}}) }}
-            {% endif %}
+            <br>
+            {{ form_widget(form.submit) }}
 
             {{ form_end(form) }}
         </div>
         <div class="col-md-4 col-sm-12 col-xs-12" style="margin-top: 0.8em">
             <b>HINTS:</b> <br><br>
-            <b>If you want to get help fast please tell us exactly what steps we need to take, so we can reproduce what you are experiencing and find a solution.</b>
-            In exceptional cases, we may ask you to make public your Screens temporarily, so we can reproduce your issues.
-            After our support we can regenerate the security token for you.<br>
-            If you need that CALE integrates a new API, please send us the link, so we can research if it can be implemented.
+            <b>Please note that clicking on Send newsletter without the <span class="glyphicon glyphicon-check"></span> send only</b> checkbox you are sending this to ALL the users except the ones that opted out of the list.
         </div>
     </div>
 {% endblock %}

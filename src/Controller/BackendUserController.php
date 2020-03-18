@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use App\Form\Admin\TerminateType;
 use App\Form\UsernameAgreementType;
 use App\Form\UserProfileType;
 use App\Form\UserSupportType;
@@ -108,6 +109,35 @@ class BackendUserController extends AbstractController
                 'html_max_chars' => $maxChars,
                 'form_submitted' => $formSubmitted
             ]
+        );
+    }
+
+    /**
+     * @Route("/terminate", name="b_user_terminate")
+     */
+    public function terminate(Request $request, EntityManagerInterface $entityManager,\Swift_Mailer $mailer)
+    {
+        $form = $this->createForm(TerminateType::class, null);
+        $form->handleRequest($request);
+
+        $confirm = $form->get('confirm')->getViewData();
+
+        $formSubmitted = $form->isSubmitted() && $form->isValid();
+        if ($formSubmitted) {
+            if ($confirm) {
+                $entityManager->remove($this->getUser());
+                $entityManager->flush();
+                return $this->redirect('/');
+            } else {
+                $this->addFlash('error', 'Please mark the checkbox if you really want to confirm your account termination');
+            }
+        }
+
+        return $this->render(
+            'backend/user/terminate.html.twig', [
+                'title' => 'Terminate my account at CALE',
+                'form' => $form->createView()
+                ]
         );
     }
 
