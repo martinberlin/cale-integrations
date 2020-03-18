@@ -4,10 +4,12 @@
     <div class="row">
         <div class="col-md-8 col-sm-8 col-xs-12"><br>
             <span class="alert alert-danger">Note that this action is final and all your connected APIs, Screens and related content will be PERMANENTLY DELETED</span><br><br>
-    <p>We are sorry to see you go but we understand your decision. Is important to undestand that there is no back and no undo option for this.</p>
-    {{ form_start(form) }}
+    <p>We are sorry to see you go but we understand your decision. Is important to know that there is no way to recover your data after this
+        and no undo option. So you can only setup everything again if you want to come back.</p>
+
+            {{ form_start(form) }}
             {{ form_widget(form.confirm) }} {{ form_label(form.confirm) }}
-    {{ form_end(form) }}
+            {{ form_end(form) }}
         </div>
     </div>
 {% endblock %}

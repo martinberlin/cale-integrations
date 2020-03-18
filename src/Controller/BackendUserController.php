@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller;
 
-use App\Form\Admin\TerminateType;
+use App\Form\TerminateType;
 use App\Form\UsernameAgreementType;
 use App\Form\UserProfileType;
 use App\Form\UserSupportType;
