@@ -12,7 +12,7 @@
         <p>
             <span style="font-size: 20px">Amazon CloudWatch is a monitoring and observability service built for DevOps engineers, developers, site reliability engineers (SREs), and IT managers.
                 </span><br>
-     At CALE we use AWS servers and we monitor them using Cloudwatch and we developed this API so you can simply insert Cloudwatch metrics into
+     At CALE we use AWS servers and we monitor them using Cloudwatch and we developed this API so you can simply insert <a href="#twitter">Cloudwatch</a> metrics into
             your Screens. We like the idea to have a display that every 10 or 20 minutes refreshes showing your servers load in an ePaper Screen instead of
             having the dashboard all the time in the monitor.
         </p>
@@ -47,6 +47,13 @@
         <span style="font-size: 18px">My widget</span><br>
 <img src="/img/www/aws-cloudfront-cpu.png">
 
+        <h3>How much it will cost to use this API</h3>
+
+        <h4><span class="cale">CALE</span> is free for personal use</h4>
+        AmazonCloudWatch has a free tier of 1,000,000 API requests. This month for example using this for a week and refreshing the
+        Screen every 20 minutes aprox. we used 0.05% of this free tier
+        (501/1,000,000 Requests)
+
         <h3>Important security reminder</h3>
         <p>
             You shouldn't use your root account in any web service. CALE just needs permissions to access your charts so the ideal way to do it
@@ -57,6 +64,7 @@
         </ul>
         Is all that we require to render your charts. That's it! We hope you enjoy adding dynamic widgets to your Screens
 
+        <a id="twitter"></a><br>
         <blockquote class="twitter-tweet">
             <p lang="en" dir="ltr">Vídeo proof. Now you can preview that <a href="https://twitter.com/awscloud?ref_src=twsrc%5Etfw">@awscloud</a>
                 metrics without burning your eyes with the monitor <a href="https://t.co/P01i5zAZgg">pic.twitter.com/P01i5zAZgg</a></p>
