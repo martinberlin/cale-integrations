@@ -13,9 +13,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/backend/user")
@@ -115,7 +117,7 @@ class BackendUserController extends AbstractController
     /**
      * @Route("/terminate", name="b_user_terminate")
      */
-    public function terminate(Request $request, EntityManagerInterface $entityManager,\Swift_Mailer $mailer)
+    public function terminate(Request $request, EntityManagerInterface $entityManager)
     {
         $form = $this->createForm(TerminateType::class, null);
         $form->handleRequest($request);
@@ -125,12 +127,14 @@ class BackendUserController extends AbstractController
         $formSubmitted = $form->isSubmitted() && $form->isValid();
         if ($formSubmitted) {
             if ($confirm) {
-                $session = $request->getSession();
-                $session->invalidate();
 
                 $entityManager->remove($this->getUser());
                 $entityManager->flush();
-                return $this->redirect('/');
+
+                $session = new Session();
+                $session->invalidate();
+                $this->addFlash('success', 'Your user account was terminated');
+                return $this->redirectToRoute('logout');
             } else {
                 $this->addFlash('error', 'Please mark the checkbox if you really want to confirm your account termination');
             }

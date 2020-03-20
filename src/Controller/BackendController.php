@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -35,8 +36,11 @@ class BackendController extends AbstractController
                     case 'declineAction':
                         $entityManager->remove($user);
                         $entityManager->flush();
+
+                        $session = new Session();
+                        $session->invalidate();
                         $this->addFlash('success', "Your account was deleted from our system");
-                        return $this->redirectToRoute('home');
+                        return $this->redirectToRoute('logout');
                         break;
 
                     case 'confirmAction':
