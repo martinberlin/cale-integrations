@@ -82,7 +82,7 @@
                     </p>
 
                     {% if app.user is null and the_route != 'home'
-                    and the_route != 'www_service-pricing' and the_route != 'login'  %}
+                    and the_route != 'www_service-pricing' and the_route != 'login' and the_route != 'thanks' %}
                         <a href="{{ path('register') }}" style="margin-right:2em"
                            class="btn navbar-btn btn-default pull-right">{{ 'register_here'|trans }}</a>
                     {% endif %}
@@ -99,8 +99,8 @@
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-
             gtag('config', 'UA-161455060-1');
+            gtag('config', 'AW-1065885836');
         </script>
     {% else %}
     <script type="text/javascript" src="/js/bootstrap-native.js"></script>
