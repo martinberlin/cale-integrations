@@ -124,6 +124,7 @@ class BackendAdminController extends AbstractController
                             'emails/newsletter.html.twig',
                             [
                                 'body' => $body,
+                                'firstname' => $user->getFirstname(),
                                 'host' => $request->getSchemeAndHttpHost()
                             ]
                         ),

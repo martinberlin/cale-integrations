@@ -125,6 +125,9 @@ class BackendUserController extends AbstractController
         $formSubmitted = $form->isSubmitted() && $form->isValid();
         if ($formSubmitted) {
             if ($confirm) {
+                $session = $request->getSession();
+                $session->invalidate();
+
                 $entityManager->remove($this->getUser());
                 $entityManager->flush();
                 return $this->redirect('/');
