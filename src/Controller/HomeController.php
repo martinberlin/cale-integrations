@@ -82,8 +82,15 @@ class HomeController extends AbstractController
     public function privacyPolicy(Request $request, TranslatorInterface $translator)
     {
         return $this->render(
-            $request->getLocale().'/www-privacy-policy.html.twig',
+            $request->getLocale().'/privacy/www-privacy-policy.html.twig',
             ['title' => $translator->trans('nav_privacy')]
+        );
+    }
+    public function googlePrivacyPolicy(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/privacy/google-privacy-policy.html.twig',
+            ['title' => $translator->trans('nav_google_privacy')]
         );
     }
 

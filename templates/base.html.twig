@@ -93,7 +93,15 @@
 
     <script type="text/javascript" src="/js/prism.js"></script>
     {% if app.environment != 'dev' %}
-    <script type="text/javascript" src="https://cale.s3.eu-central-1.amazonaws.com/js/bootstrap-native.js"></script>
+        <script type="text/javascript" src="https://cale.s3.eu-central-1.amazonaws.com/js/bootstrap-native.js"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-161455060-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-161455060-1');
+        </script>
     {% else %}
     <script type="text/javascript" src="/js/bootstrap-native.js"></script>
     {% endif %}

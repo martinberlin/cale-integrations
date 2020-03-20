@@ -52,6 +52,11 @@ privacy-policy:
   defaults:
     _locale: en
 
+google-privacy-policy:
+  path:       /g-privacy-policy/{_locale}
+  controller: App\Controller\HomeController::googlePrivacyPolicy
+  defaults:
+    _locale: en
 
 impressum:
   path:       /impressum/{_locale}
