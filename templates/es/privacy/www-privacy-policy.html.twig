@@ -18,6 +18,17 @@
 {% endblock carousel %}
 
 {% block body %}
+    <div class="panel panel-default" style="margin-top: 1em">
+        <div class="panel-heading">Accesso rápido:</div>
+        <div class="panel-body">
+            <ul>
+                <li>
+                    <a href="{{ path('google-privacy-policy') }}">Politíca de privacidad de los datos recolectados por Google Analytics</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
     <h3>Política de privacidad de CALE.es</h3>
     CALE es un administrador de pantalla donde puede mezclar contenido de diferentes API y controlar la salida de contenido
     Esta aplicación recopila algunos datos personales de sus usuarios para permitirles el acceso a servicios API externos como Google Calendar, servicios meteorológicos o calendarios compartidos como Timetree. Los usuarios pueden estar sujetos a diferentes estándares de protección y, por lo tanto, pueden aplicarse estándares más amplios a algunos. Para obtener más información sobre los criterios de protección, los usuarios pueden consultar la sección de aplicabilidad. Este documento se puede imprimir como referencia mediante el comando de impresión en la configuración de cualquier navegador.
@@ -29,8 +40,6 @@
     12435 Berlín, Alemania<br><br>
     <br>
     Correo electrónico de contacto del propietario:  <img src="/assets/svg/martin-email.svg"><br>
-
-<h4><a href="{{ path('google-privacy-policy') }}">Politíca de privacidad de los datos recolectados por Google Analytics</a></h4>
 
     <h4>Tipos de datos recopilados</h4>
 
