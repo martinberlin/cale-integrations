@@ -3,9 +3,12 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Api;
+use App\Entity\Display;
 use App\Form\Admin\ApiType;
+use App\Form\Admin\DisplayType;
 use App\Form\Admin\NewsletterType;
 use App\Repository\ApiRepository;
+use App\Repository\DisplayRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -158,4 +161,61 @@ class BackendAdminController extends AbstractController
             ]
         );
     }
+
+    /**
+     * @Route("/displays", name="b_admin_displays")
+     */
+    public function displays(DisplayRepository $displayRepository)
+    {
+        $displays = $displayRepository->findAll();
+
+        return $this->render(
+            'backend/admin/displays.html.twig',
+            [
+                'title' => 'List displays',
+                'displays' => $displays
+            ]
+        );
+    }
+
+    /**
+     * @Route("/display/edit/{id?}", name="b_admin_display_edit")
+     */
+    public function displayEdit($id, Request $request, DisplayRepository $displayRepository,
+                            EntityManagerInterface $em)
+    {
+        if (isset($id)) {
+            $display = $displayRepository->find($id);
+            if (!$display instanceof Display) {
+                throw $this->createNotFoundException("$id is not a valid Display id");
+            }
+            $title = "Editing Display $id:".$display->getName();
+        } else {
+            $display = new Display();
+            $title = 'Creating new Display';
+        }
+
+        $form = $this->createForm(DisplayType::class, $display);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $em->persist($display);
+                $em->flush();
+            } catch (\Exception $e) {
+                $error = $e->getMessage();
+                $this->addFlash('error', $error);
+            }
+            if (!isset($error)) {
+                $this->addFlash('success', "Display ".$display->getName()." saved with ID ".$display->getId());
+                return $this->redirectToRoute('b_admin_displays');
+            }
+        }
+
+        return $this->render('backend/admin/display-edit.html.twig', [
+            'title' => $title,
+            'form' => $form->createView()
+        ]);
+    }
+
 }

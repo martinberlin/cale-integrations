@@ -1,0 +1,35 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+{% block body %}
+
+  <table style="border-spacing:4px;width: 100%">
+    <thead>
+    </tr>
+      <th></th>
+      <th>Type</th>
+      <th>Name</th>
+      <th>Brand</th>
+      <th>className</th>
+      <th>W x H</th>
+      <th>UserApis</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for d in displays %}
+      <tr style="border:1px #1b6d85 dashed">
+        <td><img height="150" src="/assets/display/{{ d.className }}.jpg"></td>
+        <td>{{ d.type }}</td>
+        <td>{{ d.name }}</small></td>
+        <td>{{ d.brand }}</td>
+        <td>{{ d.className }}</td>
+        <td>{{ d.width }}x{{ d.height }}</td>
+        <td><a href="{{ path('b_admin_display_edit', {'id': d.id}) }}">
+            <h3><span class="glyphicon glyphicon-edit"></span></h3></a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}

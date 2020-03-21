@@ -24,6 +24,12 @@ class Display
     protected $className;
 
     /**
+     * @var string eink | tft
+     * @ORM\Column(type="string", length=25, nullable=true)
+     */
+    protected $type;
+
+    /**
      * @var string
      * @ORM\Column(type="string", length=120, unique=true)
      */
@@ -95,7 +101,7 @@ class Display
     /**
      * @return string
      */
-    public function getClassName(): string
+    public function getClassName():?string
     {
         return $this->className;
     }
@@ -111,7 +117,23 @@ class Display
     /**
      * @return string
      */
-    public function getName(): string
+    public function getType():?string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $className
+     */
+    public function setType(string $t)
+    {
+        $this->type = $t;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName():?string
     {
         return $this->name;
     }
@@ -126,7 +148,7 @@ class Display
     /**
      * @return string
      */
-    public function getBrand(): string
+    public function getBrand():?string
     {
         return $this->brand;
     }
@@ -142,7 +164,7 @@ class Display
     /**
      * @return int
      */
-    public function getWidth(): int
+    public function getWidth():?int
     {
         return $this->width;
     }
@@ -158,7 +180,7 @@ class Display
     /**
      * @return int
      */
-    public function getHeight(): int
+    public function getHeight():?int
     {
         return $this->height;
     }
@@ -174,7 +196,7 @@ class Display
     /**
      * @return int
      */
-    public function getGrayLevels(): int
+    public function getGrayLevels():?int
     {
         return $this->grayLevels;
     }
@@ -190,7 +212,7 @@ class Display
     /**
      * @return string
      */
-    public function getActiveSize(): string
+    public function getActiveSize():?string
     {
         return $this->activeSize;
     }
@@ -206,7 +228,7 @@ class Display
     /**
      * @return int
      */
-    public function getTimeOfRefresh(): int
+    public function getTimeOfRefresh():?int
     {
         return $this->timeOfRefresh;
     }
@@ -222,7 +244,7 @@ class Display
     /**
      * @return string
      */
-    public function getManualUrl(): string
+    public function getManualUrl():?string
     {
         return $this->manualUrl;
     }
@@ -238,7 +260,7 @@ class Display
     /**
      * @return string
      */
-    public function getPurchaseUrl(): string
+    public function getPurchaseUrl():?string
     {
         return $this->purchaseUrl;
     }
