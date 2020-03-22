@@ -41,7 +41,7 @@
                     <label for="route_html">Bitmap URL for the ESP32:</label>
 
                     {% if screen_display is not null %}
-                        <input type="text" value="{{ bmp_url }}" id="route_bmp"
+                        <input type="text" value="{{ image_url }}" id="route_bmp"
                                onclick="this.setSelectionRange(0, this.value.length)" class="form-control" style="font-weight:bold">
                     {% endif %}
                     {% if screen_display is not null and screen_public == false %}
@@ -61,7 +61,7 @@
 
                     {% if screen_display is not null and screen_public %}
                         <button type="button" class="btn btn-default"
-                                onclick="popitup('{{ bmp_url }}','{{ screen_display.width }}','{{ screen_display.height }}')"
+                                onclick="popitup('{{ image_url }}','{{ screen_display.width }}','{{ screen_display.height }}')"
                                 id="route_html"
                                 style="margin-top:1.8em">Preview Bitmap
                         </button>
@@ -79,7 +79,7 @@
         <div class="row screen-render-divs" id="screen-settings">
             {{ form_start(form) }}
             <div class="col-md-12 col-sm-12 col-xs-12">
-                <h4><span class="glyphicon glyphicon-picture"></span> Screenshot output settings:</h4>
+                <h4><span class="glyphicon glyphicon-picture"></span> Screenshot output settings for {{ screen_display.displayName }}</h4>
                 <div class="row">
                     <div class="col-md-3 col-sm-12 col-xs-12">
                         {{ form_row(form.outBrightness) }}
@@ -124,14 +124,21 @@
         {% endif %}
 
 <div class="row text-center" style="margin-bottom: 1em">
-    {% if bmp_url!='' %}
+    {% if image_url != '' %}
         {% if screen_public %}
-    <img src="{{ bmp_url }}">
+                <img src="{{ image_url }}">
             {% else %}
                 <small>
                 Authentication: Bearer TOKEN sent in headers so you can preview your image
                 </small><br>
                 <img src="{{ path('b_render_image', {'uuid':uuid, 'isThumbnail':0}) }}">
+        {% endif %}
+
+        <br>
+        {% if screen_image_type == 'JPG' and form.vars.value.outBitDepth != '24'  %}
+            <br><span class="alert alert-danger">Note that for Jpeg output is better to select 24 bits depth color option</span><br>
+            {% else %}
+                <small>Image type: {{ screen_image_type }}</small>
         {% endif %}
 
         {% else %}

@@ -273,8 +273,12 @@ class Display
         $this->purchaseUrl = $purchaseUrl;
     }
 
+    public function getDisplayName() {
+       return strtoupper($this->type)." ".$this->width." x ".$this->height.' '.$this->name;
+    }
+
     public function __toString()
     {
-        return (string) $this->width." x ".$this->height.' '.$this->name;
+        return (string) $this->getDisplayName();
     }
 }

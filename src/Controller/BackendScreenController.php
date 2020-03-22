@@ -87,7 +87,7 @@ class BackendScreenController extends AbstractController
                 'form' => $form->createView(),
                 'uuid' => $uuid,
                 'bmp_url' => ($screen->getDisplay() instanceof Display) ?
-                    $this->bmpUrlGenerator($screen->isOutSsl(), 'bmp', $this->getUser()->getName(), $screen->getId()): ''
+                    $this->imageUrlGenerator($screen->isOutSsl(), 'bmp', $this->getUser()->getName(), $screen->getId()): ''
             ]
         );
     }
@@ -186,7 +186,7 @@ class BackendScreenController extends AbstractController
      * @param $screenId
      * @return string
      */
-    private function bmpUrlGenerator($isSsl, $responseType, $username, $screenId) {
+    private function imageUrlGenerator($isSsl, $responseType, $username, $screenId) {
         $schema = ($isSsl) ? 'https://' : 'http://';
         $url = $schema.$_ENV['SCREENSHOT_TOOL'].'/'.$responseType.'/'.$username.'/'.$screenId;
         return $url;
@@ -229,8 +229,9 @@ class BackendScreenController extends AbstractController
         ];
         $htmlUrl = $this->generateUrl('public_screen_render', $screenParams, UrlGeneratorInterface::ABSOLUTE_URL);
 
-        $bmpUrl = ($screen->getDisplay() instanceof Display) ?
-            $this->bmpUrlGenerator($screen->isOutSsl(), 'bmp', $this->getUser()->getName(), $screen->getId()): '';
+        $imageType = ($screen->getDisplay()->getType()==='eink') ?'bmp':'jpg';
+        $imageUrl = ($screen->getDisplay() instanceof Display) ?
+            $this->imageUrlGenerator($screen->isOutSsl(), $imageType, $this->getUser()->getName(), $screen->getId()): '';
 
         $renderParams = [
             'uuid' => $uuid,
@@ -239,9 +240,10 @@ class BackendScreenController extends AbstractController
             'screen_hits'   => $screen->getHits(),
             'screen_bearer' => $screen->getOutBearer(),
             'screen_display' => $screen->getDisplay(),
+            'screen_image_type' => strtoupper($imageType),
             'form' => $form->createView(),
             'html_url' => $htmlUrl,
-            'bmp_url' => $bmpUrl
+            'image_url' => $imageUrl
         ];
         $htmlPerColumn['Header'] = '';
         $htmlPerColumn['Column_1st'] = '';
@@ -280,7 +282,7 @@ class BackendScreenController extends AbstractController
             throw $this->createNotFoundException("$uuid is not your screen");
         }
         $bmpUrl = ($screen->getDisplay() instanceof Display) ?
-            $this->bmpUrlGenerator($screen->isOutSsl(), 'bmp', $this->getUser()->getName(), $screen->getId()): '';
+            $this->imageUrlGenerator($screen->isOutSsl(), 'bmp', $this->getUser()->getName(), $screen->getId()): '';
         if ($isThumbnail) {
             $bmpUrl.= '?thumbnail=1';
         }
