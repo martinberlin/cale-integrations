@@ -14,7 +14,7 @@
 
         {% if app.environment != 'dev' %}
             <video width="100%" controls autoplay>
-                <source src="https://cale.s3.eu-central-1.amazonaws.com/v/c-converts-your-screens.mov">
+                <source src="{{ cdn_s3 }}/v/c-converts-your-screens.mov">
             </video>
         {% endif %}
     </div>

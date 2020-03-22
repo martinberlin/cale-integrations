@@ -6,34 +6,54 @@
 
 {% block body %}
     <div class="text-center" style="margin-top: -2em">
-    <h3><span class="cale">welcome to CALE</span></h3>
+    <h3><span class="cale">API Mashup creator for your WiFi displays</span></h3>
     <h4>
         <span class="cale">CALE</span> is a screen administrator where you can mix content of different APIs
             and control the content output.
     </h4>
 
         {% if app.environment != 'dev' %}
+            {% set img_cloudwatch = cdn_s3~'/img/index_cloudwatch.png' %}
+            {% set bmp_cloudwatch = cdn_s3~'/img/index_cloudwatch.bmp' %}
+
         <video width="100%" controls autoplay>
-            <source src="https://cale.s3.eu-central-1.amazonaws.com/v/c-converts-your-screens.mov">
+            <source src="{{ cdn_s3 }}/v/c-converts-your-screens.mov">
         </video>
+            {% else %}
+                {% set img_cloudwatch = '/img/www/carousel/index_cloudwatch.png' %}
+                {% set bmp_cloudwatch = '/img/www/carousel/index_cloudwatch.bmp' %}
         {% endif %}
 
     </div>
-    <h5>You can use it on any screen like your tablet, mobile, or ultimately in a
+    <h5>You can use it on any <b>WiFi display</b> like your tablet, mobile, or ultimately in a
         WiFi E-Paper screen that is every hour fetching new content at a minimum consumption.
     </h5>
     <div class="row">
-        <div class="col-md-2"></div>
-    <div class="col-md-4 col-sm-6 col-xs-12 text-center">
-        <button type="button" class="btn btn-primary form-control" onclick="window.location='{{ path('login') }}'">
-            Login</button>
+            <div class="col-md-2"></div>
+        <div class="col-md-4 col-sm-6 col-xs-12 text-center">
+            <button type="button" class="btn btn-primary form-control" onclick="window.location='{{ path('login') }}'">
+                Login</button>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12 text-center">
+        <button type="button" class="btn btn-success form-control" onclick="window.location='{{ path('register') }}'">
+            Create an account</button>
+        </div>
+            <div class="col-md-2"></div>
     </div>
-    <div class="col-md-4 col-sm-6 col-xs-12 text-center">
-    <button type="button" class="btn btn-success form-control" onclick="window.location='{{ path('register') }}'">
-        Create an account</button>
+
+    <br><br>
+    <div class="row">
+    <div class="col-md-12">
+        <h4>API integration example with Cloudwatch monitoring</h4>
+
+        <h3>Output for a <a href="{{ path('displays-tft') }}">TFT WiFi display</a></h3>
+        <img src="{{ img_cloudwatch }}"><br>
+
+        <h3>Same output for a <a href="{{ path('displays-eink') }}">E-Ink WiFi display</a></h3>
+        <img src="{{ bmp_cloudwatch }}"><br>
     </div>
-        <div class="col-md-2"></div>
     </div>
+
 
 {% endblock %}
 
