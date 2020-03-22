@@ -34,13 +34,8 @@ class BackendController extends AbstractController
             if ($form->getClickedButton()) {
                 switch ($form->getClickedButton()->getName()) {
                     case 'declineAction':
-                        $entityManager->remove($user);
-                        $entityManager->flush();
-
-                        $session = new Session();
-                        $session->invalidate();
-                        $this->addFlash('success', "Your account was deleted from our system");
-                        return $this->redirectToRoute('logout');
+                        $this->addFlash('success', "Please confirm you want to terminate your account");
+                        return $this->redirectToRoute('b_user_terminate');
                         break;
 
                     case 'confirmAction':
