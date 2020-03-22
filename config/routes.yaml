@@ -22,9 +22,15 @@ about-cale:
   defaults:
     _locale: en
 
-displays:
+displays-eink:
   path:       /eink-displays/{_locale}
-  controller: App\Controller\HomeController::displays
+  controller: App\Controller\HomeController::einkDisplays
+  defaults:
+    _locale: en
+
+displays-tft:
+  path:       /tft-displays/{_locale}
+  controller: App\Controller\HomeController::tftDisplays
   defaults:
     _locale: en
 

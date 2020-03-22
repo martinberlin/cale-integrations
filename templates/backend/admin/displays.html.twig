@@ -2,6 +2,9 @@
 
 {% block body %}
 
+  <a href="{{ path('b_admin_display_edit', {'id':null}) }}"
+     class="btn btn-default">
+    <span class="glyphicon glyphicon-plus"></span> Add new display</a>
   <table style="border-spacing:4px;width: 100%">
     <thead>
     </tr>
@@ -17,8 +20,15 @@
     </thead>
     <tbody>
     {% for d in displays %}
+      {% if d.type=='eink' %}
+         {% set image = d.className %}
+      {% else %}
+        {% set image = d.id %}
+      {% endif %}
       <tr style="border:1px #1b6d85 dashed">
-        <td><img height="150" src="/assets/display/{{ d.className }}.jpg"></td>
+        <td>
+          <img height="120" src="/assets/display/{{ image }}.jpg">
+        </td>
         <td>{{ d.type }}</td>
         <td>{{ d.name }}</small></td>
         <td>{{ d.brand }}</td>
@@ -31,5 +41,9 @@
     {% endfor %}
     </tbody>
   </table>
+
+  <a href="{{ path('b_admin_display_edit', {'id':null}) }}"
+     class="btn btn-default">
+    <span class="glyphicon glyphicon-plus"></span> Add new display</a>
 
 {% endblock %}

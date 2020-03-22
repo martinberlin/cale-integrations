@@ -32,15 +32,27 @@ class HomeController extends AbstractController
         );
     }
 
-    public function displays(Request $request, DisplayRepository $displayRepository, TranslatorInterface $translator)
+    public function einkDisplays(Request $request, DisplayRepository $displayRepository, TranslatorInterface $translator)
     {
-        $displays = $displayRepository->findBy([],['width' => 'DESC']);
+        $displays = $displayRepository->findBy(['type' => 'eink'],['width' => 'DESC']);
         return $this->render(
-            $request->getLocale().'/www-display.html.twig',
+            $request->getLocale().'/display/www-eink.html.twig',
         [
             'displays' => $displays,
             'title' => $translator->trans('nav_displays')
         ]
+        );
+    }
+
+    public function tftDisplays(Request $request, DisplayRepository $displayRepository, TranslatorInterface $translator)
+    {
+        $displays = $displayRepository->findBy(['type' => 'tft'],['width' => 'DESC']);
+        return $this->render(
+            $request->getLocale().'/display/www-tft.html.twig',
+            [
+                'displays' => $displays,
+                'title' => $translator->trans('nav_displays')
+            ]
         );
     }
 

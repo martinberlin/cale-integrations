@@ -1,0 +1,54 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+{% set h = 100 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <h3>E-ink displays soportados</h3>
+
+    <table style="border-spacing:4px;width: 99%">
+        <thead>
+        </tr>
+        <th>Clase Bodmer</th>
+        <th>Nombre</th>
+        <th>Resolución</th>
+        <th>Enlaces</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for d in displays %}
+            <tr style="border:1px #1b6d85 dashed">
+                <td>&nbsp;<b>{{ d.className }}</b><br>
+                <img height="{{ h }}" src="/assets/display/{{ d.id }}.jpg"><br>
+                    &nbsp;<small>{{ d.brand }}</small>
+                </td>
+                <td>{{ d.name }}</td>
+                <td>{{ d.width }}x{{ d.height }}</td>
+                <td><a href="{{ d.manualUrl }}" target="_blank">web</a>&nbsp;
+                    <br><br>
+                    <button class="btn btn-primary" onclick="window.location='{{ d.purchaseUrl }}'">Comprar</button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="./js/engine/common.js"></script>
+{% endblock %}
