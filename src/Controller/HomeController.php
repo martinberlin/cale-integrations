@@ -51,7 +51,7 @@ class HomeController extends AbstractController
             $request->getLocale().'/display/www-tft.html.twig',
             [
                 'displays' => $displays,
-                'title' => $translator->trans('nav_displays')
+                'title' => $translator->trans('title_displays_tft')
             ]
         );
     }

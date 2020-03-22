@@ -5,6 +5,8 @@ Password: Contraseña
 submit_login: Login
 forgot_password: Olvide mi contraseña
 register_here: Crear una cuenta
+
+meta_description: CALE es un administrador de pantallas donde puedes mezclar contenidos de distintas APIs en un Screen. Ofrecemos un Firmware gratuito y open source para ESP32 con soporte para Eink displays
 # NAV
 nav_about: Sobre nosotros
 nav_displays: E-Ink displays
@@ -24,6 +26,7 @@ title_ical: Importando calendarios iCal
 title_firmware: Firmware para boards Espressif
 title_firmware_t5: Firmware para los ESP32 T5
 title_cloudwatch: Monitoreo de servidores Cloudwatch
+title_displays_tft: Displays TFT
 # Admin dashboard
 no_screen_logs_yet: Crea un Screen para ver el log con los requests de imágen aquí
 logs_purged: logs borrados. Gracias!

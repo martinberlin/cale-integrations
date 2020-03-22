@@ -5,6 +5,8 @@ Password: Password
 submit_login: Login
 forgot_password: I forgot my password
 register_here: Create an account
+
+meta_description: CALE is a screen administrator where you can mix content of different APIs and read the image from WiFi displays or any external device. There is a Firmware open source for Espressif boards and EInk displays
 # NAV
 nav_about: About us
 nav_displays: E-Ink displays supported
@@ -24,6 +26,7 @@ title_ical: Importing iCal calendars
 title_firmware: Espressif Firmware
 title_firmware_t5: Firmware for T5 ESP32 boards
 title_cloudwatch: Cloudwatch monitoring
+title_displays_tft: TFT displays
 # Admin dashboard
 no_screen_logs_yet: Create some Screens to see a log of your devices requests here
 logs_purged: log rows deleted. Thanks!
