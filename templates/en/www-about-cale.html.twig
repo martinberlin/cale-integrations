@@ -77,8 +77,8 @@
     <ol>
         <li><span class="cale">CALE API</span> will provide an endpoint where you can query the right time for Timezone (Ex. now is 9 AM)</li><br>
         <li>The firmware will only fetch the image and send it to the display if the hour checked in Point 1 is between the
-        "update display" hour range. For example if the update range is from 10 to 22 Hrs. it will wake up at 9, and go to sleep one hour more
-        without doing anything. </li>
+        "update display" hour range. For example if the update range is from 10 to 22 Hrs then the display will wake up at 9, check the time from the API and go to sleep one hour more
+        without doing anything. In next wake up at 10 it will effectively see it's on the range and refresh the display.</li>
     </ol>
     Connecting for 2 seconds to make this very short API call is a very short consumption peak that the 10 seconds that takes to download a medium
     sized bitmap and to send it via SPI to the display. As a second point, EInk displays have a factory lifespan of 1 million prints, so we would like that the Screen is only refreshed
