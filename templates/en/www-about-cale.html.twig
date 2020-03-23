@@ -20,20 +20,23 @@
 {% endblock carousel %}
 
 {% block body %}
-    <h3>What is CALE?</h3>
+    <h3>What is <span class="cale">CALE</span>?</h3>
 
     <p><b>CALE is a screen administrator where you can mix content of different APIs and control the content
             output</b><br>
 
+        {% if app.environment != 'dev' %}
         <video width="100%" controls>
             <source src="{{ cdn_s3 }}/v/cale-1.mov">
         </video>
+        {% endif %}
 
-        This output can be exported as a bitmap image and can be used to refresh dynamically external displays such as
-        Epaper or Eink displays that are connected to WiFi.
-        But you can use it also to display this API mixins in your monitor, tablet or any device. CALE will support up
-        to 3 different screen compositions.
-        Check our Firmware for ESP32 and <a href="{{ path('displays-eink') }}">the supported E-ink displays</a> in order to build
+        This output can be exported as a bitmap image and can be used to refresh dynamically <b>WiFi online displays</b> such as
+        Epaper or Eink displays that are online using ESP32 or ESP8266 to run their Firmware.
+        But you can use it also to display this API mixins in your monitor, tablet or any device. CALE is free for personal use and supports up
+        to 3 different Screens. If you need to use it for business use supporting more Screens please get in touch with us on the
+        support section after <a href="{{ path('register') }}">registering an account</a>.
+        Check our <a href="{{ path('firmware') }}">Firmware for ESP32/ESP8266</a> and <a href="{{ path('displays-eink') }}">the supported E-ink displays</a> in order to build
         one of this displays yourself. Additionally we recently added support for <a href="{{ path('displays-tft') }}">TFT Displays</a> (Firmware coming at the beginning of April 2020)
     </p>
     <h3>Electronic Ink</h3>
@@ -58,6 +61,28 @@
             float to the top of the display, creating a crisp image that can be seen withouth any backlight.
         </div>
     </div>
+
+    <h3>And how this is supposed to work automatically</h3>
+
+    <p>Right now what the Firmware does is very simple:</p>
+    <ul>
+        <li>Wakes up, connects to your WiFi, and reads an image from <span class="cale">CALE</span></li>
+        <li>This image URL and authorization token you can get when you log in and compose your Screens</li>
+        <li>The firmware sends the image to the Eink display and goes to sleep a predefined time (Ex. one hour) &gt; Repeats the loop waking up again</li>
+    </ul>
+
+    <b>Optionally to save more energy, since the consumption peak is getting online, we are building mechanisms to compare the hour and run
+    it only on the desired time. This is prototyped and just needs to be documented, but essentially boils down to 2 points:</b><br><br>
+
+    <ol>
+        <li><span class="cale">CALE API</span> will provide an endpoint where you can query the right time for Timezone (Ex. now is 9 AM)</li><br>
+        <li>The firmware will only fetch the image and send it to the display if the hour checked in Point 1 is between the
+        "update display" hour range. For example if the update range is from 10 to 22 Hrs. it will wake up at 9, and go to sleep one hour more
+        without doing anything. </li>
+    </ol>
+    Connecting for 2 seconds to make this very short API call is a very short consumption peak that the 10 seconds that takes to download a medium
+    sized bitmap and to send it via SPI to the display. As a second point, EInk displays have a factory lifespan of 1 million prints, so we would like that the Screen is only refreshed
+    optimally both saving precious battery lifespan and the life of your display.
 {% endblock %}
 
 {% block javascripts %}

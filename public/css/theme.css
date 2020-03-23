@@ -3,8 +3,9 @@
 /* GLOBAL STYLES
 -------------------------------------------------- */
 body {
-  color: #5a5a5a;
-  font-family: "Helvetica Neue",Arial,sans-serif;
+    color: #222222;
+    font-family: "Helvetica Neue",Arial,sans-serif;
+    font-size: 1.6em;
 }
 
 #main-container {padding-top: 20px;}
