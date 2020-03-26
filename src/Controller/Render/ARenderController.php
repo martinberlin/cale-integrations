@@ -321,11 +321,11 @@ class ARenderController extends AbstractController
         $responseContent = '<div class="row"'.$colorStyle.'><div class="col-md-12 col-sm-12 col-xs-12">';
         $responseContent .= "<div class=\"row\">
             <div class=\"$colMd6 col-xs-6 \"><$hs>Low&nbsp; {$d['daily-avg-low']}<br>High {$d['daily-avg-high']}</$hs></div>
-            <div class=\"$colMd6 col-xs-6 text-right\"><$hs>$iconSunrise {$d['sunrise']}<br>Sunset&nbsp; {$d['sunset']}</$hs></div></div>";
+            <div class=\"$colMd6 col-xs-6 text-right\"><$hs>$iconSunrise {$d['sunrise']}<br>&nbsp;Sunset {$d['sunset']}</$hs></div></div>";
 
-        // Useless craps: style="margin-top:0.55em"
+        $responseContent .= "<div style=\"margin-top:0.5em;margin-bottom:0.5em\" class=\"row\" $colorStyle>
+            <div class=\"col-md-12 col-xs-12\"><h4>".$json->daily->summary."</h4></div></div>";
 
-        $iconCelsius = str_replace("{icon}", 'celsius', $wIcon);
         $icon3 = str_replace("{icon}", 'humidity', $wIcon);
         foreach ($json->hourly->data as $h) {
             $icon1= str_replace("{icon}", $h->icon, $wIcon);
