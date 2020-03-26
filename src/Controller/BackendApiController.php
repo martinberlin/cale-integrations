@@ -17,9 +17,11 @@ use App\Repository\IntegrationApiRepository;
 use App\Repository\UserApiRepository;
 use Aws\CloudWatch\CloudWatchClient;
 use Aws\Exception\AwsException;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -398,10 +400,10 @@ class BackendApiController extends AbstractController
 
     /**
      * Wizard to configure HTML internal API
-     * @Route("/html/{uuid}/{intapi_uuid?}/{step?1}", name="b_api_wizard_cale-html")
+     * @Route("/html/{uuid}/{intapi_uuid?}/{imageUploaded?0}", name="b_api_wizard_cale-html")
      */
     public function apiInternalHtml(
-        $uuid, $intapi_uuid, $step, Request $request,
+        $uuid, $intapi_uuid, $imageUploaded, Request $request,
         UserApiRepository $userApiRepository,
         IntegrationApiRepository $intApiRepository,
         EntityManagerInterface $entityManager)
@@ -417,10 +419,10 @@ class BackendApiController extends AbstractController
         ]);
         $form->handleRequest($request);
         $error = "";
+        $imageUploaded = false;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('imageFile')->getData();
-
             // This condition is needed because the 'imageFile' field is not required
             if ($imageFile) {
                 $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
@@ -431,7 +433,9 @@ class BackendApiController extends AbstractController
                 // Move the file to the directory where brochures are stored
                 $imagePublicPath = $this->getParameter('screen_images_directory') . '/' . $this->getUser()->getId();
                 $imageUploadPath = '../public'.$imagePublicPath;
+
                 try {
+                    $imageUploaded = true;
                     $imageFile->move(
                         $imageUploadPath,
                         $newFilename
@@ -439,27 +443,39 @@ class BackendApiController extends AbstractController
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                     $error = $e->getMessage();
+                    $imageUploaded = false;
                 }
 
                 $api->setImagePath($imagePublicPath.'/'.$newFilename);
+
             }
             $userApi->setIsConfigured(true);
             $api->setUserApi($userApi);
             try {
                 $entityManager->persist($api);
                 $entityManager->flush();
-            } catch (\Exception $e) {
+            }
+            catch (UniqueConstraintViolationException $e) {
+                $error = '"'.$api->getName().'" exists already. Please use another name for this HTML element (Name your API)';
+                $this->addFlash('error', $error);
+            }
+            catch (\Exception $e) {
                 $error = $e->getMessage();
                 $this->addFlash('error', $error);
             }
 
             if ($error === '') {
                 $this->addFlash('success', "Saved");
-
                 return $this->redirectToRoute('b_api_wizard_cale-html',
-                    ['uuid' => $userApi->getId(), 'intapi_uuid' => $api->getId(), 'step' => 1]);
+                    [
+                        'uuid' => $userApi->getId(),
+                        'intapi_uuid' => $api->getId(),
+                        'image_uploaded' => $imageUploaded
+                    ]);
             }
         }
+
+        $imagePath = ($imageUploaded) ? $api->getImagePath().'?'.time() : $api->getImagePath();
 
         return $this->render(
             'backend/api/conf-html-content.html.twig',
@@ -470,8 +486,9 @@ class BackendApiController extends AbstractController
                 'userapi_id' => $userApi->getId(),
                 'date_format' => $this->getUser()->getDateFormat(),
                 'hour_format' => $this->getUser()->getHourFormat(),
-                'image_path' => $api->getImagePath(),
-                'html_max_chars' => $htmlMaxChars
+                'image_path' => $imagePath,
+                'html_max_chars' => $htmlMaxChars,
+                'image_uploaded' => $imageUploaded
             ]
         );
     }

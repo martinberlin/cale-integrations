@@ -75,7 +75,7 @@ class BackendScreenController extends AbstractController
                 $this->addFlash('error', $error);
             }
             if ($error==='') {
-                $this->addFlash('success', "Screen $uuid ".$translator->trans('saved'));
+                $this->addFlash('success', "Screen $uuid: ".$screen->getName()." ".$translator->trans('saved'));
                 return $this->redirectToRoute('b_screens');
             }
         }
@@ -228,9 +228,10 @@ class BackendScreenController extends AbstractController
             'uuid'     => $uuid
         ];
         $htmlUrl = $this->generateUrl('public_screen_render', $screenParams, UrlGeneratorInterface::ABSOLUTE_URL);
-
-        $imageType = ($screen->getDisplay()->getType()==='eink') ?'bmp':'jpg';
-        $imageUrl = ($screen->getDisplay() instanceof Display) ?
+        // Display can be optionally left unassigned
+        $isDisplayAssigned = $screen->getDisplay() instanceof Display;
+        $imageType = ($isDisplayAssigned && $screen->getDisplay()->getType()==='eink') ?'bmp':'jpg';
+        $imageUrl = ($isDisplayAssigned) ?
             $this->imageUrlGenerator($screen->isOutSsl(), $imageType, $this->getUser()->getName(), $screen->getId()): '';
 
         $renderParams = [

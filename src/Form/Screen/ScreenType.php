@@ -3,6 +3,7 @@ namespace App\Form\Screen;
 
 use App\Entity\Display;
 use App\Entity\Screen;
+use App\Repository\DisplayRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -62,7 +63,10 @@ class ScreenType extends AbstractType
                     'label_attr' => ['style' => 'margin-top:1em'],
                     'attr' => [
                         'class' => 'form-control'
-                    ]
+                    ],
+                    'query_builder' => function(DisplayRepository $repo) {
+                        return $repo->orderByTypeAndSize();
+                    }
                 ])
 
             ->add('public', ChoiceType::class, [
