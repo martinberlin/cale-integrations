@@ -38,8 +38,9 @@
         <div class="col-md-4 col-sm-4 col-xs-12">PLACEHOLDERS:<br>
             Using {date} will be replaced by the actual date. The date and time format can be customized in your
             <a href="{{ path('b_user_profile') }}">user Profile</a><br>
-            Using {time} will be replaced by the time. Example: {date} &lt;b&gt;{time}&lt;/b&gt; will render:<br>
-            {{ "now"|date(date_format) }} <b>{{ "now"|date(hour_format) }}</b>
+            Using {time} will be replaced by the time. <br><b>Example:</b><br>
+            {date} {time} will render:<br>
+            {{ "now"|date(date_format) }} {{ "now"|date(hour_format) }}
 
             <div style="margin-top: 2em;height:5em" id="note">
             </div>
