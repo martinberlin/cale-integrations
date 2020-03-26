@@ -22,15 +22,29 @@
 {% block body %}
     <h3>What is <span class="cale">CALE</span>?</h3>
 
-    <p><b>CALE is a screen administrator where you can mix content of different APIs and control the content
+    <p><b><span class="cale">CALE</span> is a screen administrator where you can mix content of different APIs and control the content
             output</b><br>
-
+    <h3>Practical uses</h3>
+        <ul>
+            <li>Meeting room sign that updates every hour showing next meetings and attendees</li>
+            <li>Living picture, showing events or <a href="{{ path('www_api-cloudwatch') }}">Cloudwatch statistics</a></li>
+            <li>Help screens at the side of your laptop, refreshing dynamic information every 10 minutes</li>
+            <li>Any other application you may find interesting to see in real-time outside the monitor</li>
+        </ul>
+<b>We can integrate any external API in a question of hours. This is open-source and free for personal use up to 3 Screens.</b>
         {% if app.environment != 'dev' %}
         <video width="100%" controls>
             <source src="{{ cdn_s3 }}/v/cale-1.mov">
         </video>
         {% endif %}
 
+
+        <h3>What it does in two simple steps:</h3>
+
+    <ol>
+    <li><span class="cale">CALE</span> receives a request from your Screen</li>
+    <li>Returns a response with an image or HTML if you want to use it anywhere in the web</li>
+    </ol>
         This output can be exported as a bitmap image and can be used to refresh dynamically <b>WiFi online displays</b> such as
         Epaper or Eink displays that are online using ESP32 or ESP8266 to run their Firmware.
         But you can use it also to display this API mixins in your monitor, tablet or any device. CALE is free for personal use and supports up
@@ -43,7 +57,7 @@
     <p>Primary target displays are the so called Eink or Epaper.
         The technical term is electrophoretic ink, that when laminated to a plastic film and then adhered to
         electronics, it creates an Electronic Paper Display (EPD).
-        They ones that expose an SPI interface for makers come in up to 2 EInk colors, 3 colors counting the white
+        The ones that expose an SPI interface for makers come in up to 2 EInk colors, 3 colors counting the white
         background, but in the first version of this Screen administrator tool we are targeting only the ones with Black
         ink (2 colors).
     </p>
