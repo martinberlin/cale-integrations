@@ -16,7 +16,7 @@
             {% set img_cloudwatch = cdn_s3~'/img/index_cloudwatch.png' %}
             {% set bmp_cloudwatch = cdn_s3~'/img/index_cloudwatch.bmp' %}
 
-        <video width="100%" controls autoplay>
+        <video id="index" title="Video: Convert your Screen into an Eink" width="100%" controls autoplay>
             <source src="{{ cdn_s3 }}/v/c-converts-your-screens.mov">
         </video>
             {% else %}
@@ -59,4 +59,12 @@
 
 {% block javascripts %}
     <script type="text/javascript" src="/js/engine/common.js"></script>
+    <script type="text/javascript" src="/js/tracking/analytics-html5-video.js"></script>
+    <script>
+        var videoId = document.getElementById('index')
+        if (videoId) {
+            document.addEventListener('DOMContentLoaded', init, false)
+            var videoTitle = videoId.getAttribute('title')
+        }
+    </script>
 {% endblock %}

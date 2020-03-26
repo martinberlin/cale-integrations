@@ -33,11 +33,10 @@
         </ul>
 <b>We can integrate any external API in a question of hours. This is open-source and free for personal use up to 3 Screens.</b>
         {% if app.environment != 'dev' %}
-        <video width="100%" controls>
+        <video id="index" title="Video: About" width="100%" controls>
             <source src="{{ cdn_s3 }}/v/cale-1.mov">
         </video>
         {% endif %}
-
 
         <h3>What it does in two simple steps:</h3>
 
@@ -101,4 +100,12 @@
 
 {% block javascripts %}
     <script type="text/javascript" src="./js/engine/common.js"></script>
+    <script type="text/javascript" src="/js/tracking/analytics-html5-video.js"></script>
+    <script>
+        var videoId = document.getElementById('index')
+        if (videoId) {
+            document.addEventListener('DOMContentLoaded', init, false)
+            var videoTitle = videoId.getAttribute('title')
+        }
+    </script>
 {% endblock %}
