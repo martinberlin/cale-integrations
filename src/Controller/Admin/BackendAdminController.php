@@ -101,7 +101,7 @@ class BackendAdminController extends AbstractController
      */
     public function newsletter(Request $request, \Swift_Mailer $mailer, UserRepository $userRepository)
     {
-        $maxChars = 1500;
+        $maxChars = 2500;
         $emailFrom = $this->getParameter('cale_official_email');
         $emailUser = $this->getUser()->getEmail();
         $form = $this->createForm(NewsletterType::class, null,
