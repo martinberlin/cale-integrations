@@ -6,6 +6,14 @@
 
 {% block body %}
     <div class="col-md-12" style="margin-top: -2em">
+        <div class="panel panel-default" style="margin-top: 1em">
+            <div class="panel-heading">Quick access:</div>
+            <div class="panel-body">
+                <ul>
+                    <li><a href="#blue">Configuring WiFi over Bluetooth</a></li>
+                </ul>
+            </div></div>
+
         <h2>
             <span class="glyphicon glyphicon-play-circle"></span>
             Get started
@@ -39,15 +47,20 @@
 
         <a id="blue"></a><br>
         <h3>
-            <span class="glyphicon glyphicon-blackboard"></span>
-            How to configure this in the future
+            Configuring WiFi over Bluetooth
         </h3>
         <p>When we have ready made CALE fully build E-Inks the idea is to make your
         life easier configuring this. You will get a model with an easy one page instruction
         manual that explains you how to set this up yourself. The idea is to make it
             configurable using an Android Application</p>
-        <img src="/assets/svg/cale-bluetooth-conf.svg"><br><br><br>
-    <p>Coming soon to the Android store, please wait some weeks until is ready to be published.</p>
+        <img src="/assets/svg/cale-bluetooth-conf.svg"><br>
+
+        <h3>There is a branch ready to be tested in <span class="cale">CALE</span> Repository</h3>
+        <h4><a href="https://github.com/martinberlin/eink-calendar/tree/cale_ble">https://github.com/martinberlin/eink-calendar/tree/cale_ble</a> - cale_ble branch</h4>
+        <br><br>
+    <p>The Android application is already sent to the Play store for approval so it will be ready after April 10.
+    Please use our <a href="https://play.google.com/store/apps/details?id=io.cordova.udpx&hl=en" target="_blank">application UDPX</a>
+        to send the Bluetooth configuration to the device.</p>
     </div>
 
 {% endblock %}
