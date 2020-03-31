@@ -338,8 +338,8 @@ class ARenderController extends AbstractController
                 $wHourly .= '<div class="'.$colMd4.' text-right"><'.$hs.'>'.($h->humidity*100).' '.$icon3.'</'.$hs.'></div>'; // .$icon3.$h->windSpeed
             } else {
                 $wHourly .= '<div class="'.$colMd4.'"><'.$hs.'>'.$this->convertDateTime($h->time,$hourFormat).' '.$icon1.' </'.$hs.'></div>';
-                $wHourly .= '<div class="'.$colMd4.' text-center" style="margin-left:2.4em"><'.$hs.'>'.$temp.$celsius.'</'.$hs.'></div>';
-                $wHourly .= '<div class="'.$colMd4.' text-right" style="margin-left:2.4em"><'.$hs.'>'.($h->humidity*100).' '.$icon3.'</'.$hs.'></div>';
+                $wHourly .= '<div class="'.$colMd4.' text-center" style="margin-left:1.4em"><'.$hs.'>'.$temp.$celsius.'</'.$hs.'></div>';
+                $wHourly .= '<div class="'.$colMd4.' text-right" style="margin-left:1.4em"><'.$hs.'>'.($h->humidity*100).' '.$icon3.'</'.$hs.'></div>';
             }
                 $wHourly .= '</div>';
             $hourlyCounter++;
