@@ -1,0 +1,17 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+{% block body %}
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+
+    <div class="row">
+        <div class="col-md-8 col-sm-12 col-xs-12">
+            {{ form_row(form.type) }}
+
+            {{ form_row(form.wifiSsid) }}
+
+            {{ form_row(form.wifiPass) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

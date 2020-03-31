@@ -1,0 +1,48 @@
+{% extends 'backend/backend-base.html.twig' %}
+{% if wifis|length >= 3 %}
+    {% set add_button_state = 'disabled' %}
+{% else %}
+    {% set add_button_state = '' %}
+{% endif %}
+
+{% block body %}
+    <p><b>{{'wifi_configure1'|trans}}</b><br>
+        {{'wifi_configure2'|trans}}</p>
+    <div class="text-right" style="margin-bottom: 0.4em">
+        <button type="button" {{ add_button_state }} class="btn btn-primary" onclick="window.location='{{ path('b_wifi_edit') }}'">
+            {{'Add new'|trans}} WiFi</button>
+    </div>
+
+
+ {% if wifis|length %}
+<table class="common-lists-table">
+    <thead>
+    <tr>
+        <th>Type</th>
+        <th>SSID / Name</th>
+        <th>{{'Created'|trans}}</th>
+        <th>Admin</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for w in wifis %}
+        <tr>
+            <td><b>{{ w.type }}</b></td>
+            <td>{{ w.wifiSsid }}</td>
+            <td>{{ w.created|date("d.m.Y") }}</td>
+            <td>
+                <a class="btn btn-default" href="{{ path('b_wifi_edit', {'uuid':w.id}) }}">
+                    <span class="glyphicon glyphicon-edit"></span> {{'Edit'|trans}}</a> &nbsp;
+                <a class="btn btn-default" href="{{ path('b_wifi_delete', {'uuid':w.id}) }}">
+                    <span class="glyphicon glyphicon-remove"></span> {{'Delete'|trans}}</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+ {% else %}
+     You still don't have any WiFi configured. <a href="{{ path('b_wifi_edit') }}">{{'Add new'|trans}} WiFi</a>
+{% endif %}
+{% endblock %}

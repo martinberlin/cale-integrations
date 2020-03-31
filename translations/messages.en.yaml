@@ -260,3 +260,6 @@ sa-east-1 Sao Paulo: sa-east-1 San Paulo
 Save Credentials: Guardar Credenciales
 Name your Cloudwatch metric: Nombre del widget
 Image JSON definition: JSON de la imagen
+#Wifi
+wifi_configure1: Here you may configure your WiFi access points and tag them like "home", "office", "mobile hotspot" etc.
+wifi_configure2: In the Screen config you can select this WiFis and get a JSON or Config.h file to setup your displays whenever you are. You can set up to two WiFi access point per device, the Firmware will measure which has the strongest signal and connect to that one.

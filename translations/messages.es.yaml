@@ -260,3 +260,6 @@ sa-east-1 Sao Paulo: sa-east-1 Sao Paulo
 Save Credentials: Save Credentials
 Name your Cloudwatch metric: Name your Cloudwatch metric
 Image JSON definition: Image JSON definition
+#Wifi
+wifi_configure1: Aquí puede configurar sus puntos de acceso WiFi y asignarles un nombre como "home", "office", "hotspot móvil" etc.
+wifi_configure2: Luego en la sección Screen config puede seleccionar estos WiFis y obtener un JSON o la configuración esencial Config.h para configurar el Firmware de sus displays donde quiera que se encuentre.

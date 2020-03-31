@@ -31,6 +31,12 @@ class User implements UserInterface, Language, Created
     private $userApis;
 
     /**
+     * One user has many wifi configurations. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="UserWifi", mappedBy="user", orphanRemoval=true)
+     */
+    private $userWifis;
+
+    /**
      * One user has many screens. This is the inverse side.
      * @ORM\OneToMany(targetEntity="Screen", mappedBy="user", orphanRemoval=true)
      */
@@ -156,6 +162,7 @@ class User implements UserInterface, Language, Created
         $this->maxScreens = 3;
         $this->agreementAccepted = false;
         $this->userApis = new ArrayCollection();
+        $this->userWifis = new ArrayCollection();
         $this->screens = new ArrayCollection();
         $this->sysLogs = new ArrayCollection();
         $this->sysScreenLogs = new ArrayCollection();
@@ -381,6 +388,13 @@ class User implements UserInterface, Language, Created
      */
     public function getUserApis() {
         return $this->userApis;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getUserWifis() {
+        return $this->userWifis;
     }
 
     /**
