@@ -162,6 +162,6 @@ class UserWifi implements Created
 
     public function __toString()
     {
-        return (string) "WiFi: ".$this->wifiSsid." (".$this->type.')';
+        return (string) $this->wifiSsid.'__'.$this->type;
     }
 }

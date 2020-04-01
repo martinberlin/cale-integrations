@@ -11,5 +11,12 @@ class UserWifiRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, UserWifi::class);
     }
-
+    public function wifisForUser($user)
+    {
+        return $this->createQueryBuilder('w')
+            ->where('w.user = :user')
+            ->orderBy('w.type', 'ASC')
+            ->setParameter('user', $user)
+            ;
+    }
 }

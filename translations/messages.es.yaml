@@ -154,7 +154,9 @@ screen_partials_edit_line3: 'Tenga en cuenta que si el display para mostrar esta
 screen_help_5: Haz click aqui para agregar contenidos de tus APIs. No olvides marcar la columna donde quieres que salga el contenido
 screen_help_6: Cuando termines de agregar las secciones de contenido, haz click en Guardar y luego en Renderizar Screen
 screen_partials_title: Secciones del Screen
-screen_token_firmware: Para conectar este Screen con tu E-Ink copia estas 2 lineas en el fichero Config.h del
+screen_token_firmware_step1: Para conectar este Screen con tu Display seleccionando 1. WiFi AP 2. Metódo
+screen_token_firmware_blue: Copia este texto JSON text y pegalo en la aplicación Android luego de conectarte por Bluetooth
+screen_token_firmware_c: Copia estas lineas de C en el fichero Config.h del
 screen_token_request: Si este Screen esta protegido con un token de acceso hay que enviarlo en los headers asi
 screen_token_access_title: Acceso fuera del Firmware
 

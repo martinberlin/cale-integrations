@@ -61,7 +61,10 @@ class BackendScreenController extends AbstractController
             $title = $translator->trans('Edit').' screen "'.$screen->getName().'"';
         }
 
-        $form = $this->createForm(ScreenType::class, $screen, ['templates' => $this->getParameter('screen_templates')]);
+        $form = $this->createForm(ScreenType::class, $screen, [
+            'templates' => $this->getParameter('screen_templates'),
+            'user' => $this->getUser()
+        ]);
         $form->handleRequest($request);
         $error = '';
 

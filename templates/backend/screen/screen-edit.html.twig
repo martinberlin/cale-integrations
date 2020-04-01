@@ -1,9 +1,11 @@
 {% extends 'backend/backend-base.html.twig' %}
+{% form_theme form.userWifi 'backend/themes/checkbox-custom.html.twig' %}
 
 {% block body %}
     <p>
-        {{ 'screen_edit_line1'|trans }}<br>
-        {{ 'screen_edit_line2'|trans }}</p>
+        {{ 'screen_edit_line1'|trans }}.
+        {{ 'screen_edit_line2'|trans }}
+    </p>
     {{ form_start(form) }}
     {{ form_errors(form) }}
 
@@ -18,43 +20,75 @@
             <div class="panel panel-default" style="margin-top: 1em">
                 <div class="panel-heading">Privacy settings</div>
                 <div class="panel-body">
-                {{ form_row(form.public) }}
+                    {{ form_row(form.public) }}
 
-                {{ form_row(form.outBearer) }}
+                    {{ form_row(form.outBearer) }}
+                </div>
+            </div>
 
+            <div class="panel panel-default">
+                <div class="panel-heading"><b>Firmware - {{ 'screen_token_firmware_step1'|trans }}</b></div>
+                <div class="panel-body">
 
-                    {{ 'screen_token_firmware'|trans }}
-                    <a href="{{ path('firmware', {'_locale': 'en'}) }}">CALE Firmware</a>:
+                    <ul class="nav nav-tabs" role="tablist" id="cale-tab">
+                        <li role="presentation" class="active">
+                            <a href="#bt" id="ble-tab" role="tab" data-toggle="tab" aria-controls="bt">Buetooth</a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#ct" id="c-tab" role="tab" data-toggle="tab" aria-controls="ct">C Config</a>
+                        </li>
+                    </ul>
 
-<pre class="small">{% if bmp_url !='' %}char screenUrl[] = "{{ bmp_url }}";
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="bt" aria-labelledby="bt-tab">
+                            {{ 'screen_token_firmware_blue'|trans }}
+
+                            Please note that this configuration needs the Bluetooth edition of the Firmware (branch: cale_ble)
+
+                            <textarea rows="4" onclick="this.setSelectionRange(0, this.value.length)" class="form-control">
+                                test
+                                </textarea>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="ct" aria-labelledby="ct-tab">
+                            {{ 'screen_token_firmware_c'|trans }}
+                            <a href="{{ path('firmware', {'_locale': 'en'}) }}" target="_blank">CALE Firmware</a>
+ <textarea rows="4" onclick="this.setSelectionRange(0, this.value.length)" class="form-control">{% if bmp_url !='' %}char screenUrl[] = "{{ bmp_url }}";
 {% else %}// Please select a display and save to generate the screenUrl line for your Config
-{% endif %}String bearer = "{{ form.vars.value.outBearer }}";
-</pre>
+    {% endif %}String bearer = "{{ form.vars.value.outBearer }}";
+</textarea>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="col-md-4 col-sm-12 col-xs-12 text-right" style="margin-top: -1.4em">
             {% if uuid is not null %}
-                <a href="{{ path('b_screen_partials', {'uuid':uuid}) }}">{% endif %}
+            <a href="{{ path('b_screen_partials', {'uuid':uuid}) }}">{% endif %}
 
-            <img id="template" src="">{% if uuid is not null %}</a>{% endif %}<br>
+                <img id="template" src="">{% if uuid is not null %}</a>{% endif %}<br>
 
             {% if uuid is not null %}
                 <a href="{{ path('b_screen_partials', {'uuid':uuid}) }}"
-                   style="margin-right: 3.4em;margin-top:-3em"
+                   style="margin-top:-3em"
                    class="btn btn-default form-control">
                     <span class="glyphicon glyphicon-paperclip"></span> {{ 'screen_edit_partials'|trans }}</a>
             {% endif %}
-
             <div class="panel panel-default" style="margin-top: 1em">
+                <div class="panel-heading">Select WiFi access points (max. 2)</div>
+                <div class="panel-body text-left" style="margin-top:-0.7em">
+                    {{ form_row(form.userWifi) }}
+                </div>
+            </div>
+            <a href="javascript:showAccess()" id="show_access_trigger">Show how to access outside the Firmware</a>
+            <div id="show_access" class="panel panel-default" style="margin-top:1em;visibility: hidden">
                 <div class="panel-heading">{{ 'screen_token_access_title'|trans }}</div>
-                <div class="panel-body text-left" >
-            <p style="margin-left: 0.4em">
-              {{ 'screen_token_request'|trans }}:</p>
-<pre class="small">
+                <div class="panel-body text-left">
+                    <p style="margin-left: 0.4em">
+                        {{ 'screen_token_request'|trans }}:</p>
+                    <pre class="small">
 Authorization: Bearer {{ form.vars.value.outBearer }}
-</pre>
+</pre>Firmware does this automatically
                 </div>
             </div>
 
@@ -66,7 +100,6 @@ Authorization: Bearer {{ form.vars.value.outBearer }}
         </div>
     </div>
     {{ form_end(form) }}
-    <br>
 {% endblock %}
 
 {% block javascripts %}
@@ -75,7 +108,7 @@ Authorization: Bearer {{ form.vars.value.outBearer }}
         let template_img = document.getElementById('template');
         let bearerInput = document.getElementById('outBearer');
 
-        bearerInput.onclick = function() {
+        bearerInput.onclick = function () {
             bearerInput.setSelectionRange(0, bearerInput.value.length);
         };
         setTemplateImage();
@@ -89,6 +122,21 @@ Authorization: Bearer {{ form.vars.value.outBearer }}
                 let img_src = template_twig.value.replace('html.twig', 'svg');
                 template_img.src = '/img/display-templates/' + img_src;
             }
+        }
+        function showAccess() {
+            document.getElementById('show_access_trigger').style.display = "none";
+            document.getElementById('show_access').style.visibility = "visible";
+        }
+        // on wifi_select
+        function jsonBlue(el) {
+            wifis = el.getElementsByTagName('input');
+            selectedWifis = [];
+            for (index = 0; index < wifis.length; ++index) {
+                if (wifis[index].checked) {
+                    selectedWifis.push(wifis[index]);
+                }
+            }
+            console.log(selectedWifis);
         }
     </script>
 {% endblock javascripts %}

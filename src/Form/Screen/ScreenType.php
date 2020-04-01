@@ -3,7 +3,9 @@ namespace App\Form\Screen;
 
 use App\Entity\Display;
 use App\Entity\Screen;
+use App\Entity\UserWifi;
 use App\Repository\DisplayRepository;
+use App\Repository\UserWifiRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -23,7 +25,7 @@ class ScreenType extends AbstractType
         $resolver->setDefaults(
             [
                 'templates' => false,
-
+                'user' => null,
                 'public' => [
                     "Screen URL is protected with an Authentication token" => 0,
                     "Screen URL is public for anyone knowing the link" => 1
@@ -53,7 +55,21 @@ class ScreenType extends AbstractType
                     'label_attr' => ['style' => 'margin-top:1em'],
                     'attr' => ['class' => 'form-control']
                 ])
-
+            ->add('userWifi', EntityType::class,
+                [
+                    'label' => false,
+                    'class' => UserWifi::class,
+                    'multiple' => true,
+                    'expanded' => true,
+                    'mapped' => false,
+                    'choice_value' => function (?UserWifi $entity) {
+                        return $entity ? $entity->getWifiPass() : '';
+                    },
+                    'query_builder' => function(UserWifiRepository $repo) use($options) {
+                        return $repo->wifisForUser($options['user']);
+                    },
+                    'attr' => ['class' => 'wifi_select','onclick' => 'jsonBlue(this)']
+                ])
             ->add('display', EntityType::class,
                 [
                     'label' => 'Output display',
