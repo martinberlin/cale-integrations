@@ -145,6 +145,14 @@ class HomeController extends AbstractController
         );
     }
 
+    public function firmwareBlue(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/www-firmware-blue.html.twig',
+            ['title' => $translator->trans('title_firmware_blue')]
+        );
+    }
+
     public function apiIcal(Request $request, TranslatorInterface $translator)
     {
         return $this->render(

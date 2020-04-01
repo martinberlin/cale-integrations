@@ -82,6 +82,12 @@ firmware-t5:
   defaults:
     _locale: en
 
+firmware-blue:
+  path:       /firmware-bluetooth/{_locale}
+  controller: App\Controller\HomeController::firmwareBlue
+  defaults:
+    _locale: en
+
 www_server-architecture:
   path:       /architecture/{_locale}
   controller: App\Controller\HomeController::architecture

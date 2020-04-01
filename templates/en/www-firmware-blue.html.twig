@@ -1,0 +1,87 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+        body {
+            background-color: #e0e0e0;
+            color:black;
+        }
+    </style>
+    {# Datatables include let's make this one line #}
+        <link href="/js/datatables/datatables.css" rel="stylesheet">
+        <script src="/js/jquery/jquery-2.1.0.min.js"></script>
+        <script type="text/javascript" src="/js/datatables/datatables.min.js"></script>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+
+    <h3>Configuring the Firmware using Bluetooth</h3>
+
+    <div class="row">
+        <div class="col-md-6">
+    <div class="panel panel-default" style="margin-top: 1em">
+                <div class="panel-heading">Quick access:</div>
+                <div class="panel-body">
+    <ul>
+        <li><a href="#a1">Quick start with Bluetooth</a></li>
+        <li><a href="#a2">Config reference</a></li>
+        <li><a href="#a3">Android application</a></li>
+        <li><a href="{{ path('firmware') }}">Back to main Firmware section</a></li>
+    </ul>
+
+    </div></div>
+            <a id="a1"></a><br>
+            <p style="margin-top:4em">
+                We are currently in the process of reshaping and making the Firmware configuration easier.
+                The goal is that the configuration using an Android app will be the default way to set up your display. But we will
+                always the possibility open to be also directly added as a C configuration that you can upload directly in the Firmware
+                in case you have a display that is always in the same place and does not need a dynamic configuration.
+            </p>
+            <br><br>
+            <b>Basically the Bluetooth configuration boils down to 3 steps</b>
+            <ul>
+                <li>1. <b>Logged in CALE Admin section "WiFi", add the access points where the display can get online</b></li>
+                <li>2. <b>On the Screen config, select what WiFis you are going to use, this will generate a JSON configuration string</b></li>
+                <li>3. <b>Select the ESP32 Bluetooth in the Android app and in next step copy the previous JSON in the textarea of the Android app. Click "Send config". DONE</b></li>
+            </ul>
+
+            Make sure that before point 3, the display is connected, and waiting for Bluetooth configuration.
+    </div>
+        <div class="col-md-6">
+            <img src="/assets/www/firmware/cale_app.jpg" style="border: 1px solid #333333" alt="CALE Android app" class="pull-right">
+        </div>
+    </div>
+
+
+    <a id="a2"></a>
+
+    <h4 style="margin-top:3em">Config reference</h4>
+    <p>It's important to note that as you have to send this from an Android app, it will be the best just to
+        login into CALE admin area on the mobile.
+        Then go to Screen and on the list click on <b>Config</b>.
+        The Blueooth tab is the default.
+        The only pre-requsite is to select the right WiFi access points, first two will be preselected. </p>
+    <img src="/assets/www/firmware/screen_config1.png" alt="CALE Bluetooth config">
+
+
+    In this tab just click on the textarea to select all the text, copy it in the clipboard. Start the Display, in the app
+    select the Bluetooth starting with CALE_* and paste the JSON text in the next step.
+    That's it. The display should restart, connect to WiFi, and render your Screen.
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="./js/engine/common.js"></script>
+{% endblock %}
