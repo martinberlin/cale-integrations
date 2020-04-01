@@ -45,17 +45,17 @@
             <a id="a1"></a><br>
             <p style="margin-top:4em">
                 We are currently in the process of reshaping and making the Firmware configuration easier.
-                The goal is that the configuration using an Android app will be the default way to set up your display. But we will
-                always the possibility open to be also directly added as a C configuration that you can upload directly in the Firmware
-                in case you have a display that is always in the same place and does not need a dynamic configuration.
+                The goal is to make the configuration using an Android app the default way to set up your display. But we will
+                always keep the possibility to have also a hardcoded C configuration since there are many use cases where user do
+                not have Android, or they just want to have a hardcoded configuration per se.
             </p>
             <br><br>
             <b>Basically the Bluetooth configuration boils down to 3 steps</b>
-            <ul>
-                <li>1. <b>Logged in CALE Admin section "WiFi", add the access points where the display can get online</b></li>
-                <li>2. <b>On the Screen config, select what WiFis you are going to use, this will generate a JSON configuration string</b></li>
-                <li>3. <b>Select the ESP32 Bluetooth in the Android app and in next step copy the previous JSON in the textarea of the Android app. Click "Send config". DONE</b></li>
-            </ul>
+            <ol>
+                <li><b>Logged in CALE Admin section "WiFi"</b>, add the access points where the display can get online</li>
+                <li><b>On the Screen config, select what WiFis you are going to use</b>, this will generate a JSON configuration string</li>
+                <li><b>Select the ESP32 Bluetooth in the Android app</b> and in next step copy the previous JSON in the textarea of the Android app. Click <b>"Send config". DONE</b></li>
+            </ol>
 
             Make sure that before point 3, the display is connected, and waiting for Bluetooth configuration.
     </div>
@@ -71,7 +71,7 @@
     <p>It's important to note that as you have to send this from an Android app, it will be the best just to
         login into CALE admin area on the mobile.
         Then go to Screen and on the list click on <b>Config</b>.
-        The Blueooth tab is the default.
+        The Bluetooth tab is the default.
         The only pre-requsite is to select the right WiFi access points, first two will be preselected. </p>
     <img src="/assets/www/firmware/screen_config1.png" alt="CALE Bluetooth config">
 

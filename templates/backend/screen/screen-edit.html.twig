@@ -107,6 +107,7 @@ Authorization: Bearer {{ form.vars.value.outBearer }}
         let bearerInput = document.getElementById('outBearer');
         let config_json = document.getElementById('config_json');
         let config_c = document.getElementById('config_c');
+        let user_wifi = document.getElementById('userWifi');
         bearerInput.onclick = function () {
             bearerInput.setSelectionRange(0, bearerInput.value.length);
         };
@@ -115,6 +116,12 @@ Authorization: Bearer {{ form.vars.value.outBearer }}
         template_twig.onchange = function () {
             setTemplateImage();
         };
+
+        wifis = user_wifi.getElementsByTagName('input');
+        for (index = 0; index < 2; ++index) {
+            wifis[index].checked = true;
+        }
+        jsonBlue(user_wifi);
 
         function setTemplateImage() {
             if (template_twig.value !== '') {
@@ -144,6 +151,7 @@ Authorization: Bearer {{ form.vars.value.outBearer }}
                     let wifi_pass_prop = "wifi_pass"+ wifi_index.toString();
                     config[wifi_ssid_prop] = wifi_ssid;
                     config[wifi_pass_prop] = wifi_pass;
+                    if (wifi_index===2) break;
                 }
             }
             config['screen_url'] = screen_url;
