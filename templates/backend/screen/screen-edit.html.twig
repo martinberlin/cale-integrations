@@ -45,17 +45,13 @@
 
                             Please note that this configuration needs the Bluetooth edition of the Firmware (branch: cale_ble)
 
-                            <textarea rows="4" onclick="this.setSelectionRange(0, this.value.length)" class="form-control">
-                                test
-                                </textarea>
+             <textarea id="config_json" rows="4" onclick="this.setSelectionRange(0, this.value.length)" class="form-control"></textarea>
                         </div>
                         <div role="tabpanel" class="tab-pane" id="ct" aria-labelledby="ct-tab">
                             {{ 'screen_token_firmware_c'|trans }}
                             <a href="{{ path('firmware', {'_locale': 'en'}) }}" target="_blank">CALE Firmware</a>
- <textarea rows="4" onclick="this.setSelectionRange(0, this.value.length)" class="form-control">{% if bmp_url !='' %}char screenUrl[] = "{{ bmp_url }}";
-{% else %}// Please select a display and save to generate the screenUrl line for your Config
-    {% endif %}String bearer = "{{ form.vars.value.outBearer }}";
-</textarea>
+ <textarea  id="config_c" rows="4" onclick="this.setSelectionRange(0, this.value.length)" class="form-control"></textarea>
+                            <div id="config_c_alert" class="alert"></div>
                         </div>
                     </div>
                 </div>
@@ -104,10 +100,13 @@ Authorization: Bearer {{ form.vars.value.outBearer }}
 
 {% block javascripts %}
     <script>
+        let screen_url = "{{ bmp_url }}";
+        let bearer = "{{ form.vars.value.outBearer }}";
         let template_twig = document.getElementById('templateTwig');
         let template_img = document.getElementById('template');
         let bearerInput = document.getElementById('outBearer');
-
+        let config_json = document.getElementById('config_json');
+        let config_c = document.getElementById('config_c');
         bearerInput.onclick = function () {
             bearerInput.setSelectionRange(0, bearerInput.value.length);
         };
@@ -129,14 +128,41 @@ Authorization: Bearer {{ form.vars.value.outBearer }}
         }
         // on wifi_select
         function jsonBlue(el) {
-            wifis = el.getElementsByTagName('input');
-            selectedWifis = [];
+            let wifis = el.getElementsByTagName('input');
+            let wifi_index = 0;
+            let config = new Object();
+            let wifi_ssid;
+            let wifi_pass;
             for (index = 0; index < wifis.length; ++index) {
                 if (wifis[index].checked) {
-                    selectedWifis.push(wifis[index]);
+                    wifi_index++;
+                    let label = wifis[index].labels[0].innerText;
+                    let label_split = label.split("__");
+                    wifi_ssid = label_split[0];
+                    wifi_pass = wifis[index].value;
+                    let wifi_ssid_prop = "wifi_ssid"+ wifi_index.toString();
+                    let wifi_pass_prop = "wifi_pass"+ wifi_index.toString();
+                    config[wifi_ssid_prop] = wifi_ssid;
+                    config[wifi_pass_prop] = wifi_pass;
                 }
             }
-            console.log(selectedWifis);
+            config['screen_url'] = screen_url;
+            config['bearer'] = bearer;
+            var json = JSON.stringify(config);
+            config_json.value = json;
+            // Update also C version dynamic
+            let c_config = '#define WIFI_SSID "'+wifi_ssid+'";'+ "\n";
+            c_config += '#define WIFI_PASS "'+wifi_pass+'";'   + "\n";
+            c_config += 'char screenUrl[] = "'+screen_url+'";' + "\n";
+            c_config += 'String bearer = "'+bearer+'";';
+            config_c.value = c_config;
+            if (wifi_index>1) {
+                config_c_alert.innerHTML = "Please note that the C version will take only last selected WiFi AP";
+                config_c_alert.classList.add('alert-danger');
+            } else {
+                config_c_alert.innerHTML = "";
+                config_c_alert.classList.remove('alert-danger');
+            }
         }
     </script>
 {% endblock javascripts %}
