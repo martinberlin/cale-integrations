@@ -14,6 +14,7 @@
             {{ form_row(form.name) }}
 
             {% if isMobile %}
+                <label for="config_json_mobile">Copy JSON configuration:</label>
                 <textarea id="config_json_mobile" rows="4" onclick="this.setSelectionRange(0, this.value.length)" class="form-control"></textarea>
             {% endif %}
 
