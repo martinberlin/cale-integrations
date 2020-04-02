@@ -36,6 +36,7 @@
                 <div class="panel-body">
     <ul>
         <li><a href="#a1">Quick start with Bluetooth</a></li>
+        <li><a href="#repo">Repository - cale_ble</a></li>
         <li><a href="#a2">Config reference</a></li>
         <li><a href="#a3">Android application</a></li>
         <li><a href="{{ path('firmware') }}">Back to main Firmware section</a></li>
@@ -64,6 +65,20 @@
         </div>
     </div>
 
+    <a id="repo"></a>
+
+    <br style="margin-top:3em">The open source Firmware is here:<br>
+
+    <h4><a href="https://github.com/martinberlin/eink-calendar/tree/cale_ble">https://github.com/martinberlin/eink-calendar</a> - cale_ble branch</h4>
+    Ready to be tested: <br>
+    <ol>
+        <li>Receives 2 WiFi APS, screen_url and bearer tokes</li>
+        <li>Saves this on preferences for next restart</li>
+        <li>TODO: Still missing a way to reset preferences</li>
+    </ol>
+    The small issue with point 3 is that once WiFi is connected Bluetooth is disconnected, since the ESP32 uses the same Antenna for both.
+    So if we want a reset method, it should either "hear via UDP or http" a reset signal, or be started with a GPIo on LOW so we can detect this
+    and reset credentials.
 
     <a id="a2"></a>
 
@@ -79,6 +94,25 @@
     In this tab just click on the textarea to select all the text, copy it in the clipboard. Start the Display, in the app
     select the Bluetooth starting with CALE_* and paste the JSON text in the next step.
     That's it. The display should restart, connect to WiFi, and render your Screen.
+
+    <br><br>
+    <small>User agent: {{ app.request.headers.get('User-Agent') }}</small>
+
+    <a id="a3"></a>
+    <h4 style="margin-top:3em"><span class="cale">CALE</span> Android application</h4>
+
+    <br style="margin-top:3em">Please download the APK with your mobile browser and give it permissions:<br>
+
+    <h4><a href="https://github.com/martinberlin/cale-app/tree/master/releases" target="_blank">CALE Android APK</a></h4>
+
+    The CALE Android app was sent to approval in Google's developer center on 1st April 2020. Due to the corona-virus
+    current situation it may take up to 10 days to get approved. Please try it out installing the signed APK into your
+    mobile till it hits the official Play store.
+
+
+    <a id="flow"></a>
+    <h4 style="margin-top:3em">Bluetooth user flow</h4>
+    <img src="/assets/svg/cale-bluetooth-conf.svg"><br>
 
 {% endblock %}
 
