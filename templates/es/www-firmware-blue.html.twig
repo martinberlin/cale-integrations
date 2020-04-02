@@ -36,6 +36,7 @@
                 <div class="panel-body">
     <ul>
         <li><a href="#a1">Configurando el Fimware con Bluetooth</a></li>
+        <li><a href="#repo">Repositorio del Firmware</a></li>
         <li><a href="#a2">Referencia para el Config</a></li>
         <li><a href="#a3">Aplicación Android</a></li>
         <li><a href="{{ path('firmware') }}">Back to main Firmware section</a></li>
@@ -63,25 +64,62 @@
             Naturalmente antes del punto 3, el Firmare debería estar conectado, y esperando recibir la configuración por Bluetooth.
         </div>
         <div class="col-md-6">
-            <img src="/assets/www/firmware/cale_app.jpg" style="border: 1px solid #333333" alt="CALE Android app" class="pull-right">
+            <img src="/assets/www/firmware/cale_app_blue.jpg" style="border: 1px solid #333333" alt="CALE Android app" class="pull-right">
+            <small class="pull-right">Paso 1: Selecciona el Bluetooth CALE_* &nbsp;</small>
+
+            <img src="/assets/www/firmware/cale_app_send_config.jpg" style="border: 1px solid #333333;margin-top: 2em" alt="CALE Android app" class="pull-right">
+            <small class="pull-right">Paso 2: Copia el Json config del Screen config</small>
         </div>
     </div>
 
+    <a id="repo"></a>
+    <div class="row">
+        <div class="col-md-6">
+            <br style="margin-top:3em">El Firmware código abierto esta aquí:<br>
+
+            <h4><a href="https://github.com/martinberlin/eink-calendar/tree/cale_ble">https://github.com/martinberlin/eink-calendar</a> - cale_ble branch</h4>
+        </div>
+        <div class="col-md-6">
+
+        </div>
+    </div>
 
     <a id="a2"></a>
 
-    <h4 style="margin-top:3em">Config reference</h4>
-    <p>It's important to note that as you have to send this from an Android app, it will be the best just to
-        login into CALE admin area on the mobile.
-        Then go to Screen and on the list click on <b>Config</b>.
-        The Blueooth tab is the default.
-        The only pre-requsite is to select the right WiFi access points, first two will be preselected. </p>
+    <h4 style="margin-top:3em">Referencia para el Config</h4>
+    <p>Es importante tener en cuenta que debemos enviar este JSON config desde la aplicación Android,
+        con lo cual lo mejor es logearse en CALE desde el móvil.<br>
+        <ol>
+    <li>En la sección WiFi agrega como minímo dos access points (ej. casa y Hotspot del móvil)</li>
+    <li>El la sección Screen selecciona uno y haz click en el botón <b>Config</b>.</li>
+    <li>Copia el JSON config que para poderlo copiar luego en el app de CALE</li>
+    <li>Encendiendo el Firmware, abre la app y conectate al Bluetooth CALE_*</li>
+    <li>Pega el JSON config y envia al Firmware. En este punto ya debería estar configurado</li>
+    </ol>
+
+    </p>
     <img src="/assets/www/firmware/screen_config1.png" alt="CALE Bluetooth config">
 
 
-    In this tab just click on the textarea to select all the text, copy it in the clipboard. Start the Display, in the app
-    select the Bluetooth starting with CALE_* and paste the JSON text in the next step.
-    That's it. The display should restart, connect to WiFi, and render your Screen.
+    En este tab solo hay que hacer click en el area de texto para seleccionar todo y luego copiar.
+    Al pegar este config en el app, luego de seleccionar el Bluetooth y aceptar el "pair request", ya podemos configurar el Firmware.
+
+    Luego de recibir la configuración por Bluetooth debería reiniciarse y hacer el request de la imagen.
+
+    <a id="a3"></a>
+    <h4 style="margin-top:4em">Aplicación Android de <span class="cale">CALE</span> </h4>
+
+    <br style="margin-top:3em">Baja el APK con tu browser móvil y acepta los permisos para ejecutarlo:<br>
+
+    <h4><a href="https://github.com/martinberlin/cale-app/tree/master/releases" target="_blank">CALE Android APK</a></h4>
+
+    El CALE Android app fue enviado para su aprobación en Google developers.
+    Debido a la situación actual con el Corona-virus, tardará al menos 10 dias en ser aprovado.
+    En este tiempo pueden probarlo bajando y instalando el fichero APK hasta que este en el Play story.
+
+    <a id="flow"></a>
+    <h4 style="margin-top:3em">Bluetooth user flow</h4>
+    <img src="/assets/svg/cale-bluetooth-conf.svg">
 
 {% endblock %}
 
