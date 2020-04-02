@@ -36,7 +36,7 @@
                 <div class="panel-body">
     <ul>
         <li><a href="#a1">Quick start with Bluetooth</a></li>
-        <li><a href="#repo">Repository - cale_ble</a></li>
+        <li><a href="#repo">C++ Repository - cale_ble</a></li>
         <li><a href="#a2">Config reference</a></li>
         <li><a href="#a3">Android application</a></li>
         <li><a href="{{ path('firmware') }}">Back to main Firmware section</a></li>
@@ -72,18 +72,22 @@
     <a id="repo"></a>
     <div class="row">
         <div class="col-md-6">
-    <br style="margin-top:3em">The open source Firmware is here:<br>
+    <h3 style="margin-top:3em">Repository with the Bluetooth version of the Firmware</h3>
 
     <h4><a href="https://github.com/martinberlin/eink-calendar/tree/cale_ble">https://github.com/martinberlin/eink-calendar</a> - cale_ble branch</h4>
     Ready to be tested: <br>
     <ol>
-        <li>Receives 2 WiFi APS, screen_url and bearer tokes</li>
+        <li>Receives 2 WiFi APS, screen_url and bearer token</li>
         <li>Saves this on preferences for next restart</li>
         <li>TODO: Still missing a way to reset preferences</li>
     </ol>
     The small issue with point 3 is that once WiFi is connected Bluetooth is disconnected, since the ESP32 uses the same Antenna for both.
     So if we want a reset method, it should either "hear via UDP or http" a reset signal, or be started with a GPIo on LOW so we can detect this
-    and reset credentials.
+    and reset credentials. Temporary solution if you want to force preferences removal:
+    <pre>
+     // Uncomment to force delete preferences
+     // preferences.clear();
+    </pre>
     </div>
         <div class="col-md-6">
 
@@ -93,11 +97,18 @@
     <a id="a2"></a>
 
     <h4 style="margin-top:3em">Config reference</h4>
-    <p>It's important to note that as you have to send this from an Android app, it will be the best just to
-        login into CALE admin area on the mobile.
-        Then go to Screen and on the list click on <b>Config</b>.
-        The Bluetooth tab is the default.
-        The only pre-requsite is to select the right WiFi access points, first two will be preselected. </p>
+    <p>It's important to note that since should send the Bluetooth configuration from an Android app,
+        it will be the best just to login into CALE admin area on the mobile, so you can copy/paste in the same device.
+        <ol>
+    <li><b>Use the WiFi section</b> to add at least two WiFi access points (Ex. home/mobile hotspot)</li>
+    <li><b>Go to Screen</b> and on the list click on <b>Config</b>.</li>
+    <li><b>The Bluetooth tab</b> is the default and in a mobile request will come at the top.</li>
+    <li>First two WiFi access points will be preselected, just adapt to others with the checkbox, if you need a display
+        with a different AP.</li>
+</ol>
+
+
+    </p>
     <img src="/assets/www/firmware/screen_config1.png" alt="CALE Bluetooth config">
 
 
@@ -119,11 +130,12 @@
 
     <a id="flow"></a>
     <h4 style="margin-top:3em">Bluetooth user flow</h4>
-    <img src="/assets/svg/cale-bluetooth-conf.svg">
+    <img src="/assets/svg/cale-bluetooth-config.svg">
 
 
-    <br><br>
+    {#<br><br>
     <small>User agent: {{ app.request.headers.get('User-Agent') }}</small>
+    #}
 {% endblock %}
 
 {% block javascripts %}
