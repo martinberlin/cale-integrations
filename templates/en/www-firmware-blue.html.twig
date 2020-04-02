@@ -95,9 +95,6 @@
     select the Bluetooth starting with CALE_* and paste the JSON text in the next step.
     That's it. The display should restart, connect to WiFi, and render your Screen.
 
-    <br><br>
-    <small>User agent: {{ app.request.headers.get('User-Agent') }}</small>
-
     <a id="a3"></a>
     <h4 style="margin-top:3em"><span class="cale">CALE</span> Android application</h4>
 
@@ -112,8 +109,11 @@
 
     <a id="flow"></a>
     <h4 style="margin-top:3em">Bluetooth user flow</h4>
-    <img src="/assets/svg/cale-bluetooth-conf.svg"><br>
+    <img src="/assets/svg/cale-bluetooth-conf.svg">
 
+
+    <br><br>
+    <small>User agent: {{ app.request.headers.get('User-Agent') }}</small>
 {% endblock %}
 
 {% block javascripts %}
