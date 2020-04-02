@@ -13,6 +13,10 @@
         <div class="col-md-8 col-sm-12 col-xs-12">
             {{ form_row(form.name) }}
 
+            {% if isMobile %}
+                <textarea id="config_json_mobile" rows="4" onclick="this.setSelectionRange(0, this.value.length)" class="form-control"></textarea>
+            {% endif %}
+
             {{ form_row(form.templateTwig) }}
 
             {{ form_row(form.display) }}
@@ -106,6 +110,7 @@ Authorization: Bearer {{ form.vars.value.outBearer }}
         let template_img = document.getElementById('template');
         let bearerInput = document.getElementById('outBearer');
         let config_json = document.getElementById('config_json');
+        let config_json_mobile = document.getElementById('config_json_mobile');
         let config_c = document.getElementById('config_c');
         let user_wifi = document.getElementById('userWifi');
         bearerInput.onclick = function () {
@@ -158,6 +163,7 @@ Authorization: Bearer {{ form.vars.value.outBearer }}
             config['bearer'] = bearer;
             var json = JSON.stringify(config);
             config_json.value = json;
+            config_json_mobile.value = json;
             // Update also C version dynamic
             let c_config = '#define WIFI_SSID "'+wifi_ssid+'";'+ "\n";
             c_config += '#define WIFI_PASS "'+wifi_pass+'";'   + "\n";
