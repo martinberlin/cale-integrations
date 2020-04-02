@@ -23,3 +23,5 @@ Doctrine Object relational mapping
     // Configure there your DATABASE_URL
     bin/console doctrine:schema:update --dump-sql
     // Check SQL and do a --force to create tables
+    
+### PHP Minimum version: 7.3
