@@ -62,11 +62,16 @@
     </div>
         <div class="col-md-6">
             <img src="/assets/www/firmware/cale_app.jpg" style="border: 1px solid #333333" alt="CALE Android app" class="pull-right">
+            <small class="pull-right">Step 1: Select Bluetooth target &nbsp;</small>
+
+            <img src="/assets/www/firmware/cale_app_send_config.jpg" style="border: 1px solid #333333;margin-top: 2em" alt="CALE Android app" class="pull-right">
+            <small class="pull-right">Step 2: Copy the Json config and send to ESP32</small>
         </div>
     </div>
 
     <a id="repo"></a>
-
+    <div class="row">
+        <div class="col-md-6">
     <br style="margin-top:3em">The open source Firmware is here:<br>
 
     <h4><a href="https://github.com/martinberlin/eink-calendar/tree/cale_ble">https://github.com/martinberlin/eink-calendar</a> - cale_ble branch</h4>
@@ -79,6 +84,11 @@
     The small issue with point 3 is that once WiFi is connected Bluetooth is disconnected, since the ESP32 uses the same Antenna for both.
     So if we want a reset method, it should either "hear via UDP or http" a reset signal, or be started with a GPIo on LOW so we can detect this
     and reset credentials.
+    </div>
+    <div class="col-md-6">
+
+        </div>
+        </div>
 
     <a id="a2"></a>
 
