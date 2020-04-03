@@ -112,8 +112,11 @@ Authorization: Bearer {{ form.vars.value.outBearer }}
         let bearerInput = document.getElementById('outBearer');
         let config_json = document.getElementById('config_json');
         let config_json_mobile = document.getElementById('config_json_mobile');
+
+        let is_mobile = !(config_json_mobile==null);
         let config_c = document.getElementById('config_c');
         let user_wifi = document.getElementById('userWifi');
+
         bearerInput.onclick = function () {
             bearerInput.setSelectionRange(0, bearerInput.value.length);
         };
@@ -164,7 +167,9 @@ Authorization: Bearer {{ form.vars.value.outBearer }}
             config['bearer'] = bearer;
             var json = JSON.stringify(config);
             config_json.value = json;
-            config_json_mobile.value = json;
+            if (is_mobile) {
+              config_json_mobile.value = json;
+            }
             // Update also C version dynamic
             let c_config = '#define WIFI_SSID "'+wifi_ssid+'";'+ "\n";
             c_config += '#define WIFI_PASS "'+wifi_pass+'";'   + "\n";
