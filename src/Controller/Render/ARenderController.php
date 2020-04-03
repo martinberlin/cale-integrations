@@ -15,6 +15,7 @@ use GuzzleHttp\Client;
 
 use ICal\ICal;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -291,10 +292,14 @@ class ARenderController extends AbstractController
     {
         $int_api_id = $partial->getIntegrationApi()->getId();
         $jsonRequest = $this->json_weather_generic($int_api_id, $intApiRepository, $cacheService);
-
+        $response = new Response();
         $json = json_decode($jsonRequest->getContent());
         if ($json === null && json_last_error() !== JSON_ERROR_NONE) {
             throw $this->createNotFoundException("Parsing of int_api $int_api_id JSON failed: ".json_last_error());
+        }
+        if (property_exists($json, 'error')) {
+            $response->setContent('<h3>'.$json->error.'</h3> Please delete the weather API and try to reconfigure again using a correct KEY');
+            return $response;
         }
         // Read user preferences
         $colorStyle = $this->getColorStyle($partial);
@@ -348,7 +353,7 @@ class ARenderController extends AbstractController
         $responseContent.= $wHourly;
         //$responseContent.='<div class="row text-right"><small><a href="https://darksky.net/poweredby" class="partial-link">Powered by Dark Sky</a></small></div>';
         $responseContent .= "</div></div>";
-        $response = new Response();
+
         $response->setContent($responseContent);
         return $response;
     }
@@ -385,9 +390,14 @@ class ARenderController extends AbstractController
             $extraParams['lang'] = $intApi->getLanguage();
             $apiUrl.= '?'.http_build_query($extraParams);
         }
-        $clientRequest = $cacheService->request('GET', $apiUrl, $options, $int_api_id);
-
         $response = new JsonResponse();
+        try {
+            $clientRequest = $cacheService->request('GET', $apiUrl, $options, $int_api_id);
+        } catch (ClientException $e) {
+            $response->setContent(json_encode(['error' => 'API rest call failed. Not authorized, bad key?', 'message' => $e->getMessage()]));
+            return $response;
+        }
+
         if ($clientRequest->getStatusCode() === 200) {
             $response->setContent($clientRequest->getContent());
         } else {
