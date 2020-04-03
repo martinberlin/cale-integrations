@@ -346,10 +346,8 @@ class ARenderController extends AbstractController
             if ($hourlyCounter>$partial->getMaxResults()) break;
         }
         $responseContent.= $wHourly;
-        $responseContent.='<!-- Required by https://darksky.net/dev/docs please do not take out if you use the free version -->
-        <div class="row text-right"><small><a href="https://darksky.net/poweredby" class="partial-link">Powered by Dark Sky</a></small>&nbsp;</div>';
+        //$responseContent.='<div class="row text-right"><small><a href="https://darksky.net/poweredby" class="partial-link">Powered by Dark Sky</a></small></div>';
         $responseContent .= "</div></div>";
-        // Return the composed HTML
         $response = new Response();
         $response->setContent($responseContent);
         return $response;
