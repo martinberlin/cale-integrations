@@ -12,11 +12,11 @@
     <div class="row">
 
         <div class="col-md-5 col-sm-5 col-xs-12">
-            <p>Click here if you want to understand the sections of the admin for a small on-boarding tour:</p>
+            <small>Click here if you want to understand the sections of the admin for a small on-boarding tour:</small>
             <button class="btn btn-default" onclick="introJs().start();">
                 <span class="glyphicon glyphicon-question-sign"></span> Give me an Admin-tour</button>
 
-            <ul>
+            <ul style="margin-top: 2em">
                 <li>
                     <h4>
                         Step 1 <a href="{{ path('b_api_configure') }}">Configure your APIs</a>
@@ -25,24 +25,42 @@
 
                 <li>
                     <h4>
-                        Step 2 <a href="{{ path('b_screens') }}">Setup Screens and content partials</a>
+                        Step 2 <a href="{{ path('b_screen_edit') }}">Setup your Screen and select a template</a>
                     </h4>
                 </li>
-
                 <li>
                     <h4>
-                        Step 3 Preview your screens with your content and get an image link that you can use on your connected devices
+                        Step 3 <a  href="{{ path('b_wifi_edit') }}">Add your WiFi Access points</a>
+                    </h4>Only if you will use a WiFi display otherwise skip this step.
+                </li>
+                <li>
+                    <h4>
+                        Step 4 In Screen<span class="glyphicon glyphicon-arrow-right"></span>Content partials add your APIs to the Screen
+                    </h4>
+                    We highly recommend to start trying the HTML Api, so you can just render a text or image to start in one of your template columns.
+                </li>
+                <li>
+                    <h4>
+                        Step 5 Preview your Screens in "Render Screen" with your content
                     </h4>
                 </li>
             </ul>
 
+            <small>If you are happy with the output and would like to use this in a WiFi display, then you can try our Firmware,
+            or get in touch with us in <b>User <span class="glyphicon glyphicon-arrow-right"></span> Get support</b> so we can help you to build one.
+            We will from time to time send weekly newsletters and offer displays we already tested.<br>
+            Please keep in mind that we don't like invading user space if there is no information to show. If you add Google Calendar,
+            but there are no future events, your Screen will be blank in that section.
+            </small>
 
+            <br><br>
+Admin version: v{{ version }}
         </div>
 
         <div class="col-md-7 col-sm-7 col-xs-12">
             <h4>Screen log</h4>
         {% if (hasScreen) %}
-        <div class="row" style="height: 66px">
+        <div class="row">
             <div class="col-md-4 col-sm-6 col-xs-12">
             <input id="autorefresh" type="checkbox" data-toggle="toggle">
                 <span class="glyphicon glyphicon-refresh"></span>

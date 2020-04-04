@@ -22,6 +22,21 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class BackendController extends AbstractController
 {
     /**
+     * @Route("/", name="b_home")
+     */
+    public function home()
+    {
+        return $this->render(
+            'backend/admin-home.html.twig',
+            [
+                'title' => 'Admin dashboard',
+                'version' => $this->getParameter('version'),
+                'hasScreen' => count($this->getUser()->getScreens())
+            ]
+        );
+    }
+
+    /**
      * @Route("/logged_in", name="logged_in")
      */
     public function loggedIn(EntityManagerInterface $entityManager, Request $request)
@@ -85,20 +100,6 @@ class BackendController extends AbstractController
     {
         return $this->render(
             'backend/admin-user-agreement.html.twig', ['title' => 'User agreement and code of conduct']
-        );
-    }
-
-    /**
-     * @Route("/", name="b_home")
-     */
-    public function home()
-    {
-        return $this->render(
-            'backend/admin-home.html.twig',
-            [
-                'title' => 'Admin dashboard',
-                'hasScreen' => count($this->getUser()->getScreens())
-            ]
         );
     }
 

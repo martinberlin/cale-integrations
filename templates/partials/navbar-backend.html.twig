@@ -9,7 +9,7 @@
 
             <span class="visible-lg-inline-block" style="margin-top: -2em">
                     <a href="{% if is_granted('ROLE_ADMIN') %}{{ path('b_admin_dashboard') }}{% else %}{{ path('b_home') }}{% endif %}">
-                            <div class="row">
+                            <div class="row" style="margin-top:1px">
                                 <div class="col-md-3" style="margin-top: 1.4em;margin-left: 0.4em">
                                 <img src="/assets/cale-logo.svg" width="150">
                                 </div>
@@ -53,9 +53,9 @@ like Google calendar, Weather or shared calendars. APIs will deliver content to 
                 </li>
                 {% endif %}
             </ul>
-            <div class="text-right" style="margin-top:.7em;margin-right:1em">
+            <div class="text-right" style="margin-top:.7em;margin-right:1em;color:#C9C9C9">
 
-               {{ app.user.timezone }} {{ "now"|date(app.user.dateFormat) }} {{ "now"|date(app.user.hourFormat) }}
+               <small>{{ app.user.timezone }} {{ "now"|date(app.user.dateFormat) }} {{ "now"|date(app.user.hourFormat) }}</small>
 
             </div>
         </nav>

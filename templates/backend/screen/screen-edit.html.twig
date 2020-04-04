@@ -1,5 +1,11 @@
 {% extends 'backend/backend-base.html.twig' %}
 {% form_theme form.userWifi 'backend/themes/checkbox-custom.html.twig' %}
+{% set extra_visibility = 'visible' %}
+{% set extra_display = 'block' %}
+{% if is_new %}
+    {% set extra_visibility = 'hidden' %}
+    {% set extra_display = 'none' %}
+{% endif %}
 
 {% block body %}
     <p>
@@ -31,7 +37,7 @@
                 </div>
             </div>
 
-            <div class="panel panel-default">
+            <div class="panel panel-default" style="display:{{ extra_display }}">
                 <div class="panel-heading"><b>Firmware - {{ 'screen_token_firmware_step1'|trans }}</b></div>
                 <div class="panel-body">
 
@@ -75,7 +81,7 @@
                    class="btn btn-default form-control">
                     <span class="glyphicon glyphicon-paperclip"></span> {{ 'screen_edit_partials'|trans }}</a>
             {% endif %}
-            <div class="panel panel-default" style="margin-top: 1em">
+            <div class="panel panel-default" style="margin-top: 1em;visibility:{{ extra_visibility }}">
                 <div class="panel-heading">Select WiFi access points (max. 2)</div>
                 <div class="panel-body text-left" style="margin-top:-0.7em">
                     {{ form_row(form.userWifi) }}
@@ -126,11 +132,13 @@ Authorization: Bearer {{ form.vars.value.outBearer }}
             setTemplateImage();
         };
 
+    {% if is_new == false %}
         wifis = user_wifi.getElementsByTagName('input');
         for (index = 0; index < 2; ++index) {
             wifis[index].checked = true;
         }
         jsonBlue(user_wifi);
+    {% endif %}
 
         function setTemplateImage() {
             if (template_twig.value !== '') {

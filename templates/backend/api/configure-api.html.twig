@@ -6,6 +6,8 @@
             {{ form_start(form) }}
             {{ form_errors(form) }}
             {{ form_end(form) }}
+
+            <br><div id="note" class="alert"></div>
         </div>
 
         <div class="col-md-4 col-sm-4 col-xs-12 text-right" style="margin-top: -1.4em">
@@ -22,10 +24,21 @@
     let token = document.getElementById('accessToken');
     let tokenlabel = document.getElementById('accessTokenLabel');
     let api_img = document.getElementById('api_img');
+    let note = document.getElementById('note');
     let img_src = api.value + '.svg';
     api_img.src = '/assets/svg/api/' + img_src;
 
     api.onchange = function() {
+        switch (api.value) {
+            case '3':
+                note.classList.add("alert-danger");
+                note.innerHTML = 'Please note that DarkSky is not offering anymore API keys and will end their service end of 2021';
+                break;
+            default:
+                note.classList.remove("alert-danger");
+                note.innerHTML = '';
+                break;
+        }
         switch (apis[api.value]) {
             case "Authorization code":
             case "Personal access token":

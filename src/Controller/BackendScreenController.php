@@ -47,6 +47,7 @@ class BackendScreenController extends AbstractController
                                EntityManagerInterface $entityManager, TranslatorInterface $translator)
     {
         $isMobile = $this->isMobile($request);
+        $isNewScreen = false;
         if (is_null($uuid)) {
             $screen = new Screen();
             $screen->setUser($this->getUser());
@@ -56,7 +57,7 @@ class BackendScreenController extends AbstractController
                 $this->addFlash('error', "Sorry but the screen limit is set to maximum $screensUsed screens in your account. Please contact us if you want to update this limit");
                 return $this->redirectToRoute('b_screens');
             }
-
+            $isNewScreen = true;
         } else {
             $screen = $screenRepository->find($uuid);
             $title = $translator->trans('Edit').' screen "'.$screen->getName().'"';
@@ -92,7 +93,8 @@ class BackendScreenController extends AbstractController
                 'uuid' => $uuid,
                 'isMobile' => $isMobile,
                 'bmp_url'  => ($screen->getDisplay() instanceof Display) ?
-                    $this->imageUrlGenerator($screen->isOutSsl(), 'bmp', $this->getUser()->getName(), $screen->getId()): ''
+                    $this->imageUrlGenerator($screen->isOutSsl(), 'bmp', $this->getUser()->getName(), $screen->getId()): '',
+                'is_new' => $isNewScreen
             ]
         );
     }
