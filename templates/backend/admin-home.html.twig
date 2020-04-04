@@ -12,45 +12,41 @@
     <div class="row">
 
         <div class="col-md-5 col-sm-5 col-xs-12">
-            <small>Click here if you want to understand the sections of the admin for a small on-boarding tour:</small>
-            <button class="btn btn-default" onclick="introJs().start();">
+            <small>Click here if you want to understand the sections of the admin for a short on-boarding tour</small>
+            <div class="text-center" style="margin-bottom:1em">
+                <button class="btn btn-default" onclick="introJs().start();">
                 <span class="glyphicon glyphicon-question-sign"></span> Give me an Admin-tour</button>
-
-            <ul style="margin-top: 2em">
+            </div>
+Recommended steps to start:
+            <ol>
                 <li>
-                    <h4>
-                        Step 1 <a href="{{ path('b_api_configure') }}">Configure your APIs</a>
-                    </h4>
+                    <h4><a href="{{ path('b_api_configure') }}">Configure your APIs</a></h4>
                 </li>
 
                 <li>
-                    <h4>
-                        Step 2 <a href="{{ path('b_screen_edit') }}">Setup your Screen and select a template</a>
-                    </h4>
+                    <h4><a href="{{ path('b_screen_edit') }}">Setup your Screen and select a template</a></h4>
                 </li>
                 <li>
-                    <h4>
-                        Step 3 <a  href="{{ path('b_wifi_edit') }}">Add your WiFi Access points</a>
-                    </h4>Only if you will use a WiFi display otherwise skip this step.
+                    <h4><a  href="{{ path('b_wifi_edit') }}">Add your WiFi Access points</a></h4>Only if you will use a WiFi display otherwise skip this step.
                 </li>
                 <li>
-                    <h4>
-                        Step 4 In Screen<span class="glyphicon glyphicon-arrow-right"></span>Content partials add your APIs to the Screen
-                    </h4>
-                    We highly recommend to start trying the HTML Api, so you can just render a text or image to start in one of your template columns.
+                    <h4>Screen<span class="glyphicon glyphicon-arrow-right"></span>Content partials add your APIs to the template columns</h4>
+                    We recommend to start adding the HTML Api since has no requirements.
                 </li>
                 <li>
-                    <h4>
-                        Step 5 Preview your Screens in "Render Screen" with your content
-                    </h4>
+                    <h4>Preview your Screens in "Render Screen" with your content</h4>
                 </li>
-            </ul>
+            </ol>
 
-            <small>If you are happy with the output and would like to use this in a WiFi display, then you can try our Firmware,
-            or get in touch with us in <b>User <span class="glyphicon glyphicon-arrow-right"></span> Get support</b> so we can help you to build one.
-            We will from time to time send weekly newsletters and offer displays we already tested.<br>
+            <small>If you like the output and would like to use this in a WiFi display then you can try our Firmware.
+                If you need support just send us an email using the <b>User <span class="glyphicon glyphicon-arrow-right"></span> Get support</b> option.
+            We will, from time to time, send weekly newsletters and give away displays we already tested.<br>
+                In case you want to have a custom solution to your business or that we implement a new API please get in touch.
+                Only with your input we can improve this. This Screen web service will remain open source and free for personal use as long as I can maintein it.
             Please keep in mind that we don't like invading user space if there is no information to show. If you add Google Calendar,
-            but there are no future events, your Screen will be blank in that section.
+            but there are no future events, your Screen will be blank in that section. Stay tuned!
+                <br>
+                <b>Martin Fasani</b> - PHP Engineer and creator of CALE
             </small>
 
             <br><br>
