@@ -233,8 +233,8 @@ class BackendController extends AbstractController
                     $display = $log->getScreen()->getDisplay();
                     $created = $log->getCreated()+date("Z");
                     $json['data'][] = [
-                        'created'=> gmdate($datatablesDateFormat, $created),
-                        'screen' => $log->getScreen()->getId(),
+                        'created'=> gmdate('y.m.d H:i', $created),
+                        'screen' => substr($log->getScreen()->getId(),-3),
                         'user'  => $log->getScreen()->getUser()->getName(),
                         'pixels' => ($display instanceof Display) ? $display->getWidth().'x'.$display->getHeight() : '',
                         'b'      => $log->getBytes(),

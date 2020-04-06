@@ -286,11 +286,11 @@ class BackendScreenController extends AbstractController
         if (!$screen instanceof Screen) {
             throw $this->createNotFoundException("$uuid is not a valid screen");
         }
-        if ($screen->getUser() !== $this->getUser()) {
+        if (!$this->isGranted('ROLE_ADMIN') && $screen->getUser() !== $this->getUser()) {
             throw $this->createNotFoundException("$uuid is not your screen");
         }
         $bmpUrl = ($screen->getDisplay() instanceof Display) ?
-            $this->imageUrlGenerator($screen->isOutSsl(), 'bmp', $this->getUser()->getName(), $screen->getId()): '';
+            $this->imageUrlGenerator($screen->isOutSsl(), 'bmp', $screen->getUser()->getName(), $screen->getId()): '';
         if ($isThumbnail) {
             $bmpUrl.= '?thumbnail=1';
         }
@@ -300,6 +300,7 @@ class BackendScreenController extends AbstractController
             // HTTP Bearer authentication (also called token authentication)
             'auth_bearer' => $screen->getOutBearer()
         ]);
+
         $cliResponse = $client->request('GET', $bmpUrl, $options);
 
         $response = new Response();

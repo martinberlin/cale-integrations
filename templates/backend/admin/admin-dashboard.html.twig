@@ -14,7 +14,6 @@
                 <thead>
                 </tr>
                 <th>Email</th>
-                <th>AP</th>
                 <th>Screens</th>
                 <th>Last login</th>
                 <th>DnD</th>
@@ -23,31 +22,30 @@
                 <tbody>
                 {% for user in users %}
                     <tr style="border:1px #1b6d85 dashed">
-                        <td><small>{{ user.email }}</small></td>
-                        <td>{{ user.userApis|length }}</td>
+                        <td><small>{{ user.email }} A:{{ user.userApis|length }}</small></td>
+
                         <td valign="top">{% for s in user.screens %}
 
                                 {% if loop.index < 3 %}
-                                <div class="row" style="height: 20px">
-                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                        <small><a href="{{ path('public_screen_render', {'username':user.name,'uuid':s.id}) }}"
-                                                  target="_blank">
-                                                <span class="glyphicon glyphicon-picture"></span> {{ s.name }}
+
+                                    <div class="col-md-1 col-sm-2 col-xs-2">
+                                        <small><a href="{{ path('b_render_image', {'uuid':s.id, 'isThumbnail':0}) }}"
+                                                  target="_blank" title="{{ s.name }}">
+                                                <span class="glyphicon glyphicon-picture"></span>
                                             </a></small>
                                     </div>
-                                </div>
                                 {% endif %}
 
                             {% endfor %}
                         </td>
-                        <td><small>{% if user.lastLogin is not null %}{{ user.lastLogin|date("Y.m.d H:i") }}{% endif %}</small></td>
-                        <td><small>{% if user.doNotDisturb %}No emails{% endif %}</small></td>
+                        <td><small>{% if user.lastLogin is not null %}{{ user.lastLogin|date("y.m.d H:i") }}{% endif %}</small></td>
+                        <td><small>{% if user.doNotDisturb %}Yes{% endif %}</small></td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
         </div>
-        <div class="col-md-7 col-sm-7 col-xs-12" style="margin-top: 0.1em">
+        <div class="col-md-7 col-sm-7 col-xs-12" style="margin-top: 0.35em">
             <h4 class="pull-left" style="margin-top:-0.14em"><a href="javascript:tableScreenLog()"><span class="glyphicon glyphicon-refresh"></span> Refresh table</a> &nbsp;&nbsp;</h4>
             <table id="screen_log" class="table table-striped table-condensed DataTable" style="border:1px white solid !important">
                 <thead>
