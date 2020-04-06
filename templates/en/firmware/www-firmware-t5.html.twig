@@ -34,6 +34,7 @@
                 <div class="panel-body">
     <ul>
         <li><a href="#a1">Quick start with the Lilygo T5</a></li>
+        <li><a href="#blue">Alternative Firmware with Bluetooth</a></li>
         <li><a href="#a2">GPIO reference</a></li>
         <li><a href="#a3">3Dprint a case</a></li>
         <li><a href="{{ path('firmware') }}">Back to main Firmware section</a></li>
@@ -49,6 +50,7 @@
     The steps will be reduced to two:
     <ul>
     <li><b>Adquire one of this epaper displays</b></li>
+    <li><b>Prepare up to 3 Screens</b><br>Keep in mind the Screen display should match your T5, we used a 2.13" 250 x 122 pixels</li>
     <li><b>Download and compile the Firmware</b></li>
     </ul>
 
@@ -76,12 +78,19 @@
     token</b> if you are using a private Screen:<br>
 
 <pre>
-    char screenUrl[] = "http://img.cale.es/bmp/USERNAME/SCREEN_ID";
+// Each button corresponds to a Screen in --> CALE.es <-- Register to try it out!
+char screen1[] = "http://img.cale.es/bmp/USERNAME/SCREENID";
+String bearer1 = "cb79cd9e55121ff8f90a28c1ee8353dc53dc27131d87_YOUR_TOKEN";
 
-    // Security setting, leave empty *only* if your screen is public (Not recommended)
-    String bearer = "";
+char screen2[] = "http://cale.es";
+String bearer2 = "";
+
+char screen3[] = "http://cale.es";
+String bearer3 = "";
 </pre>
 
+    Since the T5 has 4 buttons, 3 that are wired to a GPIO of the ESP32 and one reset button. Reset will just restart everything and
+    the Firware will call screen1. Button 2 will make a request to get screen2 and so on.
 
     <a id="a2">PINs for this boards</a><br><br>
     The Eink is already wired to the SPI interface, so please check their documentation in the
@@ -90,6 +99,10 @@
     what version of board you have. We tested this with a T5 2.4 and a Eink of 2.13 inches (250x122)
 
     <pre>
+// Our test T5 had a 2.13" Screen, uncomment the one you have
+//#define GDEW027W3    /* TTGO T5S 2.7" b/w */
+  #define GDEH0213B73  /* TTGO T5  2.13" b/w */
+
 // 2.13 T5 v2.4
 int8_t EINK_CS = 5;
 int8_t EINK_RST  = 16;
@@ -97,6 +110,13 @@ int8_t EINK_DC   = 17;
 int8_t EINK_BUSY = 4;
     </pre>
 
+    <a id="blue"></a><br>
+    <h4 style="margin-top:4em">Firmware with Bluetooth</h4>
+
+    <p>Since we wanted to make a Firmware version that you can move and configure different access points you can also use the
+    Bluetooth version for the T5. The only downside is that the cale_ble branch does not have at the moment multi-screen support like this
+    one. Please refer to the <a href="{{ path('firmware-blue') }}">Configuring the Firmware using Bluetooth</a>
+    section.</p>
 
     <h4>GPIO reference</h4>
     <table id="gpios" class="table table-striped table-condensed dataTable">

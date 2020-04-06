@@ -26,6 +26,7 @@
                 <div class="panel-body">
     <ul>
         <li><a href="#a1">Firmware para el Lilygo T5</a></li>
+        <li><a href="#blue">Alternative Firmware with Bluetooth</a></li>
         <li><a href="#a2">Imprimir el Case en 3D</a></li>
         <li><a href="{{ path('firmware') }}">Firmware para el ESP32/8266</a></li>
     </ul>
@@ -68,10 +69,15 @@
     Esta es la parte mas importante de la configuración:<br>
 
     <pre>
-    char screenUrl[] = "http://img.cale.es/bmp/USERNAME/SCREEN_ID";
+// Cada botón corresponde a un Screen en --> CALE.es <-- Registrese para probarlo
+char screen1[] = "http://img.cale.es/bmp/USERNAME/SCREENID";
+String bearer1 = "cb79cd9e55121ff8f90a28c1ee8353dc53dc27131d87_YOUR_TOKEN";
 
-    // Setting de seguridad para que solo tu Firmware pueda acceder a la imagen, dejarlo vacio si es publica (No recomendado)
-    String bearer = "";
+char screen2[] = "http://cale.es";
+String bearer2 = "";
+
+char screen3[] = "http://cale.es";
+String bearer3 = "";
 </pre>
 
     Chequea la documentación de los pines que usa tu versión del Epaper en
@@ -80,12 +86,26 @@
     esta es la configuración para la  versión 2.4 y el display de 250x122:
 
     <pre>
+// Nuestro T5 de prueba tenia un Eink de 2.13", quite los comentarios de su versión
+//#define GDEW027W3    /* TTGO T5S 2.7" b/w */
+  #define GDEH0213B73  /* TTGO T5  2.13" b/w */
+
 // 2.13 T5 v2.4
 int8_t EINK_CS = 5;
 int8_t EINK_RST  = 16;
 int8_t EINK_DC   = 17;
 int8_t EINK_BUSY = 4;
     </pre>
+
+    <a id="blue"></a><br>
+    <h4 style="margin-top:4em">Firmware con Bluetooth</h4>
+
+    <p>Hicimos una versión del Firmware con Bluetooth, para que pueda ser configurada a traves de una aplicación Android,
+        y también puede usarse en el T5.
+        La única desventaja es que la versión Bluetooth no tiene actualmente soporte multi-screen como esta versión especial
+        que ofrecemos aqui. Para leer más y descargar la aplicación dirijase a la sección <a href="{{ path('firmware-blue') }}">Configurando el Firmware usando Bluetooth</a>
+        section.</p>
+
 
     <a id="a2"></a><br><br>
     <h3>Imprimir el Case en 3D</h3>

@@ -132,7 +132,7 @@ class HomeController extends AbstractController
     public function firmware(Request $request, TranslatorInterface $translator)
     {
         return $this->render(
-            $request->getLocale().'/www-firmware.html.twig',
+            $request->getLocale().'/firmware/www-firmware.html.twig',
             ['title' => $translator->trans('title_firmware')]
         );
     }
@@ -140,7 +140,7 @@ class HomeController extends AbstractController
     public function firmwareT5(Request $request, TranslatorInterface $translator)
     {
         return $this->render(
-            $request->getLocale().'/www-firmware-t5.html.twig',
+            $request->getLocale().'/firmware/www-firmware-t5.html.twig',
             ['title' => $translator->trans('title_firmware_t5')]
         );
     }
@@ -148,7 +148,7 @@ class HomeController extends AbstractController
     public function firmwareBlue(Request $request, TranslatorInterface $translator)
     {
         return $this->render(
-            $request->getLocale().'/www-firmware-blue.html.twig',
+            $request->getLocale().'/firmware/www-firmware-blue.html.twig',
             ['title' => $translator->trans('title_firmware_blue')]
         );
     }
