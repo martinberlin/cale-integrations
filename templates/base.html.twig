@@ -51,8 +51,9 @@
 
     {% block carousel %}{% endblock %}
         <div id="main-container" class="container">
+            <div class="row">
             <div id="container-content-column" class="col-sm-12"
-                 style="margin-top: 4em" data-target="#side-nav" data-offset="80">
+                 style="margin-top: 4em" >
 
             <div class="row">
                 <div class="col-md-12">
@@ -81,7 +82,7 @@
                 <div class="container-fluid">
 
                     <p class="navbar-text pull-left">&copy; 2020 CALE.es
-                        <a href="{{ path('impressum') }}">{{ 'nav_legal'|trans }}</a> |
+                        &nbsp;&nbsp;&nbsp;<a href="{{ path('impressum') }}">{{ 'nav_legal'|trans }}</a><br>
                         <a href="{{ path('privacy-policy') }}">{{ 'nav_privacy'|trans }}</a> |
                         <a href="{{ path('apis') }}">{{ 'nav_apis'|trans }}</a> |
                         <a href="{{ path('firmware') }}">ESP32 Firmware</a>
@@ -96,6 +97,7 @@
             </nav>
 
         </div>
+    </div>
 
     {% if app.environment != 'dev' %}
         <script type="text/javascript" src="{{ cdn_s3 }}/js/bootstrap-native.js"></script>

@@ -27,8 +27,8 @@
         </tr>
         <th>API Name</th>
         <th>Category</th>
-        <th>Documentation</th>
-        <th>Authentication method</th>
+        <th title="Documentation">Docs</th>
+        <th>Authentication</th>
         </tr>
         </thead>
 
@@ -36,10 +36,9 @@
         {% for a in apis %}
             <tr style="border:1px #1b6d85 dashed;height: 4em">
                 <td>&nbsp;<b>{{ a.name }}</b> </td>
-                <td>{{ a.category.name }}</td>
-                <td>
-                    <a href="{{ a.documentationUrl }}" class="alert alert-info">
-                        <span class="glyphicon glyphicon-link"></span></a>
+                <td><small>{{ a.category.name }}</small></td>
+                <td><small>
+                    <a href="{{ a.documentationUrl }}" class="alert alert-info"><span class="glyphicon glyphicon-link"></span></a></small>
                 </td>
                 <td>
                     {% if a.id == 6 %}

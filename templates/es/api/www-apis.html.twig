@@ -27,7 +27,7 @@
         </tr>
         <th>Nombre del API</th>
         <th>Categoria</th>
-        <th>Documentación</th>
+        <th title="Documentación">Docs</th>
         <th>Autenticación</th>
         </tr>
         </thead>
@@ -36,10 +36,10 @@
         {% for a in apis %}
             <tr style="border:1px #1b6d85 dashed;height: 4em">
                 <td>&nbsp;<b>{{ a.name }}</b> </td>
-                <td>{{ a.category.name }}</td>
-                <td>
+                <td><small>{{ a.category.name }}</small></td>
+                <td><small>
                     <a href="{{ a.documentationUrl }}" target="_blank" class="alert alert-info">
-                        <span class="glyphicon glyphicon-link"></span></a>
+                        <span class="glyphicon glyphicon-link"></span></a></small>
                 </td>
                 <td>{% if a.id == 6 %}
                         <a href="{{ path('www_api-cloudwatch') }}">{{ 'nav_api_cloudwatch'|trans }}</a>

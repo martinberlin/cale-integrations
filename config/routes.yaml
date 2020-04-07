@@ -16,6 +16,10 @@ home:
   requirements:
     _locale: en|es
 
+#bootstrap:
+#  path:       /b
+#  controller: App\Controller\HomeController::bootstrap
+
 about-cale:
   path:       /about-cale/{_locale}
   controller: App\Controller\HomeController::aboutCale

@@ -7,6 +7,11 @@ body {
     font-family: "Helvetica Neue",Arial,sans-serif;
     font-size: 1.6em;
 }
+/* Images for mobile */
+img {
+    max-width: 100%;
+    height: auto;
+}
 
 #main-container {padding-top: 20px;}
 
