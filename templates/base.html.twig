@@ -33,9 +33,7 @@
         <link href="/css/bootstrap.min.css" rel="stylesheet">
     {% endif %}
         <link href="/css/theme.css" rel="stylesheet">
-        <link href="/css/prism.css" rel="stylesheet">
 
-    {# With this should possible to override styles! #}
     {% block stylesheets %}{% endblock %}
 
     <script src="/js/polyfill.min.js"></script>
@@ -99,7 +97,6 @@
 
         </div>
 
-    <script type="text/javascript" src="/js/prism.js"></script>
     {% if app.environment != 'dev' %}
         <script type="text/javascript" src="{{ cdn_s3 }}/js/bootstrap-native.js"></script>
     {% else %}
