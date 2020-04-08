@@ -16,22 +16,24 @@
             <table class="common-lists-table">
                 <thead>
                 <tr>
-                {#<th>ID</th>#}
                 <th>{{'Name'|trans}}</th>
+{% if isMobile == false %}
                 <th title="Access Token/Auth Code (for OAuth2)">Access</th>
                 <th>{{'Created'|trans}}</th>
+{% endif %}
                 <th title="There can be more of one Integration for API (ex. weather in Berlin / weather in Paris)">
                     {{ 'Integrations'|trans }}
                 </th>
                 <th>Admin</th>
                 </tr>
                 </thead>
+
                 <tbody>
                 {% for a in apis %}
                     <tr>
-                        {#<td>{{ a.id }}</td>#}
-                        <td><a title="external Documentation" href="{{ a.doc_url }}" target="_blank">
-                                <span class="glyphicon glyphicon-link"></span></a> {{ a.name }}</td>
+                        <td><small><a title="external Documentation" href="{{ a.doc_url }}" target="_blank">
+                                <span class="glyphicon glyphicon-link"></span></a> {{ a.name }}</small></td>
+{% if isMobile == false %}
                         <td>{% if a.hasToken == 'ok' or a.is_configured %}
                             <img src="/assets/icon/checked.svg" width="24">
                                 {% else %}
@@ -39,6 +41,7 @@
                             {% endif %}
                         </td>
                         <td>{{ a.created|date("d.m.Y") }}</td>
+{% endif %}
                         <td>
                             {% for i in a.integrations %}
                                 <div class="row">
@@ -47,9 +50,9 @@
                     <a title="Edit" href="{{ path(a.edit_route, {'uuid':a.userapi_id, 'intapi_uuid':i.id, 'step':2}) }}">
                         <span class="glyphicon glyphicon-edit"></span></a>&nbsp;
                                         {% endif %}
-                                        {{ i.name }}
+                                        <small>{{ i.name }}</small>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6"><small>
                                         {% if i.language %}
                                             <b>Lang:</b>{{ i.language }}&nbsp;&nbsp;
                                         {% endif %}
@@ -57,6 +60,7 @@
                                             <b>Lat:</b>{{ i.latitude|round(2, 'floor') }}&nbsp;&nbsp;
                                             <b>Lon:</b>{{ i.longitude|round(2, 'floor')}}
                                         {% endif %}
+                                        </small>
                                     </div>
                                 </div>
                             {% endfor %}

@@ -18,14 +18,15 @@ class BackendWifiController extends AbstractController
     /**
      * @Route("/", name="b_wifis")
      */
-    public function wifis(UserWifiRepository $wifiRepository)
+    public function wifis(Request $request, UserWifiRepository $wifiRepository, BackendController $backendController)
     {
         $wifis = $wifiRepository->findBy(['user'=>$this->getUser()]);
         return $this->render(
             'backend/wifi/index.html.twig',
             [
                 'title' => 'My WiFi configurations',
-                'wifis' => $wifis
+                'wifis' => $wifis,
+                'isMobile' => $backendController->isMobile($request)
             ]
         );
     }

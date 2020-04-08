@@ -52,7 +52,7 @@ class UserSupportType extends AbstractType
             ->add('html', TextareaType::class,
                 [
                     'required' => false,
-                    'label' => 'HTML Content',
+                    'label' => 'Support message',
                     'attr' => [
                         'class' => 'form-control summernote'
                     ],

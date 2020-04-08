@@ -7,7 +7,8 @@
 
 {% block body %}
     <p><b>{{'wifi_configure1'|trans}}</b><br>
-        {{'wifi_configure2'|trans}}</p>
+        {% if isMobile == false %}{{'wifi_configure2'|trans}}{% endif %}
+    </p>
     <div class="text-right" style="margin-bottom: 0.4em">
         <button type="button" {{ add_button_state }} class="btn btn-primary" onclick="window.location='{{ path('b_wifi_edit') }}'">
             {{'Add new'|trans}} WiFi</button>
@@ -19,8 +20,10 @@
     <thead>
     <tr>
         <th>Type</th>
-        <th>SSID / Name</th>
+        <th>SSID</th>
+{% if isMobile == false %}
         <th>{{'Created'|trans}}</th>
+{% endif %}
         <th>Admin</th>
     </tr>
     </thead>
@@ -29,7 +32,9 @@
         <tr>
             <td><b>{{ w.type }}</b></td>
             <td>{{ w.wifiSsid }}</td>
+{% if isMobile == false %}
             <td>{{ w.created|date("d.m.Y") }}</td>
+{% endif %}
             <td>
                 <a class="btn btn-default" href="{{ path('b_wifi_edit', {'uuid':w.id}) }}">
                     <span class="glyphicon glyphicon-edit"></span> {{'Edit'|trans}}</a> &nbsp;

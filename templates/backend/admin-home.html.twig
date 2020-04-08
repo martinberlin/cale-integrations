@@ -11,6 +11,7 @@
 {% block body %}
     <div class="row">
 
+{% if isMobile == false %}
         <div class="col-md-5 col-sm-5 col-xs-12">
             <small>Click here if you want to understand the sections of the admin for a short on-boarding tour</small>
             <div class="text-center" style="margin-bottom:1em">
@@ -30,7 +31,7 @@ Recommended steps to start:
                     <h4><a  href="{{ path('b_wifi_edit') }}">Add your WiFi Access points</a></h4>Only if you will use a WiFi display otherwise skip this step.
                 </li>
                 <li>
-                    <h4>Screen<span class="glyphicon glyphicon-arrow-right"></span>Content partials add your APIs to the template columns</h4>
+                    <h4>Screen <span class="glyphicon glyphicon-arrow-right"></span> Content partials add your APIs to the template columns</h4>
                     We recommend to start adding the HTML Api since has no requirements.
                 </li>
                 <li>
@@ -54,6 +55,7 @@ Recommended steps to start:
             <br><br>
 Admin version: v{{ version }}
         </div>
+{% endif %}
 
         <div class="col-md-7 col-sm-7 col-xs-12">
             <h4>Screen log</h4>

@@ -36,9 +36,8 @@ class BackendApiController extends AbstractController
     /**
      * @Route("/", name="b_home_apis")
      */
-    public function homeApis(UserApiRepository $userApiRepository, IntegrationApiRepository $integrationApiRepository)
+    public function homeApis(Request $request, UserApiRepository $userApiRepository, IntegrationApiRepository $integrationApiRepository, BackendController $backendController)
     {
-        // todo: Didn't work research Why:  $apis = $userApiRepository->find(['user' => $this->getUser()]);
         $apis = $this->getUser()->getUserApis();
 
         $list = [];
@@ -66,7 +65,8 @@ class BackendApiController extends AbstractController
             'backend/admin-apis.html.twig',
             [
                 'title' => 'Connected APIs',
-                'apis' => $list
+                'apis' => $list,
+                'isMobile' => $backendController->isMobile($request)
             ]
         );
     }

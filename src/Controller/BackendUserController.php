@@ -54,7 +54,7 @@ class BackendUserController extends AbstractController
         }
 
         return $this->render(
-            'backend/admin-user-profile.html.twig', [
+            'backend/user/admin-user-profile.html.twig', [
                 'title' => 'Your user profile',
                 'form'  => $form->createView()
             ]
@@ -64,9 +64,9 @@ class BackendUserController extends AbstractController
     /**
      * @Route("/support", name="b_user_support")
      */
-    public function support(Request $request, EntityManagerInterface $entityManager,\Swift_Mailer $mailer)
+    public function support(Request $request, EntityManagerInterface $entityManager,\Swift_Mailer $mailer, BackendController $backendController)
     {
-        $maxChars = 1500;
+        $maxChars = 2500;
         $emailFrom = $this->getUser()->getEmail();
         $form = $this->createForm(UserSupportType::class, null,
             ['html_max_chars' => $maxChars, 'email_from' => $emailFrom]);
@@ -105,11 +105,12 @@ class BackendUserController extends AbstractController
         }
 
         return $this->render(
-            'backend/admin-user-support.html.twig', [
+            'backend/user/admin-user-support.html.twig', [
                 'title' => 'Get official support from CALE',
                 'form'  => $form->createView(),
                 'html_max_chars' => $maxChars,
-                'form_submitted' => $formSubmitted
+                'form_submitted' => $formSubmitted,
+                'isMobile' => $backendController->isMobile($request)
             ]
         );
     }

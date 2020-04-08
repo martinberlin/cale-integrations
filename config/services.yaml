@@ -29,7 +29,7 @@ parameters:
              '1st Column': 'Column_1st'
              '2nd Column': 'Column_2nd'
              '3rd Column': 'Column_3rd'
-    html_max_chars: 1000
+    html_max_chars: 2000
     # Notice that ../public is hardcoded in BackendApiController::apiInternalHtml
     screen_images_directory: /screenimg
     # Email config

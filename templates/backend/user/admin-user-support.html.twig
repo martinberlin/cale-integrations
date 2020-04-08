@@ -24,6 +24,8 @@
 
             {{ form_end(form) }}
         </div>
+
+        {% if isMobile == false %}
         <div class="col-md-4 col-sm-12 col-xs-12" style="margin-top: 0.8em">
             <b>HINTS:</b> <br><br>
             <b>If you want to get help fast please tell us exactly what steps we need to take, so we can reproduce what you are experiencing and find a solution.</b>
@@ -31,6 +33,7 @@
             <br>
             If you need that CALE integrates a new API to add it to your Screens, please send us the link, so we can research if it can be implemented.
         </div>
+        {% endif %}
     </div>
 {% endblock %}
 
