@@ -88,6 +88,7 @@ Admin version: v{{ version }}
 {% block javascripts %}
     <script>
         screenLogTable = 'screen_log';
+        let isMobile = ('{{ isMobile }}'==='1')?true:false;
         let refreshes = 0;
         let autorefresh = 0;
         let t;
@@ -95,6 +96,10 @@ Admin version: v{{ version }}
         let autoLabel = document.getElementById('autorefresh-label');
         let response_msg = document.getElementById('response_msg');
         let interval;
+        let tableJson = '{{ path('b_json_datatables', {'type': 'screen_log'}) }}';
+        if (isMobile) {
+            tableJson = '{{ path('b_json_datatables', {'type': 'screen_log_mobile'}) }}';
+        }
     if (isElement(document.getElementById(screenLogTable))) {
         tableScreenLog()
     }
@@ -109,7 +114,7 @@ Admin version: v{{ version }}
 
     function tableScreenLog() {
         var data, tableName = '#screen_log', columns, str,
-            jqxhr = $.ajax('{{ path('b_json_datatables', {'type': 'screen_log'}) }}')
+            jqxhr = $.ajax(tableJson)
                 .done(function () {
                     data = JSON.parse(jqxhr.responseText);
                     if (!refreshes) {
@@ -119,14 +124,29 @@ Admin version: v{{ version }}
                         });
 
                     }
-                    data.columns[0].render = function (data) {
-                        return '<small>' + data + '</small>';
-                    };
+
                     data.columns[3].render = function (data, type, row) {
-                        return formatBytes(data);
+                        return '<small>' +formatBytes(data)+ '</small>';
                     };
 
-                    refreshLogTable(tableName, data, [[1, 'desc'], [5, 'desc']]);
+                    if (isMobile) {
+                        data.columns[0].render = function (data) {
+                            return '<small>' + data + '</small>';
+                        };
+                        data.columns[1].render = function (data) {
+                            return '<small>' + data + '</small>';
+                        };
+                        data.columns[2].render = function (data) {
+                            return '<small>' + data + '</small>';
+                        };
+                        data.columns[4].render = function (data) {
+                            return '<small>' + data + '</small>';
+                        };
+                        refreshLogTable(tableName, data, [[1, 'desc']]);
+                    } else {
+                        refreshLogTable(tableName, data, [[1, 'desc'], [5, 'desc']]);
+                    }
+
                 })
                 .fail(function (jqXHR, exception) {
                     var msg = '';

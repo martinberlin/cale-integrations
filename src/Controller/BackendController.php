@@ -192,6 +192,14 @@ class BackendController extends AbstractController
         }
     }
 
+    private function datatablesColumnsMobile(&$json) {
+        $json['columns'][] = (object)['data' => 'screen',   'n'=>'Scr'];
+        $json['columns'][] = (object)['data' => 'created',  'n'=>'Access'];
+        $json['columns'][] = (object)['data' => 'w',        'n'=>'Width'];
+        $json['columns'][] = (object)['data' => 'b',        'n'=>'Bytes'];
+        $json['columns'][] = (object)['data' => 'ip',       'n'=>'IP'];
+    }
+
     /**
      * @Route("/json/data/{type}", name="b_json_datatables")
      */
@@ -218,6 +226,23 @@ class BackendController extends AbstractController
                 }
                 $json = ['status' => $count.' '.$translator->trans('logs_purged')];
                 $em->flush();
+                break;
+
+            case 'screen_log_mobile':
+                $logs = $screenLogRepository->findBy(['user' => $this->getUser()],['created' => 'DESC'],1000);
+
+                foreach ($logs as $log){
+                    $display = $log->getScreen()->getDisplay();
+                    $created = $log->getCreated()+date("Z");
+                    $json['data'][] = [
+                        'screen' => substr($log->getScreen()->getId(),-3),
+                        'created'=> gmdate($datatablesDateFormat, $created),
+                        'w' => ($display instanceof Display) ? $display->getWidth() : '',
+                        'b' => $log->getBytes(),
+                        'ip'=> $log->getInternalIp()
+                    ];
+                }
+                $this->datatablesColumnsMobile($json);
                 break;
 
             case 'screen_log':
