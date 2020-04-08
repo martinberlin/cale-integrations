@@ -14,6 +14,12 @@
             "config/packages/aws.yaml"
         ]
     },
+    "bacon/bacon-qr-code": {
+        "version": "2.0.0"
+    },
+    "dasprid/enum": {
+        "version": "1.0.0"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -120,6 +126,9 @@
     "egulias/email-validator": {
         "version": "2.1.x-dev"
     },
+    "endroid/qr-code": {
+        "version": "3.7.7"
+    },
     "firebase/php-jwt": {
         "version": "v5.0.0"
     },
@@ -156,6 +165,9 @@
     "johngrogg/ics-parser": {
         "version": "v2.1.17"
     },
+    "khanamiryan/qrcode-detector-decoder": {
+        "version": "1.0.2"
+    },
     "laminas/laminas-zendframework-bridge": {
         "version": "1.0.2"
     },
@@ -164,6 +176,9 @@
     },
     "mtdowling/jmespath.php": {
         "version": "2.5.0"
+    },
+    "myclabs/php-enum": {
+        "version": "1.7.6"
     },
     "nesbot/carbon": {
         "version": "2.30.0"
@@ -175,7 +190,7 @@
         "version": "2.2.3"
     },
     "php": {
-        "version": "7.3"
+        "version": "7.4"
     },
     "phpseclib/phpseclib": {
         "version": "2.0.23"
@@ -504,9 +519,6 @@
     },
     "twig/twig": {
         "version": "3.x-dev"
-    },
-    "webimpress/safe-writer": {
-        "version": "2.0.1"
     },
     "zendframework/zend-code": {
         "version": "3.5.x-dev"

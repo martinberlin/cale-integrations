@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-//*
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="app_user", uniqueConstraints={@ORM\UniqueConstraint(name="name_idx", columns={"name"})})
@@ -150,6 +149,13 @@ class User implements UserInterface, Language, Created
     protected $maxScreens;
 
     /**
+     * apiKey
+     * @var string token
+     * @ORM\Column(type="string", length=130, nullable=true)
+     */
+    protected $apiKey;
+
+    /**
      * @var array $roles
      * @ORM\Column(type="array")
      */
@@ -168,6 +174,7 @@ class User implements UserInterface, Language, Created
         $this->sysScreenLogs = new ArrayCollection();
         $this->doNotDisturb = false;
         $this->setCreated(new \DateTime());
+        $this->apiKey = strtoupper(hash("ripemd160", $this->id.$this->email));
     }
 
     /**
@@ -529,6 +536,23 @@ class User implements UserInterface, Language, Created
     public function getSysScreenLogs() {
         return $this->sysScreenLogs;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getApiKey()
+    {
+        return $this->apiKey;
+    }
+
+    /**
+     * @param string
+     */
+    public function setApiKey($a)
+    {
+        $this->apiKey = $a;
+    }
+
 
     public function __toString()
     {

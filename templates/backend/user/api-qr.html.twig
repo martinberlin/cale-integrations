@@ -1,0 +1,35 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+    <p>This is your API key and QR Code. You can scan this using
+        <a href="https://play.google.com/store/apps/details?id=io.cordova.cale" target="_blank">CALE Android app</a>.
+        In case you need to make a new one just submit a ticket in User <span class="glyphicon glyphicon-arrow-right"></span>
+    Get support.
+    </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-sm-4 col-xs-12"></div>
+        <div class="col-md-4 col-sm-4 col-xs-12 text-center">
+            <img src="{{ path('b_user_qr', {'key':key}) }}"><br>
+
+            <button id="reveal" style="margin-top:2em" class="btn-secondary">Reveal API Key</button>
+            <input style="visibility:hidden;margin-top:2em" type="text" id="apikey" rows="4" onclick="this.setSelectionRange(0, this.value.length)" class="form-control">
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    let reveal = document.getElementById('reveal');
+    let apikey = document.getElementById('apikey');
+
+    reveal.onclick = function() {
+        reveal.style.display = 'none';
+        apikey.style.visibility = 'visible';
+        apikey.value = '{{key}}';
+    };
+</script>
+{% endblock %}

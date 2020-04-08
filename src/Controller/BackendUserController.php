@@ -8,11 +8,13 @@ use App\Form\UserSupportType;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
+use Endroid\QrCode\QrCode;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -147,6 +149,33 @@ class BackendUserController extends AbstractController
                 'form' => $form->createView()
                 ]
         );
+    }
+
+    /**
+     * @Route("/api", name="b_user_api")
+     */
+    public function api(Request $request)
+    {
+
+        return $this->render(
+            'backend/user/api-qr.html.twig',
+            [
+                'title' => 'My API key',
+                'key' => $this->getUser()->getApiKey()
+            ]
+        );
+    }
+
+    /**
+     * @Route("/qr/{key}", name="b_user_qr")
+     */
+    public function qr($key)
+    {
+        $qrCode = new QrCode($key);
+        $response = new Response();
+        $response->setContent($qrCode->writeString());
+        $response->headers->set('Content-type', $qrCode->getContentType());
+        return $response;
     }
 
     }
