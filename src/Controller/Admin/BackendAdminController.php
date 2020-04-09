@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class BackendAdminController extends AbstractController
 {
-
+    private $menu = "admin";
     /**
      * @Route("/admindash", name="b_admin_dashboard")
      */
@@ -35,7 +35,8 @@ class BackendAdminController extends AbstractController
             'backend/admin/admin-dashboard.html.twig',
             [
                 'title' => 'Superadmin dashboard',
-                'users' => $users
+                'users' => $users,
+                'menu' => $this->menu
             ]
         );
     }
@@ -51,7 +52,8 @@ class BackendAdminController extends AbstractController
             'backend/admin/apis.html.twig',
             [
                 'title' => 'List apis',
-                'apis' => $apis
+                'apis' => $apis,
+                'menu' => $this->menu
             ]
         );
     }
@@ -92,7 +94,8 @@ class BackendAdminController extends AbstractController
 
         return $this->render('backend/admin/api-edit.html.twig', [
             'title' => $title,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'menu' => $this->menu
         ]);
     }
 
@@ -158,6 +161,7 @@ class BackendAdminController extends AbstractController
                 'title' => 'Newsletter tool',
                 'form' => $form->createView(),
                 'html_max_chars' => $maxChars,
+                'menu' => $this->menu
             ]
         );
     }
@@ -173,7 +177,8 @@ class BackendAdminController extends AbstractController
             'backend/admin/displays.html.twig',
             [
                 'title' => 'List displays',
-                'displays' => $displays
+                'displays' => $displays,
+                'menu' => $this->menu
             ]
         );
     }
@@ -214,7 +219,8 @@ class BackendAdminController extends AbstractController
 
         return $this->render('backend/admin/display-edit.html.twig', [
             'title' => $title,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'menu' => $this->menu
         ]);
     }
 

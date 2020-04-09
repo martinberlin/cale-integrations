@@ -42,10 +42,11 @@ class BackendController extends AbstractController
         return $this->render(
             'backend/admin-home.html.twig',
             [
-                'title' => 'Admin dashboard',
+                'title' => 'User dashboard',
                 'version' => $this->getParameter('version'),
                 'hasScreen' => count($this->getUser()->getScreens()),
-                'isMobile' => $this->isMobile($request)
+                'isMobile' => $this->isMobile($request),
+                'menu' => 'user'
             ]
         );
     }
@@ -113,7 +114,7 @@ class BackendController extends AbstractController
     public function userAgreement()
     {
         return $this->render(
-            'backend/admin-user-agreement.html.twig', ['title' => 'User agreement and code of conduct']
+            'backend/admin-user-agreement.html.twig', ['title' => 'User agreement and code of conduct','menu' => 'user']
         );
     }
 

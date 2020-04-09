@@ -144,8 +144,8 @@ Optional choose an Eink display: Optional choose an E-Ink display
 Save screen: Save Screen
 screen_edit_partials: Edit content partials
 screen_edit_config: Edit Screen configuration
-screen_edit_line1: Here you can configure what template to use to render your content
-screen_edit_line2: We call partials the small pieces of content where your APIs are rendered
+screen_edit_line1: Configure what template to use to render your content
+screen_edit_line2: Content partials are small pieces of content where your APIs are rendered
 screen_edit_configure1: You can configure up to
 screen_edit_configure2: different output Screens
 

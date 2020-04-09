@@ -33,6 +33,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  */
 class BackendApiController extends AbstractController
 {
+    private $menu = "api";
     /**
      * @Route("/", name="b_home_apis")
      */
@@ -66,7 +67,8 @@ class BackendApiController extends AbstractController
             [
                 'title' => 'Connected APIs',
                 'apis' => $list,
-                'isMobile' => $backendController->isMobile($request)
+                'isMobile' => $backendController->isMobile($request),
+                'menu' => $this->menu
             ]
         );
     }
@@ -113,7 +115,8 @@ class BackendApiController extends AbstractController
             [
                 'title' => 'Api configurator',
                 'form' => $form->createView(),
-                'json_apis' => json_encode($apis)
+                'json_apis' => json_encode($apis),
+                'menu' => $this->menu
             ]
         );
     }
@@ -148,8 +151,9 @@ class BackendApiController extends AbstractController
         return $this->render(
             'backend/api/confirm-delete.html.twig',
             [
-                'title' => 'Confirm API deletion',
-                'form' => $form->createView()
+                'title' => 'Confirm API removal',
+                'form' => $form->createView(),
+                'menu' => $this->menu
             ]
         );
     }
@@ -230,7 +234,8 @@ class BackendApiController extends AbstractController
             [
                 'title' => 'Step 1: Setup location Api',
                 'form'  => $form->createView(),
-                'intapi_uuid' => $intapi_uuid
+                'intapi_uuid' => $intapi_uuid,
+                'menu' => $this->menu
             ]
         );
     }
@@ -277,7 +282,8 @@ class BackendApiController extends AbstractController
                 'title' => 'Step 1: Configure shared calendar',
                 'form'  => $form->createView(),
                 'intapi_uuid' => $intapi_uuid,
-                'userapi_id'  => $userApi->getId()
+                'userapi_id'  => $userApi->getId(),
+                'menu' => $this->menu
             ]
         );
     }
@@ -393,7 +399,8 @@ class BackendApiController extends AbstractController
                 'authUrl' => $authUrl,
                 'api_uuid' => $apiUuid,
                 'intapi_uuid' => $intapi_uuid,
-                'renderPreview' => $renderPreview
+                'renderPreview' => $renderPreview,
+                'menu' => $this->menu
             ]
         );
     }
@@ -488,7 +495,8 @@ class BackendApiController extends AbstractController
                 'hour_format' => $this->getUser()->getHourFormat(),
                 'image_path' => $imagePath,
                 'html_max_chars' => $htmlMaxChars,
-                'image_uploaded' => $imageUploaded
+                'image_uploaded' => $imageUploaded,
+                'menu' => $this->menu
             ]
         );
     }
@@ -575,7 +583,8 @@ class BackendApiController extends AbstractController
                 'form' => $form->createView(),
                 'intapi_uuid' => $intapi_uuid,
                 'userapi_id' => $userApi->getId(),
-                'form_valid' => $formValid
+                'form_valid' => $formValid,
+                'menu' => $this->menu
             ]
         );
     }

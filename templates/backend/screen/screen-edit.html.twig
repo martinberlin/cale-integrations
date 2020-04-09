@@ -8,15 +8,22 @@
 {% endif %}
 
 {% block body %}
-    <p>
-        {{ 'screen_edit_line1'|trans }}.
-        {{ 'screen_edit_line2'|trans }}
-    </p>
     {{ form_start(form) }}
     {{ form_errors(form) }}
+        <div class="row">
+            <div class="col-md-8 col-sm-8 col-xs-12">
+            {{ 'screen_edit_line1'|trans }}.
+            {{ 'screen_edit_line2'|trans }}
+            </div>
+
+            <div class="col-md-4 col-sm-4 col-xs-12" {% if is_new == false %}style="visibility:false" {% endif %}>
+                {{ form_widget(form.submit_top) }}
+            </div>
+
+        </div>
 
     <div class="row">
-        <div class="col-md-8 col-sm-12 col-xs-12">
+        <div class="col-md-8 col-sm-12 col-xs-12" style="margin-top:0.7em">
             {{ form_row(form.name) }}
 
             {% if isMobile %}
@@ -85,6 +92,33 @@
                 <div class="panel-heading">Select WiFi access points (max. 2)</div>
                 <div class="panel-body text-left" style="margin-top:-0.7em">
                     {{ form_row(form.userWifi) }}
+                </div>
+            </div>
+            <div class="panel panel-default" style="margin-top: 1em">
+                <div class="panel-heading">Service times</div>
+                <div class="panel-body text-left" style="margin-top:-0.7em">
+                    <small>Your Screen will query CALE API on every restart and refresh only on selected days and hours range (Battery lifespan)</small>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            {{ form_row(form.stDayFrom) }}
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            {{ form_row(form.stDayTo) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            {{ form_row(form.stHourFrom) }}
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            {{ form_row(form.stHourTo) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12" style="margin-top:0.7em"><small>Example:
+                            Day from Monday to Friday and hour from 8 to 17:59.</small>
+                        </div>
+                    </div>
                 </div>
             </div>
             <a href="javascript:showAccess()" id="show_access_trigger">Show how to access outside the Firmware</a>

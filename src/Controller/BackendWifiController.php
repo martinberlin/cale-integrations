@@ -15,6 +15,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class BackendWifiController extends AbstractController
 {
+    private $menu = "wifi";
     /**
      * @Route("/", name="b_wifis")
      */
@@ -26,7 +27,8 @@ class BackendWifiController extends AbstractController
             [
                 'title' => 'My WiFi configurations',
                 'wifis' => $wifis,
-                'isMobile' => $backendController->isMobile($request)
+                'isMobile' => $backendController->isMobile($request),
+                'menu' => $this->menu
             ]
         );
     }
@@ -70,7 +72,8 @@ class BackendWifiController extends AbstractController
             [
                 'title' => $title,
                 'form' => $form->createView(),
-                'uuid' => $uuid
+                'uuid' => $uuid,
+                'menu' => $this->menu
             ]
         );
     }

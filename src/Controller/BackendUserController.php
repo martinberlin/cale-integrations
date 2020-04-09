@@ -26,6 +26,7 @@ use Symfony\Component\Security\Core\Security;
  */
 class BackendUserController extends AbstractController
 {
+    private $menu = "user";
     /**
      * @Route("/profile", name="b_user_profile")
      */
@@ -58,7 +59,8 @@ class BackendUserController extends AbstractController
         return $this->render(
             'backend/user/admin-user-profile.html.twig', [
                 'title' => 'Your user profile',
-                'form'  => $form->createView()
+                'form'  => $form->createView(),
+                'menu' => $this->menu
             ]
         );
     }
@@ -112,7 +114,8 @@ class BackendUserController extends AbstractController
                 'form'  => $form->createView(),
                 'html_max_chars' => $maxChars,
                 'form_submitted' => $formSubmitted,
-                'isMobile' => $backendController->isMobile($request)
+                'isMobile' => $backendController->isMobile($request),
+                'menu' => $this->menu
             ]
         );
     }
@@ -146,7 +149,8 @@ class BackendUserController extends AbstractController
         return $this->render(
             'backend/user/terminate.html.twig', [
                 'title' => 'Terminate my account at CALE',
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'menu' => $this->menu
                 ]
         );
     }
@@ -161,7 +165,8 @@ class BackendUserController extends AbstractController
             'backend/user/api-qr.html.twig',
             [
                 'title' => 'My API key',
-                'key' => $this->getUser()->getApiKey()
+                'key' => $this->getUser()->getApiKey(),
+                'menu' => $this->menu
             ]
         );
     }

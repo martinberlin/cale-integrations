@@ -22,6 +22,18 @@ class ScreenType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         /* templates is injected from services.yml */
+        $hoursFrom = array();
+        $hoursTo = array();
+        $days = [1=>'Mon',2=>'Tue',3=>'Wed',4=>'Thu',5=>'Fri',6=>'Sat',7=>'Sun'];
+        $stDays = array();
+
+        for ($i = 0; $i <= 23; $i++) {
+            $hoursFrom["{$i}:00"] = "$i";
+            $hoursTo["{$i}:59"]   = "$i";
+        }
+        for ($i = 1; $i <= 7; $i++) {
+            $stDays["$i {$days[$i]}"] = "$i";
+        }
         $resolver->setDefaults(
             [
                 'templates' => false,
@@ -30,6 +42,9 @@ class ScreenType extends AbstractType
                     "Screen URL is protected with an Authentication token" => 0,
                     "Screen URL is public for anyone knowing the link" => 1
                 ],
+                'stDays' => $stDays,
+                'stHoursFrom' => $hoursFrom,
+                'stHoursTo' => $hoursTo,
                 'data_class' => Screen::class
             ]);
     }
@@ -95,7 +110,35 @@ class ScreenType extends AbstractType
                 'label' => 'Bearer token',
                 'attr' => ['class' => 'form-control','readonly' => true]
             ])
-
+            ->add('stDayFrom', ChoiceType::class,
+                [
+                    'choices' => $options['stDays'],
+                    'label' => 'Day from',
+                    'attr' => ['class' => 'form-control']
+                ])
+            ->add('stDayTo', ChoiceType::class,
+                [
+                    'choices' => $options['stDays'],
+                    'label' => 'Day from',
+                    'attr' => ['class' => 'form-control']
+                ])
+            ->add('stHourFrom', ChoiceType::class,
+                [
+                    'choices' => $options['stHoursFrom'],
+                    'label' => 'Hour from',
+                    'attr' => ['class' => 'form-control']
+                ])
+            ->add('stHourTo', ChoiceType::class,
+                [
+                    'choices' => $options['stHoursTo'],
+                    'label' => 'Hour to',
+                    'attr' => ['class' => 'form-control']
+                ])
+            ->add('submit_top', SubmitType::class,
+                [
+                    'label' => 'Save screen',
+                    'attr' => ['class' => 'btn btn-primary form-control']
+                ])
             ->add('submit', SubmitType::class,
                 [
                     'label' => 'Save screen',

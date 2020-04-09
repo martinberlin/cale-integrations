@@ -24,6 +24,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class BackendScreenController extends AbstractController
 {
+    private $menu = "screen";
+
     /**
      * @Route("/", name="b_screens")
      */
@@ -36,7 +38,8 @@ class BackendScreenController extends AbstractController
                 'title' => 'My screens',
                 'screens' => $screens,
                 'user_max_screens' => $this->getUser()->getMaxScreens(),
-                'isMobile' => $backendController->isMobile($request)
+                'isMobile' => $backendController->isMobile($request),
+                'menu' => $this->menu
             ]
         );
     }
@@ -94,7 +97,8 @@ class BackendScreenController extends AbstractController
                 'isMobile' => $backendController->isMobile($request),
                 'bmp_url'  => ($screen->getDisplay() instanceof Display) ?
                     $this->imageUrlGenerator($screen->isOutSsl(), 'bmp', $this->getUser()->getName(), $screen->getId()): '',
-                'is_new' => $isNewScreen
+                'is_new' => $isNewScreen,
+                'menu' => $this->menu
             ]
         );
     }
@@ -156,7 +160,8 @@ class BackendScreenController extends AbstractController
                 'display' => $display,
                 'screen_public' => $screen->isPublic(),
                 'template_twig' => str_replace('.html.twig','',$screen->getTemplateTwig()),
-                'thumbnail_src' => $this->thumbnailUrlGenerator($this->getUser()->getName(), $uuid)
+                'thumbnail_src' => $this->thumbnailUrlGenerator($this->getUser()->getName(), $uuid),
+                'menu' => $this->menu
             ]
         );
     }
@@ -251,7 +256,8 @@ class BackendScreenController extends AbstractController
             'screen_image_type' => strtoupper($imageType),
             'form' => $form->createView(),
             'html_url' => $htmlUrl,
-            'image_url' => $imageUrl
+            'image_url' => $imageUrl,
+            'menu' => $this->menu
         ];
         $htmlPerColumn['Header'] = '';
         $htmlPerColumn['Column_1st'] = '';
