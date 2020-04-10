@@ -65,9 +65,9 @@ class ApiController extends AbstractController
                 $json['data'][] = [
                     'screen' => $s->getName(),
                     'size' => is_null($display) ? '' : $display->getWidth().'*'.$display->getHeight(),
-                    'id' => $s->getId(),
-                    'config' => json_encode($config)
+                    'id' => $s->getId()
                 ];
+                $json[$s->getId()] = json_encode($config);
             }
         }
         $this->datatablesColumns($json);
