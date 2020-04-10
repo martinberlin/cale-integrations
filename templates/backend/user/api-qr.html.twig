@@ -3,8 +3,10 @@
 {% block body %}
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-    <p>This is your API key and QR Code. You can scan this using
-        <a href="https://play.google.com/store/apps/details?id=io.cordova.cale" target="_blank">CALE Android app</a>.
+    <p><b>This QR Code represents your API Key.</b> You can scan this using
+        <a href="https://play.google.com/store/apps/details?id=io.cordova.cale" target="_blank">CALE Android app</a>
+        to connect it to this Backend.<br>This will enable the app to list your Screens and read the configuration to send it
+        using Bluetooth to your Display controllers.
     </p>
         </div>
     </div>
@@ -18,9 +20,9 @@
         </div>
     </div>
     <div class="row">
-            <div class="col-md-3 col-sm-6 col-xs-12"></div>
-            <div class="col-md-6 col-sm-6 col-xs-12 text-center">
-        <small>In case you need to make a new one just submit a ticket in <b>User <span class="glyphicon glyphicon-arrow-right"></span>
+            <div class="col-md-4 col-sm-4 col-xs-12"></div>
+            <div class="col-md-4 col-sm-4 col-xs-12 text-center" id="reveal_t" style="visibility:hidden">
+        <small>To make a new Key send a message in <b>User <span class="glyphicon glyphicon-arrow-right"></span>
         Get support</b></small>
         </div>
     </div>
@@ -29,11 +31,13 @@
 {% block javascripts %}
 <script>
     let reveal = document.getElementById('reveal');
+    let revealt = document.getElementById('reveal_t');
     let apikey = document.getElementById('apikey');
 
     reveal.onclick = function() {
         reveal.style.display = 'none';
         apikey.style.visibility = 'visible';
+        revealt.style.visibility = 'visible';
         apikey.value = '{{key}}';
     };
 </script>

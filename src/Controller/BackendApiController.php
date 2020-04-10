@@ -481,8 +481,8 @@ class BackendApiController extends AbstractController
                     ]);
             }
         }
-
-        $imagePath = ($imageUploaded) ? $api->getImagePath().'?'.time() : $api->getImagePath();
+        // Avoid cache
+        $imagePath = $api->getImagePath().'?'.time();
 
         return $this->render(
             'backend/api/conf-html-content.html.twig',
