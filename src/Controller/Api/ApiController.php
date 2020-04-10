@@ -48,7 +48,7 @@ class ApiController extends AbstractController
             $wifis = $user->getUserWiFis();
             $baseconfig = [];
             for($i = 0; $i<3; $i++) {
-                $index = ++$i;
+                $index = $i+1;
                 if (isset($wifis[$i])) {
                     $baseconfig['wifi_ssid'.$index] = $wifis[$i]->getWifiSsid();
                     $baseconfig['wifi_pass'.$index] = $wifis[$i]->getWifiPass();
