@@ -61,7 +61,7 @@ class ApiController extends AbstractController
                 $imageType = ($isDisplayAssigned && $display->getType()==='eink') ?'bmp':'jpg';
                 $config = $baseconfig;
                 $config['screen_url'] = ($isDisplayAssigned) ?
-                    $this->imageUrlGenerator($s->isOutSsl(), $imageType, $this->getUser()->getName(), $s->getId()): '';
+                    $this->imageUrlGenerator($s->isOutSsl(), $imageType, $user->getName(), $s->getId()): '';
                 $config['bearer'] = $s->getOutBearer();
                 $json['data'][] = [
                     'screen' => $s->getName(),
