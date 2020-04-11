@@ -5,14 +5,18 @@
     {% set add_button_state = '' %}
 {% endif %}
 
+{# TODO: Target for an include since repeats #}
+{% set txtprefix = '' %}
+{% set txtsuffix = '' %}
+{% set btnstyle = '' %}
 {% if isMobile %}
     {% set btnstyle = 'btn-sm' %}
-{% else %}
-    {% set btnstyle = '' %}
+    {% set txtprefix = '<small>' %}
+    {% set txtsuffix = '</small>' %}
 {% endif %}
 
 {% block body %}
-    <p><b>{{'wifi_configure1'|trans}}</b><br>
+    <p>{{ txtprefix|raw }}{{'wifi_configure1'|trans}}{{ txtsuffix|raw }}.
         {% if isMobile == false %}{{'wifi_configure2'|trans}} {{'wifi_configure3'|trans}}{% endif %}
     </p>
     <div class="text-right" style="margin-bottom: 0.4em">
