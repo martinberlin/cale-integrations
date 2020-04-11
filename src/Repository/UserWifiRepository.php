@@ -15,7 +15,7 @@ class UserWifiRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('w')
             ->where('w.user = :user')
-            ->orderBy('w.type', 'ASC')
+            ->orderBy('w.sortPos', 'ASC')
             ->setParameter('user', $user)
             ;
     }

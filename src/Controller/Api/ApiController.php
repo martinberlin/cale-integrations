@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 use App\Entity\Display;
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Repository\UserWifiRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,7 +29,7 @@ class ApiController extends AbstractController
     /**
      * @Route("/{key}/screens", name="api_screen")
      */
-    public function screens($key, UserRepository $userRepository)
+    public function screens($key, UserRepository $userRepository, UserWifiRepository $wifiRepository)
     {
         $r = new JsonResponse();
         $user = $userRepository->findOneBy(['apiKey' => $key]);
@@ -45,7 +46,7 @@ class ApiController extends AbstractController
                 'id' => ''
             ];
         } else {
-            $wifis = $user->getUserWiFis();
+            $wifis = $wifiRepository->findBy(['user' => $user],['sortPos' => 'ASC']);
             $baseconfig = [];
             for($i = 0; $i<3; $i++) {
                 $index = $i+1;

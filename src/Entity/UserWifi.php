@@ -47,6 +47,11 @@ class UserWifi implements Created
     protected $wifiPass;
 
     /**
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    protected $sortPos;
+
+    /**
      * @var \DateTime
      * @ORM\Column(type="datetime")
      */
@@ -159,6 +164,23 @@ class UserWifi implements Created
     {
         $this->wifiPass = $wifiPass;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getSortPos()
+    {
+        return $this->sortPos;
+    }
+
+    /**
+     * @param mixed $sortPos
+     */
+    public function setSortPos($sortPos)
+    {
+        $this->sortPos = $sortPos;
+    }
+
 
     public function __toString()
     {

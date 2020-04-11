@@ -19,9 +19,13 @@ class UserWifiType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        for ($i = 1; $i <= 9; $i++) {
+            $sort["{$i}"] = "$i";
+        }
         $resolver->setDefaults(
             [
                 'data_class' => UserWifi::class,
+                'sort' => $sort,
                     'tags' =>
                 [   'Home' => 'Home',
                     'Office 1' => 'Office_1',
@@ -51,6 +55,13 @@ class UserWifiType extends AbstractType
                     'label' => 'WiFi password',
                     'attr' => ['class' => 'form-control']
                 ])
+            ->add('sortPos', ChoiceType::class,
+                [
+                    'label' => 'Sort position',
+                    'choices' => $options['sort'],
+                    'attr' => ['class' => 'form-control']
+                ])
+
             ->add('submit', SubmitType::class,
                 [
                     'attr' => ['class' => 'btn btn-primary', 'style' => 'margin-top:1em']

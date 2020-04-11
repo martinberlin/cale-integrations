@@ -21,7 +21,7 @@ class BackendWifiController extends AbstractController
      */
     public function wifis(Request $request, UserWifiRepository $wifiRepository, BackendController $backendController)
     {
-        $wifis = $wifiRepository->findBy(['user'=>$this->getUser()]);
+        $wifis = $wifiRepository->findBy(['user'=>$this->getUser()], ['sortPos'=>'ASC']);
         return $this->render(
             'backend/wifi/index.html.twig',
             [
