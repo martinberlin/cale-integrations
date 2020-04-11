@@ -264,7 +264,7 @@ Save Credentials: Guardar Credenciales
 Name your Cloudwatch metric: Nombre del widget
 Image JSON definition: JSON de la imagen
 #Wifi
-wifi_configure1: Here you may configure your may store up to 5 WiFi access points and tag them like "home", "office" etc.
+wifi_configure1: Here you can store up to 5 WiFi access points and tag them like "home" or "office"
 wifi_configure2: In the Screen config you can select this WiFis and get a JSON or Config.h file in Screen > Config to setup your displays whenever you are. You can set up to two WiFi access point per device, the Firmware will measure which has the strongest signal and connect to that one.
 wifi_configure3: Keep in mind that sort is ascending and only the first two will be automatically selected as main access points.
 #Support
