@@ -30,7 +30,7 @@
     <h3>Configuring the Firmware using Bluetooth</h3>
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-7">
     <div class="panel panel-default" style="margin-top: 1em">
                 <div class="panel-heading">Quick access:</div>
                 <div class="panel-body">
@@ -46,21 +46,34 @@
             <a id="a1"></a><br>
             <p style="margin-top:4em">
                 We are currently in the process of reshaping and making the Firmware configuration easier.
-                The goal is to make the configuration using an Android app the default way to set up your display. But we will
-                always keep the possibility to have also a hardcoded C configuration since there are many use cases where user do
-                not have Android, or they just want to have a hardcoded configuration per se.
+                The Android app is now oficially the default way to set up your display.
+                But we will always keep the possibility to have also a hardcoded C configuration since there are many use cases where user do
+                not have Android, or they just want to have a hardcoded configuration per se, keeping in mind that ESP8266 has no bluetooth.
             </p>
             <br><br>
-            <b>Basically the Bluetooth configuration boils down to 3 steps</b>
+
+            <h4>Configuring a Screen and WiFi</h4>
+            In 3 steps make a demo Screen<br><br>
             <ol>
-                <li><b>Logged in CALE Admin section "WiFi"</b>, add the access points where the display can get online</li>
-                <li><b>On the Screen config, select what WiFis you are going to use</b>, this will generate a JSON configuration string</li>
-                <li><b>Select the ESP32 Bluetooth in the Android app</b> and in next step copy the previous JSON in the textarea of the Android app. Click <b>"Send config". DONE</b></li>
+                <li><b>Logged in CALE Admin section "WiFi"</b><br>Add 2 access points where the display can get online (ex. home WiFi, mobile hotspot)</li>
+                <li><b>Add an API</b><br>Just add your Google Calendar or to start a HTML API with an image or title as content</li>
+                <li><b>On the Screen config, select what WiFis you are going to use</b><br>This will generate a JSON configuration string.<br>
+                    In <b>Screen <span class="glyphicon glyphicon-right-arrow"></span> Content partials</b> add the API that you created in point 2</li>
+            </ol><br>
+
+            <h4>Send this configuration with Bluetooth to your ESP32 display</h4>
+            <b>Configuring the firmware boils down to 2 steps:</b><br><br>
+            <ol>
+
+                <li><b>Install the Android app</b><br>As a first step connect it with CALE scanning the QR code.<br>
+                    In the Backend: <b>User <span class="glyphicon glyphicon-right-arrow"></span> Api QR code</b>
+                </li>
+                <li><b>Select the Screen and the ESP32 Bluetooth target to configure in the app</b><br>Check that the JSON config is there and Send it to your device</li>
             </ol>
 
             Make sure that before point 3, the display is connected, and waiting for Bluetooth configuration.
     </div>
-        <div class="col-md-6">
+        <div class="col-md-5">
             <a href="https://play.google.com/store/apps/details?id=io.cordova.cale" target="_blank" title="Install CALE config Android application">
                 <img src="/assets/www/firmware/cale_app_blue.jpg" style="border: 1px solid #333333" alt="CALE Android app" class="pull-right"></a>
             <small class="pull-right">Step 1: Select Bluetooth target &nbsp;</small>
@@ -73,7 +86,7 @@
 
     <a id="repo"></a>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-7">
     <h3 style="margin-top:3em">Repository with the Bluetooth version of the Firmware</h3>
 
     <h4><a href="https://github.com/martinberlin/eink-calendar/tree/cale_ble">https://github.com/martinberlin/eink-calendar</a> - cale_ble branch</h4>
@@ -91,7 +104,7 @@
      // preferences.clear();
     </pre>
     </div>
-        <div class="col-md-6">
+        <div class="col-md-5">
 
         </div>
     </div>
@@ -123,7 +136,8 @@
 
     <br style="margin-top:3em">Please download the APK with your mobile browser and give it permissions:<br>
     <h3><a href="https://play.google.com/store/apps/details?id=io.cordova.cale" target="_blank"><span class="cale">CALE</span> Android in Play store</a></h3>
-    <h4><a href="https://github.com/martinberlin/cale-app/tree/master/releases" target="_blank"><span class="cale">CALE</span> Android APK Releases</a></h4>
+    <h4><a href="https://github.com/martinberlin/cale-app/tree/master/releases" target="_blank"><span class="cale">CALE</span> Android APK Releases</a>
+        Please use this version to get the latest APK</h4>
 
     The CALE Android app was sent to approval in Google's developer center on 1st April 2020. Due to the corona-virus
     current situation it may take up to 10 days to get approved. Please try it out installing the signed APK into your

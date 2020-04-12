@@ -30,12 +30,21 @@
      id="namedview116"
      showgrid="false"
      inkscape:zoom="1.1221834"
-     inkscape:cx="188.09112"
-     inkscape:cy="146.49485"
+     inkscape:cx="484.04631"
+     inkscape:cy="246.08102"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="0"
-     inkscape:current-layer="svg1285" />
+     inkscape:current-layer="svg1285"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:snap-global="false">
+    <sodipodi:guide
+       position="40.081833,20.984018"
+       orientation="1,0"
+       id="guide977"
+       inkscape:locked="false" />
+  </sodipodi:namedview>
   <defs
      id="defs1279">
     <linearGradient
@@ -64,13 +73,13 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <path
      inkscape:connector-curvature="0"
-     d="m 3.9918249,89.47397 1.0131915,-0.99081 a 0.26662924,0.26142698 0 0 0 0,-0.37123 L 3.8051846,86.93551 a 0.26662924,0.26142698 0 0 0 -0.087985,-0.0549 0.26662924,0.26142698 0 0 0 -0.2026387,0 0.26662924,0.26142698 0 0 0 -0.1439798,0.14118 0.26662924,0.26142698 0 0 0 -0.021335,0.0993 v 1.7228 L 2.6053516,88.1119 a 0.26772173,0.26249814 0 1 0 -0.3786141,0.37123 l 1.0131915,0.99081 -1.0131915,0.9908 a 0.26772173,0.26249814 0 1 0 0.3786141,0.37123 l 0.7438951,-0.73199 v 1.7228 a 0.26662924,0.26142698 0 0 0 0.021335,0.0993 0.26662924,0.26142698 0 0 0 0.1439798,0.14118 0.25063148,0.24574136 0 0 0 0.2026388,0 0.26662924,0.26142698 0 0 0 0.087985,-0.0549 l 1.1998318,-1.17643 a 0.26662924,0.26142698 0 0 0 0,-0.37123 z M 3.882507,87.75116 4.439762,88.29754 3.882507,88.84392 Z m 0,3.44561 V 90.104 l 0.557255,0.54638 z"
+     d="m 5.4064778,107.62868 1.0131915,-0.99081 a 0.26662924,0.26142698 0 0 0 0,-0.37123 l -1.1998318,-1.17642 a 0.26662924,0.26142698 0 0 0 -0.087985,-0.0549 0.26662924,0.26142698 0 0 0 -0.2026387,0 0.26662924,0.26142698 0 0 0 -0.1439798,0.14118 0.26662924,0.26142698 0 0 0 -0.021335,0.0993 v 1.7228 l -0.7438945,-0.73199 a 0.26772173,0.26249814 0 1 0 -0.3786141,0.37123 l 1.0131915,0.99081 -1.0131915,0.9908 a 0.26772173,0.26249814 0 1 0 0.3786141,0.37123 l 0.7438951,-0.73199 v 1.7228 a 0.26662924,0.26142698 0 0 0 0.021335,0.0993 0.26662924,0.26142698 0 0 0 0.1439798,0.14118 0.25063148,0.24574136 0 0 0 0.2026388,0 0.26662924,0.26142698 0 0 0 0.087985,-0.0549 L 6.41967,108.99064 a 0.26662924,0.26142698 0 0 0 0,-0.37123 z m -0.1093179,-1.72281 0.557255,0.54638 -0.557255,0.54638 z m 0,3.44561 v -1.09277 l 0.557255,0.54638 z"
      id="path1471"
      style="stroke-width:0.26401529" />
   <rect
@@ -602,7 +611,7 @@
          font-size="14px"
          font-weight="bold"
          id="text131"
-         style="font-weight:bold;font-size:14px;font-family:Helvetica;fill:#ffffff"> 4th Screen URL + Authorization</text>
+         style="font-weight:bold;font-size:14px;font-family:Helvetica;fill:#ffffff">DONE!</text>
     </switch>
   </g>
   <rect
@@ -638,7 +647,7 @@
          y="70"
          font-size="18px"
          id="text139"
-         style="font-size:18px;font-family:Helvetica;fill:#000000">SETUP PROCESS USING AN ANDROID APPLICATION</text>
+         style="font-size:18px;font-family:Helvetica;fill:#000000">SETUP PROCESS USING CALE ANDROID APPLICATION</text>
     </switch>
   </g>
   <rect
@@ -793,6 +802,7 @@
 
 
 
+
 ONLINE</xhtml:div>
           </xhtml:div>
         </xhtml:div>
@@ -820,7 +830,7 @@ ONLINE</xhtml:div>
      id="path235"
      style="fill:#333333;stroke:#333333;stroke-width:0.52803057;stroke-miterlimit:10" />
   <g
-     transform="matrix(0.26662924,0,0,0.26142698,-48.355237,-10.68891)"
+     transform="matrix(0.26662924,0,0,0.26142698,-46.940584,7.4658025)"
      id="g197-1">
     <switch
        id="switch195-7">
@@ -847,7 +857,7 @@ ONLINE</xhtml:div>
        xml:space="preserve"><tspan
          id="tspan1000"
          y="389.7688"
-         x="203.87044">In a single copy/paste operation copy the </tspan></text>
+         x="203.87044">Your display should restart and get online with</tspan></text>
     <text
        id="text998-8"
        y="409.75186"
@@ -856,7 +866,7 @@ ONLINE</xhtml:div>
        xml:space="preserve"><tspan
          id="tspan1000-5"
          y="409.75186"
-         x="204.25551">JSON config from CALE admin to Android</tspan></text>
+         x="204.25551">your WiFi AP and download your Screen image</tspan></text>
   </g>
   <g
      id="g197-7-2-9"
@@ -892,8 +902,8 @@ ONLINE</xhtml:div>
        y="120.05952"
        style="fill:#ffffff;stroke-width:0.26401529">Send Config</tspan></text>
   <rect
-     x="6.1163235"
-     y="96.942139"
+     x="7.5309763"
+     y="115.09685"
      width="32.52877"
      height="5.2285395"
      rx="0.79988778"
@@ -904,35 +914,14 @@ ONLINE</xhtml:div>
   <text
      xml:space="preserve"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52020383px;line-height:1.25;font-family:Asap;-inkscape-font-specification:Asap;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26401529"
-     x="12.110573"
-     y="101.61819"
+     x="13.511357"
+     y="119.95264"
      id="text965-5"
      transform="scale(1.0099007,0.99019636)"><tspan
        id="tspan963-4"
-       x="12.110573"
-       y="101.61819"
+       x="13.511357"
+       y="119.95264"
        style="fill:#000000;stroke-width:0.26401529">CALE_xxx</tspan></text>
-  <rect
-     x="6.1163259"
-     y="102.17068"
-     width="32.52877"
-     height="5.2285395"
-     rx="0.79988778"
-     ry="0.7842809"
-     pointer-events="all"
-     id="rect201-2-0"
-     style="fill:#cccccc;stroke:none;stroke-width:0.26401529" />
-  <text
-     xml:space="preserve"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52020383px;line-height:1.25;font-family:Asap;-inkscape-font-specification:Asap;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26401529"
-     x="12.110575"
-     y="106.89849"
-     id="text965-5-4"
-     transform="scale(1.0099007,0.99019636)"><tspan
-       id="tspan963-4-7"
-       x="12.110575"
-       y="106.89849"
-       style="fill:#000000;stroke-width:0.26401529">Speakers</tspan></text>
   <rect
      style="opacity:0.8;fill:#ffffff;fill-opacity:1;stroke:#1a1a1a;stroke-width:0.5291667;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="rect1072"
@@ -962,4 +951,59 @@ ONLINE</xhtml:div>
        x="48.074455"
        y="105.5891"
        style="stroke-width:0.26458335">&quot;wifi_pass1&quot;:&quot;xxxx&quot;}</tspan></text>
+  <g
+     transform="matrix(0.26662923,0,0,0.26142698,-49.303566,-10.632645)"
+     id="g197-1-4">
+    <switch
+       id="switch195-7-3">
+      <text
+         x="201"
+         y="389.0965"
+         font-size="12px"
+         id="text193-5-3"
+         style="font-size:12px;font-family:Helvetica;fill:#000000">
+        <tspan
+           id="tspan1597-9-3"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Helvetica;-inkscape-font-specification:'Helvetica Bold'">Screen</tspan>
+      </text>
+    </switch>
+  </g>
+  <rect
+     x="27.980516"
+     y="92.771935"
+     width="12.252079"
+     height="5.2285395"
+     rx="0.30128062"
+     ry="0.7842809"
+     pointer-events="all"
+     id="rect201-1"
+     style="fill:#0000ff;stroke:none;stroke-width:0.16203175" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52020383px;line-height:1.25;font-family:Asap;-inkscape-font-specification:Asap;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26401529"
+     x="29.531565"
+     y="97.405968"
+     id="text965-3"
+     transform="scale(1.0099007,0.99019636)"><tspan
+       id="tspan963-8"
+       x="29.531565"
+       y="97.405968"
+       style="fill:#ffffff;stroke-width:0.26401529">select</tspan></text>
+  <g
+     transform="matrix(0.26662923,0,0,0.26142698,-49.214781,-5.1921928)"
+     id="g197-1-4-7">
+    <switch
+       id="switch195-7-3-0">
+      <text
+         x="201"
+         y="389.0965"
+         font-size="12px"
+         id="text193-5-3-4"
+         style="font-size:10.68961666px;font-family:Helvetica;fill:#000000;-inkscape-font-specification:'Helvetica, Normal';font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;text-anchor:start;text-align:start;writing-mode:lr;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;">
+        <tspan
+           id="tspan1597-9-3-8"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Helvetica;-inkscape-font-specification:'Helvetica, Normal';font-size:10.68961666px;text-anchor:start;text-align:start;writing-mode:lr;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;">myEink.800x480</tspan>
+      </text>
+    </switch>
+  </g>
 </svg>
