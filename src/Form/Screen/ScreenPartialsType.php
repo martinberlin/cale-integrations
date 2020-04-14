@@ -46,9 +46,15 @@ class ScreenPartialsType extends AbstractType
                     ]
                 ])
 
-            ->add('submit', SubmitType::class,
+            ->add('submit_top', SubmitType::class,
                 [
                     'label' => 'Save screen partials',
+                    'attr' => ['class' => 'btn btn-primary']
+                ])
+
+            ->add('submit', SubmitType::class,
+                [
+                    'label' => 'Save changes',
                     'attr' => ['class' => 'btn btn-primary']
                 ]);
     }

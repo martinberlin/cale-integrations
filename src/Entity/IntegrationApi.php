@@ -271,7 +271,7 @@ class IntegrationApi implements Language, Location, Created
     /**
      * @param string $html
      */
-    public function setHtml(string $html): void
+    public function setHtml($html): void
     {
         $this->html = $html;
     }
