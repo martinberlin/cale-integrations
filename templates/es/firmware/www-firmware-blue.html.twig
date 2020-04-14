@@ -30,7 +30,7 @@
     <h3>Configurando el Firmware usando Bluetooth</h3>
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-7">
     <div class="panel panel-default" style="margin-top: 1em">
                 <div class="panel-heading">Accesso rápido:</div>
                 <div class="panel-body">
@@ -63,23 +63,33 @@
             </ul>
             Naturalmente antes del punto 3, el Firmare debería estar conectado, y esperando recibir la configuración por Bluetooth.
         </div>
-        <div class="col-md-6">
-            <img src="/assets/www/firmware/cale_app_blue.jpg" style="border: 1px solid #333333" alt="CALE Android app" class="pull-right">
-            <small class="pull-right">Paso 1: Selecciona el Bluetooth CALE_* &nbsp;</small>
+        <div class="col-md-5">
+            <a href="{{ cale_android }}" target="_blank" title="Connect scanning QR">
+                <img src="/assets/www/firmware/cale_app_1.jpg" style="border: 1px solid #333333" alt="CALE Android app" class="pull-right"></a>
+            <small class="pull-right">Step 1: Conecta el App con cale.es escaneando el QR</small>
 
-            <img src="/assets/www/firmware/cale_app_send_config.jpg" style="border: 1px solid #333333;margin-top: 2em" alt="CALE Android app" class="pull-right">
-            <small class="pull-right">Paso 2: Copia el Json config del Screen config</small>
+            <a href="{{ cale_android }}" target="_blank" title="Select your Screen">
+                <img src="/assets/www/firmware/cale_app_2.jpg" style="border: 1px solid #333333" alt="CALE Android app" class="pull-right"></a>
+            <small class="pull-right">Step 2: Selecciona el Screen</small>
+
+            <a href="{{ cale_android }}" target="_blank" title="Select ESP32 target">
+                <img src="/assets/www/firmware/cale_app_blue.jpg" style="border: 1px solid #333333;margin-top: 2em" alt="CALE Android app" class="pull-right"></a>
+            <small class="pull-right">Step 3: Con bluetooth activado selecciona el ESP32</small>
+
+            <a href="{{ cale_android }}" target="_blank" title="Done!">
+                <img src="/assets/www/firmware/cale_app_end.jpg" style="border: 1px solid #333333;margin-top: 2em" alt="CALE Android app" class="pull-right"></a>
+            <small class="pull-right">Step 4: Envia la configuración</small>
         </div>
     </div>
 
     <a id="repo"></a>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-7">
             <br style="margin-top:3em">El Firmware código abierto esta aquí:<br>
 
             <h4><a href="https://github.com/martinberlin/eink-calendar/tree/cale_ble">https://github.com/ martinberlin/eink-calendar</a> - cale_ble branch</h4>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-5">
 
         </div>
     </div>
@@ -124,5 +134,5 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript" src="./js/engine/common.js"></script>
+    <script type="text/javascript" src="/js/engine/common.js"></script>
 {% endblock %}

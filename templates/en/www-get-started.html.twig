@@ -5,15 +5,7 @@
 {% endblock carousel %}
 
 {% block body %}
-    <div class="col-md-12" style="margin-top: -2em">
-        <div class="panel panel-default" style="margin-top: 1em">
-            <div class="panel-heading">Quick access:</div>
-            <div class="panel-body">
-                <ul>
-                    <li><a href="#blue">Configuring WiFi over Bluetooth</a></li>
-                </ul>
-            </div></div>
-
+    <div class="col-md-9" style="margin-top: -2em">
         <h2>
             <span class="glyphicon glyphicon-play-circle"></span>
             Get started
@@ -62,9 +54,18 @@
             <a href="{{ path('firmware-blue') }}">configuring the Firmware with Bluetooth</a>
          section.</p>
     </div>
+    <div class="col-md-3">
+        <div class="panel panel-default" style="margin-top: 1em">
+            <div class="panel-heading">Quick access:</div>
+            <div class="panel-body">
+                <ul>
+                    <li><a href="#blue">Configuring WiFi over Bluetooth</a></li>
+                </ul>
+            </div></div>
+    </div>
 
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript" src="./js/engine/common.js"></script>
+    <script type="text/javascript" src="/js/engine/common.js"></script>
 {% endblock %}

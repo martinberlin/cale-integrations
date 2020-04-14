@@ -80,22 +80,32 @@ hr.clearfix {clear: both; width: 100%; float: left}
 
 /* Navbar colors */
 .navbar-inverse .navbar-brand {
-    color: #e1e1e8;
+    color: #757575;
     font-family: 'Asap', sans-serif;
 }
 .navbar-inverse .navbar-brand:focus,
 .navbar-inverse .navbar-brand:hover {
-    color: #fff;
+    color: #757575;
     background-color: transparent
 }
 .navbar-inverse .navbar-text {
-    color: #e1e1e8
+    color: #a1a1a6
 }
 .navbar-inverse .navbar-nav>li>a {
-    color: #e1e1e8
+    color: #a1a1a6
 }
+.navbar-inverse .navbar-nav>li>a:hover {
+    color: #757575
+}
+.navbar-inverse .navbar-nav>li>a:active {
+    color: #757575
+}
+.navbar-inverse .navbar-nav>li>a:visited {
+    color: #a6a0a4
+}
+
 /* www colors */
-.bg-bootstrap { background-color: #2d545e }
+.bg-bootstrap { background-color: #EEEEEE }
 /* backend colors */
 .bg-bootstrap-backend { background-color: #2b2b2b }
 /* colors */
@@ -143,20 +153,20 @@ p .btn, p .form-control {margin-bottom: 20px; vertical-align: top}
   margin: 0 0 0 3px;
 }
 
-/* when on mobile, disable affix position */
-#side-nav {clear: both}
-#side-nav .nav.affix,
-#side-nav .nav.affix.affix-bottom { position: relative; margin: 20px 0; backface-visibility: hidden; }
-
-#side-nav > .nav li.active > a,
-#side-nav > .nav li.active:hover > a { background-color: #e6f0f8 }
-#side-nav > .nav li:hover > a { background-color: #f5f9fc }
-
-
 /* CUSTOMIZE THE NAVBAR
 -------------------------------------------------- */
 
-.navbar-inverse .navbar-brand { color: #fff }
+.navbar-inverse .navbar-brand {
+    color: #67676a;
+}
+/* Overrides for Bootstrap */
+.navbar-inverse .navbar-nav>li>a:focus, .navbar-inverse .navbar-nav>li>a:hover {
+    color: #67676a;
+}
+.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:focus, .navbar-inverse .navbar-nav>a:hover {
+    color: #67676a;
+}
+
 
 .navbar-nav .open .dropdown-menu { left: auto; right:0 }
 
@@ -177,16 +187,13 @@ p .btn, p .form-control {margin-bottom: 20px; vertical-align: top}
 }
 
 .navbar-inverse .navbar-toggle {
-    border-color: #eee;
+    border-color: #67676a;
 }
 .navbar-inverse .navbar-toggle:hover,
 .navbar-inverse .navbar-toggle:focus {
-    border-color: #fff;
+    border-color: #67676a;
 }
 
-.navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
-    background-color: #673ab7;
-}
 
 /* CUSTOMIZE THE CAROUSEL
 -------------------------------------------------- */
