@@ -1,6 +1,6 @@
 
 # home / login
-Username / Email: Username / Email
+user_email: Email
 Password: Password
 submit_login: Login
 forgot_password: I forgot my password
