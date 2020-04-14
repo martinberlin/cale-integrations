@@ -169,7 +169,9 @@ Authorization: Bearer {{ form.vars.value.outBearer }}
     {% if is_new == false %}
         wifis = user_wifi.getElementsByTagName('input');
         for (index = 0; index < 2; ++index) {
-            wifis[index].checked = true;
+            if (typeof wifis[index] === 'object') {
+              wifis[index].checked = true;
+            }
         }
         jsonBlue(user_wifi);
     {% endif %}
