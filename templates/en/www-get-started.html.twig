@@ -11,48 +11,44 @@
             Get started
         </h2>
 
-        <h3>We are working in a easy way to setup your E-Ink directly with Bluetooth
-        </h3>
-        <p>But in this early stage is not yet ready to be delivered since we need more time to test
-            it and make it user friendly.
-            It will be available in April/May 2020.</p>
+        <h3>Compile the latest Firmware in your ESP32 and send the configuration using Bluetooth</h3>
 
         <h3>1. <a href="{{ path('register') }}">Register on <span class="cale">CALE</span></a> and create a demo Screen</h3>
-        <p>Add one API like Google Calendar or Timetree that have easy configuration. Add one
-        Screen with some test display and render this to see your preview. In Screen config
-        you can easily copy the two lines that are needed for point 3.</p>
+        <p><ul>
+            <li>Add one API like Google Calendar or HTML content that have easy configuration</li>
+            <li>Add one Screen with some test display and render this to see your preview</li>
+            <li>Add also one WiFi access point (Home or office WiFi)</li>
+        </ul></p>
 
         <h3>2. Get your Hardware gear</h3>
         <p><a href="{{ path('displays-eink') }}">One E-Ink plus any ESP32</a>. If you want to
-        test it fast without wiring just get an E-Ink with ESP32 module like TTGO T5 to
-        easily test it without needing to build it.</p>
+        test it fast without wiring just get an E-Ink with ESP32 module like TTGO T5 to easily test it without needing to build it.
+        You can skip this point until having one and also try it out without display just on any ESP32</p>
 
         <h3>3. Download and compile the Firmware</h3>
-        <p><a href="{{ path('firmware') }}">Configuration and compiling are explained here</a>.
-        Here you can add in the Firmware config the two lines that reference your Screen from
-        point 1.</p>
 
-        <h3>4. Run CALE</h3>
-        <p>At this point your E-Ink client should be connected with our CALE server. Just
+        <h3>4. Connect the Android App with <span class="cale">CALE.es</span> scanning a QR Code</h3>
+        <p>Install the <a href="https://play.google.com/store/apps/details?id=io.cordova.cale" target="_blank">CALE Android App</a>.
+            <ul>
+            <li>Scan the QR Code in CALE.es after login ( user &gt; Api QR code )</li>
+            <li>Select your Screen</li>
+            <li>Choose the ESP32 bluetooth target and click on <b>Send Config</b></li>
+            </ul>
+            At this point your E-Ink client should be connected with our CALE server. Just
         play around, add new sections/APIs, reset and test how it looks. In step 3 you can
-        decide what is the refresh </p>
+        decide what is the refresh time.</p>
 
         <a id="blue"></a><br>
         <h3>
-            Configuring WiFi over Bluetooth
+            Install the Firmware
         </h3>
-        <p>When we have ready made CALE fully build E-Inks the idea is to make your
-        life easier configuring this. You will get a model with an easy one page instruction
-        manual that explains you how to set this up yourself. The idea is to make it
-            configurable using an Android Application</p>
-
-        <h3>There is a branch ready to be tested in <span class="cale">CALE</span> Repository</h3>
-        <h4><a href="https://github.com/martinberlin/eink-calendar/tree/cale_ble">https://github.com/martinberlin/eink-calendar/tree/cale_ble</a> - cale_ble branch</h4>
-
-
-        <br><p>Please more about this in our
+        <p>Please more about this in our
             <a href="{{ path('firmware-blue') }}">configuring the Firmware with Bluetooth</a>
-         section.</p>
+            section.</p>
+
+        <h4><a href="https://github.com/martinberlin/eink-calendar">https://github.com/martinberlin/eink-calendar</a> - master branch</h4>
+
+
     </div>
     <div class="col-md-3">
         <div class="panel panel-default" style="margin-top: 1em">

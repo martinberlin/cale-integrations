@@ -74,6 +74,8 @@ h4 {
 /* CALE font */
 .cale {
     font-family: 'Asap', sans-serif;
+    letter-spacing: 0.0625em;
+    font-weight: normal;
 }
 
 hr.clearfix {clear: both; width: 100%; float: left}
