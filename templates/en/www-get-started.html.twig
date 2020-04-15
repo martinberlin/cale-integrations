@@ -13,7 +13,7 @@
 
         <h3>Compile the latest Firmware in your ESP32 and send the configuration using Bluetooth</h3>
 
-        <h3>1. <a href="{{ path('register') }}">Register on <span class="cale">CALE</span></a> and create a demo Screen</h3>
+        <h3>1. <a href="{{ path('register') }}">Register on <span class="cale" style="font-weight: bolder">CALE</span></a> and create a demo Screen</h3>
         <p><ul>
             <li>Add one API like Google Calendar or HTML content that have easy configuration</li>
             <li>Add one Screen with some test display and render this to see your preview</li>
@@ -27,10 +27,10 @@
 
         <h3>3. Download and compile the Firmware</h3>
 
-        <h3>4. Connect the Android App with <span class="cale">CALE.es</span> scanning a QR Code</h3>
+        <h3>4. Connect the Android App with <span class="cale" style="font-weight: bolder">CALE.es</span> scanning a QR Code</h3>
         <p>Install the <a href="https://play.google.com/store/apps/details?id=io.cordova.cale" target="_blank">CALE Android App</a>.
             <ul>
-            <li>Scan the QR Code in CALE.es after login ( user &gt; Api QR code )</li>
+            <li>Scan the QR Code in CALE.es after login <b>User <span class="glyphicon glyphicon-arrow-right"></span> Api QR</b></li>
             <li>Select your Screen</li>
             <li>Choose the ESP32 bluetooth target and click on <b>Send Config</b></li>
             </ul>
@@ -47,6 +47,18 @@
             section.</p>
 
         <h4><a href="https://github.com/martinberlin/eink-calendar">https://github.com/martinberlin/eink-calendar</a> - master branch</h4>
+<br>
+        Please read the details with attention in our Firmware section. It's not hard to configure, but you need to uncomment the right definition
+        for your E-Ink display model. And that is not sent per Bluetooth, that is directly hardcoded on the Firmware, what is sent per Bluetooth is the following:
+<br><br>
+        <ol>
+            <li>Screen Url</li>
+            <li>Bearer token</li>
+            <li>WiFi credentials (up to 2)</li>
+        </ol>
+
+        Once the firmware receives this configuration per Bluetooth, it stores is in the non-volatil memory of the ESP32
+        and it does not need to be sent again unless your WiFi is changed.
 
 
     </div>

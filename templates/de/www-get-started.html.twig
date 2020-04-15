@@ -14,7 +14,7 @@
         <h3>Kompilieren Sie die neueste Firmware in Ihrem ESP32 und senden Sie die Konfiguration über Bluetooth</h3>
 
         <h3>1. <a href="{{ path('register') }}">Registrieren Sie sich bei  <span class="cale" style="font-weight:bolder">CALE</span></a>
-            und erstellen Sie einen Demo-Bildschirm</h3>
+            und erstellen Sie einen Screen</h3>
         <p><ul>
             <li>Fügen Sie eine API wie Google Kalender oder HTML-Inhalte hinzu, die einfach zu konfigurieren sind</li>
             <li>Fügen Sie einen Bildschirm mit einer Testanzeige hinzu und rendern Sie diesen, um Ihre Vorschau anzuzeigen</li>
@@ -40,7 +40,7 @@
         fügen Sie neue Abschnitte / APIs hinzu, setzen Sie sie zurück und testen Sie, wie sie aussehen.
         In Schritt 3 können Sie die Aktualisierungszeit festlegen.</p>
 
-        <a id="blue"></a><br>
+        <a id="blue"></a><br><br>
         <h3>Installieren Sie die Firmware
         </h3>
         <p>Bitte mehr dazu in unserem
@@ -48,7 +48,18 @@
 
         <h4><a href="https://github.com/martinberlin/eink-calendar">https://github.com/martinberlin/eink-calendar</a> - master branch</h4>
 
+        Bitte lesen Sie die Details in unserem Abschnitt Firmware. Es ist nicht schwer zu konfigurieren, aber Sie müssen
+        die richtige Definition für Ihr E-Ink-Anzeigemodell auskommentieren. Und das wird nicht per Bluetooth gesendet,
+        das ist direkt in der Firmware fest codiert. Was per Bluetooth gesendet wird, ist das Folgende:<br><br>
 
+        <ol>
+            <li>Bildschirm-URL</li>
+            <li>Inhaber-Token</li>
+            <li>WiFi-Anmeldeinformationen (bis zu 2)</li>
+        </ol>
+        <br><br>
+        Sobald die Firmware diese Konfiguration per Bluetooth erhalten hat, wird sie im nichtflüchtigen Speicher des
+        ESP32 gespeichert und muss nicht erneut gesendet werden, es sei denn, Ihr WLAN wurde geändert.
     </div>
     <div class="col-md-3">
         <div class="panel panel-default" style="margin-top: 1em">
