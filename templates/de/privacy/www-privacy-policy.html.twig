@@ -1,0 +1,187 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="panel panel-default" style="margin-top: 1em">
+        <div class="panel-heading">Quick access:</div>
+        <div class="panel-body">
+            <ul>
+                <li>
+                    <a href="{{ path('google-privacy-policy') }}">Privacy Policy of the data recolected by Google Analytics</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+    <h3>Privacy Policy of <b>CALE.es</b></h3>
+
+    <p><b>CALE is a screen administrator where you can mix content of different APIs and control the content output</b><br>
+
+        This Application collects some Personal Data from its Users in order to enable them access to external API service such as
+        Google Calendar, Weather services or shared Calendars like Timetree.
+        Users may be subject to different protection standards and broader standards may therefore apply to some.
+        In order to learn more about the protection criteria, Users can refer to the applicability section.
+
+        This document can be printed for reference by using the print command in the settings of any browser.
+    </p>
+    <h4>Owner and Data Controller</h4>
+    <p><b>CALE</b> is brought to you by Fasani.de<br>
+        Martin Fasani<br>
+        Lohmühlenstr. 38<br>
+        12435 Berlin, Germany<br>
+        <hr>
+        Owner contact email: <img src="/assets/svg/martin-email.svg"><br>
+
+    <h4>Types of Data collected</h4>
+
+    <p>Among the types of Personal Data that this Application collects, by itself or through third parties, there are: Cookies; Usage Data.
+
+    Complete details on each type of Personal Data collected are provided in the dedicated sections of this privacy policy or by specific explanation texts displayed prior to the Data collection.
+    Personal Data may be freely provided by the User, or, in case of Usage Data, collected automatically when using this Application.
+    Unless specified otherwise, all Data requested by this Application is mandatory and failure to provide this Data may make it impossible for this Application to provide its services. In cases where this Application specifically states that some Data is not mandatory, Users are free not to communicate this Data without consequences to the availability or the functioning of the Service.
+    Users who are uncertain about which Personal Data is mandatory are welcome to contact the Owner.
+    Any use of Cookies – or of other tracking tools – by this Application or by the owners of third-party services used by this Application serves the purpose of providing the Service required by the User, in addition to any other purposes described in the present document and in the Cookie Policy, if available.
+
+    Users are responsible for any third-party Personal Data obtained, published or shared through this Application and confirm that they have the third party's consent to provide the Data to the Owner.
+        <b>The only personal data requested to use this application is a first name and an Email so you can recover your password, all
+        other data you connect from to this Application is via API keys or authorization tokens and comes from external third party providers that
+        own this information</b>
+    </p>
+
+    <h4>Mode and place of processing the Data</h4>
+    <b>Methods of processing</b>
+
+    The Owner takes appropriate security measures to prevent unauthorized access, disclosure, modification, or unauthorized destruction of the Data.
+    The Data processing is carried out using computers and/or IT enabled tools, following organizational procedures and modes strictly related to the purposes indicated. In addition to the Owner, in some cases, the Data may be accessible to certain types of persons in charge, involved with the operation of this Application (administration, sales, marketing, legal, system administration) or external parties (such as third-party technical service providers, mail carriers, hosting providers, IT companies, communications agencies) appointed, if necessary, as Data Processors by the Owner.
+    The updated list of these parties may be requested from the Owner at any time.
+
+    <h4>Legal basis of processing</h4>
+    <p>The Owner may process Personal Data relating to Users if one of the following applies:
+
+    <ul>
+    <li>Users have given their consent for one or more specific purposes. Note: Under some legislations the Owner may be allowed to process Personal Data until the User objects to such processing (“opt-out”), without having to rely on consent or any other of the following legal bases. This, however, does not apply, whenever the processing of Personal Data is subject to European data protection law;
+    provision of Data is necessary for the performance of an agreement with the User and/or for any pre-contractual obligations thereof;</li>
+    <li> is necessary for compliance with a legal obligation to which the Owner is subject;</li>
+    <li>processing is related to a task that is carried out in the public interest or in the exercise of official authority vested in the Owner;
+    processing is necessary for the purposes of the legitimate interests pursued by the Owner or by a third party.
+    </li>
+    </ul>
+    In any case, the Owner will gladly help to clarify the specific legal basis that applies to the processing, and in particular whether the provision of Personal Data is a statutory or contractual requirement, or a requirement necessary to enter into a contract.
+    We frankly don't think we will process any personal data for any specific purpose since this site does not share your personal data
+    or your connected content with any third party.</p>
+
+    <h4>Place</h4>
+
+    <p>The Data is processed at the Owner's operating offices and in any other places where the parties involved in the processing are located.
+    Our main servers are located in the AWS central of Frankfurt am Main, Germany.
+
+    Depending on the User's location, data transfers may involve transferring the User's Data to a country other than their own. To find out more about the place of processing of such transferred Data, Users can check the section containing details about the processing of Personal Data.
+    </p>
+    <h4>Retention time</h4>
+
+    <p>Personal Data shall be processed and stored for as long as required by the purpose they have been collected for.
+
+    Therefore:</p><br>
+    <ul>
+        <li>
+    Personal Data collected for purposes related to the performance of a contract between the Owner and the User shall be retained until such contract has been fully performed.
+        </li>
+    <li>Personal Data collected for the purposes of the Owner’s legitimate interests shall be retained as long as needed to fulfill such purposes. Users may find specific information regarding the legitimate interests pursued by the Owner within the relevant sections of this document or by contacting the Owner.
+    </li>
+    </ul>
+    Once the retention period expires, Personal Data shall be deleted. Therefore, the right to access, the right to erasure, the right to rectification and the right to data portability cannot be enforced after expiration of the retention period.
+    <b>We do not keep in our database any personal data at all if you decide to delete your account or disconnect any external API.</b>
+
+
+    <h4>The purposes of processing</h4>
+
+        <p>The Data concerning the User is collected to allow the Owner to provide its Service, comply with its legal obligations,
+            respond to enforcement requests, protect its rights and interests (or those of its Users or third parties), detect any
+            malicious or fraudulent activity, as well as the following: <b>Displaying content from external platforms.</b>
+
+    <h4>Detailed information on the processing of Personal Data</h4>
+
+    <p>Personal Data is collected for the following purposes and using the following services:
+        <b>Displaying content from external platforms having read-only permissions</b> such as Google Calendar, shared Calendar and any other external information provider we may
+        choose to add in the future. For a detailed list please check our <a href="{{ path('apis') }}">API directory</a>.
+        You are in full control of this external API connections and at any time you can remove this application access to them with a single click.
+    </p>
+     <h4>The rights of Users</h4>
+
+         Users may exercise certain rights regarding their Data processed by the Owner.
+
+         Users entitled to broader protection standards may exercise any of the rights described below. In all other cases, Users may inquire with the Owner to find out which rights apply to them.
+
+         In particular, Users have the right to do the following:<br>
+<ul>
+    <li>
+        <b>Withdraw their consent at any time.</b> Users have the right to withdraw consent where they have previously given their consent to the processing of their Personal Data.
+    </li>
+    <li>
+        <b>Object to processing of their Data.</b> Users have the right to object to the processing of their Data if the processing is carried out on a legal basis other than consent. Further details are provided in the dedicated section below.
+    </li>
+    <li>
+        <b>Access their Data.</b> Users have the right to learn if Data is being processed by the Owner, obtain disclosure regarding certain aspects of the processing and obtain a copy of the Data undergoing processing.
+    </li>
+    <li>
+        <b>Verify and seek rectification.</b> Users have the right to verify the accuracy of their Data and ask for it to be updated or corrected.
+    </li>
+    <li>
+        <b>Have their Personal Data deleted or otherwise removed.</b> Users have the right, at any time they desire, to obtain the erasure of their Data from the Owner.
+    </li>
+    <li>
+        <b>Receive their Data and have it transferred to another controller.</b> Users have the right to receive their Data in a structured, commonly used and machine readable format and, if technically feasible, to have it transmitted to another controller without any hindrance. This provision is applicable provided that the Data is processed by automated means and that the processing is based on the User's consent, on a contract which the User is part of or on pre-contractual obligations thereof.
+    </li>
+    <li>
+         <b>Lodge a complaint.</b> Users have the right to bring a claim before their competent data protection authority.
+    </li>
+</ul>
+
+
+    <h4>Applicability of broader protection standards</h4>
+
+    While most provisions of this document concern all Users, some provisions expressly only apply if the processing of Personal Data is subject to broader protection standards.
+
+    Such broader protection standards apply when the processing:
+
+    <ul>
+    <li>is performed by an Owner based within the EU;</li>
+        <li>
+        concerns the Personal Data of Users who are in the EU and is related to the offering of goods or services, to such Users;
+            </li>
+            <li>
+    concerns the Personal Data of Users who are in the EU and allows the Owner to monitor such Users’ behavior taking place in the EU.
+                </li>
+    </ul>
+
+    <h4>Changes to this privacy policy</h4>
+
+    <p>The Owner reserves the right to make changes to this privacy policy at any time by notifying its Users on this page
+        and possibly within this Application and/or - as far as technically and legally feasible -
+        sending a notice to Users via any contact information available to the Owner.
+        It is strongly recommended to check this page often, referring to the date of the last modification listed at the bottom.
+    </p>
+
+    <b>Last modified</b> 23.02.2020
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

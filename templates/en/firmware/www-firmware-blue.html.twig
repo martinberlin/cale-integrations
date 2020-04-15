@@ -78,16 +78,12 @@
             Make sure that before point 3, the display is connected, and waiting for Bluetooth configuration.
 
             <a id="a3"></a>
-            <h4 style="margin-top:4em"><span class="cale">CALE</span> Android application</h4>
+            <h4 style="margin-top:4em"><span class="cale" style="font-weight:bolder">CALE</span> Android application</h4>
 
             <br style="margin-top:3em">Please download the APK with your mobile browser and give it permissions:<br>
-            <h3><a href="{{ cale_android }}" target="_blank"><span class="cale">CALE</span> Android in Play store</a></h3>
-            <h4><a href="{{ cale_android_apk }}" target="_blank"><span class="cale">CALE</span> Android APK Releases</a>
-                Please use this version to get the latest APK if your version is < 1.1.3</h4>
-
-            The CALE Android app was sent to approval in Google's developer center on 1st April 2020. Due to the corona-virus
-            current situation it may take up to 10 days to get approved. Please try it out installing the signed APK into your
-            mobile till it hits the official Play store.
+            <h3><a href="{{ cale_android }}" target="_blank"><span class="cale" style="font-weight:bolder">CALE</span>Android in Play store</a></h3>
+            <h4><a href="{{ cale_android_apk }}" target="_blank"><span class="cale" style="font-weight:bolder">CALE</span> Android APK Releases</a>
+                Please use this version to get the latest APK if your version is < 1.1.3 and it does not come automatically from the Play store</h4>
 
         </div>
         <div class="col-md-5">
@@ -138,13 +134,15 @@
 
     <h4 style="margin-top:3em">Config reference</h4>
     <p>It's important to note that since should send the Bluetooth configuration from an Android app,
-        it will be the best just to login into CALE admin area on the mobile, so you can copy/paste in the same device.
+        the only thing to is to Scan the QR. The App will take care of listing your Screens and prepare the JSON configuration to send to the ESP32.<br>
+        As a preamble log in CALE Backend area and:<br>
+
         <ol>
-    <li><b>Use the WiFi section</b> to add at least two WiFi access points (Ex. home/mobile hotspot)</li>
+
+    <li><b>Use the WiFi section</b> to add at least one WiFi access point (Ex. home/office)</li>
     <li><b>Go to Screen</b> and on the list click on <b>Config</b>.</li>
     <li><b>The Bluetooth tab</b> is the default and in a mobile request will come at the top.</li>
-    <li>First two WiFi access points will be preselected, just adapt to others with the checkbox, if you need a display
-        with a different AP.</li>
+    <li>First two WiFi access points will be preselected, this is already send by the Android App automatically, no need to copy and paste</li>
 </ol>
 
 
@@ -152,7 +150,7 @@
     <img src="/assets/www/firmware/screen_config1.png" alt="CALE Bluetooth config" width="100%">
 
 
-    In this tab just click on the textarea to select all the text, copy it in the clipboard. Start the Display, in the app
+     Start the Display, in the app
     select the Bluetooth starting with CALE_* and paste the JSON text in the next step.
     That's it. The display should restart, connect to WiFi, and render your Screen.
 

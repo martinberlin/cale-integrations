@@ -1,0 +1,160 @@
+{% extends '/base.html.twig' %}
+{% set cale_android = 'https://play.google.com/store/apps/details?id=io.cordova.cale' %}
+{% set cale_android_apk = 'https://github.com/martinberlin/cale-app/tree/master/releases' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+        body {
+            background-color: #e0e0e0;
+            color:black;
+        }
+    </style>
+    {# Datatables include let's make this one line #}
+        <link href="/js/datatables/datatables.css" rel="stylesheet">
+        <script src="/js/jquery/jquery-2.1.0.min.js"></script>
+        <script type="text/javascript" src="/js/datatables/datatables.min.js"></script>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+
+    <h3>Konfigurieren der Firmware über Bluetooth</h3>
+
+    <div class="row">
+        <div class="col-md-7">
+    <div class="panel panel-default" style="margin-top: 1em">
+                <div class="panel-heading">Quick access:</div>
+                <div class="panel-body">
+    <ul>
+        <li><a href="#a1">Schnellstart mit Bluetooth</a></li>
+        <li><a href="#repo">C++ Repository - cale_ble</a></li>
+        <li><a href="#a2">Config referenz</a></li>
+        <li><a href="#a3">Android App</a></li>
+        <li><a href="{{ path('firmware') }}">Firmware und Schaltpläne ohne Bluetooth (ESP8266 / ESP32)</a></li>
+    </ul>
+
+    </div></div>
+            <a id="a1"></a><br>
+            <p style="margin-top:4em">
+                Wir sind derzeit dabei, die Firmware-Konfiguration neu zu gestalten und zu vereinfachen. Die Android-App
+                ist jetzt offiziell die Standardmethode zum Einrichten Ihres Displays. Aber wir werden immer die Möglichkeit
+                behalten auch eine Firmware-Version zu haben <a href="{{ path('firmware') }}">die eine fest codierte C-Konfiguration
+                    verwendet</a>. Viele Benutzer haben kein Android oder möchten nur eine Konfiguration wie diese per se haben,
+                wenn Sie bedenken, dass der ESP8266 kein Bluetooth hat.
+            </p>
+            <br><br>
+
+            <h4>Screen und WLAN konfigurieren</h4>
+            In 3 Schritten<br><br>
+            <ol>
+                <li> <b> Angemeldet im CALE Admin-Bereich "WiFi" </b> <br> Fügen Sie 2 Zugangspunkte hinzu, an denen die Anzeige online geschaltet werden kann (z. B. WLAN zu Hause, mobiler Hotspot) </li>
+                <li> <b> API hinzufügen </b> <br> Fügen Sie einfach Ihren Google Kalender hinzu oder starten Sie eine HTML-API mit einem Bild oder Titel als Inhalt </li>
+                <li>
+                    <b>Wählen Sie in der Bildschirmkonfiguration aus, welche WiFis Sie verwenden möchten.</b><br>
+                    Dadurch wird eine JSON-Konfigurationszeichenfolge generiert. <br>
+                    Fügen Sie in <b> Bildschirm <span class="glyphicon glyphicon-right-arrow"> </span> Inhaltspartials</b> die API hinzu, die Sie in Punkt 2 erstellt haben</li>
+            </ol><br>
+
+
+            <b>Das Konfigurieren der Firmware besteht aus zwei Schritten:</b><br><br>
+            <ol>
+
+                <li><b>Android app installieren</b><br>Als erste Schritte den QR Code scannen damit der App is mit CALE verbunden<br>
+                    Ins Backend: <b>User <span class="glyphicon glyphicon-right-arrow"></span> Api QR code</b>
+                </li>
+                <li><b>Wählen Sie den Bildschirm und das ESP32-Bluetooth-Ziel aus, die in der App konfiguriert werden sollen</b>
+                    </li>
+            </ol>
+
+            Stellen Sie sicher, dass das Display vor Punkt 3 verbunden ist und auf die Bluetooth-Konfiguration wartet.
+
+            <a id="a3"></a>
+            <h4 style="margin-top:4em">Installieren Sie die <span class="cale" style="font-weight: bolder">CALE</span> Android App</h4>
+
+            <h3><a href="{{ cale_android }}" target="_blank"><span class="cale" style="font-weight: bolder">CALE</span> Android in Play store</a></h3>
+
+        </div>
+        <div class="col-md-5">
+            <a href="{{ cale_android }}" target="_blank" title="Connect scanning QR">
+                <img src="/assets/www/firmware/cale_app_1.jpg" style="border: 1px solid #333333" alt="CALE Android app" class="pull-right"></a>
+            <small class="pull-right">Step 1: Verbinden Sie die App mit cale.es, die QR scannt</small>
+
+            <a href="{{ cale_android }}" target="_blank" title="Select your Screen">
+                <img src="/assets/www/firmware/cale_app_2.jpg" style="border: 1px solid #333333" alt="CALE Android app" class="pull-right"></a>
+            <small class="pull-right">Step 2: Eine Screen auswählen</small>
+
+            <a href="{{ cale_android }}" target="_blank" title="Select ESP32 target">
+                <img src="/assets/www/firmware/cale_app_blue.jpg" style="border: 1px solid #333333;margin-top: 2em" alt="CALE Android app" class="pull-right"></a>
+            <small class="pull-right">Step 3: Mit bluetooth den ESP32 Ziel auswählen</small>
+
+            <a href="{{ cale_android }}" target="_blank" title="Done!">
+                <img src="/assets/www/firmware/cale_app_end.jpg" style="border: 1px solid #333333;margin-top: 2em" alt="CALE Android app" class="pull-right"></a>
+
+        </div>
+    </div>
+
+    <a id="repo"></a>
+    <div class="row">
+        <div class="col-md-7">
+    <h3 style="margin-top:3em">Repository mit den Firmware</h3>
+
+    <h4><a href="https://github.com/martinberlin/eink-calendar">https://github.com/martinberlin/eink-calendar</a> - master branch</h4>
+    Ready to be tested: <br>
+    <ol>
+        <li>Receives 2 WiFi APS, screen_url and bearer token</li>
+        <li>Saves this on preferences for next restart</li>
+        <li>TODO: Still missing a way to reset preferences</li>
+    </ol>
+    Das kleine Problem mit Punkt 3 ist, dass Bluetooth getrennt wird, sobald WiFi verbunden ist, da der ESP32 für beide dieselbe Antenne verwendet.
+    Wenn wir also eine Rücksetzmethode wünschen, sollte sie entweder ein Rücksetzsignal "über UDP oder http hören" oder mit einem GPIo auf LOW gestartet werden,
+            damit wir dies erkennen können und Anmeldeinformationen zurücksetzen.
+            Temporäre Lösung, wenn Sie das Entfernen von Einstellungen erzwingen möchten:
+    <pre>
+     // Uncomment to force delete preferences
+     // preferences.clear();
+    </pre>
+    </div>
+        <div class="col-md-5">
+
+        </div>
+    </div>
+
+    <a id="a2"></a>
+
+    <h4 style="margin-top:3em">Config referenz</h4>
+    <p>Es ist wichtig zu beachten, dass da die Bluetooth-Konfiguration von einer Android-App gesendet werden sollte,
+                 Am besten melden Sie sich einfach im CALE-Administrationsbereich auf dem Handy an, damit Sie auf demselben Gerät kopieren / einfügen können.
+                 <ol>
+         <li><b>Verwenden Sie den WiFi-Bereich </b>, um mindestens zwei WiFi-Zugangspunkte hinzuzufügen (z. B. Home / Mobile-Hotspot) </li>
+         <li><b>Gehen Sie zum Bildschirm </b> und klicken Sie in der Liste auf <b> Config </b>. </li>
+         <li><b>Die Registerkarte Bluetooth </b> ist die Standardeinstellung und wird bei einer mobilen Anfrage ganz oben angezeigt. </li>
+         <li>Die ersten beiden WiFi-Zugangspunkte werden vorausgewählt. Passen Sie sie einfach mit dem Kontrollkästchen an andere an, wenn Sie eine Anzeige benötigen
+                 mit einem anderen AP. </li>
+</ol>
+
+    </p>
+    <img src="/assets/www/firmware/screen_config1.png" alt="CALE Bluetooth config" width="100%">
+
+    <b>Das ist es.</b> Das Display sollte neu starten, eine Verbindung zu WiFi herstellen und Ihren Bildschirm rendern.
+
+
+    <a id="flow"></a>
+    <h4 style="margin-top:3em">Bluetooth user flow</h4>
+    <img src="/assets/svg/cale-bluetooth-config.svg" alt="CALE user flow for Bluetooth config" width="100%">
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

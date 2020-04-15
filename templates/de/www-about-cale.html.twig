@@ -1,0 +1,92 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+
+        #myCarousel .item {
+            height: {{ carousel_high }}px;
+            width: 100%;
+            background-color: #333;
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <h3>Was ist <span class="cale" style="font-weight:bolder">CALE</span></h3>
+
+    <p><b><span class="cale" style="font-weight:bolder">CALE</span> ist ein Screen administrator, in dem Sie Inhalte
+            verschiedener APIs mischen und den Inhalt steuern können</b><br>
+    <h3>Praktische Anwendungen</h3>
+        <ul>
+            <li>Das Besprechungsraumschild wird stündlich aktualisiert und zeigt die nächsten Besprechungen und Teilnehmer an</li>
+            <li>Lebendes Bild, das Ereignisse oder  <a href="{{ path('www_api-cloudwatch') }}">Cloudwatch-Statistiken zeigt</a></li>
+            <li>Hilfebildschirme an der Seite Ihres Laptops, die alle 10 Minuten dynamische Informationen aktualisieren</li>
+            <li>Jede andere Anwendung, die Sie möglicherweise in Echtzeit außerhalb des Monitors interessant finden</li>
+        </ul>
+<b>Wir können jede externe API in wenigen Stunden integrieren. Dies ist Open Source und kostenlos für den persönlichen Gebrauch bis zu 3 Bildschirme.</b>
+        {% if app.environment != 'dev' %}
+        <video id="index" title="Video: About" width="100%" controls>
+            <source src="{{ cdn_s3 }}/v/cale-1.mov">
+        </video>
+        {% endif %}
+
+        <h3>Was es in zwei einfachen Schritten macht:</h3>
+
+    <ol>
+    <li><span class="cale">CALE</span> erhält eine Anfrage von Ihrem Bildschirm</li>
+    <li>Gibt eine Antwort mit einem Bild HTML zurück</li>
+    </ol>
+    Diese Ausgabe kann als Bitmap-Image exportiert und zum dynamischen Aktualisieren von WiFi-Online-Anzeigen wie Epaper- oder Eink-Anzeigen verwendet werden, die mit ESP32 oder ESP8266 online sind, um ihre Firmware auszuführen.
+    </p>
+    <h3>Electronic Ink</h3>
+    <p>Primäre Zielanzeigen sind die sogenannten Eink oder Epaper.
+          Der Fachbegriff ist elektrophoretische Tinte, die, wenn sie auf eine Kunststofffolie laminiert und dann haftet
+         Elektronik erstellt es ein Electronic Paper Display (EPD). Diejenigen, die eine SPI-Schnittstelle für Hersteller
+        bereitstellen, sind in bis zu 2 EInk-Farben erhältlich, wobei 3 Farben das Weiß zählen Hintergrund,
+        aber in der ersten Version dieses Bildschirmadministrator-Tools zielen wir nur auf diejenigen mit Schwarz ab Tinte (2 Farben).
+    </p>
+    <div class="row">
+        <div class="col-md-6">
+            <b>Eink besteht aus Millionen winziger Mikrokapseln</b><br>
+            <img src="/assets/svg/eink-1.svg" width="199"><br>
+            Diese Partikel sind der Durchmesser menschlicher Haare. Wir unterstützen den
+            <a href="{{ path('displays-eink') }}">EPD Displays</a> mit den open-source Library <a
+                    href="https://github.com/ZinggJM/GxEPD" target="_blank">GxEPD</a>
+        </div>
+        <div class="col-md-6">
+            <b>Jede Mikrokapsel enthält elektrisch geladene Teilchen</b><br>
+            <img src="/assets/svg/eink-2.svg" width="199"><br>
+            Wenn ein elektrisches Feld angelegt wird, schweben die Mikrokapseln mit entgegengesetztem Vorzeichen oben auf dem Display und erzeugen ein gestochen scharfes Bild, das ohne Hintergrundbeleuchtung sichtbar ist.
+        </div>
+    </div>
+
+    <h3>Dies macht das Programm im Display</h3>
+
+    <p>Im Moment ist der Firmware sehr einfach:</p>
+    <ul>
+        <li>Wacht auf, stellt eine Verbindung zu Ihrem WLAN her und liest ein Bild von <span class="cale">CALE</span></li>
+        <li>Diese Bild-URL und das Autorisierungstoken erhalten Sie, wenn Sie sich anmelden und Ihre Screen zusammenstellt</li>
+        <li>Die Firmware sendet das Bild an das Eink-Display und geht für eine vordefinierte Zeit in den deepsleep Ruhezustand (z. B. eine Stunde).
+            > Wiederholt das Aufwachen der Schleife</li>
+    </ul>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+    <script type="text/javascript" src="/js/tracking/analytics-html5-video.js"></script>
+    <script>
+        var videoId = document.getElementById('index')
+        if (videoId) {
+            document.addEventListener('DOMContentLoaded', init, false)
+            var videoTitle = videoId.getAttribute('title')
+        }
+    </script>
+{% endblock %}

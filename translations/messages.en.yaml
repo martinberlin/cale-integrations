@@ -241,17 +241,17 @@ Key: Key
 Secret: Secret
 AWS Region: Region
 eu-central-1 Frankfurt: eu-central-1 Frankfurt
-eu-west-1 Ireland: eu-west-1 Irlanda
-eu-west-2 London: eu-west-2 Londres
+eu-west-1 Ireland: eu-west-1 Ireland
+eu-west-2 London: eu-west-2 London
 eu-west-3 Paris: eu-west-3 Paris
-eu-north-1 Stockholm: eu-north-1 Estocolmo
+eu-north-1 Stockholm: eu-north-1 Stockholm
 us-east-1 N. Virginia: us-east-1 N. Virginia
 us-east-2 Ohio: us-east-2 Ohio
 us-west-1 N. California: us-west-1 N. California
 us-west-2 Oregon: us-west-2 Oregon
 ap-east-1 Hong Kong: ap-east-1 Hong Kong
 ap-south-1 Mumbai: ap-south-1 Mumbai
-ap-southeast-1 Singapore: ap-southeast-1 Singapur
+ap-southeast-1 Singapore: ap-southeast-1 Singapore
 ap-southeast-2 Sydney: ap-southeast-2 Sydney
 ap-northeast-1 Tokyo: ap-northeast-1 Tokyo
 ap-northeast-2 Seoul: ap-northeast-2 Seoul
@@ -259,10 +259,10 @@ ap-northeast-3 Osaka: ap-northeast-3 Osaka
 cn-north-1 Beijing: cn-north-1 Beijing
 cn-northwest-1 Ningxia: cn-northwest-1 Ningxia
 me-south-1 Bahrain: me-south-1 Bahrain
-sa-east-1 Sao Paulo: sa-east-1 San Paulo
-Save Credentials: Guardar Credenciales
-Name your Cloudwatch metric: Nombre del widget
-Image JSON definition: JSON de la imagen
+sa-east-1 Sao Paulo: sa-east-1 Sao Paulo
+Save Credentials: Save credentials
+Name your Cloudwatch metric: Widget name
+Image JSON definition: Widget JSON
 #Wifi
 wifi_configure1: Here you can store up to 5 WiFi access points and tag them like "home" or "office"
 wifi_configure2: In the Screen config you can select this WiFis and get a JSON or Config.h file in Screen > Config to setup your displays whenever you are. You can set up to two WiFi access point per device, the Firmware will measure which has the strongest signal and connect to that one.
@@ -271,7 +271,7 @@ wifi_configure3: Keep in mind that sort is ascending and only the first two will
 Support type: Support type
 Configuring my APIs: Configuring my APIs
 Configuring my Screens: Configuring my Screens
-Need a new API renderer:	Need a new API renderer
+Need a new API renderer: Need a new API renderer
 Setting up Cloudwatch monitoring: Setting up Cloudwatch monitoring
 Found a bug in [AREA]: Found a bug in [AREA]
 Support message: Support message

@@ -5,7 +5,7 @@ login:
   defaults:
     _locale: en
   requirements:
-    _locale: en|es
+    _locale: '%locales%'
 
 # www
 home:
@@ -14,7 +14,7 @@ home:
   defaults:
     _locale: en
   requirements:
-    _locale: en|es
+    _locale: '%locales%'
 
 #bootstrap:
 #  path:       /b

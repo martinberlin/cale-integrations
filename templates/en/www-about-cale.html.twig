@@ -20,9 +20,9 @@
 {% endblock carousel %}
 
 {% block body %}
-    <h3>What is <span class="cale">CALE</span>?</h3>
+    <h3>What is <span class="cale" style="font-weight:bolder">CALE</span>?</h3>
 
-    <p><b><span class="cale">CALE</span> is a screen administrator where you can mix content of different APIs and control the content
+    <p><b><span class="cale" style="font-weight:bolder">CALE</span> is a screen administrator where you can mix content of different APIs and control the content
             output</b><br>
     <h3>Practical uses</h3>
         <ul>
@@ -71,11 +71,11 @@
             <b>Each microcapsule contains electrically charged particles</b><br>
             <img src="/assets/svg/eink-2.svg" width="199"><br>
             When an electrical field is applied the microcapsules with opposite sign
-            float to the top of the display, creating a crisp image that can be seen withouth any backlight.
+            float to the top of the display, creating a crisp image that can be seen without any backlight.
         </div>
     </div>
 
-    <h3>And how this is supposed to work automatically</h3>
+    <h3>How the Firmare works to read the Screen</h3>
 
     <p>Right now what the Firmware does is very simple:</p>
     <ul>
@@ -86,12 +86,11 @@
 
     <b>Optionally to save more energy, since the consumption peak is getting online, we are building mechanisms to compare the hour and run
     it only on the desired time. This is prototyped and just needs to be documented, but essentially boils down to 2 points:</b><br><br>
-
     <ol>
-        <li><span class="cale">CALE API</span> will provide an endpoint where you can query the right time for Timezone (Ex. now is 9 AM)</li><br>
-        <li>The firmware will only fetch the image and send it to the display if the hour checked in Point 1 is between the
-        "update display" hour range. For example if the update range is from 10 to 22 Hrs then the display will wake up at 9, check the time from the API and go to sleep one hour more
-        without doing anything. In next wake up at 10 it will effectively see it's on the range and refresh the display.</li>
+     <li><span class="cale">CALE API</span> will provide an endpoint where you can query the right time for Timezone (Ex. now is 9 AM)</li><br>
+     <li>The firmware will only fetch the image and send it to the display if the hour checked in Point 1 is between the
+      "update display" hour range. For example if the update range is from 10 to 22 Hrs then the display will wake up at 9, check the time from the API and go to sleep one hour more
+       without doing anything. In next wake up at 10 it will effectively see it's on the range and refresh the display.</li>
     </ol>
     Connecting for 2 seconds to make this very short API call is a very short consumption peak that the 10 seconds that takes to download a medium
     sized bitmap and to send it via SPI to the display. As a second point, EInk displays have a factory lifespan of 1 million prints, so we would like that the Screen is only refreshed
