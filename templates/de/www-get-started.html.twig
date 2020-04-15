@@ -6,30 +6,30 @@
 
 {% block body %}
     <div class="col-md-9" style="margin-top: -2em">
-        <h2>
+        <h3>
             <span class="glyphicon glyphicon-play-circle"></span>
             Ersten Schritten
-        </h2>
+        </h3>
 
-        <h3>Kompilieren Sie die neueste Firmware in Ihrem ESP32 und senden Sie die Konfiguration über Bluetooth</h3>
+        <h4>Kompilieren Sie der Firmware in Ihrem ESP32 und senden Sie die Konfiguration über Bluetooth</h4>
 
-        <h3>1. <a href="{{ path('register') }}">Registrieren Sie sich bei  <span class="cale" style="font-weight:bolder">CALE</span></a>
-            und erstellen Sie einen Screen</h3>
+        <h4>1. <a href="{{ path('register') }}">Registrieren Sie sich bei  <span class="cale" style="font-weight:bolder">CALE</span></a>
+            und erstellen Sie einen Screen</h4>
         <p><ul>
             <li>Fügen Sie eine API wie Google Kalender oder HTML-Inhalte hinzu, die einfach zu konfigurieren sind</li>
             <li>Fügen Sie einen Bildschirm mit einer Testanzeige hinzu und rendern Sie diesen, um Ihre Vorschau anzuzeigen</li>
             <li>Fügen Sie auch einen WLAN-Zugangspunkt hinzu (WLAN zu Hause oder im Büro)</li>
         </ul></p>
 
-        <h3>2. Holen Sie sich Ihre Hardware-Ausrüstung</h3>
+        <h4>2. Holen Sie sich Ihre Hardware-Ausrüstung</h4>
         <p><a href="{{ path('displays-eink') }}">Eine E-Ink</a> plus ein beliebiges ESP32. Wenn Sie es schnell
             und ohne Verkabelung testen möchten, besorgen Sie sich einfach eine E-Ink mit ESP32-Modul wie TTGO T5, um es einfach zu testen, ohne es bauen zu müssen.
             Sie können diesen Punkt überspringen, bis Sie einen haben, und ihn auch ohne Anzeige auf einem beliebigen ESP32 ausprobieren</p>
 
-        <h3>3. Laden Sie die Firmware herunter und kompilieren Sie sie</h3>
+        <h4>3. Laden Sie die Firmware herunter und kompilieren Sie sie</h4>
 
-        <h3>4. Verbinden Sie die Android App mit <span class="cale" style="font-weight:bolder">CALE.es</span>
-        </h3>
+        <h4>4. Verbinden Sie die Android App mit <span class="cale" style="font-weight:bolder">CALE.es</span>
+        </h4>
         <p>Installieren Sie die <a href="https://play.google.com/store/apps/details?id=io.cordova.cale" target="_blank">CALE Android App</a>.
             <ul>
             <li>Scannen Sie den QR-Code in CALE.es nach der Anmeldung <b>User <span class="glyphicon glyphicon-arrow-right"></span> Api QR</b></li>
@@ -43,12 +43,12 @@
         <a id="blue"></a><br><br>
         <h3>Installieren Sie die Firmware
         </h3>
-        <p>Bitte mehr dazu in unserem
-            <a href="{{ path('firmware-blue') }}">Konfigurieren der Firmware mit Bluetooth</a> abteilung.</p>
+        <p>Bitte mehr Details dazu in unserem
+            <a href="{{ path('firmware-blue') }}">Firmware mit Bluetooth</a> abteilung.</p>
 
         <h4><a href="https://github.com/martinberlin/eink-calendar">https://github.com/martinberlin/eink-calendar</a> - master branch</h4>
 
-        Bitte lesen Sie die Details in unserem Abschnitt Firmware. Es ist nicht schwer zu konfigurieren, aber Sie müssen
+        Es ist nicht schwer zu konfigurieren, aber Sie müssen
         die richtige Definition für Ihr E-Ink-Anzeigemodell auskommentieren. Und das wird nicht per Bluetooth gesendet,
         das ist direkt in der Firmware fest codiert. Was per Bluetooth gesendet wird, ist das Folgende:<br><br>
 
@@ -59,7 +59,7 @@
         </ol>
         <br><br>
         Sobald die Firmware diese Konfiguration per Bluetooth erhalten hat, wird sie im nichtflüchtigen Speicher des
-        ESP32 gespeichert und muss nicht erneut gesendet werden, es sei denn, Ihr WLAN wurde geändert.
+        ESP32 gespeichert und muss nicht erneut gesendet werden.
     </div>
     <div class="col-md-3">
         <div class="panel panel-default" style="margin-top: 1em">
