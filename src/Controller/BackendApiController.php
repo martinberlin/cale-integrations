@@ -407,14 +407,15 @@ class BackendApiController extends AbstractController
 
     /**
      * Wizard to configure HTML internal API
-     * @Route("/html/{uuid}/{intapi_uuid?}/{imageUploaded?0}", name="b_api_wizard_cale-html")
+     * @Route("/html/{uuid}/{intapi_uuid?}", name="b_api_wizard_cale-html")
      */
     public function apiInternalHtml(
-        $uuid, $intapi_uuid, $imageUploaded, Request $request,
+        $uuid, $intapi_uuid, Request $request,
         UserApiRepository $userApiRepository,
         IntegrationApiRepository $intApiRepository,
         EntityManagerInterface $entityManager)
     {
+        $publicRelativePath = '../public';
         $htmlMaxChars = $this->getParameter('html_max_chars');
         $userApi = $this->getUserApi($userApiRepository, $uuid);
         $api = $this->getIntegrationApi($intApiRepository, $intapi_uuid);
@@ -425,9 +426,20 @@ class BackendApiController extends AbstractController
             'html_max_chars' => $htmlMaxChars
         ]);
         $form->handleRequest($request);
-        $error = "";
+        $error = "";$preSuccessMsg = "";
         $imageUploaded = false;
-
+        if ($form->getClickedButton() && 'remove_image' === $form->getClickedButton()->getName()) {
+            try {
+              $removeFlag = unlink($publicRelativePath.$api->getImagePath());
+            } catch (\ErrorException $e) {
+                $this->addFlash('error', "Could not find image. ");
+                $removeFlag = false;
+            }
+            if ($removeFlag) {
+                $api->setImagePath('');
+                $preSuccessMsg = "Image was removed. ";
+            }
+        }
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('imageFile')->getData();
             // This condition is needed because the 'imageFile' field is not required
@@ -439,7 +451,7 @@ class BackendApiController extends AbstractController
 
                 // Move the file to the directory where brochures are stored
                 $imagePublicPath = $this->getParameter('screen_images_directory') . '/' . $this->getUser()->getId();
-                $imageUploadPath = '../public'.$imagePublicPath;
+                $imageUploadPath = $publicRelativePath.$imagePublicPath;
 
                 try {
                     $imageUploaded = true;
@@ -472,17 +484,14 @@ class BackendApiController extends AbstractController
             }
 
             if ($error === '') {
-                $this->addFlash('success', "Saved");
+                $this->addFlash('success', $preSuccessMsg."Saved");
                 return $this->redirectToRoute('b_api_wizard_cale-html',
                     [
                         'uuid' => $userApi->getId(),
-                        'intapi_uuid' => $api->getId(),
-                        'image_uploaded' => $imageUploaded
+                        'intapi_uuid' => $api->getId()
                     ]);
             }
         }
-        // Avoid cache
-        $imagePath = $api->getImagePath().'?'.time();
 
         return $this->render(
             'backend/api/conf-html-content.html.twig',
@@ -493,9 +502,8 @@ class BackendApiController extends AbstractController
                 'userapi_id' => $userApi->getId(),
                 'date_format' => $this->getUser()->getDateFormat(),
                 'hour_format' => $this->getUser()->getHourFormat(),
-                'image_path' => $imagePath,
+                'image_path' => $api->getImagePath(),
                 'html_max_chars' => $htmlMaxChars,
-                'image_uploaded' => $imageUploaded,
                 'menu' => $this->menu
             ]
         );

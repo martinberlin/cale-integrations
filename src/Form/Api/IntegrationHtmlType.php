@@ -79,7 +79,11 @@ class IntegrationHtmlType extends AbstractType
                     'label' => 'Image type',
                     'attr' => ['class' => 'form-control']
                 ])
-
+            ->add('remove_image', SubmitType::class,
+                [
+                    'label' => 'Remove image',
+                    'attr' => ['class' => 'btn btn-default form-control', 'style' => 'margin-top:0.4em']
+                ])
             ->add('submit', SubmitType::class,
                 [
                     'label' => 'Save contents',

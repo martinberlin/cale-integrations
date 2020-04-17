@@ -1,5 +1,7 @@
 {% extends 'backend/backend-base.html.twig' %}
 
+{% set remove_img_visibility = 'hidden' %}
+
 {# HTML editor include #}
 {% block stylesheets %}
     <link href="/js/summernote/summernote-lite.min.css" rel="stylesheet">
@@ -8,8 +10,9 @@
 {% endblock %}
 
 {% block body %}
+    {{ form_start(form) }}
     <div class="row">
-        {{ form_start(form) }}
+
         <div class="col-md-8 col-sm-8 col-xs-12">
 
             {{ form_errors(form) }}
@@ -33,7 +36,7 @@
                     {{ form_row(form.imagePosition) }}
                 </div>
             </div>
-            {{ form_end(form) }}
+
         </div>
         <div class="col-md-4 col-sm-4 col-xs-12">PLACEHOLDERS:<br>
             Using {date} will be replaced by the actual date. The date and time format can be customized in your
@@ -45,13 +48,17 @@
             <div style="margin-top: 2em;height:5em" id="note">
             </div>
             {% if image_path != '' %}
+                {% set remove_img_visibility = 'visible' %}
                 <div style="margin-top: 2em">
                 BACKGROUND IMG:<br>
-                <img style="max-width: 100%" src="{{ image_path }}">
+                <img style="max-width: 100%" src="{{ image_path }}?{{ date().timestamp }}"><br>
                 </div>
             {% endif %}
+            {{ form_widget(form.remove_image, {'attr': {'style': 'visibility:'~remove_img_visibility} }) }}
         </div>
     </div>
+
+    {{ form_end(form) }}
 {% endblock %}
 
 {% block javascripts %}
