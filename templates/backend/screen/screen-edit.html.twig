@@ -16,7 +16,7 @@
             {{ 'screen_edit_line2'|trans }}
             </div>
 
-            <div class="col-md-4 col-sm-4 col-xs-12" {% if is_new %}style="visibility:hidden"{% endif %}>
+            <div class="col-md-4 col-sm-4 col-xs-12 text-right">
                 {{ form_widget(form.submit_top) }}
             </div>
 
@@ -74,6 +74,9 @@
                     </div>
                 </div>
             </div>
+
+            {{ form_widget(form.submit) }}
+
         </div>
 
         <div class="col-md-4 col-sm-12 col-xs-12 text-right" style="margin-top: -1.4em">
@@ -133,11 +136,6 @@ Authorization: Bearer {{ form.vars.value.outBearer }}
                 </div>
             </div>
 
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-8 col-sm-12 col-xs-12">
-            {{ form_widget(form.submit) }}
         </div>
     </div>
     {{ form_end(form) }}

@@ -104,6 +104,13 @@ www_service-pricing:
   defaults:
     _locale: en
 
+www_service-faq:
+  path:       /faq/{_locale}
+  controller: App\Controller\HomeController::faq
+  defaults:
+    _locale: en
+
+
 www_getting-started:
   path:       /get-started/{_locale}
   controller: App\Controller\HomeController::getStarted

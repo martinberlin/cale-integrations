@@ -109,18 +109,24 @@ class HomeController extends AbstractController
     public function architecture(Request $request, TranslatorInterface $translator)
     {
         return $this->render(
-            $request->getLocale().'/www-server-architecture.html.twig',
+            $request->getLocale().'/service/www-server-architecture.html.twig',
             ['title' => $translator->trans('nav_server_architecture')]
         );
     }
     public function pricing(Request $request, TranslatorInterface $translator)
     {
         return $this->render(
-            $request->getLocale().'/www-service-pricing.html.twig',
+            $request->getLocale().'/service/www-service-pricing.html.twig',
             ['title' => $translator->trans('nav_pricing')]
         );
     }
-
+    public function faq(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/service/www-faq.html.twig',
+            ['title' => $translator->trans('nav_faq')]
+        );
+    }
     public function getStarted(Request $request, TranslatorInterface $translator)
     {
         return $this->render(

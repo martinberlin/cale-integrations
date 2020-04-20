@@ -1,0 +1,19 @@
+{% extends '/base.html.twig' %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="col-md-10 col-sm-10 col-xs-12" style="margin-top: -2em">
+        <h4>{{ 'nav_faq'|trans }}</h4>
+
+        <p>Esta página no esta traducida.
+            De momento solo disponible la <a href="{{ path('www_service-faq',{'_locale':'en'}) }}">versión en ingles</a>.s
+        </p>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

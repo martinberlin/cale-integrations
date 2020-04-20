@@ -1,0 +1,49 @@
+{% extends '/base.html.twig' %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="col-md-10 col-sm-10 col-xs-12" style="margin-top: -2em">
+        <h3>
+            <span class="cale" style="font-weight:bolder">FAQ</span> frequent asked questions
+        </h3>
+
+            <b>What is the concept behind <span class="cale" style="font-weight:bolder">CALE</span> <span style="font-size:1.5em">?</span></b>
+        <p style="margin-left: 2em">We designed this Web service to be a dynamic content provider for our WiFi connected displays. The idea was to make
+            something that just does it job and stays out of the way. Abstracting the complexity of generating an image that can be read
+            from this devices and at the same time providing the users with an easy way to connect to external APIs that deliver
+            fresh content with their displays.
+        </p>
+
+        <b>Why do I need a WiFi display when I can already have this content on a Tablet <span style="font-size:1.5em">?</span></b>
+        <p style="margin-left: 2em">Our idea of a helper Screen or a Meeting room sign is that it can be there all the time working for weeks
+            and you don't have to maintain it other than charging the battery once in a month. It just does it job and needs no maintenance.<br>
+            Further than that Epaper has a different look and feel than a TFT Screen and it blends nicely with the building, uses minimal power, and
+            it's a beautiful object to see working. It's a completely different concept than having a tablet or other device showing the same content.
+            And connected to our Web service, you can administer this remotely, changing what the display shows at your wish.
+            </p>
+
+        <b>Can I use the Web service without a WiFi display <span style="font-size:1.5em">?</span></b>
+        <p style="margin-left: 2em">Yes for sure! We just provide the Web service to generate this in an easy way.
+            But you can use the HTML or the image output as you wish. The image format can be a Bitmap (EInk) or a Jpeg (TFT displays)
+        </p>
+
+        <b>Can you build an Epaper display for us <span style="font-size:1.5em">?</span></b>
+        <p style="margin-left: 2em">Yes we can. But we are still on the making of a new PCB that will be the core of our Eink ESP32 displays.
+        So we can provide two important things. First our know-how, that is documented and with parts that prove to work together.
+        And secondly to guide you in constructing one yourself. Exceptionally we can build one for you, but we still do not have a
+        price list for that, and if we spend this time building a device at your demand we ask you to <b>support the project as a
+            Github sponsor with 10 u$ a month</b> for at least half a year. Additionally there is also the costs of your <a href="{{ path('displays-eink') }}">Hardware of choice</a>
+            that we can buy and assemble for you. Our time is valuable and we need supporters that allow us spend more time focused in this project.
+        <br>After <a href="{{ path('register') }}">creating an account</a> just get in touch with us using the menu option
+            <b>User <span class="glyphicon glyphicon-arrow-right"></span> Get Support</b>
+        </p>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

@@ -18,10 +18,16 @@ nav_language: Idioma
 nav_legal: Aviso legal
 nav_service: Nuestro servicio
 nav_pricing: Cuánto cuesta
+nav_faq: Preguntas frequentes
 nav_get_started: Como usarlo
 nav_server_architecture: Arquitectura del servicio
 nav_api_cloudwatch: Monitoreo de AWS Cloudwatch
-
+# NAV BACKEND
+navb_api: Contenido
+navb_user: User
+# TITLES BACKEND
+titleb_apis: Proovedores de contenido (APIs)
+# Titles
 title_ical: Importando calendarios iCal
 title_firmware: Firmware para boards Espressif
 title_firmware_t5: Firmware para los ESP32 T5

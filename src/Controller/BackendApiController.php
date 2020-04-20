@@ -27,6 +27,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/backend/api")
@@ -37,7 +38,8 @@ class BackendApiController extends AbstractController
     /**
      * @Route("/", name="b_home_apis")
      */
-    public function homeApis(Request $request, UserApiRepository $userApiRepository, IntegrationApiRepository $integrationApiRepository, BackendController $backendController)
+    public function homeApis(Request $request, UserApiRepository $userApiRepository, IntegrationApiRepository $integrationApiRepository,
+                             BackendController $backendController, TranslatorInterface $translator)
     {
         $apis = $this->getUser()->getUserApis();
 
@@ -65,7 +67,7 @@ class BackendApiController extends AbstractController
         return $this->render(
             'backend/admin-apis.html.twig',
             [
-                'title' => 'Connected APIs',
+                'title' => $translator->trans('titleb_apis'),
                 'apis' => $list,
                 'isMobile' => $backendController->isMobile($request),
                 'menu' => $this->menu
@@ -484,7 +486,7 @@ class BackendApiController extends AbstractController
             }
 
             if ($error === '') {
-                $this->addFlash('success', $preSuccessMsg."Saved");
+                $this->addFlash('success', $preSuccessMsg." HTML content saved");
                 return $this->redirectToRoute('b_api_wizard_cale-html',
                     [
                         'uuid' => $userApi->getId(),
