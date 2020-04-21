@@ -1,6 +1,6 @@
 {% extends '/base.html.twig' %}
 {% set carousel_high = 110 %}
-{% set h = 100 %}
+{% set h = 150 %}
 
 {% block stylesheets %}
     <style>
@@ -34,7 +34,7 @@
         {% for d in displays %}
             <tr style="border:1px #1b6d85 dashed">
                 <td>&nbsp;<b>{{ d.className }}</b><br>
-                <img height="{{ h }}" src="/assets/display/{{ d.id }}.jpg"><br>
+                <img style="height:{{ h }}px;margin-top: 1px" src="/assets/display/{{ d.id }}.jpg"><br>
                     &nbsp;<small>{{ d.brand }}</small>
                 </td>
                 <td>{{ d.name }}</td>
