@@ -23,53 +23,57 @@
 
 {% block body %}
 
-    <h3>Firmware for ESP32 TFT displays</h3>
+    <h3>Firmware für TFT-Displays (nur ESP32)</h3>
 
     <div class="panel panel-default" style="margin-top: 1em">
                 <div class="panel-heading">Quick access:</div>
                 <div class="panel-body">
     <ul>
-        <li><a href="#a1">How to compile and upload to your board</a></li>
-        <li><a href="#a2">Logging of the internal ESP32 IP Address</a></li>
-        <li><a href="#a3">Selecting the right driver for your display</a></li>
-        <li><a href="{{ path('firmware-blue') }}">Bluetooth version of the Firmware</a></li>
-        <li><a href="{{ path('firmware-t5') }}">Quick start with the Lilygo T5</a></li>
+        <li><a href="{{ path('firmware-blue') }}">Firmware mit Bluetooth</a></li>
+        <li><a href="{{ path('firmware-t5') }}">TTGO T5 Firmware mit 3 Screens</a></li>
+        <li><a href="#a1">C++ Repository - cale-tft branch</a></li>
+        <li><a href="#a2">Config referenz</a></li>
+        <li><a href="#a3">Die richtige library für ihre TFT-Display Modell auswählen</a></li>
     </ul>
 
     </div></div>
 
     <p>
-    <b>Our primary goal with this Web-Service is to make an Epaper Firmware so this TFT branch is just an example to guide our
-    users in implementing their own solutions</b><br>
-        This example Firmware provides just two things:<br>
+    <b>Unsere Hauptziel ist mit <span class="cale" style="font-weight:bold">CALE Web-Service</span>
+        eine Epaper Firmware zu verfügung stellen.</b> Die TFT-Display Firmware gilt als
+        Beispiel von pull-request von eine JPG Bildern mit ESP32 damit Sie könnten seine eigene Lösung entwicklen.<br>
+        Diese Beispiele macht nur 3 Sachen:<br>
 
         <ul>
-    <li><b>A way to download a JPG image</b> from an external URL into ESP32</li>
-    <li><b>An interpreter that reads this jpeg image</b> and prepares a Buffer for the display (based on JPEGDecoder library examples)</li>
-    <li><b>An authorization Token</b> to make sure you don't need to leave your Calendar events open to the world (Bearer token)</li>
+    <li><b>Bietet eine Möglichkeit, ein JPG Binärbild von einer externen URL in ESP32 herunterladen</b></li>
+    <li><b>Ein Interpreter, der diese jpg Bild liest </b> und einen Puffer für die Anzeige vorbereitet (based on JPEGDecoder lib)</li>
+    <li><b>Ein Autorisierungstoken</b> damit die Screens bleiben privat und nicht Public in Internet (Bearer token)</li>
     </ul>
 
 
-<br>The open source Firmware is here:<br>
+    <br>Die Open Source Firmware ist hier:<br>
 
     <h4><a href="https://github.com/martinberlin/eink-calendar/tree/cale_tft">https://github.com/martinberlin/eink-calendar</a> - cale_tft branch</h4>
     </p>
 
-    <h4>How to compile and upload to your board</h4>
+    <a name="a1"></a><br><br><br><br>
+    <h4>So kompilieren und laden Sie auf Ihr Board</h4>
 
-   <p>We assume that you are familiar with the <a href="https://fasani.de/2018/11/24/platformio-an-alternative-to-arduino-ide-and-a-complete-ecosystem-for-iot/">installation of Platformio</a> that is a great IDE to upload firmware to your boards and also to
-    keep your dependencies contained in your project.
+    <p>Wir gehen davon aus, dass Sie mit der Installation von
+        <a href="https://fasani.de/2018/11/24/platformio-an-alternative-to-arduino-ide-and-a-complete-ecosystem-for-iot/">
+            Platformio vertraut sind</a>, einer großartigen IDE zum Hochladen von Firmware auf Ihre Boards und zum Beibehalten
+        Ihrer Abhängigkeiten in Ihrem Projekt.
+        <br><br>
+        Die Konfiguration ist nicht kompliziert. Nach dem Download einfach umbenennen:<br>
+        lib/Config/Config.h.dist zu <br>
+        Config.h<br><br>
 
-    The configuration is not complicated. After downloading just rename:<br>
-    lib/Config/Config.h.dist to <br>
-    Config.h<br><br>
+        und füllen Sie es mit Ihrem WiFi-Namen und Passwort.<br>
+    </p>
 
-    and fill it with your WiFi name and password.<br>
-   </p>
-
-    The most important part of the configuration is to copy the image URL from CALE "Render Screen" section into the configuration.
-    Just click on the <b>Bitmap URL for the ESP32</b> to select all and copy it into the screenUrl and do the same with the <b>Bearer
-    token</b> if you are using a private Screen:<br>
+         Der wichtigste Teil der Konfiguration besteht darin, die Bild-URL aus dem Abschnitt "Renderbildschirm" von CALE in die Konfiguration zu kopieren.
+         Klicken Sie einfach auf die <b> Bitmap-URL für den ESP32 </ b>, um alle auszuwählen, kopieren Sie sie in die screenUrl und machen Sie dasselbe mit dem <b> Bearer-Token </b>,
+    wenn Sie einen privaten Bildschirm verwenden:<br>
 
 <pre>
     // Keep in mind this screens need a JPG image response so make sure to select a TFT display in CALE.es
@@ -80,27 +84,29 @@
 </pre>
 
     <a name="a2"></a><br><br><br><br>
-    <h5><b>Logging of the internal ESP32 IP Address</b></h5>
-    By default CALE is logging the internal IP Address since it may be useful for statistics and to identify
-    your device image requests from the administration image requests. If for any reason you want to disable this just comment this line on the Config file:
-
-<pre>
+    <h5><b>Protokollierung der internen ESP32-IP-Adresse</b></h5>
+         Standardmäßig protokolliert CALE die interne IP-Adresse, da dies für Statistiken und zum Identifizieren Ihrer
+    Geräteimage-Anforderungen anhand der Administrations-Image-Anforderungen hilfreich sein kann.
+    Wenn Sie dies aus irgendeinem Grund deaktivieren möchten, kommentieren Sie einfach diese Zeile in der Konfigurationsdatei:
+    <pre>
 #define ENABLE_INTERNAL_IP_LOG
 </pre>
 
     <a name="a3"></a><br><br><br>
-    <h5><b>Selecting the right driver for your display</b></h5>
+    <h5><b>Auswahl des richtigen Treibers für Ihr Display</b></h5>
 
-    To select the right Driver for the display you are using, first of all would be great to get familiar with the Bodmer TFT_SPI library
-    and to browse descriptions and examples. I mention that since not all the TFTs need the same pins connected and they are sufficient
-    examples but I cannot cover all configurations since I do not have all the displays to test.<br>
-    Please check the <a href="https://github.com/Bodmer/TFT_eSPI/tree/master/TFT_Drivers" target="_blank">Bodmer TFT drivers list</a> to select
-    your driver. In the example below I will be using a ILI9341_DRIVER
+    Um den richtigen Treiber für die von Ihnen verwendete Anzeige auszuwählen, sollten Sie sich zunächst mit der Bodmer TFT_SPI-Bibliothek vertraut machen
+         und um Beschreibungen und Beispiele zu durchsuchen. Ich erwähne das, da nicht alle TFTs die gleichen Pins benötigen und sie ausreichen
+         Beispiele, aber ich kann nicht alle Konfigurationen abdecken, da ich nicht alle Anzeigen zum Testen habe. <br>
+         Bitte überprüfen Sie die
+    <a href="https://github.com/Bodmer/TFT_eSPI/tree/master/TFT_Drivers" target="_blank">Bodmer TFT drivers Liste</a>
+    und auswahlen die richtige TFT-Driver.
+    Hier eine Beispiel Konfiguration mit ILI9341_DRIVER
 
 
-    <h5><b>GPIOs for the TFT SPI interface</b></h5>
-    For this firmware we did both the display driver and the SPI pins configuration using build_flags so this goes in the
-    platformio.ini file:<br>
+    <h4><b>GPIOs for the TFT SPI interface</b></h4>
+    Für diese Firmware haben wir sowohl den Anzeigetreiber als auch die SPI-Pins-Konfiguration mit build_flags durchgeführt
+         Plattformio.ini-Datei:<br>
     <pre>
     ; DISPLAY_ROTATION: 0 & 2 Portrait. 1 & 3 landscape
 build_flags =
@@ -116,8 +122,7 @@ build_flags =
   -DSPI_FREQUENCY=40000000
   -DDISPLAY_ROTATION=1
     </pre>
-    Please keep in mind that USER_SETUP_LOADED tells the Bodmer TFT library to use this configuration and not a file based one.
-    
+    Beachten Sie bitte, dass USER_SETUP_LOADED die Bodmer TFT-Bibliothek anweist, diese Konfiguration zu verwenden und keine dateibasierte.
 {% endblock %}
 
 {% block javascripts %}
