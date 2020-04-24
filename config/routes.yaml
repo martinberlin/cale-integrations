@@ -100,6 +100,14 @@ firmware:
   requirements:
     _locale: '%locales%'
 
+firmware-tft:
+  path:       /firmware-tft/{_locale}
+  controller: App\Controller\HomeController::firmwareTft
+  defaults:
+    _locale: en
+  requirements:
+    _locale: '%locales%'
+
 firmware-t5:
   path:       /firmware-t5/{_locale}
   controller: App\Controller\HomeController::firmwareT5

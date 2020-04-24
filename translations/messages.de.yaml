@@ -29,7 +29,8 @@ navb_user: Benutzer
 titleb_apis: API Anbieter von Inhalten
 # Titles
 title_ical: Importieren von iCal-Kalendern
-title_firmware: Espressif-Firmware
+title_firmware: ESP32-ESP8266 Firmware
+title_firmware_tft: Firmware für TFT Displays
 title_firmware_t5: Firmware für T5 ESP32-Karten
 title_firmware_blue: Konfigurieren der Firmware über Bluetooth
 title_cloudwatch: Cloudwatch-Überwachung
@@ -271,7 +272,7 @@ Name your Cloudwatch metric: Name des Widgets
 Image JSON definition: JSON
 #Wifi
 wifi_configure1: Hier können Sie bis zu 5 WiFi-Zugangspunkte speichern und wie "Zuhause" oder "Büro" kennzeichnen.
-wifi_configure2: In der Screen config können Sie diese WiFis auswählen und eine JSON- oder Config.h-Datei unter Screen > Konfiguration abrufen, um Ihre Anzeigen jederzeit einzurichten.
+wifi_configure2: Diese WiFi Passwörtern sind hier zu Einträgen mit dem Ziel, das ist einfacher mit Bluetooth die Firmware zu konfigurieren. Könnten Sie danach jederzeit löschen!
 wifi_configure3: Beachten Sie, dass die Sortierung aufsteigend ist und nur die ersten beiden automatisch als Hauptzugriffspunkte ausgewählt werden..
 #Support
 Support type: Support-Typ

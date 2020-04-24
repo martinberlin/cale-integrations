@@ -29,7 +29,8 @@ navb_user: User
 titleb_apis: Proovedores de contenido (APIs)
 # Titles
 title_ical: Importando calendarios iCal
-title_firmware: Firmware para boards Espressif
+title_firmware: Firmware para boards Espressif ESP32 / ESP8266
+title_firmware_tft: Firmware para displays TFT
 title_firmware_t5: Firmware para los ESP32 T5
 title_firmware_blue: Configurando el Firmware usando Bluetooth
 title_cloudwatch: Monitoreo de servidores Cloudwatch

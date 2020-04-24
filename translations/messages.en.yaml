@@ -29,7 +29,8 @@ navb_user: User
 titleb_apis: API content providers
 # Titles
 title_ical: Importing iCal calendars
-title_firmware: Espressif Firmware
+title_firmware: ESP32 / ESP8266 Firmware
+title_firmware_tft: Firmware for TFT displays
 title_firmware_t5: Firmware for T5 ESP32 boards
 title_firmware_blue: Configuring the Firmware using Bluetooth
 title_cloudwatch: Cloudwatch monitoring
@@ -270,8 +271,8 @@ Save Credentials: Save credentials
 Name your Cloudwatch metric: Widget name
 Image JSON definition: Widget JSON
 #Wifi
-wifi_configure1: Here you can store up to 5 WiFi access points and tag them like "home" or "office"
-wifi_configure2: In the Screen config you can select this WiFis and get a JSON or Config.h file in Screen > Config to setup your displays whenever you are. You can set up to two WiFi access point per device, the Firmware will measure which has the strongest signal and connect to that one.
+wifi_configure1: This WiFi section in the Admin-Backend is only to make your life easier configuring your Firmware, you may store this temporarily, and remove the credentials when your Firmware is configured.
+wifi_configure2: Here you can store up to 5 WiFi access points and tag them like "home" or "office"
 wifi_configure3: Keep in mind that sort is ascending and only the first two will be automatically selected as main access points.
 #Support
 Support type: Support type
