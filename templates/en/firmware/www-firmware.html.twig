@@ -23,20 +23,20 @@
 
 {% block body %}
 
-    <h3>Firmware for Espressif boards</h3>
+    <h3>Firmware for Espressif boards without Bluetooth</h3>
 
     <div class="panel panel-default" style="margin-top: 1em">
                 <div class="panel-heading">Quick access:</div>
                 <div class="panel-body">
     <ul>
-        <li><a href="{{ path('firmware-blue') }}">Configuring the Firmware using Bluetooth</a></li>
-        <li><a href="{{ path('firmware-t5') }}">Quick start with the Lilygo T5</a></li>
-        <li><a href="{{ path('firmware-tft') }}">Firmware for TFT displays</a></li>
         <li><a href="#a1">How to compile and upload to your board</a></li>
         <li><a href="#a2">Logging of the internal ESP32 IP Address</a></li>
         <li><a href="#a3">Selecting the right driver for your display</a></li>
         <li><a href="#s_esp32">Schematics ESP32</a></li>
         <li><a href="#s_esp8266">Schematics ESP8266</a></li>
+        <li><a href="{{ path('firmware-blue') }}">Configuring the Firmware using Bluetooth - master</a></li>
+        <li><a href="{{ path('firmware-t5') }}">Quick start with the Lilygo T5 - cale_t5</a></li>
+        <li><a href="{{ path('firmware-tft') }}">Firmware for TFT displays - cale_tft</a></li>
     </ul>
 
     </div></div>

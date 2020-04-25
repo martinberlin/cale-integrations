@@ -38,10 +38,11 @@
                 <div class="panel-body">
     <ul>
         <li><a href="#a1">Quick start with Bluetooth</a></li>
-        <li><a href="#repo">C++ Repository - cale_ble</a></li>
+        <li><a href="#repo">C++ Repository - master branch</a></li>
         <li><a href="#a2">Config reference</a></li>
         <li><a href="#a3">Android application</a></li>
-        <li><a href="{{ path('firmware-tft') }}">Firmware for TFT displays</a></li>
+        <li><a href="{{ path('firmware-tft') }}">Firmware for TFT displays - cale_tft</a></li>
+        <li><a href="{{ path('firmware-t5') }}">Quick start with the Lilygo T5 - cale_t5</a></li>
         <li><a href="{{ path('firmware') }}">Firmware and schematics without Bluetooth (ESP8266 / ESP32)</a></li>
     </ul>
 
@@ -111,51 +112,73 @@
         <div class="col-md-7">
     <h3 style="margin-top:3em">Repository with the Bluetooth version of the Firmware</h3>
 
-    <h4><a href="https://github.com/martinberlin/eink-calendar/tree/cale_ble">https://github.com/martinberlin/eink-calendar</a> - cale_ble branch</h4>
-    Ready to be tested: <br>
+    <h4><a href="https://github.com/martinberlin/eink-calendar">https://github.com/martinberlin/eink-calendar</a> - master branch</h4>
+    <b>Ready to be be configured using <span class="cale" style="font-weight:bold">CALE ANDROID APP</span></b><br>
     <ol>
         <li>Receives 2 WiFi APS, screen_url and bearer token</li>
         <li>Saves this on preferences for next restart</li>
-        <li>TODO: Still missing a way to reset preferences</li>
     </ol>
-    The small issue with point 3 is that once WiFi is connected Bluetooth is disconnected, since the ESP32 uses the same Antenna for both.
-    So if we want a reset method, it should either "hear via UDP or http" a reset signal, or be started with a GPIo on LOW so we can detect this
-    and reset credentials. Temporary solution if you want to force preferences removal:
+<details>
+    <summary>
+        <h4 style="display:inline">How to reset preferences</h4>
+    </summary>
+    Once WiFi is connected, Bluetooth is disconnected, since the ESP32 uses the same Antenna for both.
+    So if we want a reset method, you have two options, either get out of your WiFi area with your Epaper display.
+            Or if you want to reset it because you are compiling the Firmware for someone else, you can do a preferences.clear()
     <pre>
      // Uncomment to force delete preferences
      // preferences.clear();
     </pre>
+            But don't forget to leave it commented on the final compilation. Otherwise it will never save the WiFi credentials.
+</details>
     </div>
         <div class="col-md-5">
 
         </div>
     </div>
 
-    <a id="a2"></a>
-
-    <h4 style="margin-top:3em">Config reference</h4>
-    <p>It's important to note that since should send the Bluetooth configuration from an Android app,
-        the only thing to is to Scan the QR. The App will take care of listing your Screens and prepare the JSON configuration to send to the ESP32.<br>
-        As a preamble log in CALE Backend area and:<br>
+    <a id="a2"></a><br><br>
+<details>
+        <summary>
+            <h3 style="display:inline">Sending the Config using Bluetooth</h3>
+        </summary>
+    <p>To connect the Android up just scan the QR Code provided in the Backend (Top menu <b>User <span class="glyphicon glyphicon-arrow-right"></span> Api QR</b>)
+        The App will take care of listing your Screens and prepare the JSON configuration to send to the ESP32.<br>
+        As a preamble, to make sure you have the essential things set up, you can log in the <span class="cale">CALE BACKEND</span> and check that:<br>
 
         <ol>
 
-    <li><b>Use the WiFi section</b> to add at least one WiFi access point (Ex. home/office)</li>
+    <li><b>Use the WiFi section</b> you need at least one WiFi access point so your Epaper can get online (Ex. home/office)</li>
     <li><b>Go to Screen</b> and on the list click on <b>Config</b>.</li>
     <li><b>The Bluetooth tab</b> is the default and in a mobile request will come at the top.</li>
     <li>First two WiFi access points will be preselected, this is already send by the Android App automatically, no need to copy and paste</li>
 </ol>
-
-
+    So to summarize, you need a Screen configured to use a display, and to have at least one WiFi access point so it can get online.
     </p>
     <img src="/assets/www/firmware/screen_config1.png" alt="CALE Bluetooth config" width="100%">
 
-
-     Start the Display, in the app
-    select the Bluetooth starting with CALE_* and paste the JSON text in the next step.
-    That's it. The display should restart, connect to WiFi, and render your Screen.
-
-
+    After the last update to the Android app is now easier to configure. Provided the QR is already scanned this is the way to set up one
+    new Epaper display:<br>
+<ul>
+    <li>Start the Eink Display, in the <span class="cale">CALE ANDROID APP</span> select the Bluetooth starting with <b>CALE_*</b></li>
+    <li>Accept Android pair request</li>
+    <li>Click <b>Send Config</b> in the last step</li>
+</ul>
+    <br>That's it! The Epaper display should restart, connect to WiFi, and render your Screen.
+</details>
+<br>
+<details>
+    <summary>
+        <h3 style="display:inline">Config optional settings</h3>
+    </summary>
+    <p>If you want to use an <a href="https://www.tinypico.com/" target="_blank">ESP32 Tinypico</a> as the Epaper display controller,
+    we used unexpected maker library to get the minimal consumption. Please uncomment this define in Config.h to lower the deepsleep consumption
+    to 0.08 mA/hour:<br>
+    <pre>
+        //#define TINYPICO
+    </pre>
+    </p>
+</details>
     <a id="flow"></a>
     <h4 style="margin-top:3em">Bluetooth user flow</h4>
     <img src="/assets/svg/cale-bluetooth-config.svg" alt="CALE user flow for Bluetooth config" width="100%">

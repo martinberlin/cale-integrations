@@ -34,11 +34,11 @@
                 <div class="panel-body">
     <ul>
         <li><a href="#a1">Quick start with the Lilygo T5</a></li>
-        <li><a href="#blue">Alternative Firmware with Bluetooth</a></li>
         <li><a href="#a2">GPIO reference</a></li>
         <li><a href="#a3">3Dprint a case</a></li>
-        <li><a href="{{ path('firmware-tft') }}">Firmware for TFT displays</a></li>
-        <li><a href="{{ path('firmware') }}">Back to main Firmware section</a></li>
+        <li><a href="{{ path('firmware-tft') }}">Firmware for TFT displays - cale_tft</a></li>
+        <li><a href="{{ path('firmware') }}">ESP32/ESP8266 Firmware - cale</a></li>
+        <li><a href="{{ path('firmware-blue') }}">Main Firmware with Bluetooth - master</a></li>
     </ul>
 
     </div></div>
@@ -101,8 +101,9 @@ String bearer3 = "";
 
     <pre>
 // Our test T5 had a 2.13" Screen, uncomment the one you have
-//#define GDEW027W3    /* TTGO T5S 2.7" b/w */
-  #define GDEH0213B73  /* TTGO T5  2.13" b/w */
+//#define GDEW027W3    // TTGO T5S 2.7"  b/w
+//#define GDEW027C44   // TTGO T5S 2.7"  b/w/red
+  #define GDEH0213B73  // TTGO T5  2.13" b/w
 
 // 2.13 T5 v2.4
 int8_t EINK_CS = 5;
@@ -115,7 +116,7 @@ int8_t EINK_BUSY = 4;
     <h4 style="margin-top:4em">Firmware with Bluetooth</h4>
 
     <p>Since we wanted to make a Firmware version that you can move and configure different access points you can also use the
-    Bluetooth version for the T5. The only downside is that the cale_ble branch does not have at the moment multi-screen support like this
+    Bluetooth version for the T5. The only downside is that the default main branch does not have at the moment multi-screen support like this
     one. Please refer to the <a href="{{ path('firmware-blue') }}">Configuring the Firmware using Bluetooth</a>
     section.</p>
 
