@@ -7,17 +7,18 @@
 {% block body %}
 
     <div class="row screen-render-divs" id="screen-preview-url">
+        <div class="col-md-12 col-sm-12 col-xs-12">
         <form>
 
-        <div class="row" style="padding: 0.4em">
+        <div class="row">
 
-                <div class="col-md-6 col-sm-6">
+                <div class="col-md-6 col-sm-6 col-xs-12">
                     <label for="route_html">Html URL:</label>
                     <input type="text" value="{{ html_url }}" id="route_html"
                            onclick="this.setSelectionRange(0, this.value.length)" class="form-control">
                 </div>
 
-                <div class="col-md-3 col-sm-6">
+                <div class="col-md-3 col-sm-6 col-xs-12">
                     {% if screen_public %}
                     <button type="button" class="btn btn-default" onclick="window.location='{{ html_url }}'"
                             id="route_html"
@@ -26,7 +27,7 @@
                     {% endif %}
                 </div>
 
-            <div class="col-md-3">
+            <div class="col-md-3 col-sm-6 col-xs-12">
                 {% if screen_hits %} <label>Screen views:</label> {{ screen_hits }}<br>
                 {% endif %}
                 {% if screen_public %}
@@ -36,8 +37,8 @@
             </div>
         </div>
 
-            <div class="row" style="padding: 0.4em">
-                <div class="col-md-6 col-sm-6">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-12">
                     <label for="route_html">Bitmap URL for the ESP32:</label>
 
                     {% if screen_display is not null %}
@@ -55,9 +56,9 @@
                             <span class="glyphicon glyphicon-arrow-right"></span>
                         </div>
                     {% endif %}
-
                 </div>
-                <div class="col-md-3 col-sm-6">
+
+                <div class="col-md-3 col-sm-6 col-xs-12">
 
                     {% if screen_display is not null and screen_public %}
                         <button type="button" class="btn btn-default"
@@ -68,11 +69,9 @@
                     {% endif %}
                 </div>
 
-                <div class="col-md-3">
-
-                </div>
             </div>
         </form>
+     </div>
     </div>
 
         {% if screen_display is not null %}

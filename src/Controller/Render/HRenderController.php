@@ -33,11 +33,13 @@ class HRenderController extends AbstractController
         $imagePosition = $api->getImagePosition();
         $html = '';
         $imageHtml = '';
+        $closingRow = '';
 
         if (!is_null($image)) {
             switch ($api->getImageType()) {
                 case 'background':
                     $html = '<div class="row" style="background-image:url('.$image.');background-position:'.$imagePosition.';background-repeat:no-repeat">';
+                    $closingRow = '</div>';
                     break;
                 case 'float':
                     $imageHtml = '<img src="'.$image.'" class="float-'.$imagePosition.'">';
@@ -52,6 +54,7 @@ class HRenderController extends AbstractController
         $now = new \DateTime();
         $html = str_replace('{date}', $now->format($dateFormat), $html);
         $html = str_replace('{time}', $now->format($hourFormat), $html);
+        $html .= $closingRow;
         // Render the content partial and return the composed HTML
         $response = new Response();
         $response->setContent($html);

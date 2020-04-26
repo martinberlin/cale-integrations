@@ -246,35 +246,38 @@ class ARenderController extends AbstractController
         $iconLogo = '<img src="/assets/screen/logo/timetree-default_color.png"> ';
 
         $responseContent = '<div class="row"'.$colorStyle.'><div class="col-md-12">';
+        if (isset($json->data)) {
+            foreach ($json->data as $item) {
+                $attr = $item->attributes;
+                $isAllDay = $attr->all_day;
+                $start = new \DateTime($attr->start_at, new \DateTimeZone($partial->getIntegrationApi()->getTimezone()));
+                // For some reason setting timezone still returns events dated one hour before
+                $start->add(new \DateInterval('PT1H'));
+                $end = new \DateTime($attr->end_at);
+                $end->add(new \DateInterval('PT1H'));
 
-        foreach ($json->data as $item) {
-            $attr = $item->attributes;
-            $isAllDay = $attr->all_day;
-            $start = new \DateTime($attr->start_at, new \DateTimeZone($partial->getIntegrationApi()->getTimezone()));
-            // For some reason setting timezone still returns events dated one hour before
-            $start->add(new \DateInterval('PT1H'));
-            $end = new \DateTime($attr->end_at);
-            $end->add(new \DateInterval('PT1H'));
+                $responseContent .= '<div class="row"'.$invertedColorStyle.'>';
 
-            $responseContent .= '<div class="row"'.$invertedColorStyle.'>';
+                $responseContent .= '<div class="col-md-12"><'.$hs.'>'.$iconLogo.$attr->title.'</'.$hs.'></div>'.
+                                    '</div><div class="row">';
 
-            $responseContent .= '<div class="col-md-12"><'.$hs.'>'.$iconLogo.$attr->title.'</'.$hs.'></div>'.
-                                '</div><div class="row">';
+                if ($isAllDay) {
+                    $fromTo = $start->format($dateFormat);
+                } else {
+                    $startTime = ($start->format($hourFormat)!='00:00') ? $start->format($hourFormat) : '';
+                    $endTime = ($end->format($hourFormat)!='00:00') ? $end->format($hourFormat) : '';
+                    $endFormat = ($start->format($dateFormat) != $end->format($dateFormat)) ?
+                        $end->format($dateFormat).' '.$endTime : $endTime;
+                    $startFormat = $start->format($dateFormat).' '.$startTime;
+                    $fromTo = ($endFormat=='') ? $startFormat : $startFormat.' '.$iconArrowRight. $endFormat;
+                }
+                $responseContent .= '<div class="col-md-8 col-sm-6 col-xs-6"><'.$hs.'>'.$fromTo.'</'.$hs.'></div>';
+                $responseContent .= '<div class="col-md-4 col-sm-6 col-xs-6"><'.$hs.'>'.$attr->location.'</'.$hs.'></div>';
 
-            if ($isAllDay) {
-                $fromTo = $start->format($dateFormat);
-            } else {
-                $startTime = ($start->format($hourFormat)!='00:00') ? $start->format($hourFormat) : '';
-                $endTime = ($end->format($hourFormat)!='00:00') ? $end->format($hourFormat) : '';
-                $endFormat = ($start->format($dateFormat) != $end->format($dateFormat)) ?
-                    $end->format($dateFormat).' '.$endTime : $endTime;
-                $startFormat = $start->format($dateFormat).' '.$startTime;
-                $fromTo = ($endFormat=='') ? $startFormat : $startFormat.' '.$iconArrowRight. $endFormat;
+                $responseContent .= '</div>';
             }
-            $responseContent .= '<div class="col-md-8 col-sm-6 col-xs-6"><'.$hs.'>'.$fromTo.'</'.$hs.'></div>';
-            $responseContent .= '<div class="col-md-4 col-sm-6 col-xs-6"><'.$hs.'>'.$attr->location.'</'.$hs.'></div>';
-
-            $responseContent .= '</div>';
+        } else {
+            $responseContent .= '<b>NO DATA FROM API: There was no data response from Timetree.</b><br>Please check in Content that the API has a Token configured';
         }
 
         $responseContent .= "</div></div>";
@@ -488,7 +491,7 @@ class ARenderController extends AbstractController
 
         $hs1 = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h4':'h3';
         $hs2 = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h5':'h4';
-        $colMd = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'col-md-6 col-sm-6':'col-md-4 col-sm-4';
+        $colMd = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'col-md-6 col-sm-6':'col-md-12 col-sm-12';
 
         $html = $error.' <div class="row"'.$colorStyle.'>';
         $count = 1;
