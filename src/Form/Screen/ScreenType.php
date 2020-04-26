@@ -134,11 +134,7 @@ class ScreenType extends AbstractType
                     'label' => 'Hour to',
                     'attr' => ['class' => 'form-control']
                 ])
-            ->add('submit_top', SubmitType::class,
-                [
-                    'label' => 'Save screen',
-                    'attr' => ['class' => 'btn btn-primary form-control']
-                ])
+
             ->add('submit', SubmitType::class,
                 [
                     'label' => 'Save screen',
