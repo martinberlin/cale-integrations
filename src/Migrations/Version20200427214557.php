@@ -25,7 +25,7 @@ final class Version20200427214557 extends AbstractMigration
 VALUES ('7', 
 'openweather', 'openweather', 'OpenWeather', 'https://api.openweathermap.org/data/2.5/forecast?lat=[latitude]&lon=[longitude]&APPID=[token]', 'json', '1', 
 'https://openweathermap.org/api/hourly-forecast', NULL, '2', 'API Key', 
-'App\Controller\Render\WRenderController::render_openweather', 'b_api_customize_location')");
+'App\Controller\Render\ARenderController::render_openweather', 'b_api_customize_location')");
     }
 
     public function down(Schema $schema) : void

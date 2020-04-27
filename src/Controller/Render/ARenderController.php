@@ -309,15 +309,15 @@ class ARenderController extends AbstractController
         $user = $partial->getScreen()->getUser();
         $hourFormat = $user->getHourFormat();
         // WEATHER Dark sky
-        $celsius = '°C ';
+        $units = ($partial->getIntegrationApi()->getUnits() === 'imperial') ? 'F° ':'C° ';
         $d = [];
         $d['summary'] = $json->daily->summary;
         $wIcon = '<i class="wi wi-{icon}"></i>';
         $iconSunrise = str_replace("{icon}", 'day-sunny', $wIcon);
         $d['sunrise'] = $this->convertDateTime($json->daily->data[0]->sunriseTime,$hourFormat);
         $d['sunset'] = $this->convertDateTime($json->daily->data[0]->sunsetTime,$hourFormat);
-        $d['daily-avg-high'] = round($json->daily->data[0]->temperatureHigh,1).$celsius;
-        $d['daily-avg-low'] =  round($json->daily->data[0]->temperatureLow,1).$celsius;
+        $d['daily-avg-high'] = round($json->daily->data[0]->temperatureHigh,1).$units;
+        $d['daily-avg-low'] =  round($json->daily->data[0]->temperatureLow,1).$units;
 
         $wHourly ="";
         $hourlyCounter = 1;
@@ -342,11 +342,11 @@ class ARenderController extends AbstractController
 
             if ($partial->getScreen()->getDisplay() instanceof Display && $partial->getScreen()->getDisplay()->getWidth()>400) {
                 $wHourly .= '<div class="'.$colMd4.'"><'.$hs.'>'.$this->convertDateTime($h->time,$hourFormat).' '.$icon1.' </'.$hs.'></div>';
-                $wHourly .= '<div class="'.$colMd4.' text-center"><'.$hs.'>'.$temp.$celsius.'</'.$hs.'></div>';
-                $wHourly .= '<div class="'.$colMd4.' text-right"><'.$hs.'>'.($h->humidity*100).' '.$icon3.'</'.$hs.'></div>'; // .$icon3.$h->windSpeed
+                $wHourly .= '<div class="'.$colMd4.' text-center"><'.$hs.'>'.$temp.$units.'</'.$hs.'></div>';
+                $wHourly .= '<div class="'.$colMd4.' text-right"><'.$hs.'>'.($h->humidity*100).' '.$icon3.'</'.$hs.'></div>';
             } else {
                 $wHourly .= '<div class="'.$colMd4.'"><'.$hs.'>'.$this->convertDateTime($h->time,$hourFormat).' '.$icon1.' </'.$hs.'></div>';
-                $wHourly .= '<div class="'.$colMd4.' text-center" style="margin-left:1.4em"><'.$hs.'>'.$temp.$celsius.'</'.$hs.'></div>';
+                $wHourly .= '<div class="'.$colMd4.' text-center" style="margin-left:1.4em"><'.$hs.'>'.$temp.$units.'</'.$hs.'></div>';
                 $wHourly .= '<div class="'.$colMd4.' text-right" style="margin-left:1.4em"><'.$hs.'>'.($h->humidity*100).' '.$icon3.'</'.$hs.'></div>';
             }
                 $wHourly .= '</div>';
@@ -522,6 +522,68 @@ class ARenderController extends AbstractController
 
         $response = new Response();
         $response->setContent($html);
+        return $response;
+    }
+
+
+    /**
+     * OpenWeather
+     * @Route("/render/openweather", name="render_openweather")
+     */
+    public function render_openweather(TemplatePartial $partial, IntegrationApiRepository $intApiRepository, SimpleCacheService $cacheService)
+    {
+        $int_api_id = $partial->getIntegrationApi()->getId();
+        $jsonRequest = $this->json_weather_generic($int_api_id, $intApiRepository, $cacheService);
+        $response = new Response();
+        $json = json_decode($jsonRequest->getContent());
+        if ($json === null && json_last_error() !== JSON_ERROR_NONE) {
+            throw $this->createNotFoundException("Parsing of int_api $int_api_id JSON failed: ".json_last_error());
+        }
+        if (property_exists($json, 'error')) {
+            $response->setContent('<h3>'.$json->error.'</h3> Please delete the weather API and try to reconfigure again using a correct KEY');
+            return $response;
+        }
+        // Read user preferences
+        $colorStyle = $this->getColorStyle($partial);
+        $user = $partial->getScreen()->getUser();
+        $hourFormat = $user->getHourFormat();
+        $units = ($partial->getIntegrationApi()->getUnits() === 'imperial') ? ' F° ':' C° ';
+
+        $hIcon = '<i class="wi wi-{icon}"></i>';
+        $wIcon = '<img style="width:1.6em" src="/assets/svg/openweather/{icon}.svg">';
+        $wHourly ="";
+        $hourlyCounter = 1;
+        // Start HTML building - Headlines is a try to mould this to Screen environment
+        $hs = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h4':'h3';
+        $colMd4 = ($partial->getScreen()->getDisplay() instanceof Display && $partial->getScreen()->getDisplay()->getWidth()>400) ? 'col-md-4 col-sm-4' : 'col-xs-4';
+
+        $responseContent = '<div class="row"'.$colorStyle.'><div class="col-md-12 col-sm-12 col-xs-12">';
+
+        $icon3 = str_replace("{icon}", 'humidity', $hIcon);
+
+        foreach ($json->list as $h) {
+            $icon1= str_replace("{icon}", $h->weather[0]->icon, $wIcon);
+            $temp = strstr(round($h->main->temp,1),'.')===false ? round($h->main->temp,1).'.0' : round($h->main->temp,1);
+            $wHourly .= '<div class="row">';
+
+            if ($partial->getScreen()->getDisplay() instanceof Display && $partial->getScreen()->getDisplay()->getWidth()>400) {
+                $wHourly .= '<div class="'.$colMd4.'"><'.$hs.'>'.$this->convertDateTime($h->dt,$hourFormat).' '.$icon1.' </'.$hs.'></div>';
+                $wHourly .= '<div class="'.$colMd4.' text-center"><'.$hs.'>'.$temp.$units.'</'.$hs.'></div>';
+                $wHourly .= '<div class="'.$colMd4.' text-right"><'.$hs.'>'.$h->main->humidity.' '.$icon3.'</'.$hs.'></div>';
+            } else {
+                $wHourly .= '<div class="'.$colMd4.'"><'.$hs.'>'.$this->convertDateTime($h->dt,$hourFormat).' '.$icon1.' </'.$hs.'></div>';
+                $wHourly .= '<div class="'.$colMd4.' text-center" style="margin-left:1.4em"><'.$hs.'>'.$temp.$units.'</'.$hs.'></div>';
+                $wHourly .= '<div class="'.$colMd4.' text-right" style="margin-left:1.4em"><'.$hs.'>'.$h->main->humidity.' '.$icon3.'</'.$hs.'></div>';
+            }
+            $wHourly .= '</div>';
+            $hourlyCounter++;
+            if ($hourlyCounter>$partial->getMaxResults()) break;
+        }
+        $responseContent.= $wHourly;
+        //$responseContent.='<div class="row text-right"><small><a href="https://darksky.net/poweredby" class="partial-link">Powered by Dark Sky</a></small></div>';
+        $responseContent .= "</div></div>";
+
+        $response->setContent($responseContent);
         return $response;
     }
 }
