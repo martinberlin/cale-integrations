@@ -30,6 +30,16 @@ class IntegrationWeatherApiType extends IntegrationApiType
                     ]
                 ])
 
+            ->add('units', ChoiceType::class,
+                [
+                    'label' => "Units",
+                    "choices" => [
+                        'Metric (Degrees C°)'   => 'metric',
+                        'Imperial (Fahrenheit)' => 'imperial'
+                    ],
+                    'attr' => ['class' => 'form-control']
+                ])
+
             ->add('language', ChoiceType::class,
                 [
                     'label' => "Language of preference",

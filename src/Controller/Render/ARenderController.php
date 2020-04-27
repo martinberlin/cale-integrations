@@ -391,7 +391,16 @@ class ARenderController extends AbstractController
             }
             // Language is an exception since is set in the Configure API on IntegrationApi level
             $extraParams['lang'] = $intApi->getLanguage();
-            $apiUrl.= '?'.http_build_query($extraParams);
+
+            switch ($api->getUrlName()) {
+                case 'weather-darksky':
+                    $extraParams['units'] = ($intApi->getUnits()==='imperial') ? 'us' : 'si';
+                    $apiUrl.= '?'.http_build_query($extraParams);
+                    break;
+                default:
+                    $extraParams['units'] = $intApi->getUnits();
+                    $apiUrl.= '&'.http_build_query($extraParams);
+            }
         }
         $response = new JsonResponse();
         try {

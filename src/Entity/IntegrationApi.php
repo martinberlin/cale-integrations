@@ -106,6 +106,13 @@ class IntegrationApi implements Language, Location, Created
     protected $imageType;
 
     /**
+     * Generic units like used in weather for Metric & Imperial
+     * @var string
+     * @ORM\Column(type="string", length=20, nullable=true, name="units")
+     */
+    protected $units;
+
+    /**
      * @var \DateTime
      * @ORM\Column(type="datetime")
      */
@@ -319,6 +326,22 @@ class IntegrationApi implements Language, Location, Created
     public function setImageType(string $imageType): void
     {
         $this->imageType = $imageType;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUnits():?string
+    {
+        return $this->units;
+    }
+
+    /**
+     * @param string
+     */
+    public function setUnits(string $u): void
+    {
+        $this->units = $u;
     }
 
     public function getCreated() {
