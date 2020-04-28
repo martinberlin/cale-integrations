@@ -550,7 +550,8 @@ class ARenderController extends AbstractController
         $units = ($partial->getIntegrationApi()->getUnits() === 'imperial') ? ' F° ':' C° ';
 
         $hIcon = '<i class="wi wi-{icon}"></i>';
-        $wIcon = '<img style="width:1.6em" src="/assets/svg/openweather/{icon}.svg">';
+        $iconColor = ($partial->getInvertedColor()===false) ? 'w/' : '';
+        $wIcon = '<img style="width:1.6em" src="/assets/svg/openweather/'.$iconColor.'{icon}.svg">';
         $wHourly ="";
         $hourlyCounter = 1;
         // Start HTML building - Headlines is a try to mould this to Screen environment
