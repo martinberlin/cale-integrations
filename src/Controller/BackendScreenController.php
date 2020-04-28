@@ -88,6 +88,9 @@ class BackendScreenController extends AbstractController
             }
         }
 
+        $imageType = ($screen->getDisplay() instanceof Display && $screen->getDisplay()->getType() === 'eink') ?
+            'bmp' : 'jpg';
+
             return $this->render(
             'backend/screen/screen-edit.html.twig',
             [
@@ -95,8 +98,8 @@ class BackendScreenController extends AbstractController
                 'form' => $form->createView(),
                 'uuid' => $uuid,
                 'isMobile' => $backendController->isMobile($request),
-                'bmp_url'  => ($screen->getDisplay() instanceof Display) ?
-                    $this->imageUrlGenerator($screen->isOutSsl(), 'bmp', $this->getUser()->getName(), $screen->getId()): '',
+                'image_url'  => ($screen->getDisplay() instanceof Display) ?
+                    $this->imageUrlGenerator($screen->isOutSsl(), $imageType, $this->getUser()->getName(), $screen->getId()): '',
                 'is_new' => $isNewScreen,
                 'menu' => $this->menu
             ]
