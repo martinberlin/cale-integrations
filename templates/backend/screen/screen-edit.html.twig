@@ -209,8 +209,8 @@ Authorization: Bearer {{ form.vars.value.outBearer }}
               config_json_mobile.value = json;
             }
             // Update also C version dynamic
-            let c_config = '#define WIFI_SSID "'+wifi_ssid+'";'+ "\n";
-            c_config += '#define WIFI_PASS "'+wifi_pass+'";'   + "\n";
+            let c_config = '#define WIFI_SSID "'+wifi_ssid+'"'+"\n";
+            c_config += '#define WIFI_PASS "'+wifi_pass+'"'+"\n";
             c_config += 'char screenUrl[] = "'+screen_url+'";' + "\n";
             c_config += 'String bearer = "'+bearer+'";';
             config_c.value = c_config;
