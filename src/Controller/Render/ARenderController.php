@@ -550,7 +550,7 @@ class ARenderController extends AbstractController
         $units = ($partial->getIntegrationApi()->getUnits() === 'imperial') ? ' F° ':' C° ';
 
         $hIcon = '<i class="wi wi-{icon}"></i>';
-        $iconColor = ($partial->getInvertedColor()===false) ? 'w/' : '';
+        $iconColor = ($partial->getInvertedColor()) ? 'w/' : '';
         $wIcon = '<img style="width:1.6em" src="/assets/svg/openweather/'.$iconColor.'{icon}.svg">';
         $wHourly ="";
         $hourlyCounter = 1;
