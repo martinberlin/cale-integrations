@@ -23,7 +23,8 @@ final class Version20200427214557 extends AbstractMigration
  `request_parameters`, `response_type`, `is_location_api`, 
  `documentation_url`, `default_json_settings`, `api_cat_id`, `auth_note`,
  `json_route`, `edit_route`) 
-VALUES ('7', 'openweather', 'OpenWeather', 'https://api.openweathermap.org/data/2.5/forecast?lat=[latitude]&lon=[longitude]&APPID=[token]', 'json', '1', 
+VALUES ('7', 'openweather', 'OpenWeather', 'https://api.openweathermap.org/data/2.5/forecast?lat=[latitude]&lon=[longitude]&APPID=[token]', 
+'{\"token\":\"url\",\"latitude\":\"url\",\"longitude\":\"url\",\"units\":\"GET\",\"lang\":\"GET\"}', 'json', '1', 
 'https://openweathermap.org/api/hourly-forecast', NULL, '2', 'API Key', 
 'App\Controller\Render\ARenderController::render_openweather', 'b_api_customize_location')");
     }
