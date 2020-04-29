@@ -98,6 +98,7 @@ class HomeController extends AbstractController
             ['title' => $translator->trans('nav_privacy')]
         );
     }
+
     public function googlePrivacyPolicy(Request $request, TranslatorInterface $translator)
     {
         return $this->render(
@@ -113,6 +114,7 @@ class HomeController extends AbstractController
             ['title' => $translator->trans('nav_server_architecture')]
         );
     }
+
     public function pricing(Request $request, TranslatorInterface $translator)
     {
         return $this->render(
@@ -120,6 +122,7 @@ class HomeController extends AbstractController
             ['title' => $translator->trans('nav_pricing')]
         );
     }
+
     public function faq(Request $request, TranslatorInterface $translator)
     {
         return $this->render(
@@ -183,6 +186,13 @@ class HomeController extends AbstractController
         );
     }
 
+    public function news(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/news/news.html.twig',
+            ['title' => 'News']
+        );
+    }
 
     /**
      * Good idea but does not work because of locale lang. switch
