@@ -16,7 +16,7 @@
         <link rel=”canonical” href=”{{ canonical }}">
     {% endif %}
 
-        <title>{% if title is defined %}CALE {{title}}{% else %}CALE Screen manager{% endif %}</title>
+        <title>{% if title is defined %}{{title}} - CALE{% else %}CALE Screen manager{% endif %}</title>
 
         {# Bootstrap 3 core CSS #}
     {% if app.environment != 'dev' %}
