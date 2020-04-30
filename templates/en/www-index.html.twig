@@ -8,7 +8,7 @@
     <div class="text-center" style="margin-top: -2em">
     <h3><span class="cale">API Mashup creator for your WiFi displays</span></h3>
     <h4>
-        <span class="cale">CALE</span> is a screen administrator where you can mix content of different APIs
+        <span class="cale" style="font-weight:bold">CALE</span> is a screen administrator where you can mix content of different APIs
             and control the content output.
     </h4>
 
@@ -28,6 +28,7 @@
     <h5>You can use it on any <b>WiFi display</b> like your tablet, mobile, or ultimately in a
         WiFi E-Paper screen that is every hour fetching new content at a minimum consumption.
     </h5>
+
     <div class="row">
             <div class="col-md-2"></div>
         <div class="col-md-4 col-sm-6 col-xs-12 text-center">
@@ -47,10 +48,34 @@
         <h4>API integration example with Cloudwatch monitoring</h4>
 
         <h3>Output for a <a href="{{ path('displays-tft') }}">TFT WiFi display</a></h3>
-        <img src="{{ img_cloudwatch }}" width="100%"><br>
+        <img src="{{ img_cloudwatch }}" style="border:1px solid gray;margin-left:1px" width="98%"><br>
+        <small>800*480 resulution output for a color TFT display</small>
 
         <h3>Same output for a <a href="{{ path('displays-eink') }}">E-Ink WiFi display</a></h3>
-        <img src="{{ bmp_cloudwatch }}" width="100%"><br>
+        <img src="{{ bmp_cloudwatch }}" style="border:1px solid gray;margin-left:1px" width="98%"><br>
+        <small>800*480 for a 7.5 inches Epaper display</small>
+
+        <a href="https://play.google.com/store/apps/details?id=io.cordova.cale" target="_blank" title="CALE Android application">
+            <img src="/assets/www/firmware/cale_app_1.jpg" style="margin-top:1.6em;margin-right:19px" alt="CALE Android app" class="pull-right"></a>
+        <p style="margin-top:2em">
+            <h4><a href="{{ path('firmware-blue') }}">Our Firmware</a> is compatible with ESP32 / ESP8266 Espressif boards and it's ready to be configured with
+            <span class="cale" style="font-weight:bold">CALE ANDROID APP</span></h4>
+        <br>
+        Both the Firmware and the Android application are fully open source.
+        Enabling you to have full control of what is going on between your application and the display controller.
+        You can even fork it and customize it for your own project or use our examples to read
+        an image from <span class="cale">CALE</span> in your own Firmare.<br><br>
+
+        <b>To sync your App to our web-service backend just create an account and follow this steps:</b><br><br>
+        <ol>
+            <li><a href="https://play.google.com/store/apps/details?id=io.cordova.cale" target="_blank">
+                    Download <span class="cale" style="font-weight:bold">CALE ANDROID APP</span></a></li>
+            <li>Activate Bluetooth in your Android device and log in to <span class="cale" style="font-weight:bold">CALE BACKEND</span></li>
+            <li>Scan the QR Code you can see on <b>User <span class="glyphicon glyphicon-arrow-right"></span> My api QR code</b></li>
+            <li>Get your Screens and WiFi access point in the Backend</li>
+            <li>Select this Screen and sent the configuration using Bluetooth to the ESP32</li>
+        </ol>
+        </p>
     </div>
     </div>
 
