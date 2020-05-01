@@ -27,8 +27,16 @@ class HomeController extends AbstractController
     public function aboutCale(Request $request, TranslatorInterface $translator)
     {
         return $this->render(
-            $request->getLocale().'/www-about-cale.html.twig',
+            $request->getLocale().'/about/www-about-cale.html.twig',
             ['title' => $translator->trans('nav_about')]
+        );
+    }
+
+    public function threeDModels(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/about/3d-models.html.twig',
+            ['title' => $translator->trans('nav_3d')]
         );
     }
 

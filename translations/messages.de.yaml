@@ -22,6 +22,7 @@ nav_faq: Häufig gestellte Fragen
 nav_get_started: Ersten Schritten
 nav_server_architecture: Serverarchitektur
 nav_api_cloudwatch: AWS Cloudwatch-Überwachung
+nav_3d: Gehäuse 3D-Modelle
 # NAV BACKEND
 navb_api: Inhalten
 navb_user: Benutzer

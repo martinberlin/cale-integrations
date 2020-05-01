@@ -28,6 +28,14 @@ about-cale:
   requirements:
     _locale: '%locales%'
 
+about-3d-model:
+  path:       /about-3d-models/{_locale}
+  controller: App\Controller\HomeController::threeDModels
+  defaults:
+    _locale: en
+  requirements:
+    _locale: '%locales%'
+
 displays-eink:
   path:       /eink-displays/{_locale}
   controller: App\Controller\HomeController::einkDisplays

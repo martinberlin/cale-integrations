@@ -63,23 +63,22 @@
         <br>
         Both the Firmware and the Android application are fully open source.
         Enabling you to have full control of what is going on between your application and the display controller.
-        You can even fork it and customize it for your own project or use our working examples on how to read
-        an image from <span class="cale">CALE</span> web-service in your own implementation.<br><br>
+        You can even fork it and customize it for your own project or use our working examples in your own Firmware implementation.<br><br>
 
         <b>To sync your App to our web-service backend just create an account and follow this steps:</b><br><br>
         <ol>
             <li><a href="https://play.google.com/store/apps/details?id=io.cordova.cale" target="_blank">
                     Download <span class="cale" style="font-weight:bold">CALE ANDROID APP</span></a></li>
-            <li>Configure a test Screen, associated to a Epaper display, and add one WiFi access point</li>
+            <li>Configure a test Screen, associated to an Eink display, and one WiFi access point</li>
             <li>Activate Bluetooth in your Android device and log in to <span class="cale" style="font-weight:bold">CALE BACKEND</span></li>
             <li>Scan the QR Code you can see on <b>User <span class="glyphicon glyphicon-arrow-right"></span> My api QR code</b></li>
-            <li>Get your Screens and WiFi access point in the Backend</li>
-            <li>Select this Screen and sent the configuration using Bluetooth to the ESP32</li>
+            <li>Select the Screen you created previously, choose the ESP32 Bluetooth target, and send the configuration using Bluetooth</li>
         </ol>
-        <b>That's it.</b> The display controller should receive your WiFi credentials and Screen URLs. It should refresh and go to sleep,
-        so it remain in low consumption mode, till next wake up.<br>
+        After the Espressif board receives his WiFi AP gets online and downloads the Screen image.
+        It should refresh the Epaper display and go to sleep,
+        remaining in low consumption mode, till next wake up.<br><br>
         At this point you have a low energy display that is connected to <span class="cale" style="font-weight:bold">CALE BACKEND</span>
-        so you can change any part of the Screeen, and in next refresh the Epaper display
+        so you can change any part of the Screen, and in next refresh the Epaper display
         will read the new image.
         </p>
     </div>
