@@ -29,7 +29,7 @@ about-cale:
     _locale: '%locales%'
 
 about-3d-model:
-  path:       /about-3d-models/{_locale}
+  path:       /housing-3d-models/{_locale}
   controller: App\Controller\HomeController::threeDModels
   defaults:
     _locale: en
