@@ -56,14 +56,15 @@ class ARenderController extends AbstractController
                                            IntegrationApiRepository $intApiRepository, EntityManagerInterface $em,
                                            Request $request, \Google_Client $googleClient)
     {
-
-    if ($request->getClientIp() === '127.0.0.1' && (isset($_ENV['API_PROXY']))) {
-        $httpClient = new Client([
-            'proxy' => $_ENV['API_PROXY'],
-            'verify' => false
-        ]);
-        $googleClient->setHttpClient($httpClient);
-    }
+        $response = new Response();
+        $responseContent = '';
+        if ($request->getClientIp() === '127.0.0.1' && (isset($_ENV['API_PROXY']))) {
+            $httpClient = new Client([
+                'proxy' => $_ENV['API_PROXY'],
+                'verify' => false
+            ]);
+            $googleClient->setHttpClient($httpClient);
+        }
         // Read user preferences
         $user = $partial->getScreen()->getUser();
         $dateFormat = $user->getDateFormat();
@@ -73,7 +74,7 @@ class ARenderController extends AbstractController
         // Tell here already the client what is our API id
         $googleClient->setState($intApi->getId());
         if ($intApi instanceof IntegrationApi === false) {
-            return $this->createNotFoundException("Integrated API not found for partial: ".$partial->getId());
+            return $this->createNotFoundException("Integrated API not found for partial: " . $partial->getId());
         }
 
         $userApi = $intApi->getUserApi();
@@ -113,18 +114,27 @@ class ARenderController extends AbstractController
             'singleEvents' => true,
             'timeMin' => date('c'),
         );
-        $results = $service->events->listEvents($calendarId, $optParams);
+        try {
+            $results = $service->events->listEvents($calendarId, $optParams);
+        } catch (\Google_Service_Exception $e) {
+            $exceptionObj = json_decode($e->getMessage());
+            $log->setMessage('Google_Service exception: ' . $exceptionObj->error);
+            $em->persist($log);
+            $em->flush();
+            $responseContent .= '<h3>' . $exceptionObj->error . '</h3>';
+            $responseContent .= "Error with Google Auth token. Please get a new token in Content section: Google Calendar";
+            $response->setContent($responseContent);
+            return $response;
+        }
+
         $events = $results->getItems();
-        $responseContent = '';
         // Start HTML building - Headlines is a try to mould this to Screen environment
         $hs = (substr($partial->getScreen()->getTemplateTwig(), 0, 1) > 1) ? 'h4' : 'h3';
         // Retrieve color styles
         $colorStyle = $this->getColorStyle($partial);
         $invertedColorStyle = $this->getColorStyle($partial, true);
-
         $iconArrowRight = ' <span class="glyphicon glyphicon-arrow-right"></span>';
-
-        $responseContent = '<div class="row"'.$colorStyle.'><div class="col-md-12">';
+        $responseContent = '<div class="row"' . $colorStyle . '><div class="col-md-12">';
 
         foreach ($events as $event) {
             $dateStart = ($event->start->getDate() != '') ? $event->start->getDate() : $event->start->getDateTime();
@@ -135,39 +145,38 @@ class ARenderController extends AbstractController
             if ($event->start->getDate() != '' && $event->end->getDate() != '') {
                 $end->modify('-1 days');
             }
-            $startTime = ($start->format($hourFormat)!='00:00') ? $start->format($hourFormat) : '';
-            $endTime = ($end->format($hourFormat)!='00:00') ? $end->format($hourFormat) : '';
+            $startTime = ($start->format($hourFormat) != '00:00') ? $start->format($hourFormat) : '';
+            $endTime = ($end->format($hourFormat) != '00:00') ? $end->format($hourFormat) : '';
             $endFormat = ($start->format($dateFormat) != $end->format($dateFormat)) ?
-                $end->format($dateFormat).' '.$endTime : $endTime;
-            $startFormat = $start->format($dateFormat).' '.$startTime;
-            $fromTo = ($endFormat=='') ? $startFormat : $startFormat.$iconArrowRight. $endFormat;
+                $end->format($dateFormat) . ' ' . $endTime : $endTime;
+            $startFormat = $start->format($dateFormat) . ' ' . $startTime;
+            $fromTo = ($endFormat == '') ? $startFormat : $startFormat . $iconArrowRight . $endFormat;
 
-            $responseContent .= '<div class="row"'.$invertedColorStyle.'>';
-            $responseContent .= '<div class="col-md-12"><'.$hs.'>'.$event->summary.'</'.$hs.'></div>'.
-                                '</div>'.
-                                '<div class="row">'.
-                                '<div class="col-md-12"><'.$hs.'>'.$fromTo.'</'.$hs.'></div>'.
-                                '</div>';
+            $responseContent .= '<div class="row"' . $invertedColorStyle . '>';
+            $responseContent .= '<div class="col-md-12"><' . $hs . '>' . $event->summary . '</' . $hs . '></div>' .
+                '</div>' .
+                '<div class="row">' .
+                '<div class="col-md-12"><' . $hs . '>' . $fromTo . '</' . $hs . '></div>' .
+                '</div>';
             $responseContent .= '<div class="row">';
             if (property_exists($event, 'attendees')) {
                 $attendees = "";
                 foreach ($event->attendees as $attendee) {
                     $attendeeName = explode("@", $attendee->email);
-                    $attendees.= '<b>'.$attendeeName[0].'</b>, ';
+                    $attendees .= '<b>' . $attendeeName[0] . '</b>, ';
                 }
                 //$body = str_replace("{{attendees}}", $attendees, $body);
-                $responseContent .= '<div class="col-md-6 col-sm-6 col-xs-6">'.$attendees.'</div>';
+                $responseContent .= '<div class="col-md-6 col-sm-6 col-xs-6">' . $attendees . '</div>';
             }
 
             if (property_exists($event, 'location')) {
-                $responseContent .= '<div class="col-md-6 col-sm-6 col-xs-6"><'.$hs.'>'.$event->location.'</'.$hs.'></div>';
+                $responseContent .= '<div class="col-md-6 col-sm-6 col-xs-6"><' . $hs . '>' . $event->location . '</' . $hs . '></div>';
             }
-            $responseContent.= '</div>';
+            $responseContent .= '</div>';
         }
 
         $responseContent .= "</div></div>";
         // Return the composed HTML
-        $response = new Response();
         $response->setContent($responseContent);
         return $response;
     }
