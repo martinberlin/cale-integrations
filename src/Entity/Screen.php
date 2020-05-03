@@ -141,6 +141,8 @@ class Screen implements Created
         $this->outCacheSeconds = 30;
         $this->outBitDepth = 1;
         $this->outCompressed = 0;
+        $this->stDayTo = '7';
+        $this->stHourTo = '23';
         $this->outSsl = 0;
         $this->hits = 0;
         $this->partials = new ArrayCollection();
