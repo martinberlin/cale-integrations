@@ -42,6 +42,12 @@ class User implements UserInterface, Language, Created
     private $screens;
 
     /**
+     * One user has many shipped products. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="ShippingTracking", mappedBy="user", orphanRemoval=true)
+     */
+    private $userShippings;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="string", length=180, unique=true)
@@ -172,6 +178,7 @@ class User implements UserInterface, Language, Created
         $this->screens = new ArrayCollection();
         $this->sysLogs = new ArrayCollection();
         $this->sysScreenLogs = new ArrayCollection();
+        $this->userShippings = new ArrayCollection();
         $this->doNotDisturb = false;
         $this->setCreated(new \DateTime());
         $this->apiKey = strtoupper(hash("ripemd160", $this->id.$this->email));
@@ -535,6 +542,13 @@ class User implements UserInterface, Language, Created
      */
     public function getSysScreenLogs() {
         return $this->sysScreenLogs;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getUserShippings() {
+        return $this->userShippings;
     }
 
     /**
