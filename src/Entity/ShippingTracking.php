@@ -10,7 +10,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * An User can have more than one package sent
  * @ORM\Entity(repositoryClass="App\Repository\ShippingTrackingRepository")
  * @ORM\Table(name="app_shipping",uniqueConstraints={@ORM\UniqueConstraint(name="shipping_idx", columns={"tracking"})})
- * @UniqueEntity("accessToken",message="This access token is already used")
  * @ORM\HasLifecycleCallbacks
  */
 class ShippingTracking implements Created
@@ -55,6 +54,13 @@ class ShippingTracking implements Created
      * @ORM\Column(type="string", length=2, nullable=true)
      */
     protected $countryCode;
+
+    /**
+     * @var string
+     * contents / Firmware / Display
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $description;
 
     /**
      * @var \DateTime
@@ -127,7 +133,7 @@ class ShippingTracking implements Created
     /**
      * @return string
      */
-    public function getStatus(): string
+    public function getStatus(): ?string
     {
         return $this->status;
     }
@@ -135,7 +141,7 @@ class ShippingTracking implements Created
     /**
      * @param string $status
      */
-    public function setStatus(string $status): void
+    public function setStatus(?string $status): void
     {
         $this->status = $status;
     }
@@ -188,5 +194,20 @@ class ShippingTracking implements Created
         $this->countryCode = $countryCode;
     }
 
+    /**
+     * @return string
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $status
+     */
+    public function setDescription(?string $d): void
+    {
+        $this->description = $d;
+    }
 
 }

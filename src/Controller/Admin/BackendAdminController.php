@@ -4,11 +4,14 @@ namespace App\Controller\Admin;
 
 use App\Entity\Api;
 use App\Entity\Display;
+use App\Entity\ShippingTracking;
 use App\Form\Admin\ApiType;
 use App\Form\Admin\DisplayType;
 use App\Form\Admin\NewsletterType;
+use App\Form\Admin\ShippingType;
 use App\Repository\ApiRepository;
 use App\Repository\DisplayRepository;
+use App\Repository\ShippingTrackingRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -224,4 +227,61 @@ class BackendAdminController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/shippings", name="b_admin_shipping")
+     */
+    public function shipping(ShippingTrackingRepository $shipRepository)
+    {
+        $ships = $shipRepository->findAll();
+
+        return $this->render(
+            'backend/admin/shipping.html.twig',
+            [
+                'title' => 'List shipping',
+                'ships' => $ships,
+                'menu' => $this->menu
+            ]
+        );
+    }
+
+    /**
+     * @Route("/shipping/edit/{id?}", name="b_admin_shipping_edit")
+     */
+    public function shippingEdit($id, Request $request, ShippingTrackingRepository $shipRepository,
+                            EntityManagerInterface $em)
+    {
+        if (isset($id)) {
+            $ship = $shipRepository->find($id);
+            if (!$ship instanceof ShippingTracking) {
+                throw $this->createNotFoundException("$id is not a valid Shipping id");
+            }
+            $title = "Editing Shipping $id:".$ship->getSentBy();
+        } else {
+            $ship = new ShippingTracking();
+            $title = 'Creating new Shipping';
+        }
+
+        $form = $this->createForm(ShippingType::class, $ship);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $em->persist($ship);
+                $em->flush();
+            } catch (\Exception $e) {
+                $error = $e->getMessage();
+                $this->addFlash('error', $error);
+            }
+            if (!isset($error)) {
+                $this->addFlash('success', "Shipping saved");
+                return $this->redirectToRoute('b_admin_shipping');
+            }
+        }
+
+        return $this->render('backend/admin/common-edit.html.twig', [
+            'title' => $title,
+            'form' => $form->createView(),
+            'menu' => $this->menu
+        ]);
+    }
 }
