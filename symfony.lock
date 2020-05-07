@@ -255,6 +255,9 @@
     "symfony/dependency-injection": {
         "version": "5.1-dev"
     },
+    "symfony/deprecation-contracts": {
+        "version": "v2.1.0"
+    },
     "symfony/doctrine-bridge": {
         "version": "5.1-dev"
     },
@@ -328,9 +331,6 @@
     "symfony/intl": {
         "version": "5.1-dev"
     },
-    "symfony/mime": {
-        "version": "5.1-dev"
-    },
     "symfony/monolog-bridge": {
         "version": "5.1-dev"
     },
@@ -354,11 +354,17 @@
     "symfony/orm-pack": {
         "version": "dev-master"
     },
+    "symfony/polyfill-intl-grapheme": {
+        "version": "v1.15.0"
+    },
     "symfony/polyfill-intl-icu": {
         "version": "1.14-dev"
     },
     "symfony/polyfill-intl-idn": {
         "version": "1.14-dev"
+    },
+    "symfony/polyfill-intl-normalizer": {
+        "version": "v1.15.0"
     },
     "symfony/polyfill-mbstring": {
         "version": "1.14-dev"
@@ -366,11 +372,17 @@
     "symfony/polyfill-php73": {
         "version": "1.14-dev"
     },
+    "symfony/polyfill-php80": {
+        "version": "v1.15.0"
+    },
     "symfony/profiler-pack": {
         "version": "dev-master"
     },
     "symfony/property-access": {
         "version": "5.1-dev"
+    },
+    "symfony/property-info": {
+        "version": "v5.1.0-beta1"
     },
     "symfony/routing": {
         "version": "4.2",
@@ -415,6 +427,9 @@
     },
     "symfony/stopwatch": {
         "version": "5.1-dev"
+    },
+    "symfony/string": {
+        "version": "v5.1.0-beta1"
     },
     "symfony/swiftmailer-bundle": {
         "version": "2.5",
