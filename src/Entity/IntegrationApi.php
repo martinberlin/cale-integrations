@@ -73,7 +73,7 @@ class IntegrationApi implements Language, Location, Created
      * Placeholder for all additional settings
      * Skeleton forms starting from Api->getRequestParameters()
      * @var string
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text", length=1000, nullable=true)
      */
     protected $jsonSettings;
 
@@ -97,6 +97,20 @@ class IntegrationApi implements Language, Location, Created
      * @ORM\Column(type="string", length=120, nullable=true, name="image_pos")
      */
     protected $imagePosition;
+
+    /**
+     * Internal content: Image type (Floating or background)
+     * @var string
+     * @ORM\Column(type="string", length=20, nullable=true, name="image_type")
+     */
+    protected $imageType;
+
+    /**
+     * Generic units like used in weather for Metric & Imperial
+     * @var string
+     * @ORM\Column(type="string", length=20, nullable=true, name="units")
+     */
+    protected $units;
 
     /**
      * @var \DateTime
@@ -264,7 +278,7 @@ class IntegrationApi implements Language, Location, Created
     /**
      * @param string $html
      */
-    public function setHtml(string $html): void
+    public function setHtml($html): void
     {
         $this->html = $html;
     }
@@ -296,6 +310,38 @@ class IntegrationApi implements Language, Location, Created
     public function setImagePosition(string $imagePos): void
     {
         $this->imagePosition = $imagePos;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageType():?string
+    {
+        return $this->imageType;
+    }
+
+    /**
+     * @param string
+     */
+    public function setImageType(string $imageType): void
+    {
+        $this->imageType = $imageType;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUnits():?string
+    {
+        return $this->units;
+    }
+
+    /**
+     * @param string
+     */
+    public function setUnits(string $u): void
+    {
+        $this->units = $u;
     }
 
     public function getCreated() {

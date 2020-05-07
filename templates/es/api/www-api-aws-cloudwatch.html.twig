@@ -1,0 +1,88 @@
+{% extends '/base.html.twig' %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top: -2em">
+        <h2>
+            <img src="/img/svg/api-cloudwatch.svg"> Cloudwatch
+        </h2>
+        <p>
+            <span style="font-size: 20px">Amazon CloudWatch es un servicio de monitorización y observación creado para ingenieros de DevOps,
+                desarrolladores y administradores IT.</span><br>
+     En CALE usamos servers EC2 en servidores de Amazon AWS y los monitorizamos usando <a href="#twitter">Cloudwatch</a>.
+            Con lo cual hemos desarrollado esta API, en un principio para CALE, y la hemos abierto a todos los usuarios asi pueden
+            insertar las metricas de Cloudwatch en sus Screens.
+            Nos parece apropiado tener un display WiFi que se refresca cada 10 o 20 minutos
+                con esta información en vez de mostrarla todo el tiempo en un monitor, ya que el Epaper es mucho mas agradable a la vista.
+        </p>
+        <h3>Como conectar un widget de Cloudwatch</h3>
+
+        <p>
+            <ol>
+            <li>Primero hay que ir a <a href="https://console.aws.amazon.com/cloudwatch/home" target="_blank">Cloudwatch en la consola de Amazon AWS</a></li>
+            <li>Crear un a Dashboard o seleccionar uno existente</li>
+            <li>Pasar el mouse por encima del Widget y hacer click en los 3 puntos verticales arriba a la derecha
+                (Widget actions <span class="glyphicon glyphicon-arrow-right"></span> Edit)</li>
+            <li>Seleccionar la pestaña Source y debajo del area de texto seleccionar la opción <span class="glyphicon glyphicon-ok-circle"></span> Image API</li>
+            <li>Copiar el texto de JSON y guardarlo</li>
+            <li>Pasa a la sección: "Integración"<br>
+                Una vez que funcione puedes repetir esta operación para cada Widget que quieras copiar.
+                Solo ten en cuenta que hay que ajustar la propiedad width del
+                JSON a un ancho apropiado para que pueda verse en tu Screen.</li>
+        </ol>
+        </p>
+        <h3>Integración del Widget en <span class="cale">CALE</span></h3>
+
+        <ol>
+            <li>Logearse en CALE y seleccionar API
+                <span class="glyphicon glyphicon-arrow-right"></span> Conectar una nueva API
+                <span class="glyphicon glyphicon-arrow-right"></span> Amazon Cloudwatch monitoring</li>
+            <li>Llenar los 3 campos requeridos: IAM Key, Password y Region. Los dos primeros puedes obtenerlos en
+                <a href="https://console.aws.amazon.com/iam/home#/security_credentials" target="_blank">IAM Security Credentials</a>
+                <span class="glyphicon glyphicon-arrow-right"></span> Access Keys (Lee nuestras recomendaciones de seguridad, no necesitas usar el root user)
+            </li>
+            <li>Una vez de que las credenciales queden grabadas, puedes ponerle un nombre al Widget, y copiar el texto JSON de la sección "Como conectar" del punto 5.</li>
+            </ol>
+        Eso es todo, al grabar este último paso, podrá tener un preview del gráfico de las estadísticas de Cloudfront:<br>
+        <span style="font-size: 18px">Mi CPU widget</span><br>
+<img src="/img/www/aws-cloudfront-cpu.png">
+
+        <h3>Cuanto cuesta usar la API de Cloudwatch</h3>
+
+        <h4><span class="cale">CALE</span> es gratis para uso personal hasta 3 Screens</h4>
+        AmazonCloudWatch tiene un uso gratis de hasta 1,000,000 requests a la API. Como ejemplo desde hace 7 dias hemos usado
+        CloudWatch en <a href="#twitter">nuestro display Eink</a> refrescandose cada 20 minutos. Esto ha reportado hasta la fecha un uso de 0.05% del free tier de Cloudwatch
+        (501/1,000,000 Requests).<br>
+        Pero tengan en cuenta que ese million de API requests incluidos en el free-tier no son aplicables para <b>GetMetricWidgetImage</b> que
+        es justamente lo que usamos desde <span class="cale">CALE</span> para traer la imágen desde Amazon Webservices.
+        Con lo cual tendrán cargos minimos por usar esta API en sus displays. En nuestro caso,
+        refrescando un display cada dos horas por un mes, ha costado menos de
+        <a href="https://twitter.com/martinfasani/status/1245729352853176320/photo/1" target="_blank">1 dolar en marzo del 2020</a>.
+
+        <h3>Notas sobre la seguridad</h3>
+        <p>
+            No debería usar su cuenta root account para este ni ningún otro sitio web. CALE solo necesita permisos para acceder a las estadísticas de Cloudwatch y ningún otro permiso adicional.
+            La mejor manera de hacerlo es creando un usuario solo con acceso a recursos de <b>CloudWatchReadOnlyAccess</b>. Y si aún se desean restringir más, solo permisos de:
+            <ul>
+            <li>GetMetricStatistics</li>
+            <li>ListMetrics</li>
+        </ul>
+        Eso es todo lo que necesita para agreagar las estadisticas de Amazon Cloudwatch a sus Screens en CALE
+        </p>
+
+<a id="twitter"></a><br>
+        <blockquote class="twitter-tweet">
+            <p lang="en" dir="ltr">Vídeo proof. Now you can preview that <a href="https://twitter.com/awscloud?ref_src=twsrc%5Etfw">@awscloud</a>
+                metrics without burning your eyes with the monitor <a href="https://t.co/P01i5zAZgg">pic.twitter.com/P01i5zAZgg</a></p>
+            &mdash; Martin the Creator (@martinfasani) <a href="https://twitter.com/martinfasani/status/1239691729898536965?ref_src=twsrc%5Etfw">March 16, 2020</a>
+        </blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

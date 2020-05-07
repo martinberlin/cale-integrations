@@ -1,0 +1,29 @@
+{% extends '/base.html.twig' %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="col-md-8 col-sm-8 col-xs-12" style="margin-top: -2em">
+        <h3>
+            <span class="cale" style="font-weight:bold">CALE News</span>
+        </h3>
+<p>Is nur auf <a href="{{ path('news', {'_locale':'en'}) }}">Englisch</a>.
+    Entschuldigen mir, keine Zeit zum übersetzen jede kleine Update.</p>
+
+    </div>
+
+    <div class="row">
+    <div class="col-md-4 col-sm-4 col-xs-12"></div>
+    <div class="col-md-4 col-sm-4 col-xs-12 text-center">
+    <button type="button" class="btn btn-success form-control" onclick="window.location='{{ path('register') }}'">
+        Register here to receive the newsletter</button>
+    </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

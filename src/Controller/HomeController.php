@@ -27,16 +27,24 @@ class HomeController extends AbstractController
     public function aboutCale(Request $request, TranslatorInterface $translator)
     {
         return $this->render(
-            $request->getLocale().'/www-about-cale.html.twig',
+            $request->getLocale().'/about/www-about-cale.html.twig',
             ['title' => $translator->trans('nav_about')]
         );
     }
 
-    public function displays(Request $request, DisplayRepository $displayRepository, TranslatorInterface $translator)
+    public function threeDModels(Request $request, TranslatorInterface $translator)
     {
-        $displays = $displayRepository->findBy([],['width' => 'DESC']);
         return $this->render(
-            $request->getLocale().'/www-display.html.twig',
+            $request->getLocale().'/about/3d-models.html.twig',
+            ['title' => $translator->trans('nav_3d')]
+        );
+    }
+
+    public function einkDisplays(Request $request, DisplayRepository $displayRepository, TranslatorInterface $translator)
+    {
+        $displays = $displayRepository->findBy(['type' => 'eink'],['width' => 'DESC']);
+        return $this->render(
+            $request->getLocale().'/display/www-eink.html.twig',
         [
             'displays' => $displays,
             'title' => $translator->trans('nav_displays')
@@ -44,11 +52,23 @@ class HomeController extends AbstractController
         );
     }
 
+    public function tftDisplays(Request $request, DisplayRepository $displayRepository, TranslatorInterface $translator)
+    {
+        $displays = $displayRepository->findBy(['type' => 'tft'],['width' => 'DESC']);
+        return $this->render(
+            $request->getLocale().'/display/www-tft.html.twig',
+            [
+                'displays' => $displays,
+                'title' => $translator->trans('title_displays_tft')
+            ]
+        );
+    }
+
     public function apis(Request $request, ApiRepository $apiRepository, TranslatorInterface $translator)
     {
         $apis = $apiRepository->findAll();
         return $this->render(
-            $request->getLocale().'/www-apis.html.twig',
+            $request->getLocale().'/api/www-apis.html.twig',
             [
                 'apis' => $apis,
                 'title' => $translator->trans('nav_apis')
@@ -82,26 +102,42 @@ class HomeController extends AbstractController
     public function privacyPolicy(Request $request, TranslatorInterface $translator)
     {
         return $this->render(
-            $request->getLocale().'/www-privacy-policy.html.twig',
+            $request->getLocale().'/privacy/www-privacy-policy.html.twig',
             ['title' => $translator->trans('nav_privacy')]
+        );
+    }
+
+    public function googlePrivacyPolicy(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/privacy/google-privacy-policy.html.twig',
+            ['title' => $translator->trans('nav_google_privacy')]
         );
     }
 
     public function architecture(Request $request, TranslatorInterface $translator)
     {
         return $this->render(
-            $request->getLocale().'/www-server-architecture.html.twig',
+            $request->getLocale().'/service/www-server-architecture.html.twig',
             ['title' => $translator->trans('nav_server_architecture')]
         );
     }
+
     public function pricing(Request $request, TranslatorInterface $translator)
     {
         return $this->render(
-            $request->getLocale().'/www-service-pricing.html.twig',
+            $request->getLocale().'/service/www-service-pricing.html.twig',
             ['title' => $translator->trans('nav_pricing')]
         );
     }
 
+    public function faq(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/service/www-faq.html.twig',
+            ['title' => $translator->trans('nav_faq')]
+        );
+    }
     public function getStarted(Request $request, TranslatorInterface $translator)
     {
         return $this->render(
@@ -110,30 +146,61 @@ class HomeController extends AbstractController
         );
     }
 
-    public function apiIcal(Request $request, TranslatorInterface $translator)
-    {
-        return $this->render(
-            $request->getLocale().'/www-api-ical.html.twig',
-            ['title' => $translator->trans('title_ical')]
-        );
-    }
-
     public function firmware(Request $request, TranslatorInterface $translator)
     {
         return $this->render(
-            $request->getLocale().'/www-firmware.html.twig',
+            $request->getLocale().'/firmware/www-firmware.html.twig',
             ['title' => $translator->trans('title_firmware')]
+        );
+    }
+
+    public function firmwareTft(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/firmware/www-firmware-tft.html.twig',
+            ['title' => $translator->trans('title_firmware_tft')]
         );
     }
 
     public function firmwareT5(Request $request, TranslatorInterface $translator)
     {
         return $this->render(
-            $request->getLocale().'/www-firmware-t5.html.twig',
+            $request->getLocale().'/firmware/www-firmware-t5.html.twig',
             ['title' => $translator->trans('title_firmware_t5')]
         );
     }
 
+    public function firmwareBlue(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/firmware/www-firmware-blue.html.twig',
+            ['title' => $translator->trans('title_firmware_blue')]
+        );
+    }
+
+    public function apiIcal(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/api/www-api-ical.html.twig',
+            ['title' => $translator->trans('title_ical')]
+        );
+    }
+
+    public function cloudwatch(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/api/www-api-aws-cloudwatch.html.twig',
+            ['title' => $translator->trans('title_cloudwatch')]
+        );
+    }
+
+    public function news(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/news/news.html.twig',
+            ['title' => 'News']
+        );
+    }
 
     /**
      * Good idea but does not work because of locale lang. switch
@@ -142,7 +209,7 @@ class HomeController extends AbstractController
      * @param $page
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function serve(Request $request, $page)
+    private function serve(Request $request, $page)
     {
         return $this->render(
             $request->getLocale().'/'.$page.'.html.twig'

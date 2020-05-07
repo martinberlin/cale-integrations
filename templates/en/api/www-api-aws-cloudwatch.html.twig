@@ -1,0 +1,87 @@
+{% extends '/base.html.twig' %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top: -2em">
+        <h2>
+            <img src="/img/svg/api-cloudwatch.svg"> Cloudwatch
+        </h2>
+        <p>
+            <span style="font-size: 20px">Amazon CloudWatch is a monitoring and observability service built for DevOps engineers, developers, site reliability engineers (SREs), and IT managers.
+                <span class="cale">CALE</span> allows you to add Cloudfront data visualization to your Screens
+                </span><br><br>
+     The Cloudwatch API module allows you to insert <a href="#twitter">Cloudwatch</a> metrics into
+            your Screens simply copying a small Json text from the AWS Console.
+            We would like to enable IT departments and DevOps to have the possibility of Eink displays that get updated automatically every 10 or 20 minutes showing your instance metrics.
+             This is a very relaxing way to see online metrics instead of having it all the time in the monitor taking place away of your working area.
+        </p>
+
+        <h3>How to connect the Cloudwatch API</h3>
+        <p>
+            <ol>
+            <li>First go to <a href="https://console.aws.amazon.com/cloudwatch/home" target="_blank">Cloudwatch in your Amazon AWS console</a></li>
+            <li>Create a Dashboard or select one of the existing</li>
+            <li>Mouse over the Widget you want to bring to your Screen and click on the 3 vertical dots
+                (Widget actions <span class="glyphicon glyphicon-arrow-right"></span> Edit)</li>
+            <li>Select the Source tab and below the text area click on the radio button <span class="glyphicon glyphicon-ok-circle"></span> Image API</li>
+            <li>Copy the JSON text in one plain-text file</li>
+            <li>Pass to next Step: "Integration"<br>Then repeat for each chart you like and save it in a temporal text file, keep in mind that the
+            width property of the JSON should be adapted to your Screen size.</li>
+        </ol>
+        </p>
+        <h3>Integrating the Widget into <span class="cale">CALE</span></h3>
+
+        <ol>
+            <li>Log in to CALE Admin-backend and select the API top menu option
+                <span class="glyphicon glyphicon-arrow-right"></span> Connect a new API
+                <span class="glyphicon glyphicon-arrow-right"></span> Amazon Cloudwatch monitoring</li>
+            <li>Fill the 3 required fields: IAM Key, Password and Region that you can get in
+                <a href="https://console.aws.amazon.com/iam/home#/security_credentials" target="_blank">IAM Security Credentials</a>
+                <span class="glyphicon glyphicon-arrow-right"></span> Access Keys (Note that you don't have to use your root credentials)
+            </li>
+            <li>Once the last point is fullfilled, you can name your Widget in next step, and you just copy the
+            JSON text that we grabbed on the "How to do it" section point 5</li>
+            </ol>
+        That's it, after this you should be able to preview your Cloudfront Metrics:<br>
+        <span style="font-size: 18px">My widget</span><br>
+<img src="/img/www/aws-cloudfront-cpu.png">
+
+        <h3>How much it will cost to use this API</h3>
+
+        <h4><span class="cale" style="font-weight: bolder">CALE</span> is free for personal use</h4>
+        AmazonCloudWatch has a free tier of 1,000,000 API requests. This month for example using this for a week and refreshing the
+        Screen every 20 minutes aprox. we used 0.05% of this free tier
+        (501/1,000,000 Requests)<br>
+        But keep in mind that the 1 Million API requests are not applicable to <b>GetMetricWidgetImage</b>.
+        So you will get minimum charges from Amazon using Cloudwatch API in your displays. In our case,
+        refreshing a display every 2 hours for a whole month, costed less
+        than <a href="https://twitter.com/martinfasani/status/1245729352853176320/photo/1" target="_blank">1 dollar in March 2020</a>.
+
+        <h3>Important security reminder</h3>
+        <p>
+            You shouldn't use your root account in any web service. CALE just needs permissions to access your charts so the ideal way to do it
+            is to Create a new user with <b>CloudWatchReadOnlyAccess</b> and restrict the permissions just to:
+            <ul>
+            <li>GetMetricStatistics</li>
+            <li>ListMetrics</li>
+        </ul>
+        Is all that we require to render your charts. That's it! We hope you enjoy adding dynamic widgets to your Screens
+
+        <a id="twitter"></a><br>
+        <blockquote class="twitter-tweet">
+            <p lang="en" dir="ltr">Vídeo proof. Now you can preview that <a href="https://twitter.com/awscloud?ref_src=twsrc%5Etfw">@awscloud</a>
+                metrics without burning your eyes with the monitor <a href="https://t.co/P01i5zAZgg">pic.twitter.com/P01i5zAZgg</a></p>
+            &mdash; Martin the Creator (@martinfasani) <a href="https://twitter.com/martinfasani/status/1239691729898536965?ref_src=twsrc%5Etfw">March 16, 2020</a>
+        </blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        </p>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

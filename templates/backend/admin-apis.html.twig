@@ -1,7 +1,17 @@
 {% extends 'backend/backend-base.html.twig' %}
 
+{# TODO: Target for an include since repeats #}
+{% set txtprefix = '' %}
+{% set txtsuffix = '' %}
+{% set btnstyle = '' %}
+{% if isMobile %}
+    {% set btnstyle = 'btn-sm' %}
+    {% set txtprefix = '<small>' %}
+    {% set txtsuffix = '</small>' %}
+{% endif %}
+
 {% block body %}
-    <p>{{ 'apis_header'|trans }}.</p>
+    <p>{{ txtprefix|raw }}{{ 'apis_header'|trans }}.{{ txtsuffix|raw }}</p>
     <div class="text-right" style="margin-bottom: 0.4em">
         <button class="btn btn-default" onclick="introJs().start();">
             <span class="glyphicon glyphicon-question-sign"></span> {{ 'Guide'|trans }}</button>
@@ -16,22 +26,24 @@
             <table class="common-lists-table">
                 <thead>
                 <tr>
-                {#<th>ID</th>#}
                 <th>{{'Name'|trans}}</th>
+{% if isMobile == false %}
                 <th title="Access Token/Auth Code (for OAuth2)">Access</th>
                 <th>{{'Created'|trans}}</th>
+{% endif %}
                 <th title="There can be more of one Integration for API (ex. weather in Berlin / weather in Paris)">
                     {{ 'Integrations'|trans }}
                 </th>
                 <th>Admin</th>
                 </tr>
                 </thead>
+
                 <tbody>
                 {% for a in apis %}
                     <tr>
-                        {#<td>{{ a.id }}</td>#}
-                        <td><a title="external Documentation" href="{{ a.doc_url }}" target="_blank">
-                                <span class="glyphicon glyphicon-link"></span></a> {{ a.name }}</td>
+                        <td>{{ txtprefix|raw }}<a title="external Documentation" href="{{ a.doc_url }}" target="_blank">
+                                <span class="glyphicon glyphicon-link"></span></a> {{ a.name }}{{ txtsuffix|raw }}</td>
+{% if isMobile == false %}
                         <td>{% if a.hasToken == 'ok' or a.is_configured %}
                             <img src="/assets/icon/checked.svg" width="24">
                                 {% else %}
@@ -39,6 +51,7 @@
                             {% endif %}
                         </td>
                         <td>{{ a.created|date("d.m.Y") }}</td>
+{% endif %}
                         <td>
                             {% for i in a.integrations %}
                                 <div class="row">
@@ -47,9 +60,9 @@
                     <a title="Edit" href="{{ path(a.edit_route, {'uuid':a.userapi_id, 'intapi_uuid':i.id, 'step':2}) }}">
                         <span class="glyphicon glyphicon-edit"></span></a>&nbsp;
                                         {% endif %}
-                                        {{ i.name }}
+                                        {{ txtprefix|raw }}{{ i.name }}{{ txtsuffix|raw }}
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6">{{ txtprefix|raw }}
                                         {% if i.language %}
                                             <b>Lang:</b>{{ i.language }}&nbsp;&nbsp;
                                         {% endif %}
@@ -57,29 +70,40 @@
                                             <b>Lat:</b>{{ i.latitude|round(2, 'floor') }}&nbsp;&nbsp;
                                             <b>Lon:</b>{{ i.longitude|round(2, 'floor')}}
                                         {% endif %}
+                                        {{ txtsuffix|raw }}
                                     </div>
                                 </div>
                             {% endfor %}
                             {% if a.integrations|length == 0 %}
-                                No integrated
+                                {{ txtprefix|raw }}Not integrated{{ txtsuffix|raw }}
                             {% endif %}
                         </td>
                         <td>
                             {% if a.integrations|length == 0 %}
-                            <a class="btn btn-default" title="{{ 'Add an integration'|trans }}" href="{{ path(a.edit_route, {'uuid':a.userapi_id, 'step':1}) }}">
+                            <a class="btn {{ btnstyle }} btn-default" title="{{ 'Add an integration'|trans }}" href="{{ path(a.edit_route, {'uuid':a.userapi_id, 'step':1}) }}">
                                 <span class="glyphicon glyphicon-edit"></span></a>
                             {% endif %}
 
-                            <a class="btn btn-default" href="{{ path('b_api_delete_userapi', {'userapi_uuid':a.userapi_id}) }}">
+                            <a class="btn {{ btnstyle }} btn-default" href="{{ path('b_api_delete_userapi', {'userapi_uuid':a.userapi_id}) }}">
                                 <span class="glyphicon glyphicon-remove"></span></a>
 
                             {% if a.edit != "" and a.url_name !="cale-google" %}
-                            <a class="btn btn-default" href="{{ a.edit }}"
+                            <a class="btn {{ btnstyle }} btn-default" href="{{ a.edit }}"
                                data-step="2" data-intro="Each API can have more than one integration. Example: The same weather API
 can be used to get the weather in Berlin or in New York city."
-                            ><span class="glyphicon glyphicon-plus"></span> {{ 'Add new'|trans }}</a>
+                            >
+                                {% if a.url_name == 'aws-cloudwatch' %}
+                                    <span class="glyphicon glyphicon-log-in"></span> {{ 'Credentials'|trans }}</a>
+                                {% else %}
+                                <span class="glyphicon glyphicon-plus"></span> {{ 'Add new'|trans }}</a>
+                                {% endif %}
                             {% endif %}
-                        </td>
+
+                            {% if a.url_name == 'aws-cloudwatch' %}
+                                <a class="btn {{ btnstyle }} btn-default" href="{{ path('b_api_wizard_aws-cloudwatch', {'uuid': a.id,'intapi_uuid': 'new','step': 2}) }}">
+                                    <span class="glyphicon glyphicon-stats"></span> {{ 'Add new'|trans }}</a>
+                            {% endif %}
+                            </td>
                     </tr>
                 {% endfor %}
                 </tbody>

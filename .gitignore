@@ -22,3 +22,5 @@ public/robots.txt
 
 # Screen image upload
 /public/screenimg/
+
+/template/bootstrap-base.html.twig

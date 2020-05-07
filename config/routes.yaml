@@ -5,7 +5,7 @@ login:
   defaults:
     _locale: en
   requirements:
-    _locale: en|es
+    _locale: '%locales%'
 
 # www
 home:
@@ -14,84 +14,176 @@ home:
   defaults:
     _locale: en
   requirements:
-    _locale: en|es
+    _locale: '%locales%'
+
+#bootstrap:
+#  path:       /b
+#  controller: App\Controller\HomeController::bootstrap
 
 about-cale:
   path:       /about-cale/{_locale}
   controller: App\Controller\HomeController::aboutCale
   defaults:
     _locale: en
+  requirements:
+    _locale: '%locales%'
 
-displays:
-  path:       /eink-displays/{_locale}
-  controller: App\Controller\HomeController::displays
+about-3d-model:
+  path:       /housing-3d-models/{_locale}
+  controller: App\Controller\HomeController::threeDModels
   defaults:
     _locale: en
+  requirements:
+    _locale: '%locales%'
+
+displays-eink:
+  path:       /eink-displays/{_locale}
+  controller: App\Controller\HomeController::einkDisplays
+  defaults:
+    _locale: en
+  requirements:
+    _locale: '%locales%'
+
+displays-tft:
+  path:       /tft-displays/{_locale}
+  controller: App\Controller\HomeController::tftDisplays
+  defaults:
+    _locale: en
+  requirements:
+    _locale: '%locales%'
 
 apis:
   path:       /apis/{_locale}
   controller: App\Controller\HomeController::apis
   defaults:
     _locale: en
+  requirements:
+    _locale: '%locales%'
 
 transparently:
   path:       /built-transparently/{_locale}
   controller: App\Controller\HomeController::transparently
   defaults:
     _locale: en
+  requirements:
+    _locale: '%locales%'
 
 thanks:
   path:       /thanks/{_locale}
   controller: App\Controller\HomeController::thanks
   defaults:
     _locale: en
+  requirements:
+    _locale: '%locales%'
 
 privacy-policy:
   path:       /privacy-policy/{_locale}
   controller: App\Controller\HomeController::privacyPolicy
   defaults:
     _locale: en
+  requirements:
+    _locale: '%locales%'
 
+google-privacy-policy:
+  path:       /g-privacy-policy/{_locale}
+  controller: App\Controller\HomeController::googlePrivacyPolicy
+  defaults:
+    _locale: en
+  requirements:
+    _locale: '%locales%'
 
 impressum:
   path:       /impressum/{_locale}
   controller: App\Controller\HomeController::impressum
   defaults:
     _locale: en
+  requirements:
+    _locale: '%locales%'
 
 firmware:
   path:       /firmware/{_locale}
   controller: App\Controller\HomeController::firmware
   defaults:
     _locale: en
+  requirements:
+    _locale: '%locales%'
+
+firmware-tft:
+  path:       /firmware-tft/{_locale}
+  controller: App\Controller\HomeController::firmwareTft
+  defaults:
+    _locale: en
+  requirements:
+    _locale: '%locales%'
 
 firmware-t5:
   path:       /firmware-t5/{_locale}
   controller: App\Controller\HomeController::firmwareT5
   defaults:
     _locale: en
+  requirements:
+    _locale: '%locales%'
+
+firmware-blue:
+  path:       /firmware-bluetooth/{_locale}
+  controller: App\Controller\HomeController::firmwareBlue
+  defaults:
+    _locale: en
+  requirements:
+    _locale: '%locales%'
 
 www_server-architecture:
   path:       /architecture/{_locale}
   controller: App\Controller\HomeController::architecture
   defaults:
     _locale: en
+  requirements:
+    _locale: '%locales%'
 
 www_service-pricing:
   path:       /pricing/{_locale}
   controller: App\Controller\HomeController::pricing
   defaults:
     _locale: en
+  requirements:
+    _locale: '%locales%'
+
+www_service-faq:
+  path:       /faq/{_locale}
+  controller: App\Controller\HomeController::faq
+  defaults:
+    _locale: en
+  requirements:
+    _locale: '%locales%'
+
+news:
+  path:       /news/{_locale}
+  controller: App\Controller\HomeController::news
+  defaults:
+    _locale: en
+  requirements:
+    _locale: '%locales%'
 
 www_getting-started:
   path:       /get-started/{_locale}
   controller: App\Controller\HomeController::getStarted
   defaults:
     _locale: en
-
+  requirements:
+    _locale: '%locales%'
 
 www_api-ical:
   path:       /api-ical/{_locale}
   controller: App\Controller\HomeController::apiIcal
   defaults:
     _locale: en
+  requirements:
+    _locale: '%locales%'
+
+www_api-cloudwatch:
+  path:       /api-cloudwatch/{_locale}
+  controller: App\Controller\HomeController::cloudwatch
+  defaults:
+    _locale: en
+  requirements:
+    _locale: '%locales%'

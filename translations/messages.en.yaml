@@ -1,30 +1,41 @@
 
 # home / login
-Username / Email: Username / Email
+user_email: Email
 Password: Password
 submit_login: Login
 forgot_password: I forgot my password
 register_here: Create an account
+
+meta_description: CALE is a screen administrator where you can mix content of different APIs and read the image from WiFi displays or any external device. There is a Firmware open source for Espressif boards and EInk displays
 # NAV
 nav_about: About us
 nav_displays: E-Ink displays supported
 nav_apis: Supported APIs
 nav_transparently_built: Transparently built
 nav_privacy: Privacy policy
+nav_google_privacy: Privacy policy for Data recollected by Google Analytics
 nav_language: Language
-nav_about_tooltip: CALE is a screen administrator where you can mix different APIs
-nav_apis_tooltip: Application Programming Interfaces to access your connected universe
-nav_displays_tooltip: E-Ink displays
-nav_transparently_built_tooltip: Open source and transparent
 nav_legal: Impressum
 nav_service: Our service
 nav_pricing: Pricing
+nav_faq: Frequent asked questions
 nav_get_started: Get started
 nav_server_architecture: Server architecture
+nav_api_cloudwatch: AWS Cloudwatch monitoring
+nav_3d: Housing 3D models to print
+# NAV BACKEND
+navb_api: Content
+navb_user: User
+# TITLES BACKEND
+titleb_apis: API content providers
+# Titles
 title_ical: Importing iCal calendars
-title_firmware: Espressif Firmware
+title_firmware: ESP32 / ESP8266 Firmware
+title_firmware_tft: Firmware for TFT displays
 title_firmware_t5: Firmware for T5 ESP32 boards
-
+title_firmware_blue: Configuring the Firmware using Bluetooth
+title_cloudwatch: Cloudwatch monitoring
+title_displays_tft: TFT displays
 # Admin dashboard
 no_screen_logs_yet: Create some Screens to see a log of your devices requests here
 logs_purged: log rows deleted. Thanks!
@@ -141,8 +152,8 @@ Optional choose an Eink display: Optional choose an E-Ink display
 Save screen: Save Screen
 screen_edit_partials: Edit content partials
 screen_edit_config: Edit Screen configuration
-screen_edit_line1: Here you can configure what template to use to render your content
-screen_edit_line2: We call partials the small pieces of content where your APIs are rendered
+screen_edit_line1: Configure what template to use to render your content
+screen_edit_line2: Content partials are small pieces of content where your APIs are rendered
 screen_edit_configure1: You can configure up to
 screen_edit_configure2: different output Screens
 
@@ -152,9 +163,12 @@ screen_partials_edit_line3: 'Please note that you want to output the Screen in a
 screen_help_5: Click here to add a new content from one or your API connections. Make sure to select in what column of the selected template will display it's contents
 screen_help_6: When you are done adding partials save them to preview your selection and then go to Render Screen
 screen_partials_title: Manage partials for Screen
-screen_token_firmware: To link this Screen to your E-Ink copy this 2 lines into the Config.h file of
-screen_token_request: If this Screen is protected you need to send this header in the request in order to get access
-screen_token_access_title: Access outside the Firmware
+screen_token_firmware_step1: To configure this Screen in your Display select 1. WiFi AP 2. Method
+screen_token_firmware_blue: Copy the JSON text and paste it on CALE Android app. Two WiFi access points are supported, the Firmware will connect to the one with more signal.
+screen_token_firmware_c: This method supports only one WiFi configuration. Copy the C configuration and add it to Config.h in the
+screen_token_request: Send this header in the request in order to get access
+screen_token_access_title: Access for protected Screens
+
 # Screenshot options
 only_esp32_supported: Only for the right ESP32 Firmware
 Brightness level: Brightness level
@@ -216,3 +230,58 @@ Template: Template
 Partials: Partials
 Created: Created
 Integrations: Integrations
+
+#HTML editor
+HTML Content: HTML Content
+Upload an image: Upload an image
+Image type: Image type
+background: background
+floating: float
+Image position: Image position
+left: left
+center: center
+right: right
+Save contents: Save contents
+image_float_note: 'A float image type is good to add a logo. The position should be only left or right, it does not float center. It stays on top of everything with an: <img style="float:left">'
+image_background_note: 'A background image is below the HTML text useful to personalize a header: <div style="background-image: url(your/image)">'
+# API aws cloudwatch
+Key: Key
+Secret: Secret
+AWS Region: Region
+eu-central-1 Frankfurt: eu-central-1 Frankfurt
+eu-west-1 Ireland: eu-west-1 Ireland
+eu-west-2 London: eu-west-2 London
+eu-west-3 Paris: eu-west-3 Paris
+eu-north-1 Stockholm: eu-north-1 Stockholm
+us-east-1 N. Virginia: us-east-1 N. Virginia
+us-east-2 Ohio: us-east-2 Ohio
+us-west-1 N. California: us-west-1 N. California
+us-west-2 Oregon: us-west-2 Oregon
+ap-east-1 Hong Kong: ap-east-1 Hong Kong
+ap-south-1 Mumbai: ap-south-1 Mumbai
+ap-southeast-1 Singapore: ap-southeast-1 Singapore
+ap-southeast-2 Sydney: ap-southeast-2 Sydney
+ap-northeast-1 Tokyo: ap-northeast-1 Tokyo
+ap-northeast-2 Seoul: ap-northeast-2 Seoul
+ap-northeast-3 Osaka: ap-northeast-3 Osaka
+cn-north-1 Beijing: cn-north-1 Beijing
+cn-northwest-1 Ningxia: cn-northwest-1 Ningxia
+me-south-1 Bahrain: me-south-1 Bahrain
+sa-east-1 Sao Paulo: sa-east-1 Sao Paulo
+Save Credentials: Save credentials
+Name your Cloudwatch metric: Widget name
+Image JSON definition: Widget JSON
+#Wifi
+wifi_configure1: This WiFi section in the Admin-Backend is only to make your life easier configuring your Firmware, you may store this temporarily, and remove the credentials when your Firmware is configured.
+wifi_configure2: Here you can store up to 5 WiFi access points and tag them like "home" or "office"
+wifi_configure3: Keep in mind that sort is ascending and only the first two will be automatically selected as main access points.
+#Support
+Support type: Support type
+Configuring my APIs: Configuring my APIs
+Configuring my Screens: Configuring my Screens
+Need a new API renderer: Need a new API renderer
+Setting up Cloudwatch monitoring: Setting up Cloudwatch monitoring
+Found a bug in [AREA]: Found a bug in [AREA]
+Support message: Support message
+Send support Email: Send support Email
+

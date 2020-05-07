@@ -1,0 +1,138 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="panel panel-default" style="margin-top: 1em">
+        <div class="panel-heading">Accesso rápido:</div>
+        <div class="panel-body">
+            <ul>
+                <li>
+                    <a href="{{ path('google-privacy-policy') }}">Politíca de privacidad de los datos recolectados por Google Analytics</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <h3>Política de privacidad de CALE.es</h3>
+    CALE es un administrador de pantalla donde puede mezclar contenido de diferentes API y controlar la salida de contenido
+    Esta aplicación recopila algunos datos personales de sus usuarios para permitirles el acceso a servicios API externos como Google Calendar, servicios meteorológicos o calendarios compartidos como Timetree. Los usuarios pueden estar sujetos a diferentes estándares de protección y, por lo tanto, pueden aplicarse estándares más amplios a algunos. Para obtener más información sobre los criterios de protección, los usuarios pueden consultar la sección de aplicabilidad. Este documento se puede imprimir como referencia mediante el comando de impresión en la configuración de cualquier navegador.
+
+    <b>Propietario y controlador de datos</b><br>
+    Fasani.de te ofrece CALE<br>
+    Martin Fasani<br>
+    Lohmühlenstr. 38<br>
+    12435 Berlín, Alemania<br><br>
+    <br>
+    Correo electrónico de contacto del propietario:  <img src="/assets/svg/martin-email.svg"><br>
+
+    <h4>Tipos de datos recopilados</h4>
+
+    <p>Entre los tipos de datos personales que esta aplicación recopila, por sí misma o a través de terceros, se encuentran:<br>
+        cookies; Datos de uso. Los detalles completos sobre cada tipo de Datos personales recopilados se proporcionan en las secciones dedicadas de esta política de privacidad o mediante textos explicativos específicos que se muestran antes de la recopilación de Datos. Los datos personales pueden ser proporcionados libremente por el usuario o, en el caso de los datos de uso, recopilados automáticamente al usar esta aplicación. A menos que se especifique lo contrario, todos los Datos solicitados por esta Aplicación son obligatorios y el hecho de no proporcionar estos Datos puede imposibilitar que esta Aplicación brinde sus servicios. En los casos en que esta Aplicación indique específicamente que algunos Datos no son obligatorios, los Usuarios son libres de no comunicar estos Datos sin consecuencias para la disponibilidad o el funcionamiento del Servicio. Los usuarios que no estén seguros acerca de qué Datos personales son obligatorios pueden contactar al Propietario. Cualquier uso de Cookies, u otras herramientas de seguimiento, por esta Aplicación o por los propietarios de servicios de terceros utilizados por esta Aplicación tiene el propósito de proporcionar el Servicio requerido por el Usuario, además de cualquier otro propósito descrito en el presente documento y en la Política de cookies, si está disponible. Los usuarios son responsables de los Datos personales de terceros obtenidos, publicados o compartidos a través de esta Aplicación y confirman que tienen el consentimiento del tercero para proporcionar los Datos al Propietario. Los únicos datos personales que se solicitan para usar esta aplicación son un nombre y un correo electrónico para que pueda recuperar su contraseña, todos los demás datos a los que se conecta a esta aplicación son a través de claves API o tokens de autorización y provienen de proveedores externos que poseen esta información.</b>
+    </p>
+
+    <h4>Modo y lugar de procesamiento de los datos</h4>
+    <b>Metodos de proceso de datos</b>
+
+    El Propietario toma las medidas de seguridad apropiadas para evitar el acceso no autorizado, la divulgación, la modificación o la destrucción no autorizada de los Datos. El procesamiento de datos se lleva a cabo utilizando computadoras y / o herramientas habilitadas por TI, siguiendo procedimientos y modos de organización estrictamente relacionados con los fines indicados. Además del Propietario, en algunos casos, los Datos pueden ser accesibles para ciertos tipos de personas a cargo, involucradas con el funcionamiento de esta Aplicación (administración, ventas, marketing, legal, administración del sistema) o terceros (como terceros). proveedores de servicios técnicos de terceros, operadores de correo, proveedores de hosting, empresas de TI, agencias de comunicaciones) designados, si es necesario, como procesadores de datos por el propietario. La lista actualizada de estas partes puede solicitarse al Propietario en cualquier momento.
+
+    <h4>Base legal de procesamiento</h4>
+
+    El propietario puede procesar datos personales relacionados con los usuarios si se aplica uno de los siguientes:<br>
+<ul>
+    <li>Los usuarios han dado su consentimiento para uno o más propósitos específicos. Nota: Según algunas legislaciones,
+        se puede permitir que el Propietario procese Datos personales hasta que el Usuario se oponga a dicho procesamiento
+        ("exclusión voluntaria"), sin tener que depender del consentimiento o de cualquier otra de las siguientes bases legales.
+        Sin embargo, esto no se aplica cuando el procesamiento de Datos personales está sujeto a la ley europea de
+        protección de datos;
+        </li>
+    <li>la provisión de Datos es necesaria para el cumplimiento de un acuerdo con el Usuario y / o para cualquier obligación precontractual de los mismos;
+        </li>
+    <li>
+    es necesario para cumplir con una obligación legal a la que está sujeto el Propietario;
+    </li>
+    <li>el procesamiento está relacionado con una tarea que se lleva a cabo en interés público o en el ejercicio de
+        la autoridad oficial conferida al Propietario;
+        </li>
+    <li>el procesamiento es necesario a los fines de los intereses legítimos perseguidos por el Propietario.
+    </li>
+</ul>
+    <h4>Lugar de almacenamiento</h4>
+
+    <p>
+        Los datos se procesan en las oficinas operativas del propietario y en cualquier otro lugar donde se encuentren las partes involucradas en el procesamiento. Nuestros servidores principales se encuentran en la central de AWS de Frankfurt am Main, Alemania. Dependiendo de la ubicación del Usuario, las transferencias de datos pueden implicar la transferencia de los Datos del Usuario a un país que no sea el suyo. Para obtener más información sobre el lugar de procesamiento de dichos Datos transferidos, los Usuarios pueden consultar la sección que contiene detalles sobre el procesamiento de Datos personales.
+    </p>
+    <h4>Tiempo de guardado de los datos</h4>
+
+    <p>
+        Los datos personales se procesarán y almacenarán durante el tiempo requerido por el propósito para el que se han recopilado. Por lo tanto:
+
+
+        Los datos personales recopilados para fines relacionados con la ejecución de un contrato entre el propietario y el usuario se conservarán hasta que dicho contrato se haya ejecutado por completo.
+        Los datos personales recopilados para los intereses legítimos del propietario se conservarán el tiempo que sea necesario para cumplir dichos fines. Los usuarios pueden encontrar información específica sobre los intereses legítimos perseguidos por el Propietario dentro de las secciones relevantes de este documento o contactando al Propietario.
+        Una vez que expire el período de retención, se eliminarán los Datos personales. Por lo tanto, el derecho de acceso, el derecho de borrado, el derecho de rectificación y el derecho a la portabilidad de los datos no se pueden hacer cumplir después de la expiración del período de retención. No guardamos en nuestra base de datos ningún dato personal si decide eliminar su cuenta o desconectar cualquier API externa.
+    </p>
+
+
+    <h4>Los propósitos del procesamiento</h4>
+    Los Datos relativos al Usuario se recopilan para permitir que el Propietario brinde su Servicio,
+    cumpla con sus obligaciones legales, responda a las solicitudes de cumplimiento, proteja sus derechos e intereses
+    (o los de sus Usuarios o terceros), detecte cualquier actividad maliciosa o fraudulenta, así como lo siguiente:<br>
+
+    <b>Mostrar contenido traido desde plataformas externas a traves de APIs con la autorización del Usuario.</b>
+
+    Información detallada sobre el procesamiento de datos personales.
+    Los Datos personales se recopilan para los siguientes propósitos y mediante los siguientes servicios: <br>
+
+    Mostrar contenido de plataformas externas como Google Calendar, Calendar compartido y cualquier otro proveedor de
+    información externa que podamos elegir agregar en el futuro.
+    Para obtener una lista detallada, consulte nuestro <a href="{{ path('apis') }}">directorio API</a>
+
+
+     <h4>Los derechos de nuestros Usuarios</h4>
+
+    Los usuarios pueden ejercer ciertos derechos con respecto a sus Datos procesados ​​por el Propietario. Los usuarios con derecho a normas de protección más amplias pueden ejercer cualquiera de los derechos que se describen a continuación. En todos los demás casos, los Usuarios pueden consultar con el Propietario para averiguar qué derechos se les aplican.
+
+    En particular, los usuarios tienen derecho a hacer lo siguiente::<br>
+<ul>
+    <li>
+        <b>Retirar su consentimiento en cualquier momento.</b> Los usuarios tienen derecho a retirar su consentimiento cuando hayan dado previamente su consentimiento para el procesamiento de sus Datos personales.
+    </li>
+    <li>
+        <b>Objeto al procesamiento de sus datos.</b> Los usuarios tienen derecho a oponerse al procesamiento de sus Datos si el procesamiento se lleva a cabo sobre una base legal que no sea el consentimiento. Se proporcionan más detalles en la sección dedicada a continuación.
+    </li>
+    <li>
+        <b>Acceso a sus datos de forma transparente.</b> Los usuarios tienen derecho a saber si el Propietario está procesando los Datos, obtener información sobre ciertos aspectos del procesamiento y obtener una copia de los Datos en proceso.
+    </li>
+    <li>
+        <b>Verificar y buscar la rectificación.</b> Los usuarios tienen derecho a verificar la precisión de sus Datos y solicitar que se actualicen o corrijan.
+    </li>
+    <li>
+        <b>Tener sus datos personales eliminados de forma completa.</b>
+        Los usuarios tienen derecho, en cualquier momento que lo deseen, a obtener la eliminación de sus Datos del Propietario.
+    </li>
+    <li>
+        <b>Presentar una queja formal.</b> Los usuarios tienen derecho a presentar una reclamación ante su autoridad competente de protección de datos.
+    </li>
+</ul>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

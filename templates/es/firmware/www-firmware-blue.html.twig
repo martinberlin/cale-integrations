@@ -1,0 +1,139 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+        body {
+            background-color: #e0e0e0;
+            color:black;
+        }
+    </style>
+    {# Datatables include let's make this one line #}
+        <link href="/js/datatables/datatables.css" rel="stylesheet">
+        <script src="/js/jquery/jquery-2.1.0.min.js"></script>
+        <script type="text/javascript" src="/js/datatables/datatables.min.js"></script>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+
+    <h3>Configurando el Firmware usando Bluetooth en un ESP32</h3>
+
+    <div class="row">
+        <div class="col-md-7">
+    <div class="panel panel-default" style="margin-top: 1em">
+                <div class="panel-heading">Accesso rápido:</div>
+                <div class="panel-body">
+    <ul>
+        <li><a href="#a1">Configurando el Fimware con Bluetooth</a></li>
+        <li><a href="#repo">Repositorio del Firmware</a></li>
+        <li><a href="#a2">Referencia para el Config</a></li>
+        <li><a href="#a3">Aplicación Android</a></li>
+        <li><a href="{{ path('firmware-tft') }}">Firmware para displays TFT</a></li>
+        <li><a href="{{ path('firmware') }}">Back to main Firmware section</a></li>
+    </ul>
+
+    </div></div>
+            <a id="a1"></a><br>
+            <p style="margin-top:4em">
+                Estamos actualmente cambiando la forma de configurar el Firmware para que sea mas fácil para el usuario.
+                El objetivo es que se pueda configurar el Firmware facilmente desde una aplicación Android.
+
+                Seguiremos ofreciendo la posibilidad de configurarlo también directamente con un fichero Config.h en C.
+                Por que creemos que es una opción valida para displays que están siempre conectados al mismo WiFi y elimina
+                la necesidad de tener un movil con el sistema operativo Android. Pero creemos que para los usuarios que no
+                tienen la opción, o no desean compilar el Firmware, tiene que ser posible recibir un producto terminado y
+                configurarlo usando su movil o su tablet Android.
+            </p>
+            <br><br>
+            <b>Basicamente la configuración Bluetooth se realiza en tres pasos</b>
+            <ul>
+                <li>1. <b>En CALE Admin sección "WiFi", agrega los puntos de acceso WiFi a los que el display puede conectarse para estar online</b></li>
+                <li>2. <b>En la sección "Screen config", selecciona los WiFis que quieres usar, esto generara una configuración JSON. Seleccionala y copia el texto</b></li>
+                <li>3. <b>En la aplicación Android de CALE, selecciona el Bluetooth que comienza por CALE_*. Haz click en "Send config". HECHO</b></li>
+            </ul>
+            Naturalmente antes del punto 3, el Firmare debería estar conectado, y esperando recibir la configuración por Bluetooth.
+        </div>
+        <div class="col-md-5">
+            <a href="{{ cale_android }}" target="_blank" title="Connect scanning QR">
+                <img src="/assets/www/firmware/cale_app_1.jpg" style="border: 1px solid #333333" alt="CALE Android app" class="pull-right"></a>
+            <small class="pull-right">Step 1: Conecta el App con cale.es escaneando el QR</small>
+
+            <a href="{{ cale_android }}" target="_blank" title="Select your Screen">
+                <img src="/assets/www/firmware/cale_app_2.jpg" style="border: 1px solid #333333" alt="CALE Android app" class="pull-right"></a>
+            <small class="pull-right">Step 2: Selecciona el Screen</small>
+
+            <a href="{{ cale_android }}" target="_blank" title="Select ESP32 target">
+                <img src="/assets/www/firmware/cale_app_blue.jpg" style="border: 1px solid #333333;margin-top: 2em" alt="CALE Android app" class="pull-right"></a>
+            <small class="pull-right">Step 3: Con bluetooth activado selecciona el ESP32</small>
+
+            <a href="{{ cale_android }}" target="_blank" title="Done!">
+                <img src="/assets/www/firmware/cale_app_end.jpg" style="border: 1px solid #333333;margin-top: 2em" alt="CALE Android app" class="pull-right"></a>
+            <small class="pull-right">Step 4: Envia la configuración</small>
+        </div>
+    </div>
+
+    <a id="repo"></a>
+    <div class="row">
+        <div class="col-md-7">
+            <br style="margin-top:3em">El Firmware código abierto esta aquí:<br>
+
+            <h4><a href="https://github.com/martinberlin/eink-calendar">https://github.com/ martinberlin/eink-calendar</a> - master branch</h4>
+        </div>
+        <div class="col-md-5">
+
+        </div>
+    </div>
+
+    <a id="a2"></a>
+
+    <h4 style="margin-top:3em">Referencia para el Config</h4>
+    <p>Es importante tener en cuenta que debemos enviar este JSON config desde la aplicación Android,
+        con lo cual lo mejor es logearse en CALE desde el móvil.<br>
+        <ol>
+    <li>En la sección WiFi agrega como minímo dos access points (ej. casa y Hotspot del móvil)</li>
+    <li>El la sección Screen selecciona uno y haz click en el botón <b>Config</b>.</li>
+    <li>Copia el JSON config que para poderlo copiar luego en el app de CALE</li>
+    <li>Encendiendo el Firmware, abre la app y conectate al Bluetooth CALE_*</li>
+    <li>Pega el JSON config y envia al Firmware. En este punto ya debería estar configurado</li>
+    </ol>
+
+    </p>
+    <img src="/assets/www/firmware/screen_config1.png" alt="CALE Bluetooth config" width="100%">
+
+
+    En este tab solo hay que hacer click en el area de texto para seleccionar todo y luego copiar.
+    Al pegar este config en el app, luego de seleccionar el Bluetooth y aceptar el "pair request", ya podemos configurar el Firmware.
+
+    Luego de recibir la configuración por Bluetooth debería reiniciarse y hacer el request de la imagen.
+
+    <a id="a3"></a>
+    <h4 style="margin-top:4em">Aplicación Android de <span class="cale">CALE</span> </h4>
+
+    <br style="margin-top:3em">Baja el APK con tu browser móvil y acepta los permisos para ejecutarlo:<br>
+
+    <h4><a href="https://github.com/martinberlin/cale-app/tree/master/releases" target="_blank">CALE Android APK</a></h4>
+
+    El CALE Android app fue enviado para su aprobación en Google developers.
+    Debido a la situación actual con el Corona-virus, tardará al menos 10 dias en ser aprovado.
+    En este tiempo pueden probarlo bajando y instalando el fichero APK hasta que este en el Play story.
+
+    <a id="flow"></a>
+    <h4 style="margin-top:3em">Bluetooth user flow</h4>
+    <img src="/assets/svg/cale-bluetooth-config.svg" title="Idea de configuración Bluetooth" width="100%">
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

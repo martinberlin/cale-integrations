@@ -1,30 +1,41 @@
 
 # home / login
-Username / Email: Email
+user_email: Email
 Password: Contraseña
 submit_login: Login
 forgot_password: Olvide mi contraseña
 register_here: Crear una cuenta
+
+meta_description: CALE es un administrador de pantallas donde puedes mezclar contenidos de distintas APIs en un Screen. Ofrecemos un Firmware gratuito y open source para ESP32 con soporte para Eink displays
 # NAV
 nav_about: Sobre nosotros
 nav_displays: E-Ink displays
 nav_apis: APIs
 nav_transparently_built: Compromiso de transparencia
 nav_privacy: Política de privacidad
+nav_google_privacy: Política de privacidad de datos recolectados por Google Analytics
 nav_language: Idioma
-nav_about_tooltip: CALE es un administrador de pantallas para displays
-nav_apis_tooltip: Las Interfaces de Programación de Aplicaciones permiten construir contenido personalizado
-nav_displays_tooltip: E-Inks soportados
-nav_transparently_built_tooltip: El código detras de este sitio puedes verlo aquí
 nav_legal: Aviso legal
 nav_service: Nuestro servicio
 nav_pricing: Cuánto cuesta
+nav_faq: Preguntas frequentes
 nav_get_started: Como usarlo
 nav_server_architecture: Arquitectura del servicio
+nav_api_cloudwatch: Monitoreo de AWS Cloudwatch
+nav_3d: Modelos para imprimir en 3D
+# NAV BACKEND
+navb_api: Contenido
+navb_user: User
+# TITLES BACKEND
+titleb_apis: Proovedores de contenido (APIs)
+# Titles
 title_ical: Importando calendarios iCal
-title_firmware: Firmware para boards Espressif
+title_firmware: Firmware para boards Espressif ESP32 / ESP8266
+title_firmware_tft: Firmware para displays TFT
 title_firmware_t5: Firmware para los ESP32 T5
-
+title_firmware_blue: Configurando el Firmware usando Bluetooth
+title_cloudwatch: Monitoreo de servidores Cloudwatch
+title_displays_tft: Displays TFT
 # Admin dashboard
 no_screen_logs_yet: Crea un Screen para ver el log con los requests de imágen aquí
 logs_purged: logs borrados. Gracias!
@@ -152,7 +163,9 @@ screen_partials_edit_line3: 'Tenga en cuenta que si el display para mostrar esta
 screen_help_5: Haz click aqui para agregar contenidos de tus APIs. No olvides marcar la columna donde quieres que salga el contenido
 screen_help_6: Cuando termines de agregar las secciones de contenido, haz click en Guardar y luego en Renderizar Screen
 screen_partials_title: Secciones del Screen
-screen_token_firmware: Para conectar este Screen con tu E-Ink copia estas 2 lineas en el fichero Config.h del
+screen_token_firmware_step1: Para conectar este Screen con tu Display seleccionando 1. WiFi AP 2. Metódo
+screen_token_firmware_blue: Copia este texto JSON text y pegalo en la aplicación Android luego de conectarte por Bluetooth
+screen_token_firmware_c: Copia estas lineas de C en el fichero Config.h del
 screen_token_request: Si este Screen esta protegido con un token de acceso hay que enviarlo en los headers asi
 screen_token_access_title: Acceso fuera del Firmware
 
@@ -217,3 +230,57 @@ Template: Plantilla
 Partials: Secciones
 Created: Creado el
 Integrations: Integraciones
+
+#HTML editor
+HTML Content: Contenido HTML
+Upload an image: Subir una imagen
+Image type: Tipo de imagen
+background: background
+floating: flotante
+Image position: Posición
+left: izquierda
+center: centro
+right: derecha
+Save contents: Guardar cambios
+image_float_note: 'La imagen flotante es una buena opción para agregar un logo. Flota solo izq. o derecha pero no al centro. Ej: <img style="float:left">'
+image_background_note: 'La imagen de fondo queda debajo del texto HTML: <div style="background-image: url(your/image)">'
+# API aws cloudwatch
+Key: Key
+Secret: Secret
+AWS Region: AWS Region
+eu-central-1 Frankfurt: eu-central-1 Frankfurt
+eu-west-1 Ireland: eu-west-1 Ireland
+eu-west-2 London: eu-west-2 London
+eu-west-3 Paris: eu-west-3 Paris
+eu-north-1 Stockholm: eu-north-1 Stockholm
+us-east-1 N. Virginia: us-east-1 N. Virginia
+us-east-2 Ohio: us-east-2 Ohio
+us-west-1 N. California: us-west-1 N. California
+us-west-2 Oregon: us-west-2 Oregon
+ap-east-1 Hong Kong: ap-east-1 Hong Kong
+ap-south-1 Mumbai: ap-south-1 Mumbai
+ap-southeast-1 Singapore: ap-southeast-1 Singapore
+ap-southeast-2 Sydney: ap-southeast-2 Sydney
+ap-northeast-1 Tokyo: ap-northeast-1 Tokyo
+ap-northeast-2 Seoul: ap-northeast-2 Seoul
+ap-northeast-3 Osaka: ap-northeast-3 Osaka
+cn-north-1 Beijing: cn-north-1 Beijing
+cn-northwest-1 Ningxia: cn-northwest-1 Ningxia
+me-south-1 Bahrain: me-south-1 Bahrain
+sa-east-1 Sao Paulo: sa-east-1 Sao Paulo
+Save Credentials: Save Credentials
+Name your Cloudwatch metric: Name your Cloudwatch metric
+Image JSON definition: Image JSON definition
+#Wifi
+wifi_configure1: Aquí puede configurar hasta 5 puntos de acceso WiFi y asignarles un nombre como "home", "office", etc.
+wifi_configure2: Luego en la sección Screen config puede seleccionar estos WiFis y obtener un JSON o la configuración esencial Config.h para configurar el Firmware de sus displays donde quiera que se encuentre.
+wifi_configure3: Tenga en cuenta que estan ordenados por la columna sort de forma ascendente y solo los primeros dos serán seleccionados por defecto.
+#Support
+Support type: Categoría del problema
+Configuring my APIs: Configurando mis APIs
+Configuring my Screens: Configurando mis Screens
+Need a new API renderer: Necesito integrar una nueva API
+Setting up Cloudwatch monitoring: Setup de Cloudwatch monitoring
+Found a bug in [AREA]: He encontrado un error en [AREA]
+Support message: Mensaje
+Send support Email: Enviar Email de soporte

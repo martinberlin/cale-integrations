@@ -1,0 +1,17 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-8 col-sm-8 col-xs-12"><br>
+
+            <span class="alert alert-danger">
+                Please note that this action will <b>delete permanently</b> your account, Screens and any related content</span><br><br>
+    <p>We are sorry to see you go but we understand your decision. Is important to know that there is no way to recover your data after this
+        and no undo option.</p>
+
+            {{ form_start(form) }}
+            {{ form_widget(form.confirm) }} {{ form_label(form.confirm) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

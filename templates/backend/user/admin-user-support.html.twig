@@ -1,0 +1,79 @@
+{% extends 'backend/backend-base.html.twig' %}
+{# HTML editor include #}
+{% block stylesheets %}
+    <link href="/js/summernote/summernote-lite.min.css" rel="stylesheet">
+    <script src="/js/jquery/jquery-2.1.0.min.js"></script>
+    <script src="/js/summernote/summernote-lite.min.js"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-8 col-sm-12 col-xs-12">
+            <p>Please describe how to reproduce your problem so we can help you accordingly.</p>
+            {{ form_start(form) }}
+            {{ form_row(form.type) }}
+            {{ form_row(form.html) }}
+            <div class="col-xs-12 text-right" style="margin-top:1em">
+                <span id="maxCounter">HTML is limited to {{ html_max_chars }} chars</span>
+            </div>
+            {{ form_widget(form.cc) }} {{ form_label(form.cc) }}
+
+            {% if form_submitted %}
+                {{ form_widget(form.submit,{'attr': {'class': 'hidden'}}) }}
+            {% endif %}
+
+            {{ form_end(form) }}
+        </div>
+
+        {% if isMobile == false %}
+        <div class="col-md-4 col-sm-12 col-xs-12" style="margin-top: 0.8em">
+            <b>HINTS:</b> <br><br>
+            <b>If you want to get help fast please tell us exactly what steps we need to take, so we can reproduce what you are experiencing and find a solution.</b>
+            In exceptional cases, we may ask you to make public your Screens temporarily, so we can reproduce your issues.
+            <br>
+            If you need that CALE integrates a new API to add it to your Screens, please send us the link, so we can research if it can be implemented.
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+
+<script>
+    let maxchars = {{ html_max_chars }};
+    let max_counter = document.getElementById('maxCounter');
+
+    $('.summernote').summernote({
+        toolbar: [
+            ['style', ['bold', 'italic', 'clear']],
+            ['font', ['strikethrough', 'superscript', 'subscript']],
+            ['fontsize', ['fontsize', 'height']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['insert', ['link', 'table', 'codeview']]
+        ],
+        callbacks: {
+            onKeydown: function (e) {
+                var t = e.currentTarget.innerText;
+                if (t.length >= maxchars) {
+//delete key
+                    if (e.keyCode != 8)
+                        e.preventDefault();
+                }
+            },
+            onKeyup: function (e) {
+                var t = e.currentTarget.innerText;
+                let countdown = (maxchars - t.length);
+                if (countdown > 0) {
+                    max_counter.innerHTML = countdown;
+                } else {
+                    countdown = countdown * -1;
+                    max_counter.innerHTML = '<span class="alert alert-danger">Max limit reached: ' + countdown + ' characters too much</span>';
+                }
+
+            }
+        }
+    });
+</script>
+{% endblock %}

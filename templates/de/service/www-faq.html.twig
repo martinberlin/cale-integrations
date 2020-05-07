@@ -1,0 +1,47 @@
+{% extends '/base.html.twig' %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="col-md-10 col-sm-10 col-xs-12" style="margin-top: -2em">
+        <h4>
+            <span class="cale" style="font-weight:bolder">FAQ</span> {{ 'nav_faq'|trans }}
+        </h4>
+
+        <b>Was ist das Konzept hinter <span class="cale" style="font-weight:bolder">CALE</span> <span style="font-size:1.5em">?</span></b>
+        <p style="margin-left: 2em">Wir haben diesen Webdienst als dynamischen Inhaltsanbieter für unsere mit WLAN verbundenen Displays konzipiert.
+            Die Idee ist, etwas zu machen, das einfach zuverlässig funktioniert und nicht im Weg ist.
+            <span class="cale">CALE</span> abstrahiert die Komplexität der Bildgenerierung und bietet den Benutzern
+            gleichzeitig eine einfache Möglichkeit, eine Verbindung zu externen APIs herzustellen, die ihren Inhalten frischen Inhalt liefern.
+        </p>
+
+        <b>Warum brauche ich ein WiFi-Display, wenn ich diesen Inhalt bereits auf einem Tablet haben kann <span style="font-size:1.5em">?</span></b>
+        <p style="margin-left: 2em">Unsere Idee eines Helferbildschirms oder eines Besprechungsraumschilds ist, dass er wochenlang verfügbar sein kann und Sie ihn nur warten müssen, wenn Sie den Akku einmal im Monat aufladen. Es macht einfach seinen Job und benötigt keine Wartung.
+            Darüber hinaus hat Epaper ein anderes Erscheinungsbild als ein TFT-Bildschirm und fügt sich gut in das Gebäude
+            ein, verbraucht nur minimale Energie und ist ein wunderschönes Objekt, um zu sehen, wie es funktioniert. Es ist ein völlig anderes Konzept als ein Tablet oder ein anderes Gerät mit demselben Inhalt. Wenn Sie mit unserem Webdienst verbunden sind, können Sie dies remote verwalten und die Anzeige auf Ihren Wunsch ändern.
+        </p>
+
+        <b>Können Sie ein Epaper-Display für uns bauen <span style="font-size:1.5em">?</span></b>
+        <p style="margin-left: 2em">
+            Ja wir können. Wir sind jedoch noch dabei, eine neue Leiterplatte herzustellen, die den Kern unserer Eink ESP32-Displays bilden wird. Wir können also zwei wichtige Dinge bereitstellen. Zuerst unser Know-how, das dokumentiert ist und Teile enthält, die nachweislich zusammenarbeiten. Und zweitens, um Sie bei der Erstellung eines solchen zu unterstützen. Ausnahmsweise können wir eine für Sie erstellen, aber wir haben noch keine Preisliste dafür. Wenn wir diese Zeit damit verbringen, auf Ihren Wunsch ein Gerät zu bauen, bitten wir Sie, das Projekt als Github-Sponsor mit 10 US-Dollar pro Monat zu unterstützen mindestens ein halbes Jahr. Zusätzlich gibt es auch die Kosten für Ihre Hardware Ihrer Wahl, die wir für Sie kaufen und zusammenbauen können. Unsere Zeit ist wertvoll und wir brauchen Unterstützer, die es uns ermöglichen, uns mehr auf dieses Projekt zu konzentrieren.
+            Nachdem Sie ein Konto erstellt haben, setzen Sie sich einfach über die Menüoption
+            <b>User <span class="glyphicon glyphicon-arrow-right"></span> Get Support</b> mit uns in Verbindung.
+        </p>
+
+        <b>Was ist das einfachste Epaper-Display zu bauen  <span style="font-size:1.5em">?</span></b>
+        <p style="margin-left: 2em">
+            <a href="https://www.thingiverse.com/thing:4283328" target="_blank"><img src="/assets/www/render/T5S-case.png" style="float: right"></a>
+            Wir empfehlen dringend, ein TTGO T5S zu verwenden, da es sich um ein sehr schönes ESP32-Board mit einem geringen Verbrauch von 0,18 mA / Stunde im Tiefschlafmodus handelt, das mit einer 3,7-Volt-Lion-Batterie mit 1000 mA ziemlich lange laufen kann.
+            Wir haben auch ein Gehäuse dafür in 3D modelliert, das in <a href="https://www.thingiverse.com/thing:4283328" target="_blank">Thingiverse als STL Modell</a> zum Herunterladen und 3D-Drucken verfügbar ist. Dort können Sie auch einen 3D-Druck dieses Stücks bestellen. Wenn Sie sich registrieren und CALE verwenden, können wir ihn auch für Sie drucken. Sie müssen nur die Versandkosten bezahlen, um den Fall zu erhalten.
+            Um dieses Angebot in Anspruch zu nehmen, erstellen Sie einfach einen Bildschirm und verbinden Sie eine API, die ihn in Teilinhalten des Bildschirminhalts hinzufügt.
+            Dann kontaktieren Sie uns einfach über den <b>User <span class="glyphicon glyphicon-arrow-right"></span> Get Support</b> Menüoption in unsere Backend-Bereich und teilen Sie uns mit, dass Sie einen "T5S-Housing" wünschen.
+        </p>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

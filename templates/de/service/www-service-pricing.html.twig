@@ -1,0 +1,33 @@
+{% extends '/base.html.twig' %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="col-md-8 col-sm-8 col-xs-12" style="margin-top: -2em">
+        <h4>
+            <span class="cale">CALE</span> ist für den persönlichen Gebrauch von ein bis drei Screens kostenlos
+        </h4>
+
+        <p>Was für uns nicht kostenlos ist, sind die Serverkosten und die Zeit, die wir für die Wartung der
+            <span class="cale" style="font-weight: bold">CALE API</span> verwenden.
+            Wir bitten Sie, unser Projekt als <a href="https://github.com/martinberlin/cale-integrations">Github-Sponsor</a>
+            mit mindestens 10 USD pro Monat zu unterstützen,
+            wenn Sie den Bildschirmadministrator in Ihrem Büro verwenden, um die Besprechungen für Ihr Unternehmen anzuzeigen.
+            Wir aktualisieren Ihr Konto mit einer höheren Anzahl von Bildschirmen, um dynamischen Inhalt anzuzeigen, und Sie erhalten auch Support-Priorität, damit wir alle Probleme behandeln können, die bei der Verwendung unseres Dienstes auftreten können.
+        </p>
+    </div>
+
+    <div class="row">
+    <div class="col-md-4 col-sm-4 col-xs-12"></div>
+    <div class="col-md-4 col-sm-4 col-xs-12 text-center">
+    <button type="button" class="btn btn-success form-control" onclick="window.location='{{ path('register') }}'">Hier registrieren</button>
+    </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

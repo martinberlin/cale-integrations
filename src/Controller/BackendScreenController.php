@@ -24,10 +24,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class BackendScreenController extends AbstractController
 {
+    private $menu = "screen";
+
     /**
      * @Route("/", name="b_screens")
      */
-    public function screens(ScreenRepository $screenRepository)
+    public function screens(Request $request, ScreenRepository $screenRepository, BackendController $backendController)
     {
         $screens = $screenRepository->findBy(['user'=>$this->getUser()]);
         return $this->render(
@@ -35,7 +37,9 @@ class BackendScreenController extends AbstractController
             [
                 'title' => 'My screens',
                 'screens' => $screens,
-                'user_max_screens' => $this->getUser()->getMaxScreens()
+                'user_max_screens' => $this->getUser()->getMaxScreens(),
+                'isMobile' => $backendController->isMobile($request),
+                'menu' => $this->menu
             ]
         );
     }
@@ -44,8 +48,9 @@ class BackendScreenController extends AbstractController
      * @Route("/edit/{uuid?}", name="b_screen_edit")
      */
     public function screenEdit($uuid, Request $request, ScreenRepository $screenRepository,
-                               EntityManagerInterface $entityManager, TranslatorInterface $translator)
+                               EntityManagerInterface $entityManager, TranslatorInterface $translator, BackendController $backendController)
     {
+        $isNewScreen = false;
         if (is_null($uuid)) {
             $screen = new Screen();
             $screen->setUser($this->getUser());
@@ -55,13 +60,16 @@ class BackendScreenController extends AbstractController
                 $this->addFlash('error', "Sorry but the screen limit is set to maximum $screensUsed screens in your account. Please contact us if you want to update this limit");
                 return $this->redirectToRoute('b_screens');
             }
-
+            $isNewScreen = true;
         } else {
             $screen = $screenRepository->find($uuid);
             $title = $translator->trans('Edit').' screen "'.$screen->getName().'"';
         }
 
-        $form = $this->createForm(ScreenType::class, $screen, ['templates' => $this->getParameter('screen_templates')]);
+        $form = $this->createForm(ScreenType::class, $screen, [
+            'templates' => $this->getParameter('screen_templates'),
+            'user' => $this->getUser()
+        ]);
         $form->handleRequest($request);
         $error = '';
 
@@ -75,10 +83,13 @@ class BackendScreenController extends AbstractController
                 $this->addFlash('error', $error);
             }
             if ($error==='') {
-                $this->addFlash('success', "Screen $uuid ".$translator->trans('saved'));
+                $this->addFlash('success', "Screen $uuid: ".$screen->getName()." ".$translator->trans('saved'));
                 return $this->redirectToRoute('b_screens');
             }
         }
+
+        $imageType = ($screen->getDisplay() instanceof Display && $screen->getDisplay()->getType() === 'eink') ?
+            'bmp' : 'jpg';
 
             return $this->render(
             'backend/screen/screen-edit.html.twig',
@@ -86,8 +97,11 @@ class BackendScreenController extends AbstractController
                 'title' => $title,
                 'form' => $form->createView(),
                 'uuid' => $uuid,
-                'bmp_url' => ($screen->getDisplay() instanceof Display) ?
-                    $this->bmpUrlGenerator($screen->isOutSsl(), 'bmp', $this->getUser()->getName(), $screen->getId()): ''
+                'isMobile' => $backendController->isMobile($request),
+                'image_url'  => ($screen->getDisplay() instanceof Display) ?
+                    $this->imageUrlGenerator($screen->isOutSsl(), $imageType, $this->getUser()->getName(), $screen->getId()): '',
+                'is_new' => $isNewScreen,
+                'menu' => $this->menu
             ]
         );
     }
@@ -149,7 +163,8 @@ class BackendScreenController extends AbstractController
                 'display' => $display,
                 'screen_public' => $screen->isPublic(),
                 'template_twig' => str_replace('.html.twig','',$screen->getTemplateTwig()),
-                'thumbnail_src' => $this->thumbnailUrlGenerator($this->getUser()->getName(), $uuid)
+                'thumbnail_src' => $this->thumbnailUrlGenerator($this->getUser()->getName(), $uuid),
+                'menu' => $this->menu
             ]
         );
     }
@@ -186,7 +201,7 @@ class BackendScreenController extends AbstractController
      * @param $screenId
      * @return string
      */
-    private function bmpUrlGenerator($isSsl, $responseType, $username, $screenId) {
+    private function imageUrlGenerator($isSsl, $responseType, $username, $screenId) {
         $schema = ($isSsl) ? 'https://' : 'http://';
         $url = $schema.$_ENV['SCREENSHOT_TOOL'].'/'.$responseType.'/'.$username.'/'.$screenId;
         return $url;
@@ -228,9 +243,11 @@ class BackendScreenController extends AbstractController
             'uuid'     => $uuid
         ];
         $htmlUrl = $this->generateUrl('public_screen_render', $screenParams, UrlGeneratorInterface::ABSOLUTE_URL);
-
-        $bmpUrl = ($screen->getDisplay() instanceof Display) ?
-            $this->bmpUrlGenerator($screen->isOutSsl(), 'bmp', $this->getUser()->getName(), $screen->getId()): '';
+        // Display can be optionally left unassigned
+        $isDisplayAssigned = $screen->getDisplay() instanceof Display;
+        $imageType = ($isDisplayAssigned && $screen->getDisplay()->getType()==='eink') ?'bmp':'jpg';
+        $imageUrl = ($isDisplayAssigned) ?
+            $this->imageUrlGenerator($screen->isOutSsl(), $imageType, $this->getUser()->getName(), $screen->getId()): '';
 
         $renderParams = [
             'uuid' => $uuid,
@@ -239,9 +256,11 @@ class BackendScreenController extends AbstractController
             'screen_hits'   => $screen->getHits(),
             'screen_bearer' => $screen->getOutBearer(),
             'screen_display' => $screen->getDisplay(),
+            'screen_image_type' => strtoupper($imageType),
             'form' => $form->createView(),
             'html_url' => $htmlUrl,
-            'bmp_url' => $bmpUrl
+            'image_url' => $imageUrl,
+            'menu' => $this->menu
         ];
         $htmlPerColumn['Header'] = '';
         $htmlPerColumn['Column_1st'] = '';
@@ -276,11 +295,11 @@ class BackendScreenController extends AbstractController
         if (!$screen instanceof Screen) {
             throw $this->createNotFoundException("$uuid is not a valid screen");
         }
-        if ($screen->getUser() !== $this->getUser()) {
+        if (!$this->isGranted('ROLE_ADMIN') && $screen->getUser() !== $this->getUser()) {
             throw $this->createNotFoundException("$uuid is not your screen");
         }
         $bmpUrl = ($screen->getDisplay() instanceof Display) ?
-            $this->bmpUrlGenerator($screen->isOutSsl(), 'bmp', $this->getUser()->getName(), $screen->getId()): '';
+            $this->imageUrlGenerator($screen->isOutSsl(), 'bmp', $screen->getUser()->getName(), $screen->getId()): '';
         if ($isThumbnail) {
             $bmpUrl.= '?thumbnail=1';
         }
@@ -290,6 +309,7 @@ class BackendScreenController extends AbstractController
             // HTTP Bearer authentication (also called token authentication)
             'auth_bearer' => $screen->getOutBearer()
         ]);
+
         $cliResponse = $client->request('GET', $bmpUrl, $options);
 
         $response = new Response();

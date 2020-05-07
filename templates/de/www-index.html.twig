@@ -1,0 +1,69 @@
+{% extends '/base.html.twig' %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="text-center" style="margin-top: -2em">
+    <h3><span class="cale">API Mashup Creator für Ihre WiFi-Displays</span></h3>
+    <h4>
+        <span class="cale">CALE</span>  ist ein Bildschirmadministrator, mit dem Sie Inhalte verschiedener APIs mischen
+        und die Inhaltsausgabe steuern können.
+    </h4>
+
+        {% if app.environment != 'dev' %}
+            {% set img_cloudwatch = cdn_s3~'/img/index_cloudwatch.png' %}
+            {% set bmp_cloudwatch = cdn_s3~'/img/index_cloudwatch.bmp' %}
+
+        <video id="index" title="Video: Convert your Screen into an Eink" width="100%" controls autoplay>
+            <source src="{{ cdn_s3 }}/v/c-converts-your-screens.mov">
+        </video>
+            {% else %}
+                {% set img_cloudwatch = '/img/www/carousel/index_cloudwatch.png' %}
+                {% set bmp_cloudwatch = '/img/www/carousel/index_cloudwatch.bmp' %}
+        {% endif %}
+
+    </div>
+    <h5>Sie können es auf jedem WiFi-Display wie Ihrem Tablet, Handy oder letztendlich auf einem WiFi-E-Paper-Bildschirm verwenden,
+        auf dem stündlich neue Inhalte mit minimalem Verbrauch abgerufen werden
+    </h5>
+    <div class="row">
+            <div class="col-md-2"></div>
+        <div class="col-md-4 col-sm-6 col-xs-12 text-center">
+            <button type="button" class="btn btn-primary form-control" onclick="window.location='{{ path('login') }}'">
+                Anmelden</button>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12 text-center">
+        <button type="button" class="btn btn-success form-control" onclick="window.location='{{ path('register') }}'">
+            Account erstellen</button>
+        </div>
+            <div class="col-md-2"></div>
+    </div>
+
+    <br><br>
+    <div class="row">
+    <div class="col-md-12">
+        <h4>Beispiel für eine API-Integration mit Cloudwatch-Überwachung</h4>
+
+        <h3>Screen generation für einem <a href="{{ path('displays-tft') }}">TFT WiFi display</a></h3>
+        <img src="{{ img_cloudwatch }}" width="100%"><br>
+
+        <h3>Screen generation für einem <a href="{{ path('displays-eink') }}">E-Ink WiFi display</a></h3>
+        <img src="{{ bmp_cloudwatch }}" width="100%"><br>
+    </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+    <script type="text/javascript" src="/js/tracking/analytics-html5-video.js"></script>
+    <script>
+        var videoId = document.getElementById('index')
+        if (videoId) {
+            document.addEventListener('DOMContentLoaded', init, false)
+            var videoTitle = videoId.getAttribute('title')
+        }
+    </script>
+{% endblock %}

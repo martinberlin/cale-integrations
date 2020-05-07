@@ -4,10 +4,22 @@
 {% else %}
     {% set add_button_state = '' %}
 {% endif %}
+{# TODO: Target for an include since repeats #}
+{% set txtprefix = '' %}
+{% set txtsuffix = '' %}
+{% set btnstyle = '' %}
+{% if isMobile %}
+    {% set btnstyle = 'btn-sm' %}
+    {% set txtprefix = '<small>' %}
+    {% set txtsuffix = '</small>' %}
+{% endif %}
 
 {% block body %}
-    <p>{{'screen_edit_configure1'|trans}} {{ user_max_screens }}
-        {{'screen_edit_configure2'|trans}}.</p>
+    <p>{{ txtprefix|raw }}
+        {{'screen_edit_configure1'|trans}} {{ user_max_screens }}
+        {{'screen_edit_configure2'|trans}}.
+        {{ txtsuffix|raw }}
+    </p>
     <div class="text-right" style="margin-bottom: 0.4em">
         <button type="button" {{ add_button_state }} class="btn btn-primary" onclick="window.location='{{ path('b_screen_edit') }}'">
             {{'screen_add'|trans}}</button>
@@ -20,37 +32,48 @@
     <tr>
         <th>{{'Name'|trans}}</th>
         <th>{{'Template'|trans}}</th>
-        <th>E-Ink display</th>
 
+        {% if isMobile == false %}
+        <th>E-Ink display</th>
         <th>{{'Created'|trans}}</th>
+        {% endif %}
+
         <th>Admin</th>
     </tr>
     </thead>
     <tbody>
     {% for s in screens %}
         <tr>
-            <td><b>{{ s.name }}</b><br>
+            <td>{{ txtprefix|raw }}<b>{{ s.name }}</b>{{ txtsuffix|raw }}<br>
             {% if s.public ==false %}
                 <span class="glyphicon glyphicon-lock" title="Not public"></span>
                 {% endif %}<small>{{ s.id }} - {{ s.hits }} views</small></td>
-            <td><img width="80" src="/img/display-templates/{{ s.templateTwig|replace({"html.twig": "svg"}) }}"></td>
-            <td>{{ s.display }}</td>
-            <td>{{ s.created|date("d.m.Y") }}</td>
+            <td><a href="{{ path('b_screen_edit', {'uuid':s.id}) }}"><img width="80" src="/img/display-templates/{{ s.templateTwig|replace({"html.twig": "svg"}) }}"></a><br>
+                {% if s.display %}
+                &nbsp; <small>{{ s.display.width }}x{{ s.display.height }}</small>
+                {% endif %}
+            </td>
+
+            {% if isMobile == false %}
+            <td>{{ txtprefix|raw }}{{ s.display }}{{ txtsuffix|raw }}</td>
+            <td>{{ txtprefix|raw }}{{ s.created|date("d.m.Y") }}{{ txtsuffix|raw }}</td>
+            {% endif %}
+
             <td>
-                <a class="btn btn-default" href="{{ path('b_screen_edit', {'uuid':s.id}) }}">
+                <a class="btn {{ btnstyle }} btn-default" href="{{ path('b_screen_edit', {'uuid':s.id}) }}">
                     <span class="glyphicon glyphicon-picture"></span> {{'Config'|trans}}</a>
 
-                <a class="btn btn-default" href="{{ path('b_screen_partials', {'uuid':s.id}) }}">
+                <a class="btn {{ btnstyle }} btn-default" href="{{ path('b_screen_partials', {'uuid':s.id}) }}">
                     <span class="glyphicon glyphicon-paperclip"></span> {{ s.partials|length }} {{'Partials'|trans}}</a>
 
                 {% if s.partials|length %}
-                <a class="btn btn-default" href="{{ path('b_screen_render', {'uuid':s.id}) }}"
+                <a class="btn {{ btnstyle }} btn-default" href="{{ path('b_screen_render', {'uuid':s.id}) }}"
                    data-toggle="tooltip" title="Preview your screen in HTML">
                             <span class="glyphicon glyphicon-screenshot"></span> {{'screen_render'|trans}}</a>
                 {% endif %}
 
                 {% if s.partials|length==0 %}
-                <a class="btn btn-default" href="{{ path('b_screen_delete', {'uuid':s.id}) }}">
+                <a class="btn {{ btnstyle }} btn-default" href="{{ path('b_screen_delete', {'uuid':s.id}) }}">
                     <span class="glyphicon glyphicon-remove"></span> {{'Delete'|trans}}</a>
                 {% endif %}
             </td>

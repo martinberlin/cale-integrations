@@ -1,0 +1,44 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+
+    <h3>Server architecture</h3>
+    <p>
+        <b>CALE is a screen administrator where you can mix content of different APIs and control the content output</b>
+    </p><br><br>
+
+    <img src="/assets/svg/cale-server-architecture.svg"><br><br><br>
+
+    <h4>DB Model</h4>
+    <p>This database model design is just our reference to build on top of this. Basically allows us to have users, apis and the
+    means to connect both to Screens.<br>
+        The ultimate goal is that you can add a Weather API with your key configuration stored in <b>app_user_api</b> and then make different
+    instances of it, like Weather in Berlin and in New York city (<b>app_int_api</b>)<br>
+    This apis are agreegated as <b>template_partial</b>(s) that reference one of this apis and output a little piece of HTML content in one of your
+        <b>screens</b> that is also associated to a <b>display</b>.
+    </p>
+
+    <img src="/assets/svg/db-structure-cale.svg"><br>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

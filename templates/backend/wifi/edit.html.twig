@@ -1,0 +1,19 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+{% block body %}
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+<p>Keep in mind that the WiFis are ordered by <b>sort position</b>. So first one is 1, then comes 2, and so on.</p>
+    <div class="row">
+        <div class="col-md-8 col-sm-12 col-xs-12">
+            {{ form_row(form.type) }}
+
+            {{ form_row(form.wifiSsid) }}
+
+            {{ form_row(form.wifiPass) }}
+
+            {{ form_row(form.sortPos) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

@@ -11,6 +11,11 @@
             background-color: #333;
         }
     </style>
+
+    {# Event snippet for Register an account conversion page #}
+    <script>
+        gtag('event', 'conversion', {'send_to': 'AW-1065885836/ANM1CO-I08oBEIzBoPwD'});
+    </script>
 {% endblock stylesheets %}
 
 {% block carousel %}
@@ -20,20 +25,19 @@
 {% block body %}
     <div class="row" style="margin-top: 40px">
         <div class="col-md-4"></div>
-        <div class="col-md-4">
-            <h3>Gracias por registrarte en nuestra web</h3>
-            <p>A mediados de marzo recibirá un email con instrucciones para entrar a la administración y generar sus pantallas.
-                Este es un periodo de pruebas en el que puede entrar y probarlo, aunque aún puede haber errores, esta invitado a experimentar con el sitio.<br>
-                Martin
-            </p>
+        <div class="col-md-5">
+            <h3>Gracias por registrarse en <span class="cale">CALE</span></h3>
+            <p>La version 1.0 esta lista para crear sus pantallas. Chequee la
+                <a href="{{ path('apis') }}">sección APIs</a> para ver las que ya están integradas.</p>
 
             <div style="height: 40px"></div>
+            <a class="btn btn-primary" href="{{ path('login') }}">Acceda a la parte de administración</a>
         </div>
-        <div class="col-md-4"></div>
+        <div class="col-md-3"></div>
     </div>
 {% endblock %}
 
 
 {% block javascripts %}
-    <script type="text/javascript" src="./js/engine/common.js"></script>
+    <script type="text/javascript" src="/js/engine/common.js"></script>
 {% endblock %}

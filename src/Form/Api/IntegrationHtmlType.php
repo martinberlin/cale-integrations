@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Length;
 
 class IntegrationHtmlType extends AbstractType
 {
@@ -29,15 +30,18 @@ class IntegrationHtmlType extends AbstractType
             ->add('html', TextareaType::class,
                 [
                     'required' => false,
-                    'label' => 'Your HTML Content',
+                    'label' => 'HTML Content',
                     'attr' => [
                         'class' => 'form-control summernote'
+                    ],
+                    'constraints' => [
+                        new Length(['max' => $options['html_max_chars']])
                     ]
                 ])
 
             ->add('imageFile', FileType::class,
                 [
-                    'label' => 'Upload a background image',
+                    'label' => 'Upload an image',
                     'required' => false,
                     'mapped' => false,
                     'attr' => [
@@ -45,7 +49,7 @@ class IntegrationHtmlType extends AbstractType
                     ],
                     'constraints' => [
                         new File([
-                            'maxSize' => '100k',
+                            'maxSize' => '150k',
                             'mimeTypes' => [
                                 'image/jpeg',
                                 'image/bmp',
@@ -56,7 +60,6 @@ class IntegrationHtmlType extends AbstractType
                         ])
                     ]
                 ])
-
             ->add('imagePosition', ChoiceType::class,
                 [
                     'choices' => [
@@ -64,10 +67,23 @@ class IntegrationHtmlType extends AbstractType
                         'center' => 'center',
                         'right' => 'right',
                     ],
-                    'label' => 'Backround image position',
+                    'label' => 'Image position',
                     'attr' => ['class' => 'form-control']
                 ])
-
+            ->add('imageType', ChoiceType::class,
+                [
+                    'choices' => [
+                        'background' => 'background',
+                        'floating' => 'float'
+                    ],
+                    'label' => 'Image type',
+                    'attr' => ['class' => 'form-control']
+                ])
+            ->add('remove_image', SubmitType::class,
+                [
+                    'label' => 'Remove image',
+                    'attr' => ['class' => 'btn btn-default form-control', 'style' => 'margin-top:0.4em']
+                ])
             ->add('submit', SubmitType::class,
                 [
                     'label' => 'Save contents',
@@ -83,13 +99,13 @@ class IntegrationHtmlType extends AbstractType
 
     /**
      * This form has extra fields because of the summernote HTML editor
-     * But even with this will still run basic integrity checks, for example whether an uploaded file was too large or whether non-existing fields were submitted.
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'validation_groups' => false,
+            'allow_extra_fields' => true,
+            'html_max_chars' => null
         ]);
     }
 }

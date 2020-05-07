@@ -9,25 +9,31 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta name="description" content="{{ 'meta_description'|trans }}">
 
     {% if the_route != 'reset_password_confirm' %}
         {% set canonical = http_host ~ currentPath %}
         <link rel=”canonical” href=”{{ canonical }}">
     {% endif %}
 
-        <title>{% if title is defined %}CALE {{title}}{% else %}CALE Screen manager{% endif %}</title>
+        <title>{% if title is defined %}{{title}} - CALE{% else %}CALE Screen manager{% endif %}</title>
 
         {# Bootstrap 3 core CSS #}
     {% if app.environment != 'dev' %}
-        <link href="https://cale.s3.eu-central-1.amazonaws.com/css/bootstrap.min.css" rel="stylesheet">
+        <link href="{{ cdn_s3 }}/css/bootstrap.min.css" rel="stylesheet">
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-161455060-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-161455060-1');
+            gtag('config', 'AW-1065885836');
+        </script>
     {% else %}
         <link href="/css/bootstrap.min.css" rel="stylesheet">
     {% endif %}
         <link href="/css/theme.css" rel="stylesheet">
-        <link href="/css/prism.css" rel="stylesheet">
 
-    {# With this should possible to override styles! #}
     {% block stylesheets %}{% endblock %}
 
     <script src="/js/polyfill.min.js"></script>
@@ -45,8 +51,9 @@
 
     {% block carousel %}{% endblock %}
         <div id="main-container" class="container">
+            <div class="row">
             <div id="container-content-column" class="col-sm-12"
-                 style="margin-top: 4em" data-target="#side-nav" data-offset="80">
+                 style="margin-top: 1em" >
 
             <div class="row">
                 <div class="col-md-12">
@@ -63,26 +70,20 @@
         {% block body %}{% endblock %}
                 </div>
             </div>
-
-            </div>
-
-
-            <div class="row">
-                <div class="col-md-12"><br><br><br></div>
             </div>
 
             <nav class="navbar-wrapper">
                 <div class="container-fluid">
 
                     <p class="navbar-text pull-left">&copy; 2020 CALE.es
-                        <a href="{{ path('impressum') }}">{{ 'nav_legal'|trans }}</a> |
+                        &nbsp;&nbsp;&nbsp;<a href="{{ path('impressum') }}">{{ 'nav_legal'|trans }}</a><br>
                         <a href="{{ path('privacy-policy') }}">{{ 'nav_privacy'|trans }}</a> |
                         <a href="{{ path('apis') }}">{{ 'nav_apis'|trans }}</a> |
                         <a href="{{ path('firmware') }}">ESP32 Firmware</a>
                     </p>
 
                     {% if app.user is null and the_route != 'home'
-                    and the_route != 'www_service-pricing' and the_route != 'login'  %}
+                    and the_route != 'www_service-pricing' and the_route != 'login' and the_route != 'thanks' %}
                         <a href="{{ path('register') }}" style="margin-right:2em"
                            class="btn navbar-btn btn-default pull-right">{{ 'register_here'|trans }}</a>
                     {% endif %}
@@ -90,9 +91,15 @@
             </nav>
 
         </div>
+    </div>
 
-    <script type="text/javascript" src="/js/prism.js"></script>
-    <script type="text/javascript" src="https://cale.s3.eu-central-1.amazonaws.com/js/bootstrap-native.min.js"></script>
+    {% if app.environment != 'dev' %}
+        <script type="text/javascript" src="{{ cdn_s3 }}/js/bootstrap-native.js"></script>
+    {% else %}
+        <script type="text/javascript" src="/js/bootstrap-native.js"></script>
+    {% endif %}
+    <script type="text/javascript" src="/js/base.js"></script>
+
     {% block javascripts %}{% endblock %}
     </body>
 </html>

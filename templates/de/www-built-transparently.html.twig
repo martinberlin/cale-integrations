@@ -1,0 +1,50 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <h3>Verpflichtung zur Transparenz</h3>
+
+   <p><b>In CALE können wir wirklich behaupten, dass diese Website transparent aufgebaut ist und Ihre Daten verantwortungsbewusst behandelt.</b><br>
+           In einem Moment der Geschichte, in dem die Geschichte von Facebook und Cambridge Analytica bekannt wurde und
+           wir wissen, wie faul und verantwortungslos einige Unternehmen mit unseren persönlichen Daten umgehen können, haben wir die Verpflichtung, wirklich zu zeigen, wie diese Website aufgebaut ist, und wir fordern volle Transparenz.
+           <br><br>Wenn Sie irgendwelche Zweifel haben über:<br>
+   <ul>
+    <li>Wie werden personenbezogene Daten genau verwendet</li>
+    <li>Wie werden meine Passwörter verschlüsselt</li>
+    <li>Wo sind meine APIs konfiguriert und welche Daten werden verwendet, um darauf zuzugreifen</li>
+   </ul>
+   </p>
+    <p>Der vollständige Backend-Code dieser Website und das Backend des Bildschirmadministrators finden Sie hier:</p>
+    <h3><a href="https://github.com/martinberlin/cale-integrations">https://github.com/ martinberlin/cale-integrations</a></h3>
+
+    <h4>Dies ist unsere Verpflichtung zur Transparenz. <br> Jedes Update der Website ist ein git pull von dieses Repository.
+        Alles, was hier getan wird, ist Open Source und für unsere Benutzer transparent.</h4>
+    <p>
+
+        Wenn Sie ein Teil finden, das Ihre Daten gefährden könnte, setzen Sie sich einfach mit uns in Verbindung.
+        Wir werden uns die Zeit nehmen, es zu beheben und für Sie zu verbessern und alles andere.
+
+        Diese Seite, die Sie lesen, ist gespeichert
+        <a href="https://github.com/martinberlin/cale-integrations/tree/master/templates">hier mit Dateinamen www-built-transparently.html.twig</a>
+    </p>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

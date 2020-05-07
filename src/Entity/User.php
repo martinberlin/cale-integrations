@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-//*
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="app_user", uniqueConstraints={@ORM\UniqueConstraint(name="name_idx", columns={"name"})})
@@ -29,6 +28,12 @@ class User implements UserInterface, Language, Created
      * @ORM\OneToMany(targetEntity="UserApi", mappedBy="user", orphanRemoval=true)
      */
     private $userApis;
+
+    /**
+     * One user has many wifi configurations. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="UserWifi", mappedBy="user", orphanRemoval=true)
+     */
+    private $userWifis;
 
     /**
      * One user has many screens. This is the inverse side.
@@ -144,6 +149,13 @@ class User implements UserInterface, Language, Created
     protected $maxScreens;
 
     /**
+     * apiKey
+     * @var string token
+     * @ORM\Column(type="string", length=130, nullable=true)
+     */
+    protected $apiKey;
+
+    /**
      * @var array $roles
      * @ORM\Column(type="array")
      */
@@ -156,11 +168,13 @@ class User implements UserInterface, Language, Created
         $this->maxScreens = 3;
         $this->agreementAccepted = false;
         $this->userApis = new ArrayCollection();
+        $this->userWifis = new ArrayCollection();
         $this->screens = new ArrayCollection();
         $this->sysLogs = new ArrayCollection();
         $this->sysScreenLogs = new ArrayCollection();
         $this->doNotDisturb = false;
         $this->setCreated(new \DateTime());
+        $this->apiKey = strtoupper(hash("ripemd160", $this->id.$this->email));
     }
 
     /**
@@ -386,6 +400,13 @@ class User implements UserInterface, Language, Created
     /**
      * @return ArrayCollection
      */
+    public function getUserWifis() {
+        return $this->userWifis;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
     public function getScreens() {
         return $this->screens;
     }
@@ -515,6 +536,23 @@ class User implements UserInterface, Language, Created
     public function getSysScreenLogs() {
         return $this->sysScreenLogs;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getApiKey()
+    {
+        return $this->apiKey;
+    }
+
+    /**
+     * @param string
+     */
+    public function setApiKey($a)
+    {
+        $this->apiKey = $a;
+    }
+
 
     public function __toString()
     {

@@ -1,3 +1,4 @@
+{% set menuhigh = "background-color:darkred" %}
 <div class="navbar-wrapper">
     <div class="navbar navbar-inverse navbar-fixed-top bg-bootstrap-backend" role="navigation">
 
@@ -7,31 +8,32 @@
                 <span class="icon-bar"></span>
             </button>
 
-            <span class="visible-lg-inline-block" style="margin-top: -2em">
+            <span class="visible-lg-inline-block visible-md-inline-block  visible-sm-inline-block visible-xs-inline-block" style="margin-top: -0.4em">
                     <a href="{% if is_granted('ROLE_ADMIN') %}{{ path('b_admin_dashboard') }}{% else %}{{ path('b_home') }}{% endif %}">
-                            <div class="row">
-                                <div class="col-md-3" style="margin-top: 1.4em;margin-left: 0.4em">
                                 <img src="/assets/cale-logo.svg" width="150">
-                                </div>
-                            </div>
                     </a>
                 </span>
 
         </div>
         <nav id="bs-navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-left" style="margin-left: 6em">
-                <li data-step="1" data-intro="Here you can configure the connection to external Application Programming Interfaces providers
+                <li data-step="1" style="{% if menu == 'api' %}{{ menuhigh }}{% endif %}" data-intro="Here you can configure the connection to external Application Programming Interfaces providers
 like Google calendar, Weather or shared calendars. APIs will deliver content to your Screens">
-                    <a  href="{{ path('b_home_apis') }}">Apis</a>
+                    <a href="{{ path('b_home_apis') }}">{{ 'navb_api'|trans }}</a>
                 </li>
-                <li data-step="2" data-intro="Your Screens are your output displays. They have a template and you can add
+                <li data-step="2" style="{% if menu == 'screen' %}{{ menuhigh }}{% endif %}" data-intro="Your Screens are your output displays. They have a template and you can add
                 content pieces called 'partials' that will render HTML with your API output data"><a  href="{{ path('b_screens') }}">Screens</a></li>
-
-                <li data-step="3" data-intro="Here you can configure your user profile. Make sure your timezone is correct
- so we can output the content with right hour for your location. When your timezone is set you should see here the correct day and hour in the top right" class="dropdown"><a href="#" data-toggle="dropdown" aria-expanded="false">User <span
+                <li data-step="3" style="{% if menu == 'wifi' %}{{ menuhigh }}{% endif %}" data-intro="Here you can configure your access points so your display can get online">
+                    <a href="{{ path('b_wifis') }}">WiFi</a>
+                </li>
+                <li data-step="4" style="{% if menu == 'user' %}{{ menuhigh }}{% endif %}" data-intro="Here you can configure your user profile. Make sure your timezone is correct
+ so we can output the content with right hour for your location. When your timezone is set you should see here the correct day and hour in the top right" class="dropdown">
+                    <a href="#" data-toggle="dropdown" aria-expanded="false">{{ 'navb_user'|trans }} <span
                                 class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ path('b_home') }}" >Dashboard</a></li>
+                        <li><a href="{{ path('b_user_api') }}" >My API QR code</a></li>
+                        <li><a href="{{ path('b_user_support') }}" >Get support</a></li>
                         <li><a href="{{ path('b_user_profile') }}" >User profile</a></li>
                         <li><a href="{{ path('b_agreement') }}">User agreement</a></li>
                         <li><a href="{{ path('logout') }}">Logout</a></li>
@@ -39,19 +41,19 @@ like Google calendar, Weather or shared calendars. APIs will deliver content to 
                 </li>
 
                 {% if is_granted('ROLE_ADMIN') %}
-                <li class="dropdown"><a href="#" data-toggle="dropdown" aria-expanded="false">Administration <span
+                <li style="{% if menu == 'admin' %}{{ menuhigh }}{% endif %}" class="dropdown"><a href="#" data-toggle="dropdown" aria-expanded="false">Administration <span
                                 class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a  href="{{ path('b_admin_dashboard') }}">Admin dashboard</a></li>
                         <li><a  href="{{ path('b_admin_apis') }}">Edit APIs</a></li>
+                        <li><a  href="{{ path('b_admin_displays') }}">Edit Displays</a></li>
+                        <li><a href="{{ path('b_admin_newsletter') }}">Newsletter tool</a></li>
                     </ul>
                 </li>
                 {% endif %}
             </ul>
-            <div class="text-right" style="margin-top:.7em;margin-right:1em">
-
-               {{ app.user.timezone }} {{ "now"|date(app.user.dateFormat) }} {{ "now"|date(app.user.hourFormat) }}
-
+            <div class="text-right" style="margin-top:.7em;margin-right:1em;color:#C9C9C9">
+               <small>{{ "now"|date(app.user.dateFormat) }} {{ "now"|date(app.user.hourFormat) }}</small>
             </div>
         </nav>
     </div>

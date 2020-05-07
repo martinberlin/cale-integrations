@@ -4,6 +4,8 @@ namespace App\Controller;
 use App\Entity\IntegrationApi;
 use App\Entity\UserApi;
 use App\Form\Api\ApiConfigureSelectionType;
+use App\Form\Api\IntegrationAwsCloudwatchType;
+use App\Form\Api\IntegrationAwsType;
 use App\Form\Api\IntegrationHtmlType;
 use App\Form\Api\IntegrationSharedCalendarApiType;
 use App\Form\Api\IntegrationWeatherApiType;
@@ -13,30 +15,32 @@ use App\Form\Api\Wizard\Google\GoogleCalendar1Type;
 use App\Repository\ApiRepository;
 use App\Repository\IntegrationApiRepository;
 use App\Repository\UserApiRepository;
-use App\Service\GoogleClientService;
+use Aws\CloudWatch\CloudWatchClient;
+use Aws\Exception\AwsException;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/backend/api")
  */
 class BackendApiController extends AbstractController
 {
+    private $menu = "api";
     /**
      * @Route("/", name="b_home_apis")
      */
-    public function homeApis(UserApiRepository $userApiRepository, IntegrationApiRepository $integrationApiRepository)
+    public function homeApis(Request $request, UserApiRepository $userApiRepository, IntegrationApiRepository $integrationApiRepository,
+                             BackendController $backendController, TranslatorInterface $translator)
     {
-        // todo: Didn't work research Why:  $apis = $userApiRepository->find(['user' => $this->getUser()]);
         $apis = $this->getUser()->getUserApis();
 
         $list = [];
@@ -63,8 +67,10 @@ class BackendApiController extends AbstractController
         return $this->render(
             'backend/admin-apis.html.twig',
             [
-                'title' => 'Connected APIs',
-                'apis' => $list
+                'title' => $translator->trans('titleb_apis'),
+                'apis' => $list,
+                'isMobile' => $backendController->isMobile($request),
+                'menu' => $this->menu
             ]
         );
     }
@@ -101,9 +107,8 @@ class BackendApiController extends AbstractController
                 if ($api->isLocationApi()) {
                     return $this->redirectToRoute('b_api_customize_location', $userApiUuidParameter);
                 }
-                // TODO: Check that there is a new field for this in app_api:  edit_route
-                // Any exceptions should go here, otherwise there is a configurator wizard:
-                return $this->redirectToRoute('b_api_wizard_'.$api->getUrlName(), $userApiUuidParameter);
+
+                return $this->redirectToRoute($api->getEditRoute(), $userApiUuidParameter);
             }
         }
 
@@ -112,7 +117,8 @@ class BackendApiController extends AbstractController
             [
                 'title' => 'Api configurator',
                 'form' => $form->createView(),
-                'json_apis' => json_encode($apis)
+                'json_apis' => json_encode($apis),
+                'menu' => $this->menu
             ]
         );
     }
@@ -147,8 +153,9 @@ class BackendApiController extends AbstractController
         return $this->render(
             'backend/api/confirm-delete.html.twig',
             [
-                'title' => 'Confirm API deletion',
-                'form' => $form->createView()
+                'title' => 'Confirm API removal',
+                'form' => $form->createView(),
+                'menu' => $this->menu
             ]
         );
     }
@@ -229,7 +236,8 @@ class BackendApiController extends AbstractController
             [
                 'title' => 'Step 1: Setup location Api',
                 'form'  => $form->createView(),
-                'intapi_uuid' => $intapi_uuid
+                'intapi_uuid' => $intapi_uuid,
+                'menu' => $this->menu
             ]
         );
     }
@@ -276,7 +284,8 @@ class BackendApiController extends AbstractController
                 'title' => 'Step 1: Configure shared calendar',
                 'form'  => $form->createView(),
                 'intapi_uuid' => $intapi_uuid,
-                'userapi_id'  => $userApi->getId()
+                'userapi_id'  => $userApi->getId(),
+                'menu' => $this->menu
             ]
         );
     }
@@ -392,34 +401,49 @@ class BackendApiController extends AbstractController
                 'authUrl' => $authUrl,
                 'api_uuid' => $apiUuid,
                 'intapi_uuid' => $intapi_uuid,
-                'renderPreview' => $renderPreview
+                'renderPreview' => $renderPreview,
+                'menu' => $this->menu
             ]
         );
     }
 
     /**
      * Wizard to configure HTML internal API
-     * @Route("/html/{uuid}/{intapi_uuid?}/{step?1}", name="b_api_wizard_cale-html")
+     * @Route("/html/{uuid}/{intapi_uuid?}", name="b_api_wizard_cale-html")
      */
     public function apiInternalHtml(
-        $uuid, $intapi_uuid, $step, Request $request,
+        $uuid, $intapi_uuid, Request $request,
         UserApiRepository $userApiRepository,
         IntegrationApiRepository $intApiRepository,
         EntityManagerInterface $entityManager)
     {
-
+        $publicRelativePath = '../public';
+        $htmlMaxChars = $this->getParameter('html_max_chars');
         $userApi = $this->getUserApi($userApiRepository, $uuid);
         $api = $this->getIntegrationApi($intApiRepository, $intapi_uuid);
         if (!$api instanceof IntegrationApi) {
             $api = new IntegrationApi();
         }
-        $form = $this->createForm(IntegrationHtmlType::class, $api);
+        $form = $this->createForm(IntegrationHtmlType::class, $api, [
+            'html_max_chars' => $htmlMaxChars
+        ]);
         $form->handleRequest($request);
-        $error = "";
-
+        $error = "";$preSuccessMsg = "";
+        $imageUploaded = false;
+        if ($form->getClickedButton() && 'remove_image' === $form->getClickedButton()->getName()) {
+            try {
+              $removeFlag = unlink($publicRelativePath.$api->getImagePath());
+            } catch (\ErrorException $e) {
+                $this->addFlash('error', "Could not find image. ");
+                $removeFlag = false;
+            }
+            if ($removeFlag) {
+                $api->setImagePath('');
+                $preSuccessMsg = "Image was removed. ";
+            }
+        }
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('imageFile')->getData();
-
             // This condition is needed because the 'imageFile' field is not required
             if ($imageFile) {
                 $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
@@ -429,8 +453,10 @@ class BackendApiController extends AbstractController
 
                 // Move the file to the directory where brochures are stored
                 $imagePublicPath = $this->getParameter('screen_images_directory') . '/' . $this->getUser()->getId();
-                $imageUploadPath = '../public'.$imagePublicPath;
+                $imageUploadPath = $publicRelativePath.$imagePublicPath;
+
                 try {
+                    $imageUploaded = true;
                     $imageFile->move(
                         $imageUploadPath,
                         $newFilename
@@ -438,25 +464,34 @@ class BackendApiController extends AbstractController
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                     $error = $e->getMessage();
+                    $imageUploaded = false;
                 }
 
                 $api->setImagePath($imagePublicPath.'/'.$newFilename);
+
             }
             $userApi->setIsConfigured(true);
             $api->setUserApi($userApi);
             try {
                 $entityManager->persist($api);
                 $entityManager->flush();
-            } catch (\Exception $e) {
+            }
+            catch (UniqueConstraintViolationException $e) {
+                $error = '"'.$api->getName().'" exists already. Please use another name for this HTML element (Name your API)';
+                $this->addFlash('error', $error);
+            }
+            catch (\Exception $e) {
                 $error = $e->getMessage();
                 $this->addFlash('error', $error);
             }
 
             if ($error === '') {
-                $this->addFlash('success', "Saved");
-
+                $this->addFlash('success', $preSuccessMsg." HTML content saved");
                 return $this->redirectToRoute('b_api_wizard_cale-html',
-                    ['uuid' => $userApi->getId(), 'intapi_uuid' => $api->getId(), 'step' => 1]);
+                    [
+                        'uuid' => $userApi->getId(),
+                        'intapi_uuid' => $api->getId()
+                    ]);
             }
         }
 
@@ -469,10 +504,99 @@ class BackendApiController extends AbstractController
                 'userapi_id' => $userApi->getId(),
                 'date_format' => $this->getUser()->getDateFormat(),
                 'hour_format' => $this->getUser()->getHourFormat(),
-                'image_path' => $api->getImagePath()
+                'image_path' => $api->getImagePath(),
+                'html_max_chars' => $htmlMaxChars,
+                'menu' => $this->menu
             ]
         );
     }
 
+
+    /**
+     * Wizard to configure HTML internal API
+     * @Route("/aws/cloudfront/{uuid}/{intapi_uuid?}/{step?1}", name="b_api_wizard_aws-cloudwatch")
+     */
+    public function apiAwsCloudwatch(
+        $uuid, $intapi_uuid, $step, Request $request,
+        UserApiRepository $userApiRepository,
+        IntegrationApiRepository $intApiRepository,
+        EntityManagerInterface $entityManager)
+    {
+        $userApi = $this->getUserApi($userApiRepository, $uuid);
+        $api = null;
+        if ($intapi_uuid !== 'new') {
+           $api = $this->getIntegrationApi($intApiRepository, $intapi_uuid);
+        }
+        if (!$api instanceof IntegrationApi) {
+            $api = new IntegrationApi();
+        }
+        $template = 'backend/api/aws/conf-aws-credentials.html.twig';
+        switch ($step) {
+            // General AWS Credentials
+            case 1:
+                $form = $this->createForm(IntegrationAwsType::class, $userApi);
+                $title = 'Setup your Amazon Credentials';
+                break;
+            // This particular AWS service
+            case 2:
+                $form = $this->createForm(IntegrationAwsCloudwatchType::class, $api);
+                $template = 'backend/api/aws/conf-cloudwatch.html.twig';
+                $title = 'Add a Cloudfront widget';
+                break;
+        }
+
+        $form->handleRequest($request);
+        $error = "";
+        $formValid = $form->isSubmitted() && $form->isValid();
+        if ($formValid) {
+            switch ($step) {
+                case 1:
+                    try {
+                        $userApi->setIsConfigured(true);
+                        $entityManager->persist($userApi);
+                        $entityManager->flush();
+                    } catch (\Exception $e) {
+                        $error = $e->getMessage();
+                        $this->addFlash('error', $error);
+                        return $this->redirectToRoute('b_api_wizard_aws-cloudwatch',
+                            ['uuid' => $userApi->getId(), 'step' => 1]);
+                    }
+                    if ($error === '') {
+                        $this->addFlash('success', "AWS Credentials saved");
+                    }
+                    return $this->redirectToRoute('b_api_wizard_aws-cloudwatch',
+                        ['uuid' => $userApi->getId(), 'intapi_uuid' => 'new', 'step' => 2]);
+                    break;
+                case 2:
+                    $api->setUserApi($userApi);
+                    try {
+                        $entityManager->persist($api);
+                        $entityManager->flush();
+                    } catch (\Exception $e) {
+                        $error = $e->getMessage();
+                        $this->addFlash('error', $error);
+                    }
+                    if ($error === '') {
+                        $this->addFlash('success', "Cloudfront metric configuration saved");
+                    }
+                    break;
+            }
+
+            return $this->redirectToRoute('b_api_wizard_aws-cloudwatch',
+                ['uuid' => $userApi->getId(), 'intapi_uuid' => $api->getId(), 'step' => 2]);
+        }
+
+        return $this->render(
+            $template,
+            [
+                'title' => $title,
+                'form' => $form->createView(),
+                'intapi_uuid' => $intapi_uuid,
+                'userapi_id' => $userApi->getId(),
+                'form_valid' => $formValid,
+                'menu' => $this->menu
+            ]
+        );
+    }
 
 }

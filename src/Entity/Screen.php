@@ -109,6 +109,23 @@ class Screen implements Created
     protected $hits;
 
     /**
+     * @ORM\Column(type="integer", name="std_from", nullable=true)
+     */
+    protected $stDayFrom;
+    /**
+     * @ORM\Column(type="integer", name="std_to", nullable=true)
+     */
+    protected $stDayTo;
+    /**
+     * @ORM\Column(type="integer", name="sth_from", nullable=true)
+     */
+    protected $stHourFrom;
+    /**
+     * @ORM\Column(type="integer", name="sth_to", nullable=true)
+     */
+    protected $stHourTo;
+
+    /**
      * @var \DateTime
      * @ORM\Column(type="datetime")
      */
@@ -124,6 +141,8 @@ class Screen implements Created
         $this->outCacheSeconds = 30;
         $this->outBitDepth = 1;
         $this->outCompressed = 0;
+        $this->stDayTo = '7';
+        $this->stHourTo = '23';
         $this->outSsl = 0;
         $this->hits = 0;
         $this->partials = new ArrayCollection();
@@ -402,6 +421,70 @@ class Screen implements Created
     public function setOutSsl(bool $ssl)
     {
         $this->outSsl = $ssl;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStDayFrom()
+    {
+        return $this->stDayFrom;
+    }
+
+    /**
+     * @param mixed $stDayFrom
+     */
+    public function setStDayFrom($stDayFrom)
+    {
+        $this->stDayFrom = $stDayFrom;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStDayTo()
+    {
+        return $this->stDayTo;
+    }
+
+    /**
+     * @param mixed $stDayTo
+     */
+    public function setStDayTo($stDayTo)
+    {
+        $this->stDayTo = $stDayTo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStHourFrom()
+    {
+        return $this->stHourFrom;
+    }
+
+    /**
+     * @param mixed $stHourFrom
+     */
+    public function setStHourFrom($stHourFrom)
+    {
+        $this->stHourFrom = $stHourFrom;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStHourTo()
+    {
+        return $this->stHourTo;
+    }
+
+    /**
+     * @param mixed $stHourTo
+     */
+    public function setStHourTo($stHourTo)
+    {
+        $this->stHourTo = $stHourTo;
     }
 
     public function __toString()

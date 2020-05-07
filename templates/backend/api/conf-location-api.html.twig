@@ -6,7 +6,12 @@
         <div class="col-md-12">
 
             {{ form_errors(form) }}
-            {{ form_row(form.name) }}
+
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form_row(form.name) }}
+                </div>
+            </div>
 
             <div class="panel panel-default" style="margin-top: 2em">
                 <div class="panel-heading" id="location_check"></div>
@@ -36,7 +41,9 @@
             </div>
             <div class="col-md-3">
                 {{ form_row(form.language) }}
-
+                <div style="margin-top: 2em">
+                    {{ form_row(form.units) }}
+                </div>
                 {{ form_widget(form.submit, {'attr':{'style':'margin-top:2.4em'}}) }}
             </div>
 

@@ -1,0 +1,53 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+    </style>
+
+    {# Event snippet for Register an account conversion page #}
+    <script>
+        gtag('event', 'conversion', {'send_to': 'AW-1065885836/ANM1CO-I08oBEIzBoPwD'});
+    </script>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <h3>{{ 'nav_3d'|trans }}</h3>
+    <p>This is our collection of housing designs ready to be 3D-printed. If you use them and you decide to make a donation
+        or to become a <a href="https://github.com/martinberlin/eink-calendar" target="_blank">github
+            <span class="glyphicon glyphicon-heart"></span> Sponsor</a> of our Eink Firmware
+        with a 2$ monthly subscription then you will also get access to the original Blender files,
+        to customize the designs as you wish.<br>
+    Please be kind and like our designs in Thingiverse or just comment if you have an idea to make it better.</p>
+    <div class="row" style="margin-top: 40px">
+        <div class="col-md-6">
+            <h4>Waveshare epaper 7.5" 800x480</h4>
+            <a href="https://www.thingiverse.com/thing:4317459" target="_blank">
+                <img src="/img/www/3dmodel/800x480_7.5_epaper.png">
+            <br>Preview and download</a><br>
+            Dimensions: 138*196*22 mm (Width/Heigth/Deep)
+        </div>
+        <div class="col-md-6">
+            <h4>Good display 5.83" 600x448</h4>
+            <a href="https://www.thingiverse.com/thing:4317459" target="_blank">
+                <img src="/img/www/3dmodel/600x448_5.8_epaper.png">
+                <br>Preview and download</a><br>
+            Dimensions: 140*140*14.8 mm
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

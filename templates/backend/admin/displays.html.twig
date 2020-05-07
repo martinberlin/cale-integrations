@@ -1,0 +1,49 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+{% block body %}
+
+  <a href="{{ path('b_admin_display_edit', {'id':null}) }}"
+     class="btn btn-default">
+    <span class="glyphicon glyphicon-plus"></span> Add new display</a>
+  <table style="border-spacing:4px;width: 100%">
+    <thead>
+    </tr>
+      <th></th>
+      <th>Type</th>
+      <th>Name</th>
+      <th>Brand</th>
+      <th>className</th>
+      <th>W x H</th>
+      <th>UserApis</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for d in displays %}
+      {% if d.type=='eink' %}
+         {% set image = d.className %}
+      {% else %}
+        {% set image = d.id %}
+      {% endif %}
+      <tr style="border:1px #1b6d85 dashed">
+        <td>
+          <img style="height:80px;margin-top: 1px" src="/assets/display/{{ image }}.jpg">
+        </td>
+        <td>{{ d.type }}</td>
+        <td>{{ d.name }}</small></td>
+        <td>{{ d.brand }}</td>
+        <td>{{ d.className }}</td>
+        <td>{{ d.width }}x{{ d.height }}</td>
+        <td><a href="{{ path('b_admin_display_edit', {'id': d.id}) }}">
+            <h3><span class="glyphicon glyphicon-edit"></span></h3></a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  <a href="{{ path('b_admin_display_edit', {'id':null}) }}"
+     class="btn btn-default">
+    <span class="glyphicon glyphicon-plus"></span> Add new display</a>
+
+{% endblock %}

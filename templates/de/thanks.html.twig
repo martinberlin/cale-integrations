@@ -1,0 +1,41 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+    </style>
+
+    {# Event snippet for Register an account conversion page #}
+    <script>
+        gtag('event', 'conversion', {'send_to': 'AW-1065885836/ANM1CO-I08oBEIzBoPwD'});
+    </script>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="row" style="margin-top: 40px">
+        <div class="col-md-4"></div>
+        <div class="col-md-5">
+            <h3>Thanks for registering in <span class="cale">CALE</span></h3>
+            <p>Version 1.0 is ready to be used. Check the <a href="{{ path('apis') }}">APIs section</a> to see the ones that are ready to be integrated.</p>
+
+            <div style="height: 40px"></div>
+            <a class="btn btn-primary" href="{{ path('login') }}">Access the backend area</a>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

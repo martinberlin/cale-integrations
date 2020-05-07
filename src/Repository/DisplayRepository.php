@@ -12,4 +12,12 @@ class DisplayRepository extends ServiceEntityRepository
         parent::__construct($registry, Display::class);
     }
 
+    public function orderByTypeAndSize()
+    {
+        return $this->createQueryBuilder('d')
+            ->orderBy('d.type', 'ASC')
+            ->addOrderBy('d.width', 'DESC')
+            ;
+    }
+
 }

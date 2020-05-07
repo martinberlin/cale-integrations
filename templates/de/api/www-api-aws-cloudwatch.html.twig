@@ -1,0 +1,80 @@
+{% extends '/base.html.twig' %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top: -2em">
+        <h2>
+            <img src="/img/svg/api-cloudwatch.svg"> Cloudwatch
+        </h2>
+        <p>
+            <span style="font-size: 20px">
+                Amazon CloudWatch ist ein Dienst zur transparenten Überwachung und Beobachtung für DevOps-Techniker, Entwickler, Site Reliability Engineers (SRE) und IT-Manager.
+
+                <span class="cale">CALE</span> können Sie Ihren Bildschirmen eine Cloudfront-Datenvisualisierung hinzufügen
+                </span><br><br>
+            Mit dem Cloudwatch-API-Modul können Sie Cloudwatch-Metriken in Ihre Bildschirme einfügen, indem Sie einfach einen kleinen Json-Text von der AWS-Konsole kopieren.
+            Wir möchten IT-Abteilungen und DevOps die Möglichkeit geben, Eink-Anzeigen zu erstellen, die alle 10 oder 20 Minuten automatisch aktualisiert werden und Ihre Instanzmetriken anzeigen.
+            Dies ist eine sehr entspannende Möglichkeit, Online-Messdaten anzuzeigen, anstatt sie ständig auf dem Monitor außerhalb Ihres Arbeitsbereichs anzuzeigen.
+        </p>
+
+        <h3>So verbinden Sie die Cloudwatch-API</h3>
+        <p>
+            <ol>
+            <li>Gehen Sie zuerst in Ihrer Amazon AWS-Konsole <a href="https://console.aws.amazon.com/cloudwatch/home" target="_blank">zu Cloudwatch</a></li>
+            <li>Erstellen Sie ein Dashboard oder wählen Sie eines der vorhandenen aus</li>
+            <li>Fahren Sie mit der Maus über das Widget, das Sie auf Ihres Screen bringen möchten, und klicken Sie auf die 3 vertikalen Punkte
+                (Widget actions <span class="glyphicon glyphicon-arrow-right"></span> Edit)</li>
+            <li>Wählen Sie die Registerkarte Quelle und klicken Sie unterhalb des Textbereichs auf das Optionsfeld <span class="glyphicon glyphicon-ok-circle"></span> Bild-API</li>
+            <li>Kopieren Sie den JSON-Text in eine Nur-Text-Datei</li>
+            <li>Weiter zum nächsten Schritt: "Integration"<br>Wiederholen Sie diesen Vorgang für jedes gewünschte Diagramm und speichern Sie es in einer temporären Textdatei.
+                Beachten Sie dabei, dass die width-Eigenschaft des JSON an Ihre Bildschirmgröße angepasst werden sollte.</li>
+        </ol>
+        </p>
+        <h3>Integrieren des Widgets in <span class="cale" style="font-weight: bolder">CALE</span></h3>
+
+        <ol>
+            <li>Melden Sie sich beim CALE Admin-Backend an und wählen Sie die API-Hauptmenüoption Neue API verbinden Amazon Cloudwatch-Überwachung
+                <span class="glyphicon glyphicon-arrow-right"></span> Connect a new API
+                <span class="glyphicon glyphicon-arrow-right"></span> Amazon Cloudwatch monitoring</li>
+            <li>Füllen Sie die 3 erforderlichen Felder aus: <a href="https://console.aws.amazon.com/iam/home#/security_credentials" target="_blank">IAM Security Credentials</a>, Kennwort und Region,
+                die Sie in den Zugriffsschlüsseln
+                für IAM-Sicherheitsanmeldeinformationen erhalten können (Beachten Sie, dass Sie Ihre Root-Anmeldeinformationen nicht verwenden müssen)
+            </li>
+            <li>Sobald der letzte Punkt vollständig ausgefüllt ist, können Sie Ihr Widget im nächsten Schritt benennen und kopieren einfach den JSON-Text, den wir im Abschnitt "Vorgehensweise", Punkt 5, abgerufen haben
+            </li>
+            </ol>
+        Danach sollten Sie in der Lage sein, eine Vorschau Ihrer Cloudfront-Metriken anzuzeigen:<br>
+
+<img src="/img/www/aws-cloudfront-cpu.png">
+
+
+        <h3>Wichtige Sicherheitserinnerung</h3>
+        <p>
+            Sie sollten Ihr Root-Konto in keinem Webdienst verwenden. CALE benötigt nur Berechtigungen, um auf Ihre Diagramme
+            zugreifen zu können.
+            Erstellen Sie einen neuen Benutzer mit CloudWatchReadOnlyAccess und beschränken Sie die Berechtigungen auf:
+            <ul>
+            <li>GetMetricStatistics</li>
+            <li>ListMetrics</li>
+        </ul>
+        <h4>Ist alles, was wir zum Rendern Ihrer Diagramme benötigen. Das ist es!</h4>
+        Wir wünschen Ihnen viel Spaß beim Hinzufügen dynamischer Widgets
+
+
+        <a id="twitter"></a><br>
+        <blockquote class="twitter-tweet">
+            <p lang="en" dir="ltr">Vídeo <a href="https://twitter.com/awscloud?ref_src=twsrc%5Etfw">@awscloud</a>
+               <a href="https://twitter.com/martinfasani/status/1239691729898536965?ref_src=twsrc%5Etfw">March 16, 2020</a>
+        </blockquote>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+        </p>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

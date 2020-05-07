@@ -1,0 +1,126 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+        body {
+            background-color: #e0e0e0;
+            color:black;
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+
+    <h3>Firmware para displays TFT displays con ESP32</h3>
+
+    <div class="panel panel-default" style="margin-top: 1em">
+                <div class="panel-heading">Acceso rápido:</div>
+                <div class="panel-body">
+    <ul>
+        <li><a href="#a1">Como compilarlo en tu ESP32</a></li>
+        <li><a href="#a2">Logear el IP Address</a></li>
+        <li><a href="#a3">Seleccionar el driver para el display TFT</a></li>
+        <li><a href="{{ path('firmware-blue') }}">Version Bluetooth del Firmware</a></li>
+        <li><a href="{{ path('firmware-t5') }}">Firmware para el Lilygo T5</a></li>
+    </ul>
+
+    </div></div>
+
+    <p>
+    <b>Nuestra misión con este servicio-web es hacer un Firmware para Epaper Firmware
+        con lo cual esta versión para TFT es solo un ejemplo de implementación para que ustedes puedan implementarlo
+    en sus propios programas.</b><br>
+        Este ejemplo muestra como hacer estas 3 cosas:<br>
+
+        <ul>
+    <li><b>Como bajar una imágen JPG</b> desde un URL externo al ESP32</li>
+    <li><b>Como se lee la imágen en un Buffer</b> que luego se envia al display (based on JPEGDecoder library examples)</li>
+    <li><b>El uso de un Token</b> de seguridad para que solo este Firmware tenga acceso al recurso (Bearer token)</li>
+    </ul>
+
+
+<br>El Firmware de código abierto esta aquí:<br>
+
+    <h4><a href="https://github.com/martinberlin/eink-calendar/tree/cale_tft">https://github.com/martinberlin/eink-calendar</a> - cale_tft branch</h4>
+    </p>
+
+    <a name="a1"></a><br><br><br><br>
+    <h4>Como compilarlo en tu ESP32 board</h4>
+
+   <p>Asumimos que tienes familiaridad con la
+       <a href="https://fasani.de/2018/11/24/platformio-an-alternative-to-arduino-ide-and-a-complete-ecosystem-for-iot/">instalación y uso del
+           editor Platformio</a>.
+
+    La configuración no es complicada. Luego de bajar el repositorio, haz una copia o renombra el fichero:<br>
+    lib/Config/Config.h.dist a<br>
+    Config.h<br><br>
+
+    y introduce tus credenciales de WiFi.<br>
+   </p>
+
+    Esta es la parte mas importante de la configuración, tienes que indicarle al programa de donde puede bajar la imágen JPG y
+    cual es el token de autorización:<br>
+
+<pre>
+    // Keep in mind this screens need a JPG image response so make sure to select a TFT display in CALE.es
+    char screenUrl[] = "http://img.cale.es/jpg/USERNAME/SCREEN_ID";
+
+    // Security setting, leave empty *only* if your screen is public (Not recommended)
+    String bearer = "";
+</pre>
+
+    <a name="a2"></a><br><br><br><br>
+    <h4><b>Logging de la IP interna del ESP32</b></h4>
+    Por defecto CALE guarda la IP interna ya que es útil para diferenciarla de las consultas que el mismo sitio hace cuando
+    renderizas tus Screens. Si por alguna razón deseas desabilitar este logging solo tienes que comentar esta linea:
+<pre>
+#define ENABLE_INTERNAL_IP_LOG
+</pre>
+
+    <a name="a3"></a><br><br><br>
+    <h4><b>Selecting the right driver for your display</b></h4>
+
+    To select the right Driver for the display you are using, first of all would be great to get familiar with the Bodmer TFT_SPI library
+    and to browse descriptions and examples. I mention that since not all the TFTs need the same pins connected and they are sufficient
+    examples but I cannot cover all configurations since I do not have all the displays to test.<br>
+    Please check the <a href="https://github.com/Bodmer/TFT_eSPI/tree/master/TFT_Drivers" target="_blank">Bodmer TFT drivers list</a> to select
+    your driver. In the example below I will be using a ILI9341_DRIVER
+
+
+    <h5><b>GPIOs for the TFT SPI interface</b></h5>
+    For this firmware we did both the display driver and the SPI pins configuration using build_flags so this goes in the
+    platformio.ini file:<br>
+    <pre>
+    ; DISPLAY_ROTATION: 0 & 2 Portrait. 1 & 3 landscape
+build_flags =
+  -DUSER_SETUP_LOADED=1
+  -DILI9341_DRIVER=1
+  -DTFT_WIDTH=240
+  -DTFT_HEIGHT=320
+  -DTFT_MOSI=23
+  -DTFT_SCLK=18
+  -DTFT_CS=32
+  -DTFT_DC=27
+  -DTFT_RST=5
+  -DSPI_FREQUENCY=40000000
+  -DDISPLAY_ROTATION=1
+    </pre>
+    Please keep in mind that USER_SETUP_LOADED tells the Bodmer TFT library to use this configuration and not a file based one.
+    
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'backend/backend-base.html.twig' %}
+{% if wifis|length >= 5 %}
+    {% set add_button_state = 'disabled' %}
+{% else %}
+    {% set add_button_state = '' %}
+{% endif %}
+
+{# TODO: Target for an include since repeats #}
+{% set txtprefix = '' %}
+{% set txtsuffix = '' %}
+{% set btnstyle = '' %}
+{% if isMobile %}
+    {% set btnstyle = 'btn-sm' %}
+    {% set txtprefix = '<small>' %}
+    {% set txtsuffix = '</small>' %}
+{% endif %}
+
+{% block body %}
+    <p>{{ txtprefix|raw }}{{'wifi_configure1'|trans}}{{ txtsuffix|raw }}.
+        {% if isMobile == false %}{{'wifi_configure2'|trans}} {{'wifi_configure3'|trans}}{% endif %}
+    </p>
+    <div class="text-right" style="margin-bottom: 0.4em">
+        <button type="button" {{ add_button_state }} class="btn btn-primary" onclick="window.location='{{ path('b_wifi_edit') }}'">
+            {{'Add new'|trans}} WiFi</button>
+    </div>
+
+
+ {% if wifis|length %}
+<table class="common-lists-table">
+    <thead>
+    <tr>
+        <th>Type</th>
+        <th>SSID</th>
+{% if isMobile == false %}
+        <th>Sort</th>
+        <th>{{'Created'|trans}}</th>
+{% endif %}
+
+        <th>Admin</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for w in wifis %}
+        <tr>
+            <td><small>{{ w.type }}</small></td>
+            <td><small>{{ w.wifiSsid }}</small></td>
+{% if isMobile == false %}
+            <td>{{ w.sortPos }}</td>
+            <td>{{ w.created|date("d.m.Y") }}</td>
+{% endif %}
+
+            <td>
+                <a class="btn {{ btnstyle }} btn-default" href="{{ path('b_wifi_edit', {'uuid':w.id}) }}">
+                    <span class="glyphicon glyphicon-edit"></span> {{'Edit'|trans}}</a> &nbsp;
+                <a class="btn {{ btnstyle }} btn-default" href="{{ path('b_wifi_delete', {'uuid':w.id}) }}">
+                    <span class="glyphicon glyphicon-remove"></span> {{'Delete'|trans}}</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+ {% else %}
+     You still don't have any WiFi configured. <a href="{{ path('b_wifi_edit') }}">{{'Add new'|trans}} WiFi</a>
+{% endif %}
+{% endblock %}

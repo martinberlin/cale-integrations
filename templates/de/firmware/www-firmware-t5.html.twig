@@ -1,0 +1,419 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+        body {
+            background-color: #e0e0e0;
+            color:black;
+        }
+    </style>
+    {# Datatables include let's make this one line #}
+        <link href="/js/datatables/datatables.css" rel="stylesheet">
+        <script src="/js/jquery/jquery-2.1.0.min.js"></script>
+        <script type="text/javascript" src="/js/datatables/datatables.min.js"></script>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+
+    <h3>Firmware für Lilygo T5/ T5S ESP32</h3>
+
+    <div class="panel panel-default" style="margin-top: 1em">
+                <div class="panel-heading">Quick access:</div>
+                <div class="panel-body">
+    <ul>
+        <li><a href="#a1">T5 Firmware repository - cale_t5 branch</a></li>
+        <li><a href="#blue">Bluetooth Firmware</a></li>
+        <li><a href="#a2">GPIO referenz</a></li>
+        <li><a href="#a3">3Dprint</a></li>
+        <li><a href="{{ path('firmware') }}">ESP32/ESP8266 Firmware ohne Bluetooth</a></li>
+    </ul>
+
+    </div></div>
+
+    <img src="/img/www/firmware/T5-2.4.png" alt="PCB of LiliGo T5 version 2.4" class="pull-right">
+    <p>
+        Lilygo ist eine chinesische Firma,  <a href="http://www.lilygo.cn/prod_view.aspx?TypeId=50031&Id=1088&FId=t3:50031:3">die T5 Boards anbietet</a>,
+        mit ESP32 und einer SPI-Schnittstelle ausgestattet sind, die bereits auf der Leiterplatte verkabelt sind.
+        Daher sollten diese Boards einen schnellen Einstieg in CALE bieten, da Sie keinen Soldaten benötigen oder nichts zusammenbauen müssen.
+        <br><br>
+                 Die Schritte werden auf zwei reduziert:
+    <ul>
+    <li><b>Besorgen Sie sich eines dieser Epaper-Displays</b></li>
+    <li><b>Bereiten Sie bis zu 3 Bildschirme vor in CALE.es</b><br>
+        Beachten Sie, dass die Bildschirmanzeige zu Ihrem T5 passen sollte. Wir haben 2,13 "250 x 122 Pixel verwendet
+    </li>
+    <li><b>Laden Sie die Firmware herunter und kompilieren Sie sie</b></li>
+    </ul>
+
+
+    <a id="a1"></a><br><br>
+<br>Die Open Source Firmware ist hier:<br>
+
+    <h4><a href="https://github.com/martinberlin/eink-calendar/tree/cale_t5">https://github.com/martinberlin/eink-calendar/tree/cale_t5</a></h4>
+    </p>
+
+    <h4>So kompilieren und laden Sie auf Ihr Board</h4>
+
+   <p>Wir gehen davon aus, dass Sie mit der Platformio IDE vertraut sind.
+
+       Die Konfiguration ist nicht kompliziert. Nach dem Download einfach umbenennen:<br>
+    lib/Config/Config.h.dist to <br>
+    Config.h<br><br>
+
+       und füllen Sie es mit Ihrem WiFi-Namen und Passwort.<br>
+   </p>
+
+    Der wichtigste Teil der Konfiguration besteht darin, die Bild-URL aus dem Abschnitt "Renderbildschirm" von CALE in die Konfiguration zu kopieren.
+    Klicken Sie einfach auf die <b> Bitmap-URL für den ESP32 </b>, um alle auszuwählen, kopieren Sie sie in die screenUrl
+    und machen Sie dasselbe mit dem <b>Bearer Token</b>, wenn Sie einen privaten Bildschirm verwenden:<br>
+
+<pre>
+// Jede Taste ist verbunden mit eine Screen in --> CALE.es
+char screen1[] = "http://img.cale.es/bmp/USERNAME/SCREENID";
+String bearer1 = "cb79cd9e55121ff8f90a28c1ee8353dc53dc27131d87_YOUR_TOKEN";
+
+char screen2[] = "http://cale.es";
+String bearer2 = "";
+
+char screen3[] = "http://cale.es";
+String bearer3 = "";
+</pre>
+
+    Da der T5 4 Tasten hat, sind 3 mit einem GPIO des ESP32 verbunden und eine Reset-Taste. Zurücksetzen wird einfach alles neu starten und
+         Die Firware ruft screen1 auf. Schaltfläche 2 fordert Sie auf, screen2 usw. abzurufen.
+    Für die T5 und T5S version mit Audio output möglichkeit haben wir Beispiele mp3 Dateien in /data Verzeichniss vorbereitet.
+    Bitte laden Sie die in ESP32 hoch:<br>
+    <pre>pio run --target uploadfs
+    </pre>
+
+    <a id="a2">GPIOs für diese Boards</a><br><br>
+    Der Eink ist bereits mit der SPI-Schnittstelle verbunden. Überprüfen Sie daher die Dokumentation in der
+    <a href="https://github.com/lewisxhe/TTGO-EPaper-Series" target="_blank"
+       data-toggle="tooltip" title="External link -> Github.com">TTGO E-Paper-Repository</a>, um zu sehen welche T5 Modell sie verwenden.
+
+    <pre>
+// Our test T5 had a 2.13" Screen, uncomment the one you have
+//#define GDEW027W3    /* TTGO T5S 2.7" b/w */
+  #define GDEH0213B73  /* TTGO T5  2.13" b/w */
+
+// 2.13 T5 v2.4
+int8_t EINK_CS = 5;
+int8_t EINK_RST  = 16;
+int8_t EINK_DC   = 17;
+int8_t EINK_BUSY = 4;
+    </pre>
+
+    <a id="blue"></a><br>
+    <h4 style="margin-top:4em">Firmware mit Bluetooth</h4>
+
+    <p>Als eine zweite möglichkeit Sie können auch diese Bluetooth version von die Firmware.
+        Da wir eine Firmware-Version erstellen wollten, mit der Sie verschiedene Zugriffspunkte verschieben und konfigurieren können, können Sie auch die Bluetooth-Version für den T5 verwenden.
+        Der einzige Nachteil ist, dass den Branch <b>master</b> derzeit keine Multi-Screen-Unterstützung wie diese bietet.<br>
+        Bitte lesen die darüber in unsere <a href="{{ path('firmware-blue') }}">Firmware mit Bluetooth</a> abteilung.</p>
+
+    <h4>GPIO referenz</h4>
+    <table id="gpios" class="table table-striped table-condensed dataTable">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>T5 V1.2 / V2.4</th>
+            <th>T5 V2.0</th>
+            <th>T5 V2.1</th>
+            <th>T5 V2.2</th>
+            <th>T5 V2.3</th>
+            <th>T5 V2.8</th>
+            <th>T5 xxxx</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>EPaper BUSY</td>
+            <td>4</td>
+            <td>4</td>
+            <td>4</td>
+            <td>4</td>
+            <td>4</td>
+            <td>4</td>
+            <td>4</td>
+        </tr>
+        <tr>
+            <td>EPaper RST</td>
+            <td>16</td>
+            <td>16</td>
+            <td>16</td>
+            <td>12</td>
+            <td>16</td>
+            <td>16</td>
+            <td>12</td>
+        </tr>
+        <tr>
+            <td>EPaper DC</td>
+            <td>17</td>
+            <td>17</td>
+            <td>17</td>
+            <td>19</td>
+            <td>17</td>
+            <td>17</td>
+            <td>13</td>
+        </tr>
+        <tr>
+            <td>EPaper CS</td>
+            <td>5</td>
+            <td>5</td>
+            <td>5</td>
+            <td>5</td>
+            <td>5</td>
+            <td>5</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>EPaper MOSI</td>
+            <td>23</td>
+            <td>23</td>
+            <td>23</td>
+            <td>23</td>
+            <td>23</td>
+            <td>23</td>
+            <td>15</td>
+        </tr>
+        <tr>
+            <td>EPaper MISO</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+        </tr>
+        <tr>
+            <td>EPaper SCLK</td>
+            <td>18</td>
+            <td>18</td>
+            <td>18</td>
+            <td>18</td>
+            <td>18</td>
+            <td>18</td>
+            <td>14</td>
+        </tr>
+        <tr>
+            <td>SDCard CS</td>
+            <td>13</td>
+            <td>13</td>
+            <td>13</td>
+            <td>13</td>
+            <td>13</td>
+            <td>13</td>
+            <td>N/A</td>
+        </tr>
+        <tr>
+            <td>SDCard MOSI</td>
+            <td>15</td>
+            <td>15</td>
+            <td>15</td>
+            <td>23</td>
+            <td>15</td>
+            <td>15</td>
+            <td>N/A</td>
+        </tr>
+        <tr>
+            <td>SDCard MISO</td>
+            <td>2</td>
+            <td>2</td>
+            <td>2</td>
+            <td>2</td>
+            <td>2</td>
+            <td>2</td>
+            <td>N/A</td>
+        </tr>
+        <tr>
+            <td>SDCard SCLK</td>
+            <td>14</td>
+            <td>14</td>
+            <td>14</td>
+            <td>18</td>
+            <td>14</td>
+            <td>14</td>
+            <td>N/A</td>
+        </tr>
+        <tr>
+            <td>Button 1</td>
+            <td>37</td>
+            <td>39</td>
+            <td>37</td>
+            <td>37</td>
+            <td>39</td>
+            <td>37</td>
+            <td>37</td>
+        </tr>
+        <tr>
+            <td>Button 2</td>
+            <td>38</td>
+            <td>N/A</td>
+            <td>38</td>
+            <td>38</td>
+            <td>N/A</td>
+            <td>38</td>
+            <td>38</td>
+        </tr>
+        <tr>
+            <td>Button 3</td>
+            <td>39</td>
+            <td>N/A</td>
+            <td>39</td>
+            <td>39</td>
+            <td>N/A</td>
+            <td>39</td>
+            <td>39</td>
+        </tr>
+        <tr>
+            <td>DAC OUT</td>
+            <td>25</td>
+            <td>N/A</td>
+            <td>25</td>
+            <td>25</td>
+            <td>N/A</td>
+            <td>Note1</td>
+            <td>N/A</td>
+        </tr>
+        <tr>
+            <td>DS3231 SDA</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>21</td>
+        </tr>
+        <tr>
+            <td>DS3231 SCL</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>22</td>
+        </tr>
+        <tr>
+            <td>LORA MOSI</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>27</td>
+        </tr>
+        <tr>
+            <td>LORA MISO</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>19</td>
+        </tr>
+        <tr>
+            <td>LORA SCLK</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>5</td>
+        </tr>
+        <tr>
+            <td>LORA CS</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>18</td>
+        </tr>
+        <tr>
+            <td>LORA RST</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>23</td>
+        </tr>
+        <tr>
+            <td>LORA DIO0</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>2N/A</td>
+            <td>26</td>
+        </tr>
+        <tr>
+            <td>SPRAM</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>supported</td>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td>supported</td>
+        </tr>
+        <tr>
+            <td>Support EPaper Size</td>
+            <td>Full Size</td>
+            <td>Full Size</td>
+            <td>Full Size</td>
+            <td>Full Size</td>
+            <td>Full Size</td>
+            <td>Full Size</td>
+            <td>Full Size</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a id="a3"></a><br><br>
+    <h3>Housing bereit für 3D-Drucken</h3>
+
+Eine Suche in Thingiverse <a href="https://www.thingiverse.com/search?q=TTGO+T5" target="_blank">mot "ttgo T5"</a>
+    bietet verschiene Housing Modellen. Wie haben zwei davon gezeichnet mit Blender:<br>
+    <ul>
+    <li>Für die 2.13 inches (250x122) EInk:<br>
+    <a href="https://www.thingiverse.com/thing:4209788" data-toggle="tooltip" title="External link -> Thingiverse"
+    target="_blank"><img src="/img/www/ttgo-t5-2-13.jpg"></a></li>
+
+        <li><a href="https://www.thingiverse.com/thing:4283328" data-toggle="tooltip" title="External link -> Thingiverse"
+               target="_blank">TTGO T5s V2.8 ESP32 2.7 housing</a></li>
+
+     </li>
+</ul>
+
+    <br>Viel erfolgt mir Ihre Projekte!
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+<script>
+    $('#gpios').dataTable();
+</script>
+{% endblock %}

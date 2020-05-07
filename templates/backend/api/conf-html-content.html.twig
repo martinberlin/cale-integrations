@@ -1,5 +1,7 @@
 {% extends 'backend/backend-base.html.twig' %}
 
+{% set remove_img_visibility = 'hidden' %}
+
 {# HTML editor include #}
 {% block stylesheets %}
     <link href="/js/summernote/summernote-lite.min.css" rel="stylesheet">
@@ -8,55 +10,106 @@
 {% endblock %}
 
 {% block body %}
+    {{ form_start(form) }}
     <div class="row">
-        {{ form_start(form) }}
+
         <div class="col-md-8 col-sm-8 col-xs-12">
 
             {{ form_errors(form) }}
             {{ form_row(form.name) }}
 
             {{ form_row(form.html) }}
+            <div class="col-xs-12 text-right" style="margin-top:1em">
+                <span id="maxCounter">HTML is limited to {{ html_max_chars }} chars</span>
+            </div>
 
-            <br>Image is optional. Supported extensions are jpg, png, gif, bmp and svg. Max size: 100 Kb
+            <br>Image is optional. Supported extensions are jpg, png, gif, bmp and svg. Max size: 150 Kb
 
             <div class="row">
                 <div class="col-md-6 col-sm-12 col-xs-12">
                     {{ form_row(form.imageFile) }}
                 </div>
-                <div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="col-md-3 col-sm-12 col-xs-12">
+                    {{ form_row(form.imageType) }}
+                </div>
+                <div class="col-md-3 col-sm-12 col-xs-12">
                     {{ form_row(form.imagePosition) }}
                 </div>
             </div>
-            {{ form_end(form) }}
+
         </div>
         <div class="col-md-4 col-sm-4 col-xs-12">PLACEHOLDERS:<br>
             Using {date} will be replaced by the actual date. The date and time format can be customized in your
             <a href="{{ path('b_user_profile') }}">user Profile</a><br>
-            Using {time} will be replaced by the time. Example: {date} &lt;b&gt;{time}&lt;/b&gt; will render:<br>
-            {{ "now"|date(date_format) }} <b>{{ "now"|date(hour_format) }}</b>
+            Using {time} will be replaced by the time. <br><b>Example:</b><br>
+            {date} {time} will render:<br>
+            {{ "now"|date(date_format) }} {{ "now"|date(hour_format) }}
 
+            <div style="margin-top: 2em;height:5em" id="note">
+            </div>
             {% if image_path != '' %}
-                <div style="margin-top: 5em">
+                {% set remove_img_visibility = 'visible' %}
+                <div style="margin-top: 2em">
                 BACKGROUND IMG:<br>
-                <img style="max-width: 100%" src="{{ image_path }}">
+                <img style="max-width: 100%" src="{{ image_path }}?{{ date().timestamp }}"><br>
                 </div>
             {% endif %}
+            {{ form_widget(form.remove_image, {'attr': {'style': 'visibility:'~remove_img_visibility} }) }}
         </div>
     </div>
+
+    {{ form_end(form) }}
 {% endblock %}
 
 {% block javascripts %}
+
     <script>
+        let image_type = document.getElementById('imageType');
+        let note = document.getElementById('note');
+        let maxchars = {{ html_max_chars }};
+        let max_counter = document.getElementById('maxCounter');
+
         $('.summernote').summernote({
             toolbar: [
                 ['style', ['bold', 'italic', 'clear']],
                 ['font', ['strikethrough', 'superscript', 'subscript']],
-                ['fontsize', ['fontsize']],
+                ['fontsize', ['fontsize','height']],
                 ['color', ['color']],
                 ['para', ['ul', 'ol', 'paragraph']],
-                ['height', ['height']],
-                ['insert', ['link', 'table']]
-            ]
+                ['insert', ['link', 'table','codeview']]
+            ],
+            callbacks: {
+                onKeydown: function (e) {
+                    var t = e.currentTarget.innerText;
+                    if (t.length >= maxchars) {
+                        //delete key
+                        if (e.keyCode != 8)
+                            e.preventDefault();
+                    }
+                },
+                onKeyup: function (e) {
+                    var t = e.currentTarget.innerText;
+                    let countdown = (maxchars - t.length);
+                    if (countdown>0) {
+                        max_counter.innerHTML = countdown;
+                    } else {
+                        countdown = countdown*-1;
+                        max_counter.innerHTML = '<span class="alert alert-danger">Max limit reached: '+countdown+' characters too much</span>';
+                    }
+
+                }
+            }
         });
+
+        image_type.onchange = function () {
+            switch (image_type.value) {
+                case 'float':
+                    note.innerText = '{{ 'image_float_note'|trans|raw }}';
+                    break;
+                case 'background':
+                    note.innerText = '{{ 'image_background_note'|trans|raw }}';
+                    break;
+            }
+        };
     </script>
 {% endblock %}

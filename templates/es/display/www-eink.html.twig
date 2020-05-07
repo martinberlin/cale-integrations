@@ -1,0 +1,78 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <h3>Displays de E-ink soportados por el Firmware</h3>
+
+
+    <table style="border-spacing:4px;width: 99%">
+        <thead>
+        </tr>
+        <th></th>
+        <th>GxEPD Display</th>
+        <th>Resolución</th>
+        <th>Enlaces</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for d in displays %}
+            {% set h = 200 %}
+            {% if d.classname == 'GDEW029T5' or d.classname == 'GDEH029A1' %}
+                {% set h = 150 %}
+            {% endif %}
+            <tr style="border:1px #1b6d85 dashed">
+                <td>
+                    <a href="{{ d.purchaseUrl }}" target="_blank"><img style="height:{{ h }}px;margin-top: 1px" src="/assets/display/{{ d.className }}.jpg"></a><br>
+                    &nbsp;<small>{{ d.brand }}</small>
+                </td>
+                <td>{{ d.name }}<br>Refresh: {{ d.timeOfRefresh }} sec.</td>
+                <td>{{ d.width }}x{{ d.height }}</td>
+
+                <td><a href="{{ d.manualUrl }}" target="_blank">webpage</a>&nbsp;
+                    <br>
+                    <button class="btn btn-primary" onclick="window.location='{{ d.purchaseUrl }}'">Buy</button>
+                </td>
+            </tr>
+        {% endfor %}
+        {# Recommended link #}
+        <tr style="border:1px #1b6d85 dashed">
+            <td>
+                <a id="recommended"></a>
+                <a href="{{ recommended_link }}" target="_blank"><img style="height:200px" src="/assets/display/T5S.jpg"></a><br>
+                &nbsp;&nbsp;<small>TTGO</small> &nbsp;&nbsp;Epaper con un ESP32 incluido y consumo en deepsleep de 0.17 mA/hora.
+                <br>&nbsp;<b>Lo recomendamos para empezar a usar <span class="cale" style="font-weight:bolder">CALE</span></b>
+            </td>
+            <td>2.7"
+            </td>
+            <td>264x176</td>
+
+            <td><a href="http://www.lilygo.cn/prod_view.aspx?TypeId=50031&Id=1088&FId=t3:50031:3" target="_blank">webpage</a>&nbsp;
+                <br>
+                <button class="btn btn-primary" onclick="window.location='{{ recommended_link }}'">Buy</button>
+            </td>
+        </tr>
+
+
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

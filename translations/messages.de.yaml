@@ -1,0 +1,287 @@
+
+# home / login
+user_email: E-Mail
+Password: Passwort
+submit_login: Anmelden
+forgot_password: Ich habe mein Passwort vergessen
+register_here: Account erstellen
+
+meta_description: CALE ist ein Bildschirmadministrator, mit dem Sie Inhalte verschiedener APIs mischen und das Bild von WiFi-Displays generieren können
+# NAV
+nav_about: Über uns
+nav_displays: E-Ink displays unterstützt
+nav_apis: Unterstützte APIs
+nav_transparently_built: Transparent gebaut
+nav_privacy: Datenschutzerklärung
+nav_google_privacy: Datenschutzrichtlinie für Daten von Google Analytics
+nav_language: Sprache
+nav_legal: Impressum
+nav_service: Unser Service
+nav_pricing: Preisgestaltung
+nav_faq: Häufig gestellte Fragen
+nav_get_started: Ersten Schritten
+nav_server_architecture: Serverarchitektur
+nav_api_cloudwatch: AWS Cloudwatch-Überwachung
+nav_3d: Gehäuse 3D-Modelle
+# NAV BACKEND
+navb_api: Inhalten
+navb_user: Benutzer
+# TITLES BACKEND
+titleb_apis: API Anbieter von Inhalten
+# Titles
+title_ical: Importieren von iCal-Kalendern
+title_firmware: ESP32-ESP8266 Firmware
+title_firmware_tft: Firmware für TFT Displays
+title_firmware_t5: Firmware für T5 ESP32-Karten
+title_firmware_blue: Konfigurieren der Firmware über Bluetooth
+title_cloudwatch: Cloudwatch-Überwachung
+title_displays_tft: TFT Displays
+# Admin dashboard
+no_screen_logs_yet: Erstellen Sie hier einige Screens, um ein Protokoll Ihrer Geräteanforderungen anzuzeigen
+logs_purged: Protokollzeilen gelöscht. Vielen Dank!
+logs_purge_tooltip: Löscht 100 Protokollzeilen
+
+# Registration
+create_account: Erstellen Sie ein Konto
+used_for_login: Dies wird für die Anmeldung verwendet
+Firstname: Vorname
+English: Englisch
+German:	Deutsch
+Spanish: Spanisch
+Catalan: Katalanisch
+French:	Französisch
+Croatian: Kroatisch
+Czech: Tschechisch
+Danish:	Dänisch
+Greek: Griechisch
+Arabic: Arabisch
+Esperanto: Esperanto
+Estonian: Estnisch
+Finnish: Finnisch
+Hebrew: Hebräisch
+Hindi: Hindi
+Hungarian: Ungarisch
+Indonesian: Indonesisch
+Icelandic: Isländisch
+Italian: Italienisch
+Japanese: Japanisch
+Georgian: Georgisch
+Kannada: Kannada
+Korean: Koreanisch
+Latvian: Lettisch
+Malayam: Malayam
+Marathi: Marathi
+Norwegian Bokmål: Norwegisches Bokmål
+Dutch: Niederländisch
+Punjabi: Punjabi
+Polish:	Polnisch
+Portuguese: Portugiesisch
+Romanian: Rumänisch
+Russian: Russisch
+Slovak: Slowakisch
+Slovenian: Slowenisch
+Serbian: Serbisch
+Swedish: Schwedisch
+Tamil: Tamil
+Telugu:	Telugu
+Turkish: Türkisch
+Ukrainian: Ukrainisch
+Urdu: Urdu
+simplified Chinese:	vereinfachtes Chinese
+Email: E-Mail
+Language of preference: Präferenzsprache
+Repeat password: Passwort wiederholen
+
+# API
+Select Api: Wählen Sie ein API
+' ': ''
+Token: Token
+Configure API: API konfigurieren
+no_apis_configured: Sie haben noch keine APIs konfiguriert
+api_configure_first: Konfigurieren Sie Ihre erste API
+apis_header: Die APIs liefern Ihrem Bildschirm frische Daten
+'Name:': 'Namen:'
+iCal URL: iCal-URL
+Encrypted before persisting: Vor dem speichern verschlüsselt
+
+# Configure
+Name your Api: Benennen Sie Ihre API
+Use a meaningful name to identify it in your list: Verwenden Sie einen aussagekräftigen Namen, um ihn in Ihrer Liste zu identifizieren
+Your timezone: Ihre Zeitzone
+Europe/Berlin:	Europe/Berlin
+Customized json settings: Benutzerdefinierte JSON-Einstellungen
+Calendar ID: Kalender-ID
+Authorization token: Autorisierungstoken
+api_response: API-Antwort
+authorize_g_calendar_1: 'Um aus Google Kalender lesen zu können, müssen Sie uns die Leseberechtigung für den Zugriff auf die Ereignisdaten erteilen.'
+authorize_g_calendar_2: 'Wenn Sie auf den unten stehenden Link klicken, werden Sie zur Autorisierungsseite weitergeleitet:'
+
+Latitude: Latitude
+Longitude: Longitude
+api_location_set: Verwenden Sie die erkannten von ihre IP-Addresse für Latitude und Longitude
+
+# Screen
+screen_render: Screen rendern
+screen_add: Füge einen Screen hinzu
+screen_add_partial: Füge einen Screen-Partials hinzu
+screen_partials: Screen-Partials
+Save screen partials: Screen-Partials speichern
+'content from:': 'Inhalt von:'
+Max results: 'max. Ergebnisse'
+Sort pos: 'Sort'
+'template area:': 'Vorlagen Spalte:'
+1st Column: erste Spalte
+2nd Column:	zweite Spalte
+3rd Column: dritte Spalte
+Invert B/Text: Textfarbe umkehren
+Text color: Textfarbe
+Background: Hintergrund
+Max. rows: max. Reihen
+Sort pos.: Sortierpos
+Screen name: Screen name
+Office Calendar: Bürokalender
+Design template: Entwurfsvorlage
+Choose a template: Wählen Sie eine Vorlage
+1 Column: 1 Spalte
+2 Columns: 2 Spalten
+2 Columns with header: 2 Spalten mit Kopfzeile
+3 Columns: 3 Spalten
+3 Columns with header: 3 Spalten mit Kopfzeile
+Output display: Ausgang Display
+Optional choose an Eink display: Optional wählen Sie ein E-Ink-Display
+Save screen: Screen speichern
+screen_edit_partials: Screen-Inhalte bearbeiten
+screen_edit_config: Screen config bearbeiten
+screen_edit_line1: Konfigurieren Sie, welche Vorlage zum Rendern Ihrer Inhalte verwendet werden soll
+screen_edit_line2: Inhaltsteile sind kleine Inhalte, in denen Ihre APIs gerendert werden
+screen_edit_configure1: Sie können bis zu
+screen_edit_configure2: Screens konfigurieren
+
+screen_partials_edit_line1: In Ihren Bildschirmen können Sie Partials hinzufügen, die den Inhalt in der von Ihnen ausgewählten Vorlagenspalte rendern
+screen_partials_edit_line2: Diese Inhaltspartials werden in aufsteigender Reihenfolge gerendert, sodass Sortierposition 1 die erste in seiner Spalte ist
+screen_partials_edit_line3: 'Bitte beachten Sie, dass Sie den Bildschirm am besten in einer E-Ink-Anzeige ausgeben möchten, um die Farben in Graustufen zu halten. Andernfalls hat die resultierende Bitmap keine 1-Bit-Tiefe (Rgb HEX: #FFFFFF und #000000)'
+screen_help_5: Klicken Sie hier, um einen neuen Inhalt von einer oder Ihren API-Verbindungen hinzuzufügen. Stellen Sie sicher, dass Sie auswählen, in welcher Spalte der ausgewählten Vorlage der Inhalt angezeigt wird
+screen_help_6: Wenn Sie mit dem Hinzufügen von Partials fertig sind, speichern Sie diese, um eine Vorschau Ihrer Auswahl anzuzeigen, und wechseln Sie dann zum Render Screen
+screen_partials_title: Verwalten Sie Partials für Screen
+screen_token_firmware_step1: Um diesem Screen in Ihrem Display zu konfigurieren, wählen Sie einem WiFi AP, als default Bluetooth config is ausgewählt
+screen_token_firmware_blue: 'Scannen sie dem QR Code in User > Api QR. Max.2 WiFis: Die Firmware stellt eine Verbindung zu dem mit mehr Signal her'
+screen_token_firmware_c: Diese Methode unterstützt nur eine WiFi-Konfiguration. Kopieren Sie die C-Konfiguration und fügen Sie sie zu Config.h
+screen_token_request: Senden Sie diesen Header in der Anfrage, um Zugriff zu erhalten
+screen_token_access_title: Zugriff für geschützte Screens
+
+# Screenshot options
+only_esp32_supported: Nur für die richtige ESP32-Firmware
+Brightness level: Helligkeitsstufe
+90 %: 90 %
+100 % default: 100 % default
+110 %: 110 %
+120 %: 120 %
+130 %: 130 %
+140 %: 140 %
+150 %: 150 %
+170 %: 170 %
+Zoom factor: Zoomfaktor
+50 %: 50 %
+60 %: 60 %
+70 %: 70 %
+80 %: 80 %
+100 %: 100 %
+cache_seconds: BMP zwischengespeichert
+2 secs: 2 sek
+30 secs: 30 sek
+1 minute: 1 Minute
+2 minutes: 2 Minuten
+3 minutes: 3 Minuten
+5 minutes: 5 Minuten
+10 minutes: 10 Minuten
+30 minutes: 30 Minuten
+1 hour: 1 Stunde
+2 hours: 2 Stunden
+Zlib compressed: Zlib komprimiert
+BMP bits depth: Bitmap Bittiefe
+1 bit: 1 Bit
+4 bit: 4 Bit
+Use HTTPS: HTTPS
+Bitsdepth: Bittiefe
+Save settings: Einstellungen speichern
+screen_no_display_message: Das Bild konnte nicht generiert werden, da für diesem Screen keine Display konfiguriert ist
+screen_add_display: Display hinzufügen
+# User profile
+Username: Benutzername
+Email used for login: Für die Anmeldung verwendete E-Mail
+'Your timezone - Save to see the hour change': 'Ihre Zeitzone - Speichern, um die Stundenänderung zu sehen'
+'Your preferred date format': 'Ihr Datumsformat'
+Hour format: Stundenformat
+
+# Generics
+Add new: Neu hinzufügen
+Edit: Bearbeiten
+saved: gespeichert
+Delete: Löschen
+Config: Config
+show: Show
+buy: Kaufen
+Submit: Speichern
+Connect a new: Neue verbinden
+Guide: Anleitung
+Add an integration: Fügen Sie eine Integration hinzu
+Name: Name
+Template: Vorlage
+Partials: Partials
+Created: Erstellt
+Integrations: Integrations
+
+#HTML editor
+HTML Content: HTML-Inhalt
+Upload an image: Bild hochladen
+Image type: Bildtyp
+background: Hintergrund
+floating: float
+Image position: Bildposition
+left: Links
+center: Mitte
+right: Rechts
+Save contents: Inhalt speichern
+image_float_note: 'Ein Float-Bildtyp ist gut, um ein Logo hinzuzufügen. Die Position sollte nur links oder rechts sein, sie schwebt nicht in der Mitte. Es bleibt über allem mit einem: <img style = "float: left">'
+image_background_note: 'Ein Hintergrundbild befindet sich unter dem HTML-Text, der zum Personalisieren eines Headers nützlich ist: <div style = "background-image: url (your / image)">'
+# API aws cloudwatch
+Key: Key
+Secret: Secret
+AWS Region: Region
+eu-central-1 Frankfurt: eu-central-1 Frankfurt
+eu-west-1 Ireland: eu-west-1 Irlanda
+eu-west-2 London: eu-west-2 Londres
+eu-west-3 Paris: eu-west-3 Paris
+eu-north-1 Stockholm: eu-north-1 Estocolmo
+us-east-1 N. Virginia: us-east-1 N. Virginia
+us-east-2 Ohio: us-east-2 Ohio
+us-west-1 N. California: us-west-1 N. California
+us-west-2 Oregon: us-west-2 Oregon
+ap-east-1 Hong Kong: ap-east-1 Hong Kong
+ap-south-1 Mumbai: ap-south-1 Mumbai
+ap-southeast-1 Singapore: ap-southeast-1 Singapur
+ap-southeast-2 Sydney: ap-southeast-2 Sydney
+ap-northeast-1 Tokyo: ap-northeast-1 Tokyo
+ap-northeast-2 Seoul: ap-northeast-2 Seoul
+ap-northeast-3 Osaka: ap-northeast-3 Osaka
+cn-north-1 Beijing: cn-north-1 Beijing
+cn-northwest-1 Ningxia: cn-northwest-1 Ningxia
+me-south-1 Bahrain: me-south-1 Bahrain
+sa-east-1 Sao Paulo: sa-east-1 San Paulo
+Save Credentials: Anmeldeinformationen speichern
+Name your Cloudwatch metric: Name des Widgets
+Image JSON definition: JSON
+#Wifi
+wifi_configure1: Hier können Sie bis zu 5 WiFi-Zugangspunkte speichern und wie "Zuhause" oder "Büro" kennzeichnen.
+wifi_configure2: Diese WiFi Passwörtern sind hier zu Einträgen mit dem Ziel, das ist einfacher mit Bluetooth die Firmware zu konfigurieren. Könnten Sie danach jederzeit löschen!
+wifi_configure3: Beachten Sie, dass die Sortierung aufsteigend ist und nur die ersten beiden automatisch als Hauptzugriffspunkte ausgewählt werden..
+#Support
+Support type: Support-Typ
+Configuring my APIs: Konfigurieren meiner APIs
+Configuring my Screens: Konfigurieren meinen Screens
+Need a new API renderer: Benötigen Sie einen neuen API
+Setting up Cloudwatch monitoring: Einrichten der Cloudwatch-Überwachung
+Found a bug in [AREA]: Fehler in [BEREICH] gefunden
+Support message: Support-Nachricht
+Send support Email: Support-E-Mail senden
+

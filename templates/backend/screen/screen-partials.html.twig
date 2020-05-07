@@ -81,7 +81,7 @@
                   <span class="glyphicon glyphicon-plus"></span> {{ 'screen_add_partial'|trans }}</button>
              </div>
             <div class="col-md-3 col-sm-6">
-            {{ form_widget(form.submit, {'attr': {'data-step': '6', 'data-intro': 'screen_help_6'|trans }}) }}
+            {{ form_widget(form.submit_top, {'attr': {'data-step': '6', 'data-intro': 'screen_help_6'|trans }}) }}
             </div>
             <div class="col-md-2 col-sm-6">
                 {% if form.partials|length %}
@@ -218,7 +218,7 @@
                     'rgb(225, 123, 7)',
                     'rgb(255, 255, 255)',
                     'rgb(244, 167, 0)',
-                    'rgb(244, 67, 54)',
+                    'rgb(255, 0, 0)',
                     'rgb(233, 30, 99)',
                     'rgb(156, 39, 176)',
                     'rgb(232, 64, 170)',

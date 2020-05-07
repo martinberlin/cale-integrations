@@ -1,0 +1,73 @@
+{% extends 'backend/backend-base.html.twig' %}
+{# HTML editor include #}
+{% block stylesheets %}
+    <link href="/js/summernote/summernote-lite.min.css" rel="stylesheet">
+    <script src="/js/jquery/jquery-2.1.0.min.js"></script>
+    <script src="/js/summernote/summernote-lite.min.js"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-8 col-sm-12 col-xs-12">
+            <h4><span class="glyphicon glyphicon-calendar"></span> Send only once every start of the week</h4>
+            {{ form_start(form) }}
+            {{ form_row(form.title) }}
+            {{ form_row(form.html) }}
+            <div class="col-xs-12 text-right" style="margin-top:1em">
+                <span id="maxCounter">HTML is limited to {{ html_max_chars }} chars</span>
+            </div>
+            {{ form_widget(form.testEmail) }} {{ form_label(form.testEmail) }}
+
+            <br>
+            {{ form_widget(form.submit) }}
+
+            {{ form_end(form) }}
+        </div>
+        <div class="col-md-4 col-sm-12 col-xs-12" style="margin-top: 0.8em">
+            <b>HINTS:</b> <br><br>
+            <b>Please note that clicking on Send newsletter without the <span class="glyphicon glyphicon-check"></span> send only</b> checkbox you are sending this to ALL the users except the ones that opted out of the list.
+        <br>Email always starts with: Hello FIRSTNAME,
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+
+<script>
+    let maxchars = {{ html_max_chars }};
+    let max_counter = document.getElementById('maxCounter');
+
+    $('.summernote').summernote({
+        toolbar: [
+            ['style', ['bold', 'italic', 'clear']],
+            ['font', ['strikethrough', 'superscript', 'subscript']],
+            ['fontsize', ['fontsize', 'height']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['insert', ['link', 'table', 'codeview']]
+        ],
+        callbacks: {
+            onKeydown: function (e) {
+                var t = e.currentTarget.innerText;
+                if (t.length >= maxchars) {
+//delete key
+                    if (e.keyCode != 8)
+                        e.preventDefault();
+                }
+            },
+            onKeyup: function (e) {
+                var t = e.currentTarget.innerText;
+                let countdown = (maxchars - t.length);
+                if (countdown > 0) {
+                    max_counter.innerHTML = countdown;
+                } else {
+                    countdown = countdown * -1;
+                    max_counter.innerHTML = '<span class="alert alert-danger">Max limit reached: ' + countdown + ' characters too much</span>';
+                }
+
+            }
+        }
+    });
+</script>
+{% endblock %}

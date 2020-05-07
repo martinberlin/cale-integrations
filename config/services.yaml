@@ -1,6 +1,10 @@
 # This file is the entry point to configure your own services.
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    version: 1.0.2
+    locales: en|es|de
+    cale_support_email: martin@cale.es
+    cale_official_email: martin@cale.es
     screen_templates:
         '1 Column':  1-col.html.twig
         '2 Columns': 2-col.html.twig
@@ -26,7 +30,7 @@ parameters:
              '1st Column': 'Column_1st'
              '2nd Column': 'Column_2nd'
              '3rd Column': 'Column_3rd'
-
+    html_max_chars: 2000
     # Notice that ../public is hardcoded in BackendApiController::apiInternalHtml
     screen_images_directory: /screenimg
     # Email config

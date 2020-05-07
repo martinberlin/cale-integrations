@@ -35,6 +35,8 @@ If you are interested in building one E-Ink calendar you can find information to
     bin/console doctrine:schema:update --dump-sql
     // Check SQL and do a --force to create tables
     
+### PHP Minimum version: 7.3
+    
 ### Thanks to:
 
 - https://wkhtmltopdf.org

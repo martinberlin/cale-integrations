@@ -26,18 +26,22 @@ class UsernameAgreementType extends AbstractType
                     'label' => 'I understand and agree with this terms',
                 ])
 
-            ->add('declineAction', SubmitType::class,
-                [
-                    'label' => "I don't agree with this please delete my account",
-                    'attr' => ['class' => 'btn btn-danger form-control', 'style' => 'margin-top:1em']
-                ])
-
             ->add('confirmAction', SubmitType::class,
                 [
                     'label' => 'Create my account',
                     'attr' => ['class' => 'btn btn-success form-control', 'style' => 'margin-top:1em']
                 ])
-            ;
+
+            ->add('declineAction', SubmitType::class,
+                [
+                    'label' => "I don't agree please delete my account",
+                    'attr' => [
+                        'class' => 'btn btn-secondary form-control',
+                        'style' => 'margin-top:1em',
+                        'tabindex' => '-1'
+                    ]
+                ])
+        ;
     }
 
     /**

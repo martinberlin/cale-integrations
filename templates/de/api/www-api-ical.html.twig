@@ -1,0 +1,44 @@
+{% extends '/base.html.twig' %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top: -2em">
+        <h2>
+            <span class="glyphicon glyphicon-calendar"></span> iCal
+        </h2>
+        <p><b>Mit der iCal (Internet Calendaring and Scheduling Core Object Specification) können Benutzer
+                Kalenderinformationen wie Ereignisse, Aufgaben, Journaleinträge und freie / geschäftige Informationen speichern und austauschen</b></p>
+        <p>Die Dateien haben normalerweise die Erweiterung <b>ics</b> und werden von einer externen URL bereitgestellt, die durch
+            Benutzername / Passwort geschützt ist. CALE unterstützt das Lesen aller iCal-Dateien in Echtzeit, um Ihre Ereignisse zu rendern. Die API befindet sich noch in einem frühen Stadium und bietet keine Optionen für mehrere Vorlagen, wird jedoch bald auf die nächste Ebene aktualisiert.
+        </p>
+        <br>
+        iCalendar wird von vielen Produkten verwendet und unterstützt, darunter:<br><br>
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <ul>
+                    <li>Google Kalender</li>
+                    <li>Lotus Notes</li>
+                    <li>Microsoft Outlook</li>
+                    <li><a href="https://luckycloud.de" target="_blank">Luckycloud</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <ul>
+                    <li>Hotmail Kalender</li>
+                    <li><a href="https://addons.thunderbird.net/en-US/thunderbird/addon/lightning/" target="_blank">Lightning</a> für Mozilla Thunderbird</li>
+                    <li>Mozilla Kalender</li>
+                    <li>und viel mehr...</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

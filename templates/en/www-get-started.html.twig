@@ -5,53 +5,75 @@
 {% endblock carousel %}
 
 {% block body %}
-    <div class="col-md-12" style="margin-top: -2em">
-        <h2>
+    <div class="col-md-9" style="margin-top: -2em">
+        <h3>
             <span class="glyphicon glyphicon-play-circle"></span>
             Get started
-        </h2>
-
-        <h3>We are working in a easy way to setup your E-Ink directly with Bluetooth
         </h3>
-        <p>But in this early stage is not yet ready to be delivered since we need more time to test
-            it and make it user friendly.
-            It will be available at end of March 2020.</p>
 
-        <h3>1. Register on this site and create a demo Screen</h3>
-        <p>Add one API like Google Calendar or Timetree that have easy configuration. Add one
-        Screen with some test display and render this to see your preview. In Screen config
-        you can easily copy the two lines that are needed for point 3.</p>
+        <h4>Compile the latest Firmware in your ESP32 and send the configuration using Bluetooth</h4>
+
+        <h4>1. <a href="{{ path('register') }}">Register on <span class="cale" style="font-weight: bolder">CALE</span></a> and create a demo Screen</h4>
+        <p><ul>
+            <li>Add one API like Google Calendar or HTML content that have easy configuration</li>
+            <li>Add one Screen with some test display and render this to see your preview</li>
+            <li>Add also one WiFi access point (Home or office WiFi)</li>
+        </ul></p>
 
         <h3>2. Get your Hardware gear</h3>
-        <p><a href="{{ path('displays') }}">One E-Ink plus any ESP32</a>. If you want to
-        test it fast without wiring just get an E-Ink with ESP32 module like TTGO T5 to
-        easily test it without needing to build it.</p>
+        <p><a href="{{ path('displays-eink') }}#recommended">One E-Ink plus any ESP32</a>. If you want to
+        test it fast without wiring just get an E-Ink with ESP32 module like TTGO T5 to easily test it without needing to build it.
+        You can skip this point until having one and also try it out without display just on any ESP32</p>
 
-        <h3>3. Download and compile the Firmware</h3>
-        <p><a href="{{ path('firmware') }}">Configuration and compiling are explained here</a>.
-        Here you can add in the Firmware config the two lines that reference your Screen from
-        point 1.</p>
+        <h4>3. Download and compile the Firmware</h4>
 
-        <h3>4. Run CALE</h3>
-        <p>At this point your E-Ink client should be connected with our CALE server. Just
+        <h4>4. Connect the Android App with <span class="cale" style="font-weight: bolder">CALE.es</span> scanning a QR Code</h4>
+        <p>Install the <a href="https://play.google.com/store/apps/details?id=io.cordova.cale" target="_blank">CALE Android App</a>.
+            <ul>
+            <li>Scan the QR Code in CALE.es after login <b>User <span class="glyphicon glyphicon-arrow-right"></span> Api QR</b></li>
+            <li>Select your Screen</li>
+            <li>Choose the ESP32 bluetooth target and click on <b>Send Config</b></li>
+            </ul>
+            At this point your E-Ink client should be connected with our CALE server. Just
         play around, add new sections/APIs, reset and test how it looks. In step 3 you can
-        decide what is the refresh </p>
+        decide what is the refresh time.</p>
 
         <a id="blue"></a><br>
         <h3>
-            <span class="glyphicon glyphicon-blackboard"></span>
-            How to configure this in the future
+            Install the Firmware
         </h3>
-        <p>When we have ready made CALE fully build E-Inks the idea is to make your
-        life easier configuring this. You will get a model with an easy one page instruction
-        manual that explains you how to set this up yourself. The idea is to make it
-            configurable using an Android Application</p>
-        <img src="/assets/svg/cale-bluetooth-conf.svg"><br><br><br>
-    <p>Coming soon to the Android store, please wait some weeks until is ready to be published.</p>
+        <p>Please more about this in our
+            <a href="{{ path('firmware-blue') }}">configuring the Firmware with Bluetooth</a>
+            section.</p>
+
+        <h4><a href="https://github.com/martinberlin/eink-calendar">https://github.com/martinberlin/eink-calendar</a> - master branch</h4>
+<br>
+        Please read the details with attention in our Firmware section. It's not hard to configure, but you need to uncomment the right definition
+        for your E-Ink display model. And that is not sent per Bluetooth, that is directly hardcoded on the Firmware, what is sent per Bluetooth is the following:
+<br><br>
+        <ol>
+            <li>Screen Url</li>
+            <li>Bearer token</li>
+            <li>WiFi credentials (up to 2)</li>
+        </ol>
+
+        Once the firmware receives this configuration per Bluetooth, it stores is in the non-volatil memory of the ESP32
+        and it does not need to be sent again unless your WiFi is changed.
+
+
+    </div>
+    <div class="col-md-3">
+        <div class="panel panel-default" style="margin-top: 1em">
+            <div class="panel-heading">Quick access:</div>
+            <div class="panel-body">
+                <ul>
+                    <li><a href="#blue">Configuring WiFi over Bluetooth</a></li>
+                </ul>
+            </div></div>
     </div>
 
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript" src="./js/engine/common.js"></script>
+    <script type="text/javascript" src="/js/engine/common.js"></script>
 {% endblock %}

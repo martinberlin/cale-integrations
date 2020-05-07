@@ -1,0 +1,144 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+        body {
+            background-color: #e0e0e0;
+            color:black;
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+
+    <h3>Firmware für Espressif ESP32 und ESP8266</h3>
+
+    <div class="panel panel-default" style="margin-top: 1em">
+                <div class="panel-heading">Quick access:</div>
+                <div class="panel-body">
+    <ul>
+        <li><a href="{{ path('firmware-blue') }}">Firmware mit Bluetooth</a></li>
+        <li><a href="{{ path('firmware-t5') }}">TTGO T5 Firmware mit 3 Screens</a></li>
+        <li><a href="#a1">C++ Repository - cale branch</a></li>
+        <li><a href="#a2">Config referenz</a></li>
+        <li><a href="#a3">Die richtige library für ihre Display Modell auswählen</a></li>
+        <li><a href="#s_esp32">Schaltpläne ESP32</a></li>
+        <li><a href="#s_esp8266">Schaltpläne ESP8266</a></li>
+    </ul>
+
+    </div></div>
+
+    <p>
+    <b>Wir glauben, dass embedded Software solide, einfach und sicher sein muss.</b><br><br>
+        In dieser Version war die Entscheidung, alles wegzulassen und nur das Wesentliche zu belassen, das heißt: <br>
+
+        <ul>
+    <li> <b>Eine Möglichkeit, ein Binärbild von einer externen URL in ESP32 / ESP8266</b> (WiFi.h / WiFiClient.h) zu streamen </li>
+         <li> <b>Ein Interpreter, der diese Bitmap liest </b> und einen Puffer für die Anzeige vorbereitet (basierend auf Beispielen der gxEPD-Bibliothek) </li>
+         <li> <b>Ein Autorisierungstoken</b>, um sicherzustellen, dass Sie Ihre Kalenderereignisse nicht für die Welt offen lassen müssen (Inhaber-Token) </li>
+    </ul>
+    Der Teil, der noch nicht vollständig getestet und daher in dieser Version nicht enthalten ist, besteht darin, den WiFi
+    Secure Client hinzuzufügen, damit wir dieses Token mit TLS-Verschlüsselung über die sichere Socket-Schicht senden können.
+    <a name="a1"></a><br><br>
+<br>Die Open Source Firmware ist hier:<br>
+
+    <h4><a href="https://github.com/martinberlin/eink-calendar/tree/cale">https://github.com/martinberlin/eink-calendar</a> - cale branch</h4>
+    </p>
+
+    <h4>So kompilieren und laden Sie auf Ihr Board</h4>
+
+   <p>Wir gehen davon aus, dass Sie mit der Installation von
+       <a href="https://fasani.de/2018/11/24/platformio-an-alternative-to-arduino-ide-and-a-complete-ecosystem-for-iot/">
+           Platformio vertraut sind</a>, einer großartigen IDE zum Hochladen von Firmware auf Ihre Boards und zum Beibehalten
+       Ihrer Abhängigkeiten in Ihrem Projekt.
+<br><br>
+       Die Konfiguration ist nicht kompliziert. Nach dem Download einfach umbenennen:<br>
+    lib/Config/Config.h.dist zu <br>
+    Config.h<br><br>
+
+       und füllen Sie es mit Ihrem WiFi-Namen und Passwort.<br>
+   </p>
+
+         Der wichtigste Teil der Konfiguration besteht darin, die Bild-URL aus dem Abschnitt "Renderbildschirm" von CALE in die Konfiguration zu kopieren.
+         Klicken Sie einfach auf die <b> Bitmap-URL für den ESP32 </ b>, um alle auszuwählen, kopieren Sie sie in die screenUrl und machen Sie dasselbe mit dem <b> Bearer-Token </b>,
+    wenn Sie einen privaten Bildschirm verwenden:<br>
+
+<pre>
+    char screenUrl[] = "http://img.cale.es/bmp/USERNAME/SCREEN_ID";
+
+    // Security setting, leave empty *only* if your screen is public (Not recommended)
+    String bearer = "";
+</pre>
+
+    <a name="a2"></a><br><br><br><br>
+    <h5><b>Protokollierung der internen ESP32-IP-Adresse</b></h5>
+         Standardmäßig protokolliert CALE die interne IP-Adresse, da dies für Statistiken und zum Identifizieren Ihrer
+    Geräteimage-Anforderungen anhand der Administrations-Image-Anforderungen hilfreich sein kann.
+    Wenn Sie dies aus irgendeinem Grund deaktivieren möchten, kommentieren Sie einfach diese Zeile in der Konfigurationsdatei:
+<pre>
+#define ENABLE_INTERNAL_IP_LOG
+</pre>
+
+    <a name="a3"></a><br><br><br>
+    <h5><b>Auswahl des richtigen Treibers für Ihr Display</b></h5>
+    Wir haben die Konfigurationsdatei so vorbereitet, dass Sie einfach eine einzelne Zeile auskommentieren können, um die richtige gxEPD-Klasse für Ihre Anzeige auszuwählen.
+         Um beispielsweise ein Waveshare- oder Good-Display 7,5 mit 800 x 480 Pixel zu verwenden,
+    kommentieren Sie Folgendes aus:
+
+    <pre>
+#define GDEW075T7    // 7.5" b/w 800x480
+</pre>
+
+    Lassen Sie alle anderen Modelle kommentiert.
+    Auf diese Weise fügen Sie bereits das richtige Include für Ihr E-Ink-Display ein.
+
+    <h5><b>GPIOs für die E-Ink SPI-Schnittstelle</b></h5>
+    Die Verkabelung des E-Ink SPI mit der Espressif-Karte ist nicht besonders kompliziert. Das E-Ink SPI verfügt über 6 Kabel plus Fahrgestellnummer, die an die 3,3 V Ihrer Platine plus Masse angeschlossen werden sollten.
+    Die E-Ink verbraucht sehr wenig, sodass Sie dies immer mit dem USB testen können, bis Sie sich für den Anschluss eines Lipo 3.7V-Akkus entscheiden.
+
+    <pre>
+    // Configuration example for ESP32 TinyPICO:
+    int8_t EINK_CS = 5;
+    int8_t EINK_DC = 22;
+    int8_t EINK_RST = 21;
+    int8_t EINK_BUSY = 4;
+
+    // Behandelt die Drehung der Display
+    int8_t eink_rotation = 0;
+    </pre><br><br>
+
+    Bei Verwendung der gxEPD-Bibliothek sollte das DataIn vom Display mit MOSI auf Ihrer Karte verbunden sein (in ESP32 ist GPIO 23)
+         Die Anzeigetakt sollte im ESP32 (CLK) mit GPIO 18 verbunden sein.
+         Bitte überprüfen Sie die folgenden Schaltpläne, um zu verstehen, wie die E-Ink SPI-Schnittstelle mit der Espressif-Karte verbunden werden soll.
+
+    <h4>Halten Sie Ihre Ereignisse und API-Inhalte privat </h4>
+
+    Beachten Sie, dass wir die Verwendung öffentlicher Bildschirme nicht empfehlen, da Ihr Kalender möglicherweise private Informationen wie Ereignisse enthält.
+         Banküberweisungen Anmerkungen oder Arzttermine, die Sie nicht für die Welt öffnen sollten, um zu sehen. Verwenden Sie also immer ein Sicherheitstoken.
+    <a name="s_esp32"></a><br>
+
+    <h4>ESP32 Schematic</h4>
+    <p>Sie können jedes ESP32 verwenden. Die einzige Voraussetzung, wenn Ihr CALE eine lange Akkulaufzeit haben soll, ist, dass er im Tiefschlafmodus weniger als 0,8 mA verbraucht.</p>
+    <img src="/assets/svg/schematic-cale-esp32.svg" width="100%">
+
+    <a name="s_esp8266"></a><br>
+    <h4>ESP8266 Schematic</h4>
+    <img src="/assets/svg/schematic-cale-esp8266.svg" width="100%">
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

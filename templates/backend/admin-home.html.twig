@@ -11,38 +11,56 @@
 {% block body %}
     <div class="row">
 
+{% if isMobile == false %}
         <div class="col-md-5 col-sm-5 col-xs-12">
-            <p>Click here if you want to understand the sections of the admin for a small on-boarding tour:</p>
-            <button class="btn btn-default" onclick="introJs().start();">
+            <small>Click here if you want to understand the sections of the admin for a short on-boarding tour</small>
+            <div class="text-center" style="margin-bottom:1em">
+                <button class="btn btn-default" onclick="introJs().start();">
                 <span class="glyphicon glyphicon-question-sign"></span> Give me an Admin-tour</button>
-
-            <ul>
+            </div>
+Recommended steps to start:
+            <ol>
                 <li>
-                    <h4>
-                        Step 1 <a href="{{ path('b_api_configure') }}">Configure your APIs</a>
-                    </h4>
+                    <h4><a href="{{ path('b_api_configure') }}">Configure your APIs</a></h4>
                 </li>
 
                 <li>
-                    <h4>
-                        Step 2 <a href="{{ path('b_screens') }}">Setup Screens and content partials</a>
-                    </h4>
+                    <h4><a href="{{ path('b_screen_edit') }}">Setup your Screen and select a template</a></h4>
                 </li>
-
                 <li>
-                    <h4>
-                        Step 3 Preview your screens with your content and get an image link that you can use on your connected devices
-                    </h4>
+                    <h4><a  href="{{ path('b_wifi_edit') }}">Add your WiFi Access points</a></h4>Only if you will use a WiFi display otherwise skip this step.
                 </li>
-            </ul>
+                <li>
+                    <h4>Screen <span class="glyphicon glyphicon-arrow-right"></span> Content partials add your APIs to the template columns</h4>
+                    We recommend to start adding the HTML Api since has no requirements.
+                </li>
+                <li>
+                    <h4>Preview your Screens in "Render Screen"</h4>
+                    Play around with the output options to get familiar with them
+                </li>
+            </ol>
 
+            <small>If you like the output and would like to use this in a WiFi display then you can try our Firmware.
+                If you need support just send us an email using the <b>User <span class="glyphicon glyphicon-arrow-right"></span> Get support</b> option.
+                In case you want to have a custom solution to your business or that a new API is implemented please get in touch.
+                Your feedback matters: Only with your input I can improve this and make it a better experience for everyone. This Screen web service will remain open source and free for personal use, as long as
+                I can personally and financially mantain the project. And I will, from time to time, send weekly newsletters and give away displays I already tested.
+           <br>Please keep in mind that I don't like invading user space if there is no information to show. If you add Google Calendar,
+            but there are no future events, your Screen will be blank in that section. This message will also dissapear soon following this principle!
+                <br>Stay tuned,
+                <br>
+                <b>Martin Fasani</b> - PHP Engineer and creator of CALE
+            </small>
 
+            <br><br>
+Admin version: v{{ version }}
         </div>
+{% endif %}
 
         <div class="col-md-7 col-sm-7 col-xs-12">
             <h4>Screen log</h4>
         {% if (hasScreen) %}
-        <div class="row" style="height: 66px">
+        <div class="row">
             <div class="col-md-4 col-sm-6 col-xs-12">
             <input id="autorefresh" type="checkbox" data-toggle="toggle">
                 <span class="glyphicon glyphicon-refresh"></span>
@@ -70,6 +88,7 @@
 {% block javascripts %}
     <script>
         screenLogTable = 'screen_log';
+        let isMobile = ('{{ isMobile }}'==='1')?true:false;
         let refreshes = 0;
         let autorefresh = 0;
         let t;
@@ -77,6 +96,10 @@
         let autoLabel = document.getElementById('autorefresh-label');
         let response_msg = document.getElementById('response_msg');
         let interval;
+        let tableJson = '{{ path('b_json_datatables', {'type': 'screen_log'}) }}';
+        if (isMobile) {
+            tableJson = '{{ path('b_json_datatables', {'type': 'screen_log_mobile'}) }}';
+        }
     if (isElement(document.getElementById(screenLogTable))) {
         tableScreenLog()
     }
@@ -91,7 +114,7 @@
 
     function tableScreenLog() {
         var data, tableName = '#screen_log', columns, str,
-            jqxhr = $.ajax('{{ path('b_json_datatables', {'type': 'screen_log'}) }}')
+            jqxhr = $.ajax(tableJson)
                 .done(function () {
                     data = JSON.parse(jqxhr.responseText);
                     if (!refreshes) {
@@ -101,14 +124,29 @@
                         });
 
                     }
-                    data.columns[0].render = function (data) {
-                        return '<small>' + data + '</small>';
-                    };
+
                     data.columns[3].render = function (data, type, row) {
-                        return formatBytes(data);
+                        return '<small>' +formatBytes(data)+ '</small>';
                     };
 
-                    refreshLogTable(tableName, data, [[1, 'desc'], [5, 'desc']]);
+                    if (isMobile) {
+                        data.columns[0].render = function (data) {
+                            return '<small>' + data + '</small>';
+                        };
+                        data.columns[1].render = function (data) {
+                            return '<small>' + data + '</small>';
+                        };
+                        data.columns[2].render = function (data) {
+                            return '<small>' + data + '</small>';
+                        };
+                        data.columns[4].render = function (data) {
+                            return '<small>' + data + '</small>';
+                        };
+                        refreshLogTable(tableName, data, [[1, 'desc']]);
+                    } else {
+                        refreshLogTable(tableName, data, [[1, 'desc'], [5, 'desc']]);
+                    }
+
                 })
                 .fail(function (jqXHR, exception) {
                     var msg = '';
