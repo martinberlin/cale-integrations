@@ -2,7 +2,9 @@
 namespace App\Controller;
 
 use App\Entity\Display;
+use App\Entity\ShippingTracking;
 use App\Form\UsernameAgreementType;
+use App\Repository\ShippingTrackingRepository;
 use App\Repository\SysScreenLogRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
@@ -37,15 +39,30 @@ class BackendController extends AbstractController
     /**
      * @Route("/", name="b_home")
      */
-    public function home(Request $request)
+    public function home(Request $request, ShippingTrackingRepository $shipRepository, EntityManagerInterface $entityManager)
     {
+        if ($request->get('received')) {
+            $shipment = $shipRepository->findOneBy(['tracking'=>$request->get('received')]);
+            if ($shipment instanceof ShippingTracking ===false) {
+                $this->addFlash('error', 'Sending with tracking '.$request->get('received').' not found');
+            } else {
+                $shipment->setStatus('received');
+                $shipment->setArchived(true);
+                $entityManager->persist($shipment);
+                $entityManager->flush();
+                $this->addFlash('success', 'Package marked as received. Thanks!');
+            }
+        }
+        $shippings = $shipRepository->getForUser($this->getUser());
+        
         return $this->render(
             'backend/admin-home.html.twig',
             [
                 'title' => 'User dashboard',
                 'version' => $this->getParameter('version'),
                 'hasScreen' => count($this->getUser()->getScreens()),
-                'isMobile' => $this->isMobile($request),
+                'isMobile'  => $this->isMobile($request),
+                'shippings' => $shippings,
                 'menu' => 'user'
             ]
         );

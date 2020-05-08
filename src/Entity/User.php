@@ -567,6 +567,10 @@ class User implements UserInterface, Language, Created
         $this->apiKey = $a;
     }
 
+    public function getIdFirstname()
+    {
+        return (string) $this->id.'-'.$this->firstname;
+    }
 
     public function __toString()
     {

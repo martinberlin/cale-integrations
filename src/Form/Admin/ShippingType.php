@@ -60,6 +60,7 @@ class ShippingType extends AbstractType
                 [
                     'label' => 'User',
                     'class' => User::class,
+                    'choice_label' => 'idFirstname',
                     'required' => true,
                     'attr' => [
                         'class' => 'form-control'

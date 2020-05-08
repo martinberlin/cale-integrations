@@ -233,13 +233,15 @@ class BackendAdminController extends AbstractController
     public function shipping(ShippingTrackingRepository $shipRepository)
     {
         $ships = $shipRepository->findAll();
+        $total = $shipRepository->totalCosts();
 
         return $this->render(
             'backend/admin/shipping.html.twig',
             [
                 'title' => 'List shipping',
                 'ships' => $ships,
-                'menu' => $this->menu
+                'total' => $total,
+                'menu'  => $this->menu
             ]
         );
     }
