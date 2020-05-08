@@ -54,7 +54,7 @@ class BackendController extends AbstractController
             }
         }
         $shippings = $shipRepository->getForUser($this->getUser());
-        
+
         return $this->render(
             'backend/admin-home.html.twig',
             [

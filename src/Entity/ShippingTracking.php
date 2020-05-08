@@ -105,6 +105,8 @@ class ShippingTracking implements Created
         $this->uuid = uniqid();
         $this->status = 'in_preparation';
         $this->setCreated(new \DateTime());
+        $this->archived = false;
+        $this->costManufacturing = 0;
     }
 
     /**
