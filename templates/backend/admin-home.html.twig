@@ -23,34 +23,49 @@
     <div class="panel panel-default">
         <div class="panel-heading"><img style="float: right" src="/assets/svg/admin/shipping.svg">We sent a package to you</div>
         <div class="panel-body">
+
+            {% for s in shippings %}
             <table style="border-spacing:4px;width: 100%">
                 <thead>
                 <tr>
-                    <th>Sent</th>
+                    <th style="width: 30%">Sent</th>
                     <th>Tracking</th>
-                    <th>Status</th>
-                    <th>Description</th>
-                    <th></th>
+                    <th>Shipped by</th>
                 </tr>
                 </thead>
                 <tbody>
-            {% for s in shippings %}
                 <tr>
                     <td>{{ s.created|date('M.d') }}</td>
                     <td>{% if s.sentBy == 'hermes' %}
                             {% set linkPre = 'https://www.myhermes.de/empfangen/sendungsverfolgung/sendungsinformation/#' %}
                         {% endif %}
-                        <a href="{{ linkPre ~ s.tracking }}">{{ s.tracking }}</a></td>
+                        <a  data-toggle="tooltip" title="Click to track order"
+                            href="{{ linkPre ~ s.tracking }}">{{ s.tracking }}</a></td>
+                    <td>{{ s.sentBy|capitalize }}</td>
+                </tr>
+                </tbody>
+            </table>
+            <table style="border-spacing:4px;width: 100%">
+                <thead>
+                <tr>
+                    <th style="width: 30%">Status</th>
+                    <th>Description</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
                     <td>{{ s.status }}</td>
                     <td>{{ s.description }}</td>
-                    <td>
+                    <td class="text-right">
                         <a class="btn btn-default" href="{{ path('b_home') }}?received={{ s.tracking }}">
                             <span class="glyphicon glyphicon-home"></span> Confirm goods received</a>
                     </td>
                 </tr>
-            {% endfor %}
                 </tbody>
                 </table>
+            {% endfor %}
+
         </div>
     </div>
 
