@@ -12,6 +12,8 @@
       <th>Tracking ID</th>
       <th>Country</th>
       <th>Description</th>
+      <th>Cost Ship</th>
+      <th>Cost Hard</th>
       <th>Status</th>
     </tr>
     </thead>
@@ -29,13 +31,19 @@
         </td>
         <td><small>{{ a.countryCode }}</small></td>
         <td><small>{{ a.description }}</small></td>
+        <td><small>{{ a.costShip }}</small></td>
+        <td><small>{{ a.costHardware }}</small></td>
         <td>{{ a.status }}</td>
         <td><a href="{{ path('b_admin_shipping_edit', {'id': a.id}) }}">
             <h3><span class="glyphicon glyphicon-edit"></span></h3></a>
         </td>
       </tr>
     {% endfor %}
+
     </tbody>
   </table>
 
+  <a href="{{ path('b_admin_shipping_edit', {'id':null}) }}"
+     class="btn btn-default">
+    <span class="glyphicon glyphicon-plus"></span> Add new tracking</a>
 {% endblock %}

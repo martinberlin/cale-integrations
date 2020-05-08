@@ -194,7 +194,7 @@ class User implements UserInterface, Language, Created
     }
 
     public function setUpdated(\DateTime $dateTime = null) {
-        $this->uddated = $dateTime;
+        $this->updated = $dateTime;
     }
 
     public function getUpdated() {

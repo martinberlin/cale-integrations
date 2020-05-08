@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -86,10 +87,34 @@ class ShippingType extends AbstractType
                     'choices' => $options['countries'],
                     'attr' => ['class' => 'form-control']
                 ])
-            ->add('description', TextType::class,
+            ->add('description', TextareaType::class,
                 [
                     'label' => 'What was sent',
                     'attr' => ['class' => 'form-control']
+                ])
+            ->add('costShip', TextType::class,
+                [
+                    'label' => 'cost Shippping',
+                    'attr' => [
+                        'placeholder' => '1.00',
+                        'class' => 'form-control'
+                    ]
+                ])
+            ->add('costHardware', TextType::class,
+                [
+                    'label' => 'cost Hardware',
+                    'attr' => [
+                        'placeholder' => '1.00',
+                        'class' => 'form-control'
+                    ]
+                ])
+            ->add('costManufacturing', TextType::class,
+                [
+                    'label' => 'cost Manufacturing',
+                    'attr' => [
+                        'placeholder' => '1.00',
+                        'class' => 'form-control'
+                    ]
                 ])
 
             ->add('submit', SubmitType::class,

@@ -2,9 +2,7 @@
 namespace App\Entity;
 
 use App\Entity\Model\Created;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * An User can have more than one package sent
@@ -63,6 +61,34 @@ class ShippingTracking implements Created
     protected $description;
 
     /**
+     * @var string
+     * cost shipping
+     * @ORM\Column(name="cost_shipping",type="decimal", precision=7, scale=2, nullable=true)
+     */
+    protected $costShip;
+
+    /**
+     * @var string
+     * cost of hardware
+     * @ORM\Column(type="decimal", precision=7, scale=2, nullable=true)
+     */
+    protected $costHardware;
+
+    /**
+     * @var string
+     * cost of hardware
+     * @ORM\Column(type="decimal", precision=7, scale=2, nullable=true)
+     */
+    protected $costManufacturing;
+
+    /**
+     * On true this will not be seen anymore for the user
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    protected $archived;
+
+    /**
      * @var \DateTime
      * @ORM\Column(type="datetime")
      */
@@ -77,7 +103,7 @@ class ShippingTracking implements Created
     function __construct()
     {
         $this->uuid = uniqid();
-        $this->status = 'in preparation';
+        $this->status = 'in_preparation';
         $this->setCreated(new \DateTime());
     }
 
@@ -86,12 +112,11 @@ class ShippingTracking implements Created
      * @ORM\PreUpdate()
      */
     public function updateModifiedDatetime() {
-        // update the modified time
         $this->setUpdated(new \DateTime());
     }
 
     public function setUpdated(\DateTime $dateTime = null) {
-        $this->uddated = $dateTime;
+        $this->updated = $dateTime;
     }
 
     public function getUpdated() {
@@ -210,4 +235,58 @@ class ShippingTracking implements Created
         $this->description = $d;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCostShip():?string
+    {
+        return $this->costShip;
+    }
+
+    public function setCostShip(string $c)
+    {
+        $this->costShip = $c;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCostHardware():?string
+    {
+        return $this->costHardware;
+    }
+
+    public function setCostHardware(string $c)
+    {
+        $this->costHardware = $c;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCostManufacturing():?string
+    {
+        return $this->costManufacturing;
+    }
+
+    public function setCostManufacturing(string $c)
+    {
+        $this->costManufacturing = $c;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isArchived(): bool
+    {
+        return $this->archived;
+    }
+
+    /**
+     * @param boolean $isArchived
+     */
+    public function setArchived(bool $isArchived)
+    {
+        $this->archived = $isArchived;
+    }
 }
