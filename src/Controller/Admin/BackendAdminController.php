@@ -113,7 +113,7 @@ class BackendAdminController extends AbstractController
         $emailUser = $this->getUser()->getEmail();
         $emailTest = ($_ENV['EMAIL_TEST']) ? $_ENV['EMAIL_TEST'] : $emailUser;
         $form = $this->createForm(NewsletterType::class, null,
-            ['html_max_chars' => $maxChars, 'email_from' => $emailFrom, 'test_email' => $emailUser]);
+            ['html_max_chars' => $maxChars, 'email_from' => $emailFrom, 'test_email' => $emailTest]);
         $form->handleRequest($request);
         $formSubmitted = $form->isSubmitted() && $form->isValid();
         $error = '';
@@ -121,15 +121,14 @@ class BackendAdminController extends AbstractController
         if ($formSubmitted) {
             $title = $form->get('title')->getViewData();
             $body = $form->get('html')->getViewData();
-            $testEmail = $form->get('testEmail')->getViewData();
+            $testEmailFlag = $form->get('testEmail')->getViewData();
             $users = $userRepository->findBy(['doNotDisturb' => false]);
             $sentCount = 0;
 
             foreach ($users as $user) {
-                if ($testEmail && $sentCount>0) break;
-                if ($testEmail) {
-                    $emailFrom = $emailTest;
-                    $emailTo = $emailUser;
+                if ($testEmailFlag && $sentCount>0) break;
+                if ($testEmailFlag) {
+                    $emailTo = $emailTest;
                 } else {
                     $emailTo = $user->getEmail();
                 }
