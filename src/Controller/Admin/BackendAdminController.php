@@ -109,7 +109,9 @@ class BackendAdminController extends AbstractController
     {
         $maxChars = 5000;
         $emailFrom = $this->getParameter('cale_official_email');
+
         $emailUser = $this->getUser()->getEmail();
+        $emailTest = ($_ENV['EMAIL_TEST']) ? $_ENV['EMAIL_TEST'] : $emailUser;
         $form = $this->createForm(NewsletterType::class, null,
             ['html_max_chars' => $maxChars, 'email_from' => $emailFrom, 'test_email' => $emailUser]);
         $form->handleRequest($request);
@@ -125,7 +127,12 @@ class BackendAdminController extends AbstractController
 
             foreach ($users as $user) {
                 if ($testEmail && $sentCount>0) break;
-
+                if ($testEmail) {
+                    $emailFrom = $emailTest;
+                    $emailTo = $emailUser;
+                } else {
+                    $emailTo = $user->getEmail();
+                }
                 $message = (new \Swift_Message($title))
                     ->setFrom($emailFrom)
                     ->setBody(
@@ -139,12 +146,6 @@ class BackendAdminController extends AbstractController
                         ),
                         'text/html'
                     );
-
-                if ($testEmail) {
-                    $emailTo = $emailUser;
-                } else {
-                    $emailTo = $user->getEmail();
-                }
                 $message->setTo($emailTo);
 
                 if (!$mailer->send($message, $failures)) {
