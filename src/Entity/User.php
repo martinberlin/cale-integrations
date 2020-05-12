@@ -181,7 +181,7 @@ class User implements UserInterface, Language, Created
         $this->userShippings = new ArrayCollection();
         $this->doNotDisturb = false;
         $this->setCreated(new \DateTime());
-        $this->apiKey = strtoupper(hash("ripemd160", $this->id.$this->email.time()));
+        $this->apiKey = strtoupper(hash("ripemd160", time()));
     }
 
     /**
