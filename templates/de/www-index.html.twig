@@ -51,6 +51,21 @@
 
         <h3>Screen generation für einem <a href="{{ path('displays-eink') }}">E-Ink WiFi display</a></h3>
         <img src="{{ bmp_cloudwatch }}" width="100%"><br>
+
+        <a href="https://play.google.com/store/apps/details?id=io.cordova.cale" target="_blank" title="CALE Android application">
+            <img src="/assets/www/firmware/cale_app_1.jpg" style="margin-top:1.6em;margin-right:19px" alt="CALE Android app" class="pull-right"></a>
+
+        <h4>Um Ihre App mit unserem Web-Service zu synchronisieren, erstellen Sie einfach ein Konto und gehen Sie folgendermaßen vor:</h4>
+<ol>
+    <li>Laden Sie die
+        <a href="https://play.google.com/store/apps/details?id=io.cordova.cale" target="_blank">CALE Android App herunter</a></li>
+    <li>Konfigurieren Sie einen Testbildschirm, der einem Eink-Display zugeordnet ist, und einen WLAN-Zugangspunkt</li>
+    <li>Aktivieren Sie Bluetooth auf Ihrem Android-Gerät und melden Sie sich bei CALE BACKEND an</li>
+    <li>Scannen Sie den QR-Code, den Sie unter User My API QR-Code sehen können</li>
+    <li>Wählen Sie den zuvor erstellten Bildschirm aus, wählen Sie das ESP32-Bluetooth-Ziel aus und senden Sie die Konfiguration über Bluetooth</li>
+    <li>Nachdem das Espressif-Board seinen WLAN-AP erhalten hat, wird er online geschaltet und lädt das Bildschirmbild herunter.</li>
+</ol>
+        Es sollte das Epaper-Display auffrischen und bis zum nächsten Aufwachen in den Schlafmodus wechseln.
     </div>
     </div>
 
