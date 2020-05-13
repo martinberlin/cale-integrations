@@ -10,7 +10,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @ORM\Table(name="app_user", uniqueConstraints={@ORM\UniqueConstraint(name="name_idx", columns={"name"})})
+ * @ORM\Table(name="app_user",
+ *     uniqueConstraints={@ORM\UniqueConstraint(name="name_idx", columns={"name"}),@ORM\UniqueConstraint(name="apikey_idx", columns={"api_key"})})
  * @UniqueEntity("email")
  * @ORM\HasLifecycleCallbacks
  */
