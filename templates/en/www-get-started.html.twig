@@ -42,14 +42,13 @@
         <h3>
             Install the Firmware
         </h3>
-        <p>Please more about this in our
-            <a href="{{ path('firmware-blue') }}">configuring the Firmware with Bluetooth</a>
-            section.</p>
+        <p>Repository:<br>
 
         <h4><a href="https://github.com/martinberlin/eink-calendar">https://github.com/martinberlin/eink-calendar</a> - master branch</h4>
 <br>
-        Please read the details with attention in our Firmware section. It's not hard to configure, but you need to uncomment the right definition
-        for your E-Ink display model. And that is not sent per Bluetooth, that is directly hardcoded on the Firmware, what is sent per Bluetooth is the following:
+         It's an easy configuration. The most important is uncomment the right definition
+        for your E-Ink display model. That configuration is not sent per Bluetooth, but directly hardcoded on the Firmware,
+        so the controller knows how to send data to the Epaper display. What is sent per Bluetooth is the following:
 <br><br>
         <ol>
             <li>Screen Url</li>
@@ -60,7 +59,9 @@
         Once the firmware receives this configuration per Bluetooth, it stores is in the non-volatil memory of the ESP32
         and it does not need to be sent again unless your WiFi is changed.
 
-
+        Please more about the configuration details in our
+        <a href="{{ path('firmware-blue') }}">configuring the Firmware with Bluetooth</a>
+        section.
     </div>
     <div class="col-md-3">
         <div class="panel panel-default" style="margin-top: 1em">

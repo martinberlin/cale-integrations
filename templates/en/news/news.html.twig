@@ -33,7 +33,10 @@
             the one that was done after the <a href="https://hackaday.io/project/169086" target="_blank">Eink Hackaday project</a>,
             with hardcoded configuration and support for the ESP8266 has been updated.<br>
         Now it supports Service times, so it won't refresh at nights, and also goes to sleep as soon as the Epaper is rendered.
-        One user reported up to 45 days of operational time with a 3000 mA/hr Lion battery.<br>
+        One user reported up to 45 days of operational time with a 2200 mA/hr Lion battery.
+            In his case the Eink was refreshed every 3 hours giving an aprox. consumption of 49 mA per day.
+            With this new update that will make less refresh times per day, as per your <a href="#service_times">Service Times settings</a>, we expect the
+            battery lifetime be even longer.<br>
         <h4>Four Epaper refresh Firmware is on the way</h4>
         Based on a technology developed by Waveshare, we are going to support bigger Eink screens, that are composed internally by 4 displays.
         This will enable us to render our screens in an astonishing resolution of
@@ -96,7 +99,9 @@
         <h4>EINK Firmware update</h4>
         <p><a href="https://fasani.de">Martin</a>, our <span class="cale">CALE Firmware Developer</span>, found a flaw in the Firmware that got an update last weekend.
             It was not going to sleep when it wakes up out of the Service Times.
-            The Service Times concept is easy to grasp:<br>You set a predefined time period where your display should refresh.
+            <a id="service_times"></a><br><br><br><br>
+            <h4>The Service Times concept</h4>
+            You set a predefined time period where your display should refresh.
             The display wakes up and pings cale, the actual URL is your screen URL with /st at the end.
 
             This route returns just one byte: 0 or 1.&nbsp; On 1 your display should be the seconds connected till downloading
