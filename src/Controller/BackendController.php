@@ -284,7 +284,7 @@ class BackendController extends AbstractController
 
             case 'screen_log_admin':
                 $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'No report without ROLE_ADMIN');
-                $logs = $screenLogRepository->findBy([],[],2000);
+                $logs = $screenLogRepository->findBy([],['created' => 'DESC'],2000);
 
                 foreach ($logs as $log){
                     $display = $log->getScreen()->getDisplay();
