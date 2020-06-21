@@ -23,6 +23,32 @@
         </h3>
         <div class="row">
             <div class="col-md-7 col-xs-12">
+                <h4>ESP-IDF version 1.0 of the Firmware ready</h4>
+            </div>
+            <div class="col-md-5 col-xs-12 text-right cale" style="margin-top:0.6em;font-weight:bold">
+                <h5>SUN 21, JUN ´20</h5>
+            </div>
+        </div>
+        <p><img src="/assets/svg/logo/cale-idf.svg" align="left" style="margin-right: 2em">The Espressif IoT Development Framework (esp-idf) version of our firmware is ready to be tested:<br>
+            <a href="https://github.com/martinberlin/cale-idf">https://github.com/martinberlin/cale-idf</a><br>Nightly branch: <b>refactor/oop</b>  Stable: master<br><br>
+            It took long development weeks but was time well spent. This version is working faster than Arduino-framework version and is using our own CalEPD epaper component. Only using our own
+            component it was possible to make SPI communication faster. Last measurements for an 800*480 1 bit image was 800 ms download plus 2200 ms rendering.
+            That means that you can get the image pixel buffer sent to the display in about 3 seconds.<br>
+            <b>Known limitations:</b> No bluetooth support, configuration needds to be defined before compilation.
+            The Bearer security token is not yet added so if you want to try it the Screen should be set to public.
+            <br>Additional development efforts that are available as independant IDF components:<br>
+            <ol>
+            <li><a href="https://github.com/martinberlin/CalEPD">CalEPD - Epaper ESP-IDF component</a></li>
+            <li><a href="https://github.com/martinberlin/Adafruit-GFX-Library-ESP-IDF">Adafruit GFX graphics core component for ESP-IDF</a></li>
+            </ol>
+        This components are the core of the <span class="cale" style="font-weight:bold">Cale-idf</span> Firmware but can be used as components working together for your own firmware. Please check the detailed
+        instructions in the repository on how to compile it. It's quite easy, even more than Arduino version, since just needs Display configuration and CALE bitmap URL.<br>
+        <pre>
+ idf.py menuconfig
+ idf.py flash monitor</pre>
+        </p>
+        <div class="row">
+            <div class="col-md-7 col-xs-12">
                 <h4>New epaper display of 12.48 inches added</h4>
             </div>
             <div class="col-md-5 col-xs-12 text-right cale" style="margin-top:0.6em;font-weight:bold">
@@ -36,9 +62,7 @@
             There is <a href="https://github.com/martinberlin/esp32-epaper-12.48-waveshare" target="_blank">an example from the provider</a> but we are actively working in making the WiFi download from this web-service
             a possibility at the end of June.<br>
             As an extra development since the end of Mai we are working in an Espressif IDF driver to be able to control exactly what is being
-            sent to the epaper displays using ESP32 as an SPI master in the communication. The repository where the development is taking place
-            for those interested is here:<br>
-            <a href="https://github.com/martinberlin/cale-idf">https://github.com/martinberlin/cale-idf</a>
+            sent to the epaper displays using ESP32 as an SPI master in the communication. Check the next news release for the repository address.
         </p>
         <div class="row">
             <div class="col-md-7 col-xs-12">
