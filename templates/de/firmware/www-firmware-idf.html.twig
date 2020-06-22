@@ -32,34 +32,36 @@
     </div>
     </div>
     <div class="panel panel-default" style="margin-top: 1em">
-                <div class="panel-heading">Entschuldigen! Noch nicht vollständig übersetzt</div>
+                <div class="panel-heading">Easy Konfiguration:</div>
                 <div class="panel-body">
     <ul>
-        <li><a href="#a1">How to compile and upload to your board</a></li>
-        <li><a href="#a2">Selecting the right driver for your display</a></li>
-        <li><a href="{{ path('firmware-tft') }}">Firmware for TFT displays - cale_tft</a></li>
+        <li><a href="#a1">1. So kompilieren und flashen Sie auf Ihr Board</a></li>
+        <li><a href="#a2">2. Auswahl des richtigen Classname für ihre epaper</a></li>
+        <li><a href="{{ path('firmware-tft') }}">Firmware für TFT displays - cale_tft arduino-esp32</a></li>
     </ul>
 
     </div></div>
 
     <p>
-        <a id="a1"></a><br><br><h4>How to compile it and upload in your board</h4>
-    Clone this repository:<br>
+        <a id="a1"></a><br><br><h4>1. So kompilieren und flashen Sie auf Ihr Board</h4>
+    Clone die repository:<br>
     <a href="https://github.com/martinberlin/cale-idf">https://github.com/martinberlin/cale-idf</a>
 <br><br>
-    Make sure to connect the epaper following the instructions provided in
-    <a href="{{ path('firmware') }}#s_esp32">the ESP32 section</a>.
+    Stellen Sie sicher, dass Sie das Epaper gemäß den Anweisungen in den
+    <a href="{{ path('firmware') }}#s_esp32">ESP32-Schaltplänen</a> anschließen.
+    GPIOs können geändert werden, solange sie gültige Ausgangs (MOSI,CLK,CS,DC,RST) und Eingangs-PINS (BUSY) sind.
 
-    There are 2 sections that need to be configured using:<br><b>idf.py menuconfig</b><br>
+    ESP32 Firmware Konfigurieren:<br><b>idf.py menuconfig</b><br>
 
     <h4>Display configuration</h4>
     <img src="/img/www/firmware/idf/menuconfig-display.png"><br>
 
     <h4>CALE configuration</h4>
-    Make sure to copy the full image URL from Screen configuration and also the Bearer token if your Screen is not public.<br>
+    Stellen Sie sicher, dass Sie die vollständige Bild-URL aus der Bildschirmkonfiguration und auch das Bearer-Token kopieren,
+    wenn Ihr Bildschirm nicht öffentlich ist.<br>
     <img src="/img/www/firmware/idf/menuconfig-cale.png"><br>
         <br>
-    That should be the full configuration. To resume: <br>
+    Das sollte die vollständige Konfiguration sein. Wieder aufzunehmen: <br>
 
     <pre>
 idf.py set-target esp32  (esp32s2 is also supported)
@@ -67,20 +69,18 @@ idf.py menuconfig
 idf.py flash monitor
     </pre>
 
-    If everything goes correctly then your display should download CALE dynamically generated bitmap and render it on the display.
-    Because this version uses our own CalEPD component and it's optimized as much as we could it should run faster than Arduino-esp32.
-    Some statistics in milliseconds for a 7.5 inches 800*480 display downloading a 48 Kb 1 bit depth BMP:<br>
+    Wenn alles korrekt funktioniert, sollte Ihr Epaper Display die dynamisch generierte CALE-Bitmap herunterladen und auf dem Display rendern. Einige Statistiken:<br>
     <pre>730 download of the image
 256 _wakeUp settings+send Buffer
 2004 update
 ____
 2992 total time in millis</pre>
     </p>
-    <a id="a2"></a><br><br><br><h4>Selecting the right driver for your display</h4>
-Please check <a href="https://github.com/martinberlin/cale-idf/wiki" class="cale">Cale-idf</a> Wiki section to see the supported epapers.
-    We are planning to support only 400*300 and bigger einks (Although some T5's 2.13 & 2.7 inches are supported)
-
-    <br><br><small>Font rendering demo:</small><br>
+    <a id="a2"></a><br><br><br><h4>2. Auswahl des richtigen Classname für ihre epaper</h4>
+    Bitte prüfen in <a href="https://github.com/martinberlin/cale-idf/wiki" class="cale">Cale-idf</a> Wiki
+    ob Ihr epaper Classname da ist.
+    Nur epapers >= 400*300 sind zur Unterstützung geplant.
+    <br><br><small>Font rendering Beispiel:</small><br>
     <img src="https://storage.luckycloud.de/thumbnail/61544feac3354a469448/1024/img/ubuntu-demo.jpeg">
 {% endblock %}
 

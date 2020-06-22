@@ -35,20 +35,20 @@
                 <div class="panel-heading">Quick access:</div>
                 <div class="panel-body">
     <ul>
-        <li><a href="#a1">How to compile and upload to your board</a></li>
-        <li><a href="#a2">Selecting the right driver for your display</a></li>
+        <li><a href="#a1">1. How to compile and upload to your board</a></li>
+        <li><a href="#a2">2. Selecting the right driver for your display</a></li>
+        <li><a href="#limitations">3. Known limitations</a></li>
         <li><a href="{{ path('firmware-tft') }}">Firmware for TFT displays - cale_tft</a></li>
     </ul>
 
     </div></div>
 
-    <p>
-        <a id="a1"></a><br><br><h4>How to compile it and upload in your board</h4>
+        <a id="a1"></a><br><br><h4>1. How to compile it and upload in your board</h4>
     Clone this repository:<br>
     <a href="https://github.com/martinberlin/cale-idf">https://github.com/martinberlin/cale-idf</a>
 <br><br>
     Make sure to connect the epaper following the instructions provided in
-    <a href="{{ path('firmware') }}#s_esp32">the ESP32 section</a>.
+    <a href="{{ path('firmware') }}#s_esp32">the ESP32 Schematics</a>.
 
     There are 2 sections that need to be configured using:<br><b>idf.py menuconfig</b><br>
 
@@ -64,8 +64,7 @@
     <pre>
 idf.py set-target esp32  (esp32s2 is also supported)
 idf.py menuconfig
-idf.py flash monitor
-    </pre>
+idf.py flash monitor</pre>
 
     If everything goes correctly then your display should download CALE dynamically generated bitmap and render it on the display.
     Because this version uses our own CalEPD component and it's optimized as much as we could it should run faster than Arduino-esp32.
@@ -75,11 +74,19 @@ idf.py flash monitor
 2004 update
 ____
 2992 total time in millis</pre>
-    </p>
-    <a id="a2"></a><br><br><br><h4>Selecting the right driver for your display</h4>
+    
+    <a id="a2"></a><br><br><br><h4>2. Selecting the right driver for your display</h4>
 Please check <a href="https://github.com/martinberlin/cale-idf/wiki" class="cale">Cale-idf</a> Wiki section to see the supported epapers.
     We are planning to support only 400*300 and bigger einks (Although some T5's 2.13 & 2.7 inches are supported)
 
+
+    <a id="limitations"></a><br><br><br><h4>3. Known limitations</h4>
+
+    <ol>
+        <li>No bluetooth support, configuration must be defined before compilation like described in <a href="#a1">Section 1</a></li>
+        <li>Supports only uncompressed BMP formats, bit depth 1,4 or 8 (Not planning to add >8 bit depth support)</li>
+        <li>It needs more testing and probably more optimizations</li>
+    </ol>
     <br><br><small>Font rendering demo:</small><br>
     <img src="https://storage.luckycloud.de/thumbnail/61544feac3354a469448/1024/img/ubuntu-demo.jpeg">
 {% endblock %}
