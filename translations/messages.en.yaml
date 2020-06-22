@@ -31,6 +31,7 @@ titleb_apis: API content providers
 # Titles
 title_ical: Importing iCal calendars
 title_firmware: ESP32 / ESP8266 Firmware
+title_firmware_idf: ESP-IDF Firmware
 title_firmware_tft: Firmware for TFT displays
 title_firmware_t5: Firmware for T5 ESP32 boards
 title_firmware_blue: Configuring the Firmware using Bluetooth

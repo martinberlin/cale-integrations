@@ -154,6 +154,15 @@ class HomeController extends AbstractController
         );
     }
 
+    public function firmwareIdf(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/firmware/www-firmware-idf.html.twig',
+            ['title' => $translator->trans('title_firmware_idf')]
+        );
+    }
+
+
     public function firmwareTft(Request $request, TranslatorInterface $translator)
     {
         return $this->render(

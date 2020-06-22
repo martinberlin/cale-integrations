@@ -1,0 +1,86 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+        body {
+            background-color: #e0e0e0;
+            color:black;
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="row">
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+    <img src="/assets/svg/logo/cale-idf.svg">
+        </div>
+        <div class="col-md-9 col-sm-6 col-xs-12" style="margin-top: 1.2em">
+    <h3>Firmware para el ESP-IDF Framework</h3>
+    </div>
+    </div>
+    <div class="panel panel-default" style="margin-top: 1em">
+                <div class="panel-heading">Acceso rápido</div>
+                <div class="panel-body">
+    <ul>
+        <li><a href="#a1">Compilarlo en tu board</a></li>
+        <li><a href="#a2">Secciona la clase para tu display</a></li>
+        <li><a href="{{ path('firmware-tft') }}">Firmware para TFT displays - cale_tft</a></li>
+    </ul>
+
+    </div></div>
+
+    <p>
+        <a id="a1"></a><br><br><h4>Compilarlo en tu board</h4>
+    Haz un clon de este repositorio con <b>git clone</b><br>
+    <a href="https://github.com/martinberlin/cale-idf">https://github.com/martinberlin/cale-idf</a>
+<br><br>
+    Asegurate de conectar el epaper correctamente como esta especificado en la
+    <a href="{{ path('firmware') }}#s_esp32">sección ESP32</a>.
+
+    Hay 2 secciones que tienen que configurarse usando el toolchain de Espressif:<br><b>idf.py menuconfig</b><br>
+
+    <h4>Display configuration</h4>
+    <img src="/img/www/firmware/idf/menuconfig-display.png"><br>
+
+    <h4>CALE configuration</h4>
+    Asegurate de copiar la dirección de URL completa y también el Bearer token de seguridad si tu Screen no es publica.<br>
+    <img src="/img/www/firmware/idf/menuconfig-cale.png"><br>
+        <br>
+    That should be the full configuration. To resume: <br>
+
+    <pre>
+idf.py set-target esp32  (esp32s2 is also supported)
+idf.py menuconfig
+idf.py flash monitor
+    </pre>
+
+    Estadísticas:<br>
+    <pre>730 download of the image
+256 _wakeUp settings+send Buffer
+2004 update
+____
+2992 total time in millis</pre>
+    </p>
+    <a id="a2"></a><br><br><br><h4>Selecciona la clase correcta para tu epaper display</h4>
+Chequa el listado en el Wiki de <a href="https://github.com/martinberlin/cale-idf/wiki" class="cale">Cale-idf</a>
+
+    <br><br><small>Demo de Fonts (Ubuntu)</small><br>
+    <img src="https://storage.luckycloud.de/thumbnail/61544feac3354a469448/1024/img/ubuntu-demo.jpeg">
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

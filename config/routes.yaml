@@ -108,6 +108,14 @@ firmware:
   requirements:
     _locale: '%locales%'
 
+firmware-idf:
+  path:       /firmware-idf/{_locale}
+  controller: App\Controller\HomeController::firmwareIdf
+  defaults:
+    _locale: en
+  requirements:
+    _locale: '%locales%'
+
 firmware-tft:
   path:       /firmware-tft/{_locale}
   controller: App\Controller\HomeController::firmwareTft
