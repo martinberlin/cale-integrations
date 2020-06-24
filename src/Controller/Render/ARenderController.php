@@ -256,7 +256,11 @@ class ARenderController extends AbstractController
 
         $responseContent = '<div class="row"'.$colorStyle.'><div class="col-md-12">';
         if (isset($json->data)) {
+            $countResults = 1;
             foreach ($json->data as $item) {
+                if ($countResults>$partial->getMaxResults()) {
+                    break;
+                }
                 $attr = $item->attributes;
                 $isAllDay = $attr->all_day;
                 $start = new \DateTime($attr->start_at, new \DateTimeZone($partial->getIntegrationApi()->getTimezone()));
@@ -284,6 +288,8 @@ class ARenderController extends AbstractController
                 $responseContent .= '<div class="col-md-4 col-sm-6 col-xs-6"><'.$hs.'>'.$attr->location.'</'.$hs.'></div>';
 
                 $responseContent .= '</div>';
+
+                $countResults++;
             }
         } else {
             $responseContent .= '<b>NO DATA FROM API: There was no data response from Timetree.</b><br>Please check in Content that the API has a Token configured';
