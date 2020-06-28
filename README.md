@@ -36,6 +36,11 @@ If you are interested in building one E-Ink calendar you can find information to
     // Check SQL and do a --force to create tables
     
 ### PHP Minimum version: 7.3
+
+Requires PHP extensions:
+
+- ext-simplexml
+- ext-gd (Used by endroid/qr-code)
     
 ### Thanks to:
 
