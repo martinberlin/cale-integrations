@@ -41,6 +41,7 @@ Requires PHP extensions:
 
 - ext-simplexml
 - ext-gd (Used by endroid/qr-code)
+- ext-mbstring
     
 ### Thanks to:
 
