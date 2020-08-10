@@ -79,6 +79,7 @@
 
         $('.summernote').summernote({
             codeviewFilter: false,
+            height: 250,
             toolbar: [
                 ['style', ['bold', 'italic', 'clear']],
                 ['font', ['strikethrough', 'superscript', 'subscript']],
@@ -88,6 +89,10 @@
                 ['insert', ['link', 'table','codeview']]
             ],
             callbacks: {
+                onInit: function (e) {
+                    self.editable = e.editable[0]
+                    self.editable.style.backgroundColor = "white"
+                },
                 onKeydown: function (e) {
                     var t = e.currentTarget.innerText;
                     if (t.length >= maxchars) {
