@@ -57,6 +57,14 @@
             {{ form_widget(form.remove_image, {'attr': {'style': 'visibility:'~remove_img_visibility} }) }}
         </div>
     </div>
+<div class="row">
+    <div class="col-md-2 col-sm-4 col-xs-12">
+        {{ form_widget(form.remove_html) }}
+    </div>
+    <div class="col-md-6 col-sm-8 col-xs-12">
+        {{ form_widget(form.submit) }}
+    </div>
+</div>
 
     {{ form_end(form) }}
 {% endblock %}

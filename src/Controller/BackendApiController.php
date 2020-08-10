@@ -430,18 +430,31 @@ class BackendApiController extends AbstractController
         $form->handleRequest($request);
         $error = "";$preSuccessMsg = "";
         $imageUploaded = false;
-        if ($form->getClickedButton() && 'remove_image' === $form->getClickedButton()->getName()) {
-            try {
-              $removeFlag = unlink($publicRelativePath.$api->getImagePath());
-            } catch (\ErrorException $e) {
-                $this->addFlash('error', "Could not find image. ");
-                $removeFlag = false;
-            }
-            if ($removeFlag) {
-                $api->setImagePath('');
-                $preSuccessMsg = "Image was removed. ";
+        if ($form->getClickedButton()) {
+            switch ($form->getClickedButton()->getName()) {
+
+                case 'remove_image':
+                    try {
+                        $removeFlag = unlink($publicRelativePath . $api->getImagePath());
+                    } catch (\ErrorException $e) {
+                        $this->addFlash('error', "Could not find image. ");
+                        $removeFlag = false;
+                    }
+                    if ($removeFlag) {
+                        $api->setImagePath('');
+                        $preSuccessMsg = "Image was removed. ";
+                    }
+                    break;
+
+                case 'remove_html':
+                    $this->addFlash('success', "The HTML api integration ".$api->getName()." was removed");
+                    $entityManager->remove($api);
+                    $entityManager->flush();
+                    return $this->redirectToRoute('b_home_apis');
+                    break;
             }
         }
+
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('imageFile')->getData();
             // This condition is needed because the 'imageFile' field is not required
