@@ -102,6 +102,12 @@ class ScreenOutputType extends AbstractType
                     'required' => false,
                     'label' => 'Use HTTPS',
                 ])
+            ->add('imgDither', CheckboxType::class,
+                [
+                    'value' => 1,
+                    'required' => false,
+                    'label' => 'Dither image',
+                ])
             ->add('outBitDepth', ChoiceType::class,
                 [
                     'choices' => $options['bitdepth'],

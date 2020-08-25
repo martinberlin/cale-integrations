@@ -104,6 +104,11 @@ class Screen implements Created
     protected $outSsl;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $imgDither;
+
+    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     protected $hits;
@@ -144,6 +149,7 @@ class Screen implements Created
         $this->stDayTo = '7';
         $this->stHourTo = '23';
         $this->outSsl = 0;
+        $this->imgDither = true;
         $this->hits = 0;
         $this->partials = new ArrayCollection();
         $this->sysScreenLogs = new ArrayCollection();
@@ -485,6 +491,19 @@ class Screen implements Created
     public function setStHourTo($stHourTo)
     {
         $this->stHourTo = $stHourTo;
+    }
+
+    public function getImgDither()
+    {
+        return $this->imgDither;
+    }
+
+    /**
+     * @param bool $imgDither
+     */
+    public function setImgDither(bool $imgDither)
+    {
+        $this->imgDither = $imgDither;
     }
 
     public function __toString()
