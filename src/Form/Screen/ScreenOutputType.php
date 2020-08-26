@@ -22,6 +22,7 @@ class ScreenOutputType extends AbstractType
         $resolver->setDefaults(
             [
                 'ditherOptions' => [
+                    'Random'        => '_random',
                     'Checks'        => 'checks',
                     '2x2 ordered'   => 'o2x2',
                     '3x3 ordered'   => 'o3x3',
@@ -130,6 +131,7 @@ class ScreenOutputType extends AbstractType
                 [
                     'choices' => $options['ditherOptions'],
                     'placeholder' => 'Dither options',
+                    'required' => false,
                     'label' => false,
                     'attr' => ['class' => 'form-control']
                 ])
