@@ -49,7 +49,7 @@ class IntegrationHtmlType extends AbstractType
                     ],
                     'constraints' => [
                         new File([
-                            'maxSize' => '150k',
+                            'maxSize' => '400k',
                             'mimeTypes' => [
                                 'image/jpeg',
                                 'image/bmp',

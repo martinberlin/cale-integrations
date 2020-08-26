@@ -1,7 +1,7 @@
 # This file is the entry point to configure your own services.
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    version: 1.0.2
+    version: 1.0.3
     locales: en|es|de
     cale_support_email: martin@cale.es
     cale_official_email: martin@cale.es
