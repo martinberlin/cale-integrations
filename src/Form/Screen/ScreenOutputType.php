@@ -21,6 +21,24 @@ class ScreenOutputType extends AbstractType
     {
         $resolver->setDefaults(
             [
+                'ditherOptions' => [
+                    'Checks'        => 'checks',
+                    '2x2 ordered'   => 'o2x2',
+                    '3x3 ordered'   => 'o3x3',
+                    '4x4 ordered'   => 'o4x4',
+                    '8x8 ordered'   => 'o8x8',
+                    '4x4 halftone angled' => 'h4x4a',
+                    '6x6 halftone angled' => 'h6x6a',
+                    '8x8 halftone angled' => 'h8x8a',
+                    '4x4 halftone orthogonal' => 'h4x4o',
+                    '6x6 halftone orthogonal' => 'h6x6o',
+                    '8x8 halftone orthogonal' => 'h8x8o',
+                    '16x16 halftone orthogonal' => 'h16x16o',
+                    '5x5 Circles white' => 'c5x5w',
+                    '5x5 Circles black' => 'c5x5b',
+                    '6x6 Circles white' => 'c6x6w',
+                    '6x6 Circles black' => 'c6x6b',
+                ],
                 'brightness' => [
                     '90 %' => 90,
                     '100 % default' => 100,
@@ -106,7 +124,14 @@ class ScreenOutputType extends AbstractType
                 [
                     'value' => 1,
                     'required' => false,
-                    'label' => 'Dither image',
+                    'label' => 'Enable dithering',
+                ])
+            ->add('imgDitherOptions', ChoiceType::class,
+                [
+                    'choices' => $options['ditherOptions'],
+                    'placeholder' => 'Dither options',
+                    'label' => false,
+                    'attr' => ['class' => 'form-control']
                 ])
             ->add('outBitDepth', ChoiceType::class,
                 [

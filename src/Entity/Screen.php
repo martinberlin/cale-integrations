@@ -109,6 +109,11 @@ class Screen implements Created
     protected $imgDither;
 
     /**
+     * @ORM\Column(type="string", length=20, nullable=true)
+     */
+    protected $imgDitherOptions;
+
+    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     protected $hits;
@@ -504,6 +509,19 @@ class Screen implements Created
     public function setImgDither(bool $imgDither)
     {
         $this->imgDither = $imgDither;
+    }
+
+    public function getImgDitherOptions()
+    {
+        return $this->imgDitherOptions;
+    }
+
+    /**
+     * @param string $options
+     */
+    public function setImgDitherOptions($options)
+    {
+        $this->imgDitherOptions = $options;
     }
 
     public function __toString()
