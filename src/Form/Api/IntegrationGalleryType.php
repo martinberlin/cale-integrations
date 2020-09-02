@@ -2,24 +2,22 @@
 namespace App\Form\Api;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
 
-class IntegrationHtmlType extends AbstractType
+class IntegrationGalleryType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('name', TextType::class,
                 [
-                    'label' => 'Name your Api',
+                    'label' => 'Name your Gallery',
                     'required' => true,
                     'attr' => [
                         'placeholder' => 'Use a meaningful name to identify it in your list',
@@ -29,22 +27,9 @@ class IntegrationHtmlType extends AbstractType
                         new Length(array('max' => 130))
                     )
                 ])
-
-            ->add('html', TextareaType::class,
-                [
-                    'required' => false,
-                    'label' => 'HTML Content',
-                    'attr' => [
-                        'class' => 'form-control summernote'
-                    ],
-                    'constraints' => [
-                        new Length(['max' => $options['html_max_chars']])
-                    ]
-                ])
-
             ->add('imageFile', FileType::class,
                 [
-                    'label' => 'Upload an image',
+                    'label' => 'Upload a new image',
                     'required' => false,
                     'mapped' => false,
                     'attr' => [
@@ -62,35 +47,6 @@ class IntegrationHtmlType extends AbstractType
                             ]
                         ])
                     ]
-                ])
-            ->add('imagePosition', ChoiceType::class,
-                [
-                    'choices' => [
-                        'left' => 'left',
-                        'center' => 'center',
-                        'right' => 'right',
-                    ],
-                    'label' => 'Image position',
-                    'attr' => ['class' => 'form-control']
-                ])
-            ->add('imageType', ChoiceType::class,
-                [
-                    'choices' => [
-                        'background' => 'background',
-                        'floating' => 'float'
-                    ],
-                    'label' => 'Image type',
-                    'attr' => ['class' => 'form-control']
-                ])
-            ->add('remove_image', SubmitType::class,
-                [
-                    'label' => 'Remove image',
-                    'attr' => ['class' => 'btn btn-default form-control', 'style' => 'margin-top:0.4em']
-                ])
-            ->add('remove_html', SubmitType::class,
-                [
-                    'label' => 'Remove',
-                    'attr' => ['class' => 'btn btn-danger form-control', 'style' => 'margin-top:2em']
                 ])
             ->add('submit', SubmitType::class,
                 [
@@ -112,8 +68,7 @@ class IntegrationHtmlType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'allow_extra_fields' => true,
-            'html_max_chars' => null
+            'allow_extra_fields' => true
         ]);
     }
 }

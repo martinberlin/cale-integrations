@@ -1,0 +1,40 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+{% set remove_img_visibility = 'hidden' %}
+
+{# HTML editor include #}
+{% block stylesheets %}
+    <script src="/js/jquery/jquery-2.1.0.min.js"></script>
+{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+    <div class="row">
+
+        <div class="col-md-8 col-sm-8 col-xs-12">
+
+            {{ form_errors(form) }}
+            {{ form_row(form.name) }}
+
+            {{ form_row(form.imageFile) }}
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <label>Gallery info</label><br>
+
+        </div>
+    </div>
+<div class="row">
+    <div class="col-md-6 col-sm-8 col-xs-12">
+        {{ form_widget(form.submit) }}
+    </div>
+</div>
+
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+
+    </script>
+{% endblock %}

@@ -4,6 +4,7 @@ namespace App\Entity;
 use App\Entity\Model\Created;
 use App\Entity\Model\Language;
 use App\Entity\Model\Location;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -30,6 +31,12 @@ class IntegrationApi implements Language, Location, Created
      * @ORM\OneToMany(targetEntity="TemplatePartial", mappedBy="integrationApi",orphanRemoval=true)
      */
     private $partials;
+
+    /**
+     * One IntegrationApi may haves many galleryImages. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="UserApiGalleryImage", mappedBy="intApi", orphanRemoval=true)
+     */
+    private $galleryImages;
 
     /**
      * @var string
@@ -122,6 +129,7 @@ class IntegrationApi implements Language, Location, Created
     {
         $this->uuid = uniqid();
         $this->setCreated(new \DateTime());
+        $this->galleryImages = new ArrayCollection();
     }
 
     /**
@@ -342,6 +350,14 @@ class IntegrationApi implements Language, Location, Created
     public function setUnits(string $u): void
     {
         $this->units = $u;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getGalleryImages()
+    {
+        return $this->galleryImages;
     }
 
     public function getCreated() {

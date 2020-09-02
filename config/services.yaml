@@ -33,6 +33,7 @@ parameters:
     html_max_chars: 2000
     # Notice that ../public is hardcoded in BackendApiController::apiInternalHtml
     screen_images_directory: /screenimg
+    screen_gallery_directory: /screen_gallery
     # Email config
     email_reset_password:   'dontreply@cale.es'
     email_reset_pass_title: 'CALE password recovery'

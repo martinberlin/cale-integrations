@@ -31,6 +31,12 @@ class User implements UserInterface, Language, Created
     private $userApis;
 
     /**
+     * One user has many apis. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="UserApiGalleryImage", mappedBy="user", orphanRemoval=true)
+     */
+    private $userGalleryImages;
+
+    /**
      * One user has many wifi configurations. This is the inverse side.
      * @ORM\OneToMany(targetEntity="UserWifi", mappedBy="user", orphanRemoval=true)
      */
