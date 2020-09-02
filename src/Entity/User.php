@@ -186,6 +186,7 @@ class User implements UserInterface, Language, Created
         $this->sysLogs = new ArrayCollection();
         $this->sysScreenLogs = new ArrayCollection();
         $this->userShippings = new ArrayCollection();
+        $this->userGalleryImages = new ArrayCollection();
         $this->doNotDisturb = false;
         $this->setCreated(new \DateTime());
         $this->apiKey = strtoupper(hash("ripemd160", time()));
@@ -556,6 +557,13 @@ class User implements UserInterface, Language, Created
      */
     public function getUserShippings() {
         return $this->userShippings;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getUserGalleryImages() {
+        return $this->userGalleryImages;
     }
 
     /**

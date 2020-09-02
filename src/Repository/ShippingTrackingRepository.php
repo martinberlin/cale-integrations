@@ -15,7 +15,6 @@ class ShippingTrackingRepository extends ServiceEntityRepository
 
     /**
      * Calculate total costs in a single query
-     * @return array
      */
     public function totalCosts()
     {

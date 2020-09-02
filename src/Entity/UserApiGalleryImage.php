@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserApiGalleryImageRepository")
- * @ORM\Table(name="app_user_api_gallery",uniqueConstraints={@ORM\UniqueConstraint(name="user_api_name_idx", columns={"user_id", "user_api_id"})})
+ * @ORM\Table(name="app_user_api_gallery",uniqueConstraints={@ORM\UniqueConstraint(name="user_api_name_idx", columns={"user_id", "user_api_id", "image_id"})})
  */
 class UserApiGalleryImage
 {
@@ -24,6 +24,7 @@ class UserApiGalleryImage
     protected $intApi;
 
     /**
+     * @ORM\id
      * @var integer
      * @ORM\Column(type="integer",nullable=false)
      */
@@ -31,7 +32,19 @@ class UserApiGalleryImage
 
     /**
      * @var string
-     * @ORM\Column(type="string",nullable=false)
+     * @ORM\Column(type="string", length=4, nullable=false)
+     */
+    protected $extension;
+
+    /**
+     * @var integer
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $kb = 0;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=140, nullable=true)
      */
     protected $caption;
 
@@ -57,7 +70,7 @@ class UserApiGalleryImage
     /**
      * @param mixed $user
      */
-    public function setUser($user): void
+    public function setUser(User $user): void
     {
         $this->user = $user;
     }
@@ -108,6 +121,38 @@ class UserApiGalleryImage
     public function setCaption(string $caption): void
     {
         $this->caption = $caption;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExtension(): string
+    {
+        return $this->extension;
+    }
+
+    /**
+     * @param string $extension
+     */
+    public function setExtension(string $extension): void
+    {
+        $this->extension = $extension;
+    }
+
+    /**
+     * @return int
+     */
+    public function getKb(): int
+    {
+        return $this->kb;
+    }
+
+    /**
+     * @param int $kb
+     */
+    public function setKb(int $kb): void
+    {
+        $this->kb = $kb;
     }
 
     /**

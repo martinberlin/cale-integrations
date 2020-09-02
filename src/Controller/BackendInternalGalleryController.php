@@ -2,9 +2,11 @@
 namespace App\Controller;
 
 use App\Entity\IntegrationApi;
+use App\Entity\UserApiGalleryImage;
 use App\Form\Api\IntegrationGalleryType;
 use App\Form\Api\IntegrationHtmlType;
 use App\Repository\IntegrationApiRepository;
+use App\Repository\UserApiGalleryImageRepository;
 use App\Repository\UserApiRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,6 +29,7 @@ class BackendInternalGalleryController extends BackendHelpersController
         $uuid, $intapi_uuid, Request $request,
         UserApiRepository $userApiRepository,
         IntegrationApiRepository $intApiRepository,
+        UserApiGalleryImageRepository $userGalleryRepository,
         EntityManagerInterface $entityManager)
     {
         $userApi = $this->getUserApi($userApiRepository, $uuid);
@@ -34,9 +37,14 @@ class BackendInternalGalleryController extends BackendHelpersController
         if (!$api instanceof IntegrationApi) {
             $api = new IntegrationApi();
         }
+        $lastImage = $userGalleryRepository->getLastImageData($this->getUser(),$api);
+        $nextImageId = $lastImage['imageId']+1;
+        $nextImagePosition = $lastImage['position']+1;
+        $imgExtension = '';
+        $imgKilobytes = 0;
+        //dump($lastImage, $nextImageId,$nextImagePosition);exit();
 
-        $imagePublicPath = $this->getParameter('screen_gallery_directory') . '/' . $this->getUser()->getId().'/'.$api->getId();
-
+        $imagePublicPath = $this->getParameter('screen_images_directory') . '/' . $this->getUser()->getId().'/'.$api->getId();
         $form = $this->createForm(IntegrationGalleryType::class, $api);
         $form->handleRequest($request);
         $error = "";$preSuccessMsg = "";
@@ -70,11 +78,12 @@ class BackendInternalGalleryController extends BackendHelpersController
             $imageFile = $form->get('imageFile')->getData();
             // This condition is needed because the 'imageFile' field is not required
             if ($imageFile) {
+                $imgKilobytes = round($imageFile->getSize()/1000);
                 $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
-
+                $imgExtension = $imageFile->guessExtension();
                 // this is needed to safely include the file name as part of the URL. We will allow only one image per HTML API so name does not matter:
                 // $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-                $newFilename = $api->getId() . '.' . $imageFile->guessExtension();
+                $newFilename = $nextImageId . '.' . $imgExtension;
 
                 // Move the file to the directory where brochures are stored
                 $imageUploadPath = $this->publicRelativePath.$imagePublicPath;
@@ -82,7 +91,6 @@ class BackendInternalGalleryController extends BackendHelpersController
 
                 try {
                     $imageUploaded = true;
-                    //dump($imageUploadPath,$newFilename);exit();
                     $imageFile->move(
                         $imageUploadPath,
                         $newFilename
@@ -112,8 +120,20 @@ class BackendInternalGalleryController extends BackendHelpersController
                 $this->addFlash('error', $error);
             }
 
+            // Add image to Gallery
+            if ($imageUploaded) {
+                $image = new UserApiGalleryImage();
+                $image->setUser($this->getUser());
+                $image->setIntApi($api);
+                $image->setImageId($nextImageId);
+                $image->setPosition($nextImagePosition);
+                $image->setExtension($imgExtension);
+                $image->setKb($imgKilobytes);
+                $userGalleryRepository->saveImage($image);
+            }
+
             if ($error === '') {
-                $this->addFlash('success', $preSuccessMsg." HTML content saved");
+                $this->addFlash('success', $preSuccessMsg." new image saved");
                 return $this->redirectToRoute('b_api_image_gallery',
                     [
                         'uuid' => $userApi->getId(),
@@ -121,12 +141,15 @@ class BackendInternalGalleryController extends BackendHelpersController
                     ]);
             }
         }
+
         $render = [
             'title' => 'Upload your gallery images',
             'form' => $form->createView(),
             'intapi_uuid' => $intapi_uuid,
             'userapi_id' => $userApi->getId(),
             'image_path' => $api->getImagePath(),
+            'gallery_path' => $imagePublicPath,
+            'gallery_images' => $userGalleryRepository->getGalleryImages($this->getUser(),$api),
             'menu' => $this->menu
         ];
 

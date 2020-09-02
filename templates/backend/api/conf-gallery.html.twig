@@ -17,10 +17,23 @@
             {{ form_row(form.name) }}
 
             {{ form_row(form.imageFile) }}
+
+            {{ form_row(form.caption) }}
         </div>
         <div class="col-md-4 col-sm-4 col-xs-12">
-            <label>Gallery info</label><br>
-
+            {% if gallery_images|length %}<label>Gallery contents</label>{% endif %}
+            {#{{ dump(gallery_images) }}#}
+            {% for i in gallery_images %}
+                <div class="row" style="margin-bottom:1em">
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                <img src="{{ gallery_path ~ '/' ~ i.imageId ~ '.' ~ i.extension }}" style="max-width: 140px">
+                    </div>
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        {{ i.kb }} Kb. Position: {{ i.position }}<br>
+                        <span style="font-size: 9pt;color:#333333">{{ i.caption }}</span>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
 <div class="row">

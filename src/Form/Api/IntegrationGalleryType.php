@@ -37,7 +37,7 @@ class IntegrationGalleryType extends AbstractType
                     ],
                     'constraints' => [
                         new File([
-                            'maxSize' => '400k',
+                            'maxSize' => '2000k',
                             'mimeTypes' => [
                                 'image/jpeg',
                                 'image/bmp',
@@ -47,6 +47,19 @@ class IntegrationGalleryType extends AbstractType
                             ]
                         ])
                     ]
+                ])
+            ->add('caption', TextType::class,
+                [
+                    'label' => 'Image caption',
+                    'required' => false,
+                    'mapped' => false,
+                    'attr' => [
+                        'placeholder' => 'Copyright or Photo credits',
+                        'class' => 'form-control'
+                    ],
+                    'constraints' => array(
+                        new Length(array('max' => 140))
+                    )
                 ])
             ->add('submit', SubmitType::class,
                 [
