@@ -61,7 +61,7 @@ class UserApiGalleryImageRepository extends ServiceEntityRepository
         $this->entityManager->flush();
     }
 
-    public function getImageNext(User $user, IntegrationApi $api)
+    public function getImageNext(User $user, IntegrationApi $api, bool $moveToNext)
     {
         $imageIndex = is_null($api->getGalleryIndex()) ? 1 : $api->getGalleryIndex();
         try {
@@ -88,9 +88,11 @@ class UserApiGalleryImageRepository extends ServiceEntityRepository
                 }
             }
             // Move to next key:
-            $api->setGalleryIndex($key);
-            $this->entityManager->persist($api);
-            $this->entityManager->flush();
+            if ($moveToNext) {
+                $api->setGalleryIndex($key);
+                $this->entityManager->persist($api);
+                $this->entityManager->flush();
+            }
 
         } catch (NoResultException $e) {
             // If something failed just return 1st image

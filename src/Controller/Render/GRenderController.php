@@ -35,8 +35,13 @@ class GRenderController extends AbstractController
         $imageMaxWidth = ($screen->getDisplay() instanceof Display) ? $screen->getDisplay()->getWidth() : 2000;
         $api = $partial->getIntegrationApi();
 
+        // Are we in a Symfony authenticated context or is the screenshot tool calling
+        $isImageCall = false;
+        if (is_null($this->getUser())) {
+            $isImageCall = true;
+        }
         // Retrieve next image
-        $image = $imageRepository->getImageNext($user, $api);
+        $image = $imageRepository->getImageNext($user, $api, $isImageCall);
         $imagePublicPath = $this->getParameter('screen_images_directory') . '/' . $user->getId().'/'.$api->getId();
         $imagePath = $imagePublicPath.'/'.$image->getImageId().'.'.$image->getExtension();
 
