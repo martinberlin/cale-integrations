@@ -38,7 +38,7 @@ class GRenderController extends AbstractController
 
         // Are we in a Symfony authenticated context or is the screenshot tool calling
         $isImageCall = false;
-        //dump($this->getUser());exit();
+        
         if ($this->getUser() instanceof User === false) {
             $isImageCall = true;
         }
