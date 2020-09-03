@@ -61,4 +61,51 @@ class UserApiGalleryImageRepository extends ServiceEntityRepository
         $this->entityManager->flush();
     }
 
+    public function getImageNext(User $user, IntegrationApi $api)
+    {
+        $imageIndex = is_null($api->getGalleryIndex()) ? 1 : $api->getGalleryIndex();
+        try {
+            $images = $this->createQueryBuilder('d')
+                ->where('d.user=:user')
+                ->andWhere('d.intApi=:intapi')
+                ->setParameter('user', $user)
+                ->setParameter('intapi', $api)
+                ->orderBy('d.position', 'ASC')
+                ->getQuery()
+                ->getResult();
+            // Loop till find image and pick next:
+
+            foreach ($images as $key => $i) {
+                if ($imageIndex === $key) {
+                    $key++;
+                    if ($key<count($images)) {
+                        $image = $images[$key];
+                    } else {
+                        $key = 0;
+                        $image = $images[0];
+                    }
+                    break;
+                }
+            }
+            // Move to next key:
+            $api->setGalleryIndex($key);
+            $this->entityManager->persist($api);
+            $this->entityManager->flush();
+
+        } catch (NoResultException $e) {
+            // If something failed just return 1st image
+            $image = $this->createQueryBuilder('d')
+                ->where('d.user=:user')
+                ->andWhere('d.intApi=:intapi')
+                ->andWhere('d.intApi=:intapi')
+                ->andWhere('d.imageId=1')
+                ->setParameter('user', $user)
+                ->setParameter('intapi', $api)
+                ->orderBy('d.position', 'ASC')
+                ->getQuery()
+                ->getSingleResult();
+        }
+        return $image;
+    }
+
 }

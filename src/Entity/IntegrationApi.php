@@ -369,7 +369,7 @@ class IntegrationApi implements Language, Location, Created
     /**
      * @return int
      */
-    public function getGalleryIndex(): int
+    public function getGalleryIndex():?int
     {
         return $this->galleryIndex;
     }

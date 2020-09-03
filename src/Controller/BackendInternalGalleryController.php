@@ -58,11 +58,12 @@ class BackendInternalGalleryController extends BackendHelpersController
 
         $lastImage = $userGalleryRepository->getLastImageData($this->getUser(),$api);
         $imgPosition = ($lastImage['position']===-1)?$lastImage['position']+1:$lastImage['position']+10;
-
+        $imageEditMode = false;
         if (is_null($image_id) === false) {
             $image = $userGalleryRepository->findOneBy([
                 'user'=>$this->getUser(),'intApi'=>$api,'imageId'=>$image_id]);
             $imgPosition = $image->getPosition();
+            $imageEditMode = true;
         } else {
             $image = new UserApiGalleryImage();
         }
@@ -155,16 +156,18 @@ class BackendInternalGalleryController extends BackendHelpersController
             }
             // Add image to Gallery
             if ($imageUploaded) {
-                $image->setExtension($imgExtension);
-                $image->setUser($this->getUser());
-                $image->setIntApi($api);
                 $image->setImageId($nextImageId);
+                $image->setIntApi($api);
+                $image->setUser($this->getUser());
+                $image->setExtension($imgExtension);
                 $image->setKb($imgKilobytes);
             }
-            // If no new upload only this should change
-            $image->setPosition($imgPosition);
-            $image->setCaption($imgCaption);
-            $userGalleryRepository->saveImage($image);
+            if ($imageUploaded || $imageEditMode) {
+                // If no new file uploaded only this should change
+                $image->setPosition($imgPosition);
+                $image->setCaption($imgCaption);
+                $userGalleryRepository->saveImage($image);
+            }
 
             if ($error === '') {
                 $this->addFlash('success', $messageSuccess);

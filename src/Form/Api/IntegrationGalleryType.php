@@ -2,6 +2,7 @@
 namespace App\Form\Api;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -79,6 +80,16 @@ class IntegrationGalleryType extends AbstractType
                     'constraints' => array(
                         new Length(array('max' => 3))
                     )
+                ])
+            ->add('imagePosition', ChoiceType::class,
+                [
+                    'choices' => [
+                        'center' => 'center',
+                        'left' => 'left',
+                        'right' => 'right',
+                    ],
+                    'label' => 'Image position',
+                    'attr' => ['class' => 'form-control']
                 ])
             ->add('submit', SubmitType::class,
                 [
