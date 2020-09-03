@@ -377,7 +377,7 @@ class IntegrationApi implements Language, Location, Created
     /**
      * @param int $galleryIndex
      */
-    public function setGalleryIndex(int $galleryIndex): void
+    public function setGalleryIndex(?int $galleryIndex)
     {
         $this->galleryIndex = $galleryIndex;
     }

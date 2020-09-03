@@ -80,7 +80,13 @@
                     </div>
                 </div>
             {% endfor %}
+            {% if gallery.images|length %}
             <small>Images will be sorted by position ascendant. So first request to this gallery will show position 0, then 10, and so on. Just edit and update the position to a new number to update the sorting.</small>
+            {% else %}
+            <small>If you want that your images appear full size in your display please make sure to upload them as big as your display dimension in pixels.
+                Uploading small images will render them in the original size uploaded even if the HTML preview shows them bigger.<br>
+                <b>Please be aware that the max. upload size of one gallery is {{ gallery.kb_max }} Kilobytes. Please contact us if you need to use this for an exhibition.</b></small>
+            {% endif %}
         </div>
     </div>
 

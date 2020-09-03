@@ -98,11 +98,13 @@ class BackendInternalGalleryController extends BackendHelpersController
                     try {
                         $removeFlag = unlink($imageDeletePath);
                     } catch (\ErrorException $e) {
-                        $this->addFlash('error', "Could not find image. ");
+                        $this->addFlash('error', "Could not find image: ".$imageDeletePath);
                         $removeFlag = false;
                     }
                     if ($removeFlag) {
-                        $api->setImagePath('');
+                        $api->setGalleryIndex(NULL);
+                        $entityManager->persist($api);
+
                         $entityManager->remove($image);
                         $entityManager->flush();
                         $messageSuccess = "Image was removed. ";

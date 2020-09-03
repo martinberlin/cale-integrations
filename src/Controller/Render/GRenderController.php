@@ -51,7 +51,7 @@ class GRenderController extends AbstractController
         $float = ($api->getImagePosition()==='center') ? "mx-auto d-block center-img" : "float-{$api->getImagePosition()}";
         $imageHtml = '<img src="'.$imagePath.'" class="figure-img img-fluid '.$float.'" style="max-width:'.$imageMaxWidth.'px">';
         $html .= $imageHtml;
-        $html .= ($image->getCaption()) ? '<figcaption class="figure-caption">'.$image->getCaption().'</figcaption>' : '';
+        $html .= ($image->getCaption()) ? '<figcaption class="figure-caption" style="font-weight:bold;color:black;font-size:10pt">'.$image->getCaption().'</figcaption>' : '';
         $html .= '</figure>';
         // Render the content partial and return the composed HTML
         $response = new Response();
