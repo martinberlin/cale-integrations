@@ -22,6 +22,24 @@ class BackendInternalGalleryController extends BackendHelpersController
     private $menu = "api";
 
     /**
+     * Internal function that returns useful information to render Gallery information and control max sizes
+     * @param UserApiGalleryImageRepository $userGalleryRepository
+     * @param IntegrationApi $api
+     * @return mixed
+     */
+    private function galleryInfo(UserApiGalleryImageRepository $userGalleryRepository, IntegrationApi $api) {
+        $gallery['images'] = $userGalleryRepository->getGalleryImages($this->getUser(),$api);
+        $gallery['kb_used'] = 0;
+        foreach ($gallery['images'] as $i) {
+            $gallery['kb_used']+=$i['kb'];
+        }
+        $gallery['kb_max'] = $this->getParameter('gallery_max_size_total');
+        $gallery['kb_left'] = $gallery['kb_max']-$gallery['kb_used'];
+        $gallery['kb_percentage_used'] = round(($gallery['kb_used']/$gallery['kb_max'])*100);
+        return $gallery;
+    }
+
+    /**
      * Wizard to configure an internal image Gallery
      * @Route("/gallery/{uuid}/{intapi_uuid?}", name="b_api_image_gallery")
      */
@@ -43,11 +61,21 @@ class BackendInternalGalleryController extends BackendHelpersController
         $imgExtension = '';
         $imgKilobytes = 0;
         $imgCaption = '';
+        // Check that max. size is not reached
+        $maxUploadSize = $this->getParameter('gallery_max_size');
+        $gallery = $this->galleryInfo($userGalleryRepository,$api);
+        // If size is arriving to limit, reduce upload Kb limit:
+        if ($gallery['kb_left'] < $maxUploadSize) {
+            $maxUploadSize = $gallery['kb_left'];
+        }
         //dump($lastImage, $nextImageId,$nextImagePosition);exit();
 
         $imagePublicPath = $this->getParameter('screen_images_directory') . '/' . $this->getUser()->getId().'/'.$api->getId();
         $form = $this->createForm(IntegrationGalleryType::class, $api,
-        ['position' => $imgPosition]);
+            [
+            'position' => $imgPosition,
+            'max_size' => $maxUploadSize
+            ]);
         $form->handleRequest($request);
         $error = "";$messageSuccess = "";
         $imageUploaded = false;
@@ -134,7 +162,8 @@ class BackendInternalGalleryController extends BackendHelpersController
                     ]);
             }
         }
-
+        // Calculate gallery sizes
+        $gallery = $this->galleryInfo($userGalleryRepository,$api);
         $render = [
             'title' => 'Upload your gallery images',
             'form' => $form->createView(),
@@ -142,7 +171,7 @@ class BackendInternalGalleryController extends BackendHelpersController
             'userapi_id' => $userApi->getId(),
             'image_path' => $api->getImagePath(),
             'gallery_path' => $imagePublicPath,
-            'gallery_images' => $userGalleryRepository->getGalleryImages($this->getUser(),$api),
+            'gallery' => $gallery,
             'menu' => $this->menu
         ];
 

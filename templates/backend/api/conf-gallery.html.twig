@@ -36,17 +36,31 @@
 
         </div>
         <div class="col-md-4 col-sm-4 col-xs-12">
-            {% if gallery_images|length %}<label>Gallery contents</label>{% endif %}
-            {#{{ dump(gallery_images) }}#}
-            {% for i in gallery_images %}
+            {% if gallery.images|length %}<label>Gallery contents</label>
+                <div class="row" style="margin-left:0;margin-right:0.1em;margin-bottom:0.1em;border: 1px solid #BBBBBB">
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                            {{ gallery.kb_used }} / {{ gallery.kb_max }} Kb
+                    </div>
+                    <div class="col-md-6 col-sm-12 col-xs-12 text-right bold">
+                        {{ gallery.kb_percentage_used }} % used
+                    </div>
+                </div>
+            {% endif %}
+
+            {% for i in gallery.images %}
                 <div class="row" style="margin-bottom:1em">
                     <div class="col-md-4 col-sm-12 col-xs-12">
-                <img src="{{ gallery_path ~ '/' ~ i.imageId ~ '.' ~ i.extension }}" style="max-width: 140px"><br>
-                        <span style="font-size: 9pt;color:#333333">{{ i.caption }}</span>
+                        <figure class="figure">
+                <img class="figure-img img-fluid z-depth-1" src="{{ gallery_path ~ '/' ~ i.imageId ~ '.' ~ i.extension }}" style="max-width:100px">
+                            <figcaption style="font-size:8pt" class="figure-caption">{{ i.caption }}</figcaption>
+                        </figure>
                     </div>
-                    <div class="col-md-8 col-sm-12 col-xs-12">
+                    <div class="col-md-8 col-sm-12 col-xs-12" style="font-size:9pt">
                         {{ i.kb }} Kb. Position: {{ i.position }}<br>
-                        <span class="glyphicon glyphicon-edit"></span> edit &nbsp;<span style="color:darkred" class="glyphicon glyphicon-remove"></span>
+                        <div style="margin-top:0.4em;margin-bottom:0.4em;padding-left: 1em; border: 1px solid #BBBBBB">
+                            <span class="glyphicon glyphicon-edit"></span> edit
+                            <span style="color:darkred" class="glyphicon glyphicon-remove"></span> delete
+                        </div>
                     </div>
                 </div>
             {% endfor %}
