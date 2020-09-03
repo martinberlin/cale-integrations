@@ -39,7 +39,7 @@ class UserApiGalleryImageRepository extends ServiceEntityRepository
                 ];
             }
         } catch (NoResultException $e) {
-            $imgInfo = ['imageId'=>0, 'position'=>0];
+            $imgInfo = ['imageId'=>0, 'position'=>-1];
         }
         return $imgInfo;
     }

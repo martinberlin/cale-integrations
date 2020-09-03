@@ -3,6 +3,7 @@ namespace App\Form\Api;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -54,11 +55,24 @@ class IntegrationGalleryType extends AbstractType
                     'required' => false,
                     'mapped' => false,
                     'attr' => [
-                        'placeholder' => 'Copyright or Photo credits',
+                        'placeholder' => 'Photo credits',
                         'class' => 'form-control'
                     ],
                     'constraints' => array(
                         new Length(array('max' => 140))
+                    )
+                ])
+            ->add('position', NumberType::class,
+                [
+                    'label' => 'Sort position',
+                    'required' => true,
+                    'mapped' => false,
+                    'attr' => [
+                        'class' => 'form-control'
+                    ],
+                    'data' => $options['position'],
+                    'constraints' => array(
+                        new Length(array('max' => 3))
                     )
                 ])
             ->add('submit', SubmitType::class,
@@ -81,7 +95,8 @@ class IntegrationGalleryType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'allow_extra_fields' => true
+            'allow_extra_fields' => true,
+            'position' => null
         ]);
     }
 }

@@ -39,19 +39,20 @@ class BackendInternalGalleryController extends BackendHelpersController
         }
         $lastImage = $userGalleryRepository->getLastImageData($this->getUser(),$api);
         $nextImageId = $lastImage['imageId']+1;
-        $nextImagePosition = $lastImage['position']+1;
+        $imgPosition = ($lastImage['position']===-1)?$lastImage['position']+1:$lastImage['position']+10;
         $imgExtension = '';
         $imgKilobytes = 0;
+        $imgCaption = '';
         //dump($lastImage, $nextImageId,$nextImagePosition);exit();
 
         $imagePublicPath = $this->getParameter('screen_images_directory') . '/' . $this->getUser()->getId().'/'.$api->getId();
-        $form = $this->createForm(IntegrationGalleryType::class, $api);
+        $form = $this->createForm(IntegrationGalleryType::class, $api,
+        ['position' => $imgPosition]);
         $form->handleRequest($request);
-        $error = "";$preSuccessMsg = "";
+        $error = "";$messageSuccess = "";
         $imageUploaded = false;
         if ($form->getClickedButton()) {
             switch ($form->getClickedButton()->getName()) {
-
                 case 'remove_image':
                     try {
                         $removeFlag = unlink($this->publicRelativePath . $api->getImagePath());
@@ -61,45 +62,36 @@ class BackendInternalGalleryController extends BackendHelpersController
                     }
                     if ($removeFlag) {
                         $api->setImagePath('');
-                        $preSuccessMsg = "Image was removed. ";
+                        $messageSuccess = "Image was removed. ";
                     }
-                    break;
-
-                case 'remove_html':
-                    $this->addFlash('success', "The HTML api integration ".$api->getName()." was removed");
-                    $entityManager->remove($api);
-                    $entityManager->flush();
-                    return $this->redirectToRoute('b_home_apis');
                     break;
             }
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $imgCaption = $form->get('caption')->getData();
+            $imgPosition = $form->get('position')->getData();
             $imageFile = $form->get('imageFile')->getData();
             // This condition is needed because the 'imageFile' field is not required
             if ($imageFile) {
                 $imgKilobytes = round($imageFile->getSize()/1000);
                 $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
                 $imgExtension = $imageFile->guessExtension();
-                // this is needed to safely include the file name as part of the URL. We will allow only one image per HTML API so name does not matter:
-                // $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
                 $newFilename = $nextImageId . '.' . $imgExtension;
-
-                // Move the file to the directory where brochures are stored
                 $imageUploadPath = $this->publicRelativePath.$imagePublicPath;
-
-
                 try {
                     $imageUploaded = true;
                     $imageFile->move(
                         $imageUploadPath,
                         $newFilename
                     );
+                    $messageSuccess = "Image was uploaded";
 
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                     $error = $e->getMessage();
                     $imageUploaded = false;
+                    $messageSuccess = "Error uploading image: ".$error;
                 }
 
                 $api->setImagePath($imagePublicPath.'/'.$newFilename);
@@ -126,14 +118,15 @@ class BackendInternalGalleryController extends BackendHelpersController
                 $image->setUser($this->getUser());
                 $image->setIntApi($api);
                 $image->setImageId($nextImageId);
-                $image->setPosition($nextImagePosition);
+                $image->setPosition($imgPosition);
                 $image->setExtension($imgExtension);
                 $image->setKb($imgKilobytes);
+                $image->setCaption($imgCaption);
                 $userGalleryRepository->saveImage($image);
             }
 
             if ($error === '') {
-                $this->addFlash('success', $preSuccessMsg." new image saved");
+                $this->addFlash('success', $messageSuccess);
                 return $this->redirectToRoute('b_api_image_gallery',
                     [
                         'uuid' => $userApi->getId(),

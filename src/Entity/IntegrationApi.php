@@ -120,6 +120,12 @@ class IntegrationApi implements Language, Location, Created
     protected $units;
 
     /**
+     * @var integer
+     * @ORM\Column(type="integer",nullable=true)
+     */
+    protected $galleryIndex;
+
+    /**
      * @var \DateTime
      * @ORM\Column(type="datetime")
      */
@@ -359,6 +365,23 @@ class IntegrationApi implements Language, Location, Created
     {
         return $this->galleryImages;
     }
+
+    /**
+     * @return int
+     */
+    public function getGalleryIndex(): int
+    {
+        return $this->galleryIndex;
+    }
+
+    /**
+     * @param int $galleryIndex
+     */
+    public function setGalleryIndex(int $galleryIndex): void
+    {
+        $this->galleryIndex = $galleryIndex;
+    }
+
 
     public function getCreated() {
         return $this->created;

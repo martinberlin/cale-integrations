@@ -118,7 +118,7 @@ class UserApiGalleryImage
     /**
      * @param string $caption
      */
-    public function setCaption(string $caption): void
+    public function setCaption($caption)
     {
         $this->caption = $caption;
     }
