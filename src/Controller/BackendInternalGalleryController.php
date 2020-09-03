@@ -41,10 +41,10 @@ class BackendInternalGalleryController extends BackendHelpersController
 
     /**
      * Wizard to configure an internal image Gallery
-     * @Route("/gallery/{uuid}/{intapi_uuid?}", name="b_api_image_gallery")
+     * @Route("/gallery/{uuid}/{intapi_uuid?}/{image_id?}", name="b_api_image_gallery")
      */
     public function apiInternalGallery(
-        $uuid, $intapi_uuid, Request $request,
+        $uuid, $intapi_uuid, $image_id, Request $request,
         UserApiRepository $userApiRepository,
         IntegrationApiRepository $intApiRepository,
         UserApiGalleryImageRepository $userGalleryRepository,
@@ -55,12 +55,21 @@ class BackendInternalGalleryController extends BackendHelpersController
         if (!$api instanceof IntegrationApi) {
             $api = new IntegrationApi();
         }
+
         $lastImage = $userGalleryRepository->getLastImageData($this->getUser(),$api);
-        $nextImageId = $lastImage['imageId']+1;
         $imgPosition = ($lastImage['position']===-1)?$lastImage['position']+1:$lastImage['position']+10;
+
+        if (is_null($image_id) === false) {
+            $image = $userGalleryRepository->findOneBy([
+                'user'=>$this->getUser(),'intApi'=>$api,'imageId'=>$image_id]);
+            $imgPosition = $image->getPosition();
+        } else {
+            $image = new UserApiGalleryImage();
+        }
+        $nextImageId = $lastImage['imageId']+1;
         $imgExtension = '';
         $imgKilobytes = 0;
-        $imgCaption = '';
+        $imgCaption = $image->getCaption();
         // Check that max. size is not reached
         $maxUploadSize = $this->getParameter('gallery_max_size');
         $gallery = $this->galleryInfo($userGalleryRepository,$api);
@@ -74,36 +83,44 @@ class BackendInternalGalleryController extends BackendHelpersController
         $form = $this->createForm(IntegrationGalleryType::class, $api,
             [
             'position' => $imgPosition,
+            'img_caption' => $imgCaption,
             'max_size' => $maxUploadSize
             ]);
         $form->handleRequest($request);
-        $error = "";$messageSuccess = "";
+        $error = "";
+        $messageSuccess = "Image was updated";
         $imageUploaded = false;
-        if ($form->getClickedButton()) {
-            switch ($form->getClickedButton()->getName()) {
-                case 'remove_image':
+
+        // Delete image action
+        if ($request->get('delete')==='1') {
+            $imageDeletePath = $this->publicRelativePath.$imagePublicPath.'/'.$image->getImageId().'.'.$image->getExtension();
                     try {
-                        $removeFlag = unlink($this->publicRelativePath . $api->getImagePath());
+                        $removeFlag = unlink($imageDeletePath);
                     } catch (\ErrorException $e) {
                         $this->addFlash('error', "Could not find image. ");
                         $removeFlag = false;
                     }
                     if ($removeFlag) {
                         $api->setImagePath('');
+                        $entityManager->remove($image);
+                        $entityManager->flush();
                         $messageSuccess = "Image was removed. ";
+                        return $this->redirectToRoute('b_api_image_gallery',
+                            [
+                                'uuid' => $userApi->getId(),
+                                'intapi_uuid' => $api->getId()
+                            ]);
                     }
-                    break;
-            }
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $imgCaption = $form->get('caption')->getData();
             $imgPosition = $form->get('position')->getData();
             $imageFile = $form->get('imageFile')->getData();
+
             // This condition is needed because the 'imageFile' field is not required
             if ($imageFile) {
                 $imgKilobytes = round($imageFile->getSize()/1000);
-                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
                 $imgExtension = $imageFile->guessExtension();
                 $newFilename = $nextImageId . '.' . $imgExtension;
                 $imageUploadPath = $this->publicRelativePath.$imagePublicPath;
@@ -114,16 +131,13 @@ class BackendInternalGalleryController extends BackendHelpersController
                         $newFilename
                     );
                     $messageSuccess = "Image was uploaded";
-
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                     $error = $e->getMessage();
                     $imageUploaded = false;
                     $messageSuccess = "Error uploading image: ".$error;
                 }
-
                 $api->setImagePath($imagePublicPath.'/'.$newFilename);
-
             }
             $userApi->setIsConfigured(true);
             $api->setUserApi($userApi);
@@ -139,19 +153,18 @@ class BackendInternalGalleryController extends BackendHelpersController
                 $error = $e->getMessage();
                 $this->addFlash('error', $error);
             }
-
             // Add image to Gallery
             if ($imageUploaded) {
-                $image = new UserApiGalleryImage();
+                $image->setExtension($imgExtension);
                 $image->setUser($this->getUser());
                 $image->setIntApi($api);
                 $image->setImageId($nextImageId);
-                $image->setPosition($imgPosition);
-                $image->setExtension($imgExtension);
                 $image->setKb($imgKilobytes);
-                $image->setCaption($imgCaption);
-                $userGalleryRepository->saveImage($image);
             }
+            // If no new upload only this should change
+            $image->setPosition($imgPosition);
+            $image->setCaption($imgCaption);
+            $userGalleryRepository->saveImage($image);
 
             if ($error === '') {
                 $this->addFlash('success', $messageSuccess);
@@ -164,17 +177,19 @@ class BackendInternalGalleryController extends BackendHelpersController
         }
         // Calculate gallery sizes
         $gallery = $this->galleryInfo($userGalleryRepository,$api);
+
         $render = [
             'title' => 'Upload your gallery images',
             'form' => $form->createView(),
             'intapi_uuid' => $intapi_uuid,
             'userapi_id' => $userApi->getId(),
+            'image_id' => $image_id,
             'image_path' => $api->getImagePath(),
             'gallery_path' => $imagePublicPath,
             'gallery' => $gallery,
             'menu' => $this->menu
         ];
-
+        //dump($render);exit();
         return $this->render(
             'backend/api/conf-gallery.html.twig', $render
         );

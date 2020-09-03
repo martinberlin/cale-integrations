@@ -110,7 +110,7 @@ class UserApiGalleryImage
     /**
      * @return string
      */
-    public function getCaption(): string
+    public function getCaption():?string
     {
         return $this->caption;
     }

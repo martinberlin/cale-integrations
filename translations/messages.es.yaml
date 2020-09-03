@@ -284,3 +284,11 @@ Setting up Cloudwatch monitoring: Setup de Cloudwatch monitoring
 Found a bug in [AREA]: He encontrado un error en [AREA]
 Support message: Mensaje
 Send support Email: Enviar Email de soporte
+
+
+#Gallery plugin
+Name your Gallery: Nombre de la galeria de fotos
+Upload a new image (max. %max_kb% Kb): Subir una nueva imagen (max. %max_kb% Kb)
+Sort position: Posición
+Image caption: Texto para el pie de foto
+Photo credits: Creditos o autor

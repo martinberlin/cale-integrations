@@ -30,7 +30,10 @@ class IntegrationGalleryType extends AbstractType
                 ])
             ->add('imageFile', FileType::class,
                 [
-                    'label' => 'Upload a new image (max. '.$options['max_size'].' Kb)',
+                    'label' => 'Upload a new image (max. %max_kb% Kb)',
+                    'label_translation_parameters' => [
+                      '%max_kb%' => $options['max_size']
+                    ],
                     'required' => false,
                     'mapped' => false,
                     'attr' => [
@@ -59,6 +62,7 @@ class IntegrationGalleryType extends AbstractType
                         'class' => 'form-control',
                         'maxlength' => 140
                     ],
+                    'data' => $options['img_caption'],
                     'constraints' => array(
                         new Length(array('max' => 140))
                     )
@@ -98,7 +102,8 @@ class IntegrationGalleryType extends AbstractType
         $resolver->setDefaults([
             'allow_extra_fields' => true,
             'max_size' => '500k',
-            'position' => null
+            'position' => null,
+            'img_caption' => null
         ]);
     }
 }

@@ -31,35 +31,49 @@
 
                     {{ form_row(form.caption) }}
                 </div>
+                <div class="row">
+                    <div class="col-md-10 col-sm-12 col-xs-12">
                 {{ form_widget(form.submit) }}
+                    </div>
+                    <div class="col-md-2 col-sm-12 col-xs-12" style="margin-top:2em">
+                {% if image_id>0 %}
+                    <a style="color:darkred" href="{{ path('b_api_image_gallery', {'uuid':userapi_id,'intapi_uuid':intapi_uuid, 'image_id':image_id}) }}?delete=1">
+                    <span class="glyphicon glyphicon-edit"></span> Delete image
+                    </a>
+                {% endif %}
+                    </div>
+                </div>
             </div>
 
         </div>
-        <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="col-md-4 col-sm-4 col-xs-12" style="background-color: #333333;color:white">
             {% if gallery.images|length %}<label>Gallery contents</label>
                 <div class="row" style="margin-left:0;margin-right:0.1em;margin-bottom:0.1em;border: 1px solid #BBBBBB">
-                    <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="col-md-4 col-sm-12 col-xs-12">
                             {{ gallery.kb_used }} / {{ gallery.kb_max }} Kb
                     </div>
-                    <div class="col-md-6 col-sm-12 col-xs-12 text-right bold">
+                    <div class="col-md-3 col-sm-12 col-xs-12" style="font-size:9pt">
+                    position / size
+                    </div>
+                    <div class="col-md-5 col-sm-12 col-xs-12 text-right bold">
                         {{ gallery.kb_percentage_used }} % used
                     </div>
                 </div>
             {% endif %}
 
             {% for i in gallery.images %}
-                <div class="row" style="margin-bottom:1em">
+                <div class="row" style="margin-bottom:1em;{% if i.imageId==image_id %}background-color:black{% endif %}">
                     <div class="col-md-4 col-sm-12 col-xs-12">
                         <figure class="figure">
-                <img class="figure-img img-fluid z-depth-1" src="{{ gallery_path ~ '/' ~ i.imageId ~ '.' ~ i.extension }}" style="max-width:100px">
+                <img class="figure-img img-fluid z-depth-1" src="{{ gallery_path ~ '/' ~ i.imageId ~ '.' ~ i.extension }}" style="max-width:100px;border:1px solid black">
                             <figcaption style="font-size:8pt" class="figure-caption">{{ i.caption }}</figcaption>
                         </figure>
                     </div>
                     <div class="col-md-8 col-sm-12 col-xs-12" style="font-size:9pt">
-                        {{ i.kb }} Kb. Position: {{ i.position }}<br>
-                        <div style="margin-top:0.4em;margin-bottom:0.4em;padding-left: 1em; border: 1px solid #BBBBBB">
-                            <span class="glyphicon glyphicon-edit"></span> edit
-                            <span style="color:darkred" class="glyphicon glyphicon-remove"></span> delete
+                        {{ i.position }} / {{ i.kb }} Kb.<br>
+                        <div style="margin-top:0.45em;margin-bottom:0.4em;padding-left: 1em; border: 1px solid #2b2b2b;background-color:#EEEEEE;width:6em">
+                            <a href="{{ path('b_api_image_gallery', {'uuid':userapi_id,'intapi_uuid':intapi_uuid, 'image_id':i.imageId}) }}">
+                                <span class="glyphicon glyphicon-edit"></span> edit</a>
                         </div>
                     </div>
                 </div>
@@ -67,11 +81,6 @@
             <small>Images will be sorted by position ascendant. So first request to this gallery will show position 0, then 10, and so on. Just edit and update the position to a new number to update the sorting.</small>
         </div>
     </div>
-<div class="row">
-    <div class="col-md-6 col-sm-8 col-xs-12">
-        {{ form_widget(form.submit) }}
-    </div>
-</div>
 
     {{ form_end(form) }}
 {% endblock %}
