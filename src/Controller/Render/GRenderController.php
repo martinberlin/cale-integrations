@@ -38,7 +38,7 @@ class GRenderController extends AbstractController
 
         // Are we in a Symfony authenticated context or is the screenshot tool calling
         $isImageCall = false;
-        
+
         if ($this->getUser() instanceof User === false) {
             $isImageCall = true;
         }
@@ -51,7 +51,8 @@ class GRenderController extends AbstractController
         $float = ($api->getImagePosition()==='center') ? "mx-auto d-block center-img" : "float-{$api->getImagePosition()}";
         $imageHtml = '<img src="'.$imagePath.'" class="figure-img img-fluid '.$float.'" style="max-width:'.$imageMaxWidth.'px">';
         $html .= $imageHtml;
-        $html .= ($image->getCaption()) ? '<figcaption class="figure-caption">'.$image->getCaption().'</figcaption>' : '';
+        $isImageCallRender = $isImageCall ? '1':'0';
+        $html .= ($image->getCaption()) ? '<figcaption class="figure-caption">'.$isImageCallRender.$image->getCaption().'</figcaption>' : '';
         $html .= '</figure>';
         // Render the content partial and return the composed HTML
         $response = new Response();
