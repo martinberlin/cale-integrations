@@ -3,6 +3,7 @@ namespace App\Controller\Render;
 
 use App\Entity\Display;
 use App\Entity\TemplatePartial;
+use App\Entity\User;
 use App\Repository\IntegrationApiRepository;
 use App\Repository\UserApiGalleryImageRepository;
 use App\Repository\UserApiRepository;
@@ -37,7 +38,8 @@ class GRenderController extends AbstractController
 
         // Are we in a Symfony authenticated context or is the screenshot tool calling
         $isImageCall = false;
-        if (is_null($this->getUser())) {
+        //dump($this->getUser());exit();
+        if ($this->getUser() instanceof User === false) {
             $isImageCall = true;
         }
         // Retrieve next image
