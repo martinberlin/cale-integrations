@@ -37,7 +37,7 @@ class GRenderController extends AbstractController
 
         // Retrieve next image
         $image = $imageRepository->getImageNext($user, $api);
-        $imagePublicPath = $this->getParameter('screen_images_directory') . '/' . $this->getUser()->getId().'/'.$api->getId();
+        $imagePublicPath = $this->getParameter('screen_images_directory') . '/' . $user->getId().'/'.$api->getId();
         $imagePath = $imagePublicPath.'/'.$image->getImageId().'.'.$image->getExtension();
 
         $html = '<figure class="figure">';
