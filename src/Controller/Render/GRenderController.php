@@ -35,7 +35,7 @@ class GRenderController extends AbstractController
         $user = $screen->getUser();
         $imageMaxWidth = ($screen->getDisplay() instanceof Display) ? $screen->getDisplay()->getWidth() : 2000;
         $api = $partial->getIntegrationApi();
-
+        $fColor = ($partial->getInvertedColor()===false) ? $partial->getForegroundColor() : $partial->getBackgroundColor();
         // Are we in a Symfony authenticated context or is the screenshot tool calling
         $isImageCall = false;
         
@@ -46,13 +46,18 @@ class GRenderController extends AbstractController
         $image = $imageRepository->getImageNext($user, $api, $isImageCall);
         $imagePublicPath = $this->getParameter('screen_images_directory') . '/' . $user->getId().'/'.$api->getId();
         $imagePath = $imagePublicPath.'/'.$image->getImageId().'.'.$image->getExtension();
+        $textAlignCenterOpen = ($api->getImagePosition()==='center') ? '<center>' : '';
+        $textAlignCenterClose = ($api->getImagePosition()==='center') ? '</center>' : '';
 
-        $html = '<figure class="figure">';
-        $float = ($api->getImagePosition()==='center') ? "mx-auto d-block center-img" : "float-{$api->getImagePosition()}";
-        $imageHtml = '<img src="'.$imagePath.'" class="figure-img img-fluid '.$float.'" style="max-width:'.$imageMaxWidth.'px">';
-        $html .= $imageHtml;
-        $html .= ($image->getCaption()) ? '<figcaption class="figure-caption" style="font-weight:bold;color:black;font-size:10pt">'.$image->getCaption().'</figcaption>' : '';
-        $html .= '</figure>';
+        $rowOpen = '<div class="row"><div class="col-md-12 col-sm-12 col-xs-12">'.$textAlignCenterOpen."\n";
+        $rowClose = $textAlignCenterClose."\n"."</div></div>";
+
+        $html = $rowOpen;
+        $html .= '<img src="'.$imagePath.'" class="figure-img img-fluid" style="max-width:'.$imageMaxWidth.'px;float:'.$api->getImagePosition().'">'.$rowClose;
+
+        $html .= ($image->getCaption()) ?
+            $rowOpen.'<span style="margin-left:0.3em;margin-right:0.3em;font-weight:bold;color:'.$fColor.';font-size:10pt;float:'.$api->getImagePosition().'">'.$image->getCaption().'</span>'.$rowClose : '';
+
         // Render the content partial and return the composed HTML
         $response = new Response();
         $response->setContent($html);
