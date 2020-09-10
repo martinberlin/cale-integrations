@@ -47,6 +47,16 @@ class ARenderController extends AbstractController
         }
         return $colorStyle;
     }
+    private function getColorStyleNoWrap(TemplatePartial $partial, $invert = false) {
+        $fColor = ($partial->getInvertedColor()===false) ? $partial->getForegroundColor() : $partial->getBackgroundColor();
+        $bColor = ($partial->getInvertedColor()===false) ? $partial->getBackgroundColor() : $partial->getForegroundColor();
+        if ($invert === false) {
+            $colorStyle = "color:$fColor;background-color:$bColor";
+        } else {
+            $colorStyle = "background-color:$fColor;color:$bColor";
+        }
+        return $colorStyle;
+    }
     /**
      * NOTE: As a difference with other APIs google services will call the API directly without JSON first
      * render_google_calendar internally called. This reads the API data and responds with an HTML content part
@@ -131,10 +141,10 @@ class ARenderController extends AbstractController
         // Start HTML building - Headlines is a try to mould this to Screen environment
         $hs = (substr($partial->getScreen()->getTemplateTwig(), 0, 1) > 1) ? 'h4' : 'h3';
         // Retrieve color styles
-        $colorStyle = $this->getColorStyle($partial);
+        $mainColorStyle = $this->getColorStyle($partial);
         $invertedColorStyle = $this->getColorStyle($partial, true);
         $iconArrowRight = ' <span class="glyphicon glyphicon-arrow-right"></span>';
-        $responseContent = '<div class="row"' . $colorStyle . '><div class="col-md-12">';
+        $responseContent = '<div class="row" style="margin-left:0px;'.$mainColorStyle.'"><div class="col-md-12">';
 
         foreach ($events as $event) {
             $dateStart = ($event->start->getDate() != '') ? $event->start->getDate() : $event->start->getDateTime();
@@ -248,13 +258,14 @@ class ARenderController extends AbstractController
         $responseContent = '';
         // Start HTML building - Headlines is a try to mould this to Screen environment
         $hs = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h4':'h3';
+        $mainColorStyle = $this->getColorStyleNoWrap($partial);
         $colorStyle = $this->getColorStyle($partial);
         $invertedColorStyle = $this->getColorStyle($partial, true);
 
         $iconArrowRight = '<span class="glyphicon glyphicon-arrow-right"></span>';
         $iconLogo = '<img src="/assets/screen/logo/timetree-default_color.png"> ';
 
-        $responseContent = '<div class="row"'.$colorStyle.'><div class="col-md-12">';
+        $responseContent = '<div class="row" style="margin-left:0px;'.$mainColorStyle.'"><div class="col-md-12">';
         if (isset($json->data)) {
             $countResults = 1;
             foreach ($json->data as $item) {
@@ -320,7 +331,7 @@ class ARenderController extends AbstractController
             return $response;
         }
         // Read user preferences
-        $colorStyle = $this->getColorStyle($partial);
+        $colorStyle = $this->getColorStyleNoWrap($partial);
         $user = $partial->getScreen()->getUser();
         $hourFormat = $user->getHourFormat();
         // WEATHER Dark sky
@@ -341,7 +352,7 @@ class ARenderController extends AbstractController
         $colMd6 = ($partial->getScreen()->getDisplay() instanceof Display && $partial->getScreen()->getDisplay()->getWidth()>400) ? 'col-md-6 col-sm-6' : 'col-xs-6';
         $colMd4 = ($partial->getScreen()->getDisplay() instanceof Display && $partial->getScreen()->getDisplay()->getWidth()>400) ? 'col-md-4 col-sm-4' : 'col-xs-4';
 
-        $responseContent = '<div class="row"'.$colorStyle.'><div class="col-md-12 col-sm-12 col-xs-12">';
+        $responseContent = '<div class="row" style="margin:0px;padding-top:6px;'.$colorStyle.'"><div class="col-md-12 col-sm-12 col-xs-12">';
         $responseContent .= "<div class=\"row\">
             <div class=\"$colMd6 col-xs-6 \"><$hs>Low&nbsp; {$d['daily-avg-low']}<br>High {$d['daily-avg-high']}</$hs></div>
             <div class=\"$colMd6 col-xs-6 text-right\"><$hs>$iconSunrise {$d['sunrise']}<br>&nbsp;Sunset {$d['sunset']}</$hs></div></div>";
@@ -559,7 +570,7 @@ class ARenderController extends AbstractController
             return $response;
         }
         // Read user preferences
-        $colorStyle = $this->getColorStyle($partial);
+        $colorStyle = $this->getColorStyleNoWrap($partial);
         $user = $partial->getScreen()->getUser();
         $hourFormat = $user->getHourFormat();
         $units = ($partial->getIntegrationApi()->getUnits() === 'imperial') ? ' F° ':' C° ';
@@ -573,7 +584,7 @@ class ARenderController extends AbstractController
         $hs = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h4':'h3';
         $colMd4 = ($partial->getScreen()->getDisplay() instanceof Display && $partial->getScreen()->getDisplay()->getWidth()>400) ? 'col-md-4 col-sm-4' : 'col-xs-4';
 
-        $responseContent = '<div class="row"'.$colorStyle.'><div class="col-md-12 col-sm-12 col-xs-12">';
+        $responseContent = '<div class="row" style="margin:0px;padding-top:6px;'.$colorStyle.'"><div class="col-md-12 col-sm-12 col-xs-12">';
 
         $icon3 = str_replace("{icon}", 'humidity', $hIcon);
 
