@@ -37,11 +37,11 @@ class GRenderController extends AbstractController
         $api = $partial->getIntegrationApi();
         $fColor = ($partial->getInvertedColor()===false) ? $partial->getForegroundColor() : $partial->getBackgroundColor();
         // Are we in a Symfony authenticated context or is the screenshot tool calling
-        $isImageCall = true;
+        $isImageCall = false;
         
-        /*if ($this->getUser() instanceof User === false) {
+        if ($this->getUser() instanceof User === false) {
             $isImageCall = true;
-        }*/
+        }
         // Retrieve next image
         $image = $imageRepository->getImageNext($user, $api, $isImageCall);
         $imagePublicPath = $this->getParameter('screen_images_directory') . '/' . $user->getId().'/'.$api->getId();
