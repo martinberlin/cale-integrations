@@ -1,0 +1,70 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <h3>{{ 'nav_ethereum'|trans }}</h3>
+    <p>The spice, Melange, is the name of the fictional drug central to the Dune series of science fiction novels.
+        This gives the consumer a longer life span, greater vitality, and heightened awareness.
+        In an effort to separate this project of our financial woes we are going to use
+        <b>Ethereum as our spice to finance <span class="cale">CALE.es</span>
+        </b><br> With that vision we installed a mining server in our studio and we are going to further implement new premium features
+        in the site that can be unlocked with micro-transfers of this currency.
+     </p>
+    <div class="row" style="margin-top: 40px">
+        <div class="col-md-4 text-center">
+            <img src="/assets/svg/ethereum_sm.svg">
+            <br>
+            <small><a href="https://etherscan.io/address/0x65B7EF685E5B493603740310A84268c6D59f58B5" title="CALE Ethereum address" target="_blank">
+                0x65B7EF685E5B493603740310A84268c6D59f58B5
+            </a></small>
+        </div>
+        <div class="col-md-8"><h4>Secure and anonymous</h4>
+            <p>Being all this 100% transparent for everybody, but at the same time anonymous and secure,
+            it's the ideal way of payment and finance this web-service project.<br>
+                If you use the web-service in your company we kindly ask you to collaborate in
+                <a href="https://github.com/martinberlin/eink-calendar" target="_blank">github
+                    <span class="glyphicon glyphicon-heart"></span> Sponsoring</a> any of our Eink Firmware solutions or simply doing an
+                anonymous transfer to our
+                <a href="https://etherscan.io/address/0x65B7EF685E5B493603740310A84268c6D59f58B5" title="CALE Ethereum address" target="_blank">ETH address</a>.
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Planning new update to the <a href="https://twitter.com/hashtag/Ether?src=hash&amp;ref_src=twsrc%5Etfw">#Ether</a> <a href="https://twitter.com/hashtag/mining?src=hash&amp;ref_src=twsrc%5Etfw">#mining</a> server this weekend <a href="https://t.co/bUsZf9ZLEM">pic.twitter.com/bUsZf9ZLEM</a></p>&mdash; Martin the Creator (@martinfasani) <a href="https://twitter.com/martinfasani/status/1314507547244625920?ref_src=twsrc%5Etfw">October, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+        <div class="col-md-8"><h4>Mining initiave</h4>
+            Our Ethereum mining server that is making 0.1 ETH monthly which is enough to pay our Amazon AWS server costs. Additionally we also added the
+            option to donate Ethereum to collaborate with this project in our Github repositories.
+            All this can be done anonymously and we are going to use this financial aid with this goals:<br><br>
+            <ul>
+                <li>Primarily to research and develop new epaper drivers. We have already our own
+                    <a href="https://github.com/martinberlin/CalEPD" target="_blank">epaper component <span class="cale">CalEPD</span></a>
+                    that is currently being developed with new features such as color support and touch.</li>
+                <li>Buy new hardware (epapers, controllers & electronics)</li>
+                <li>Add server power for the growing demand of image processing</li>
+                <li>Handle requests to install this service in a local environment (starting at <b>1 ♦</b>)</li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

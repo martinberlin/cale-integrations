@@ -79,7 +79,8 @@
                         &nbsp;&nbsp;&nbsp;<a href="{{ path('impressum') }}">{{ 'nav_legal'|trans }}</a><br>
                         <a href="{{ path('privacy-policy') }}">{{ 'nav_privacy'|trans }}</a> |
                         <a href="{{ path('apis') }}">{{ 'nav_apis'|trans }}</a> |
-                        <a href="{{ path('firmware') }}">ESP32 Firmware</a>
+                        <a href="{{ path('firmware') }}">ESP32 Firmware</a> |
+                        <a href="{{ path('about-ethereum') }}">{{ 'nav_ethereum_short'|trans }}</a>
                     </p>
 
                     {% if app.user is null and the_route != 'home'

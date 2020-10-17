@@ -23,6 +23,8 @@ nav_get_started: Ersten Schritten
 nav_server_architecture: Serverarchitektur
 nav_api_cloudwatch: AWS Cloudwatch-Überwachung
 nav_3d: Gehäuse 3D-Modelle
+nav_ethereum: Finanziert mit Ethereum-Kryptowährung
+nav_ethereum_short: Finanziert mit ♦ ETH
 # NAV BACKEND
 navb_api: Inhalten
 navb_user: Benutzer

@@ -32,6 +32,14 @@ class HomeController extends AbstractController
         );
     }
 
+    public function aboutEthereum(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/about/ethereum-powered.html.twig',
+            ['title' => $translator->trans('nav_ethereum')]
+        );
+    }
+
     public function threeDModels(Request $request, TranslatorInterface $translator)
     {
         return $this->render(

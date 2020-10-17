@@ -28,6 +28,14 @@ about-cale:
   requirements:
     _locale: '%locales%'
 
+about-ethereum:
+  path:       /powered-by-ethereum/{_locale}
+  controller: App\Controller\HomeController::aboutEthereum
+  defaults:
+    _locale: en
+  requirements:
+    _locale: '%locales%'
+
 about-3d-model:
   path:       /housing-3d-models/{_locale}
   controller: App\Controller\HomeController::threeDModels
