@@ -630,6 +630,13 @@ class BackendApiController extends AbstractController
         }
 
         $form = $this->createForm(IntegrationEtherscanType::class, $api);
+        // If step is 2 then prefill the form
+        if ($api->getJsonSettings()) {
+            $decodeJson = json_decode($api->getJsonSettings(), true);
+            $form->get('address')->setData($decodeJson['address']);
+            $form->get('numberOfTransactions')->setData($decodeJson['numberOfTransactions']);
+            $form->get('showConversionPrice')->setData($decodeJson['showConversionPrice']);
+        }
         $form->handleRequest($request);
         $error = "";
 
@@ -637,10 +644,16 @@ class BackendApiController extends AbstractController
             // handle non-mapped: showTransactions, showConversionPrice
             $data = array();
             $data['address'] = $form->get('address')->getData();
-            $data['showTransactions'] = $form->get('showTransactions')->getData();
+            $data['numberOfTransactions'] = ($form->get('numberOfTransactions')->getData()) ?? 0;
             $data['showConversionPrice'] = $form->get('showConversionPrice')->getData();
-
-            dump($data);exit();
+            $defaultJsonArray = [];
+            try {
+                $defaultJsonArray = json_decode($userApi->getApi()->getDefaultJsonSettings(), true);
+            } catch (\Exception $e) {
+                // Warn about default settings missing
+            }
+            $defaultJsonArray = array_merge($data,$defaultJsonArray);
+            $api->setJsonSettings(json_encode($defaultJsonArray));
             $api->setUserApi($userApi);
             try {
                 $entityManager->persist($api);
@@ -652,8 +665,7 @@ class BackendApiController extends AbstractController
 
             if ($error === '') {
                 $this->addFlash('success', "Saved");
-
-                return $this->redirectToRoute('b_api_wizard_cale-timetree',
+                return $this->redirectToRoute('api_etherscan',
                     ['uuid' => $userApi->getId(), 'intapi_uuid' => $api->getId(), 'step' => 2]);
             }
         }

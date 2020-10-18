@@ -29,9 +29,9 @@ class IntegrationEtherscanType extends IntegrationApiType
                     ]
                 ])
 
-            ->add('showTransactions', IntegerType::class,
+            ->add('numberOfTransactions', IntegerType::class,
                 [
-                    'label' => 'Number of transactions to show. Empty to disable',
+                    'label' => 'Number of transactions to list below balance. Empty to disable',
                     'mapped' => false,
                     'required' => false,
                     'attr' => [
@@ -71,7 +71,7 @@ class IntegrationEtherscanType extends IntegrationApiType
                     'attr' => [
                         'class' => 'form-control',
                         'readonly' => true,
-                        'rows'  => 2
+                        'rows'  => 3
                     ]
                 ])
         ;
