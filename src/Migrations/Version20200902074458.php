@@ -21,7 +21,8 @@ final class Version20200902074458 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-        $this->addSql("INSERT INTO `app_api` (`id`, `url_name`, `name`, `url`, `request_parameters`, `response_type`, `is_location_api`, `documentation_url`, `default_json_settings`, `api_cat_id`, `auth_note`, `json_route`, `edit_route`) VALUES ('8', '', 'Image gallery', NULL, NULL, 'HTML', '0', NULL, NULL, '9', NULL, 'App\\\Controller\\\Render\\\GRenderController::render_gallery', 'b_api_image_gallery')");
+        $this->addSql("INSERT INTO `app_api` (`id`, `url_name`, `name`, `url`, `request_parameters`, `response_type`, `is_location_api`, `documentation_url`, `default_json_settings`, `api_cat_id`, `auth_note`, `json_route`, `edit_route`) 
+VALUES ('8', '', 'Image gallery', NULL, NULL, 'HTML', '0', NULL, NULL, '9', NULL, 'App\\\Controller\\\Render\\\GRenderController::render_gallery', 'b_api_image_gallery')");
         $this->addSql("ALTER TABLE app_int_api ADD gallery_index INT DEFAULT NULL");
         $this->addSql('CREATE TABLE app_user_api_gallery (user_id INT NOT NULL, user_api_id VARCHAR(40) NOT NULL, 
 image_id INT NOT NULL, caption VARCHAR(140) DEFAULT NULL, 

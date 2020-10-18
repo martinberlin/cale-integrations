@@ -1,0 +1,87 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        {{ form_start(form) }}
+        <div class="col-md-7">
+            This API shows the balance of your Ethereum account as default, with a small icon and the balance like <b style="font-size:20px">♦ 0.1 ETH</b>
+            {{ form_errors(form) }}
+            {{ form_row(form.name) }}
+            {{ form_row(form.address) }}
+        </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <p style="color:#A9A9A9">The json settings for this API are filled automatically when this form is filled
+                </p>
+                {{ form_row(form.jsonSettings) }}
+            </div>
+            <div class="col-md-4" style="margin-top: 0.8em">
+                <h4>API Settings</h4>
+                <small>Please be aware that both of this options are disabled as default, since it needs to make an additional API query for each,
+                    and this can have the side effect to make the image renders slower.</small>
+                {{ form_row(form.showTransactions) }}
+                <br>
+                {{ form_widget(form.showConversionPrice) }} {{ form_label(form.showConversionPrice) }}
+
+                {{ form_widget(form.submit, {'attr':{'style':'margin-top:0.4em'}}) }}
+            </div>
+
+            <label style="margin-left: 1em">{{'api_response'|trans}}</label>
+            <div class="col-md-5" id="api_preview" style="height: 500px;overflow-y: auto">
+                Preview after saving configuration settings<br>
+            </div>
+            {{ form_end(form) }}
+        </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        let intapi_uuid = "{{ intapi_uuid }}";
+        let userapi_id = "{{ userapi_id }}";
+        let cal_id = "{{ form.vars.value.calId }}";
+
+
+        let timezone  = document.getElementById('timezone');
+        let loc = document.getElementById('location_check');
+        let setloc = document.getElementById('location_set');
+        let api_preview = document.getElementById('api_preview');
+        var xhReq = new XMLHttpRequest();
+        if (intapi_uuid === "") {
+            xhReq.open("GET", "{{ path('b_iptolocation', {'type':'timezone'}) }}", false);
+            xhReq.send(null);
+            var getJson = xhReq.responseText;
+            var obj = JSON.parse(getJson);
+
+            loc.innerHTML = "Timezone detected: <b>"+obj.timezone+"</b>";
+
+            if (typeof(obj.timezone) === "string") {
+                document.getElementById('location_disco').style.visibility = 'visible';
+            }
+            setloc.onchange = function() {
+                if (setloc.checked) {
+                    timezone.value = obj.timezone;
+                }
+            }
+        }
+
+        {% if form.vars.value.calId == "" %}
+            xhReq.open("GET", "{{ path('json_shared_calendar',
+            {'api_id': userapi_id,'type':'userapi','cal_id': form.vars.value.calId}) }}", false);
+        {% else %}
+            {% if intapi_uuid != "" %}
+            xhReq.open("GET", "{{ path('json_shared_calendar',
+            {'api_id': intapi_uuid,'type':'intapi','cal_id': form.vars.value.calId}) }}", false);
+            {% endif %}
+        {% endif %}
+
+            xhReq.send(null);
+            var jsonObj = JSON.parse(xhReq.responseText);
+            var str = JSON.stringify(jsonObj, undefined, 2); {# 2 = spacing #}
+            api_preview.innerHTML = '';
+
+            api_preview.appendChild(document.createElement('pre')).innerHTML = syntaxHighlightJson(str);
+
+    </script>
+{% endblock %}

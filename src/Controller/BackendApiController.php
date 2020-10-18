@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\IntegrationApi;
 use App\Entity\UserApi;
 use App\Form\Api\ApiConfigureSelectionType;
+use App\Form\Api\Crypto\IntegrationEtherscanType;
 use App\Form\Api\IntegrationAwsCloudwatchType;
 use App\Form\Api\IntegrationAwsType;
 use App\Form\Api\IntegrationHtmlType;
@@ -612,4 +613,59 @@ class BackendApiController extends AbstractController
         );
     }
 
+
+    /**
+     * @Route("/crypto/etherscan/{uuid}/{intapi_uuid?}/{step?1}", name="api_etherscan")
+     */
+    public function apiEtherscan(
+        $uuid, $intapi_uuid, $step, Request $request,
+        UserApiRepository $userApiRepository,
+        IntegrationApiRepository $intApiRepository,
+        EntityManagerInterface $entityManager)
+    {
+        $userApi = $this->getUserApi($userApiRepository, $uuid);
+        $api = $this->getIntegrationApi($intApiRepository, $intapi_uuid);
+        if (is_null($api->getJsonSettings()) || $api->getJsonSettings() ==='') {
+            $api->setJsonSettings($userApi->getApi()->getDefaultJsonSettings());
+        }
+
+        $form = $this->createForm(IntegrationEtherscanType::class, $api);
+        $form->handleRequest($request);
+        $error = "";
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // handle non-mapped: showTransactions, showConversionPrice
+            $data = array();
+            $data['address'] = $form->get('address')->getData();
+            $data['showTransactions'] = $form->get('showTransactions')->getData();
+            $data['showConversionPrice'] = $form->get('showConversionPrice')->getData();
+
+            dump($data);exit();
+            $api->setUserApi($userApi);
+            try {
+                $entityManager->persist($api);
+                $entityManager->flush();
+            } catch (\Exception $e) {
+                $error = $e->getMessage();
+                $this->addFlash('error', $error);
+            }
+
+            if ($error === '') {
+                $this->addFlash('success', "Saved");
+
+                return $this->redirectToRoute('b_api_wizard_cale-timetree',
+                    ['uuid' => $userApi->getId(), 'intapi_uuid' => $api->getId(), 'step' => 2]);
+            }
+        }
+        return $this->render(
+            'backend/api/crypto/conf-etherscan.html.twig',
+            [
+                'title' => 'Configure Etherscan.io API',
+                'form'  => $form->createView(),
+                'intapi_uuid' => $intapi_uuid,
+                'userapi_id'  => $userApi->getId(),
+                'menu' => $this->menu
+            ]
+        );
+    }
 }
