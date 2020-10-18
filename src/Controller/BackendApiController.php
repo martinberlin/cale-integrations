@@ -23,7 +23,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -631,19 +633,22 @@ class BackendApiController extends AbstractController
 
         $form = $this->createForm(IntegrationEtherscanType::class, $api);
         // If step is 2 then prefill the form
-        if ($api->getJsonSettings()) {
-            $decodeJson = json_decode($api->getJsonSettings(), true);
+        $decodeJson = json_decode($api->getJsonSettings(), true);
+        if (in_array('address', $decodeJson)) {
             $form->get('address')->setData($decodeJson['address']);
             $form->get('numberOfTransactions')->setData($decodeJson['numberOfTransactions']);
             $form->get('showConversionPrice')->setData($decodeJson['showConversionPrice']);
+            $form->get('actionQuery')->setData($decodeJson['action']);
         }
         $form->handleRequest($request);
         $error = "";
+        $actionQuery = $form->get('actionQuery')->getData();
 
         if ($form->isSubmitted() && $form->isValid()) {
             // handle non-mapped: showTransactions, showConversionPrice
             $data = array();
             $data['address'] = $form->get('address')->getData();
+            $data['action'] = $form->get('actionQuery')->getData();
             $data['numberOfTransactions'] = ($form->get('numberOfTransactions')->getData()) ?? 0;
             $data['showConversionPrice'] = $form->get('showConversionPrice')->getData();
             $defaultJsonArray = [];
@@ -664,7 +669,8 @@ class BackendApiController extends AbstractController
             }
 
             if ($error === '') {
-                $this->addFlash('success', "Saved");
+                $this->addFlash('success', ($actionQuery==="balance")?"Saved":
+                    "Saved. Keep in mind that the transactions list will work good only in big screens (WIDTH >= 400px)");
                 return $this->redirectToRoute('api_etherscan',
                     ['uuid' => $userApi->getId(), 'intapi_uuid' => $api->getId(), 'step' => 2]);
             }
@@ -675,9 +681,46 @@ class BackendApiController extends AbstractController
                 'title' => 'Configure Etherscan.io API',
                 'form'  => $form->createView(),
                 'intapi_uuid' => $intapi_uuid,
+                'intapi'      => $api,
                 'userapi_id'  => $userApi->getId(),
+                'action_query' => $actionQuery,
                 'menu' => $this->menu
             ]
         );
     }
+
+    /**
+     * @Route("/crypto/json/ether_balance/{intapi_uuid?}/{action?}", name="json_etherscan")
+     */
+    public function jsonEtherBalance(Request $r, $intapi_uuid, $action, IntegrationApiRepository $intApiRepository)
+    {
+        $options = [];
+        if (isset($_ENV['API_PROXY'])) {
+            $options = array('proxy' => 'http://'.$_ENV['API_PROXY']);
+        }
+        $api = $intApiRepository->findOneBy(['uuid' => $intapi_uuid]);
+        if (!$api instanceof IntegrationApi) {
+           throw $this->createNotFoundException("$intapi_uuid is not a valid integration API");
+        }
+        $userApi = $api->getUserApi();
+        $apiConfig = $userApi->getApi();
+        $apiKey = $userApi->getAccessToken();
+        $jsonConfig = json_decode($api->getJsonSettings());
+        // Prepare URL
+        // https://api.etherscan.io/api?module=[module]&action=[action]&address=[address]&apikey=[apikey]
+        $url = str_replace('[module]','account', $apiConfig->getUrl());
+        $url = str_replace('[action]',$action, $url);
+        $url = str_replace('[address]',$jsonConfig->address, $url);
+        $url = str_replace('[apikey]',$apiKey, $url);
+        $client = HttpClient::create();
+        $response = $client->request('GET', $url, $options);
+        $r = new JsonResponse();
+        if ($response->getStatusCode() === 200) {
+            $r->setContent($response->getContent());
+        } else {
+            $r->setContent('{"error":"Etherscan API returned status code:"'.$response->getStatusCode().'"}")');
+        }
+        return $r;
+    }
+
 }
