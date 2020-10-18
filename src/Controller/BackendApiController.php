@@ -658,6 +658,7 @@ class BackendApiController extends AbstractController
                 // Warn about default settings missing
             }
             $defaultJsonArray = array_merge($data,$defaultJsonArray);
+            $userApi->setIsConfigured(true);
             $api->setJsonSettings(json_encode($defaultJsonArray));
             $api->setUserApi($userApi);
             try {
