@@ -1,4 +1,5 @@
 {% extends '/base.html.twig' %}
+{% set bmp_800_demo = 'http://img.cale.es/bmp/cale_www/5f927722b40d9' %}
 
 {% block carousel %}
     {% include "/partials/carousel.html.twig" %}
@@ -13,15 +14,9 @@
     </h4>
 
         {% if app.environment != 'dev' %}
-            {% set img_cloudwatch = cdn_s3~'/img/index_cloudwatch.png' %}
-            {% set bmp_cloudwatch = cdn_s3~'/img/index_cloudwatch.bmp' %}
-
         <video id="index" title="Video: Convert your Screen into an Eink" width="100%" controls autoplay>
             <source src="{{ cdn_s3 }}/v/c-converts-your-screens.mov">
         </video>
-            {% else %}
-                {% set img_cloudwatch = '/img/www/carousel/index_cloudwatch.png' %}
-                {% set bmp_cloudwatch = '/img/www/carousel/index_cloudwatch.bmp' %}
         {% endif %}
 
     </div>
@@ -44,13 +39,10 @@
     <br><br>
     <div class="row">
     <div class="col-md-12">
-        <h4>Beispiel für eine API-Integration mit Cloudwatch-Überwachung</h4>
+        <h3>Beispiel für eine API-Integration mit Etherscan und AWS Cloudwatch-Überwachung</h3>
 
-        <h3>Screen generation für einem <a href="{{ path('displays-tft') }}">TFT WiFi display</a></h3>
-        <img src="{{ img_cloudwatch }}" width="100%"><br>
-
-        <h3>Screen generation für einem <a href="{{ path('displays-eink') }}">E-Ink WiFi display</a></h3>
-        <img src="{{ bmp_cloudwatch }}" width="100%"><br>
+        <h4>Screen generation für einem <a href="{{ path('displays-eink') }}">800*480 E-Ink WiFi display</a></h4>
+        <img src="{{ bmp_800_demo}}" style="border:1px solid gray;margin-left:1px" width="98%"><br><br>
 
         <a href="https://play.google.com/store/apps/details?id=io.cordova.cale" target="_blank" title="CALE Android application">
             <img src="/assets/www/firmware/cale_app_1.jpg" style="margin-top:1.6em;margin-right:19px" alt="CALE Android app" class="pull-right"></a>

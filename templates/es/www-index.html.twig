@@ -1,4 +1,5 @@
 {% extends '/base.html.twig' %}
+{% set bmp_800_demo = 'http://img.cale.es/bmp/cale_www/5f927722b40d9' %}
 
 {% block carousel %}
     {% include "/partials/carousel.html.twig" %}
@@ -38,13 +39,10 @@
     <br><br>
     <div class="row">
         <div class="col-md-12">
-            <h4>Ejemplo con visualización de Cloudwatch monitoring</h4>
+            <h3>Ejemplo con visualización con Etherscan y Cloudwatch monitoring API</h3>
 
-            <h3>Imágen para un <a href="{{ path('displays-tft') }}">display WiFi TFT</a></h3>
-            <img src="{{ img_cloudwatch }}" width="100%"><br>
-
-            <h3>Imágen renderizada para un <a href="{{ path('displays-eink') }}">E-Ink WiFi display</a></h3>
-            <img src="{{ bmp_cloudwatch }}" width="100%"><br>
+            <h4>Imágen renderizada para un <a href="{{ path('displays-eink') }}">Epaper display de 800*480 pixeles</a></h4>
+            <img src="{{ bmp_800_demo}}" style="border:1px solid gray;margin-left:1px" width="98%"><br><br>
         </div>
     </div>
 {% endblock %}
