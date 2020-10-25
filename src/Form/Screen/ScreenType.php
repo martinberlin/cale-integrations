@@ -113,7 +113,8 @@ class ScreenType extends AbstractType
             ])
 
             ->add('loggingActive', CheckboxType::class, [
-                'label' => 'Log every request to this display'
+                'label' => 'Log every request to this display',
+                'required' => false
             ])
 
             ->add('stDayFrom', ChoiceType::class,
