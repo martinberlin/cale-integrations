@@ -135,6 +135,7 @@ class IntegrationApi implements Language, Location, Created
     {
         $this->uuid = uniqid();
         $this->setCreated(new \DateTime());
+        $this->partials = new ArrayCollection();
         $this->galleryImages = new ArrayCollection();
     }
 
@@ -382,6 +383,13 @@ class IntegrationApi implements Language, Location, Created
         $this->galleryIndex = $galleryIndex;
     }
 
+    /**
+     * @return ArrayCollection
+     */
+    public function getPartials()
+    {
+        return $this->partials;
+    }
 
     public function getCreated() {
         return $this->created;

@@ -5,10 +5,12 @@ namespace App\Controller\Admin;
 use App\Entity\Api;
 use App\Entity\Display;
 use App\Entity\ShippingTracking;
+use App\Entity\User;
 use App\Form\Admin\ApiType;
 use App\Form\Admin\DisplayType;
 use App\Form\Admin\NewsletterType;
 use App\Form\Admin\ShippingType;
+use App\Form\TerminateType;
 use App\Repository\ApiRepository;
 use App\Repository\DisplayRepository;
 use App\Repository\ShippingTrackingRepository;
@@ -16,6 +18,7 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -45,12 +48,74 @@ class BackendAdminController extends AbstractController
     }
 
     /**
+     * @Route("/user/{id}", name="b_admin_user_profile")
+     */
+    public function userProfile($id, UserRepository $userRepository)
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+        $user = $userRepository->find($id);
+        if ($user instanceof User === false) {
+            $this->addFlash('error', "No user with ID: ".$id);
+            return $this->redirectToRoute('b_admin_dashboard');
+        }
+
+        return $this->render(
+            'backend/admin/admin-user-profile-view.html.twig',
+            [
+                'title' => 'User profile for '.$user->getName().' (id:'.$user->getId().')',
+                'user' => $user,
+                'menu' => $this->menu
+            ]
+        );
+    }
+
+    /**
+     * @Route("/user_delete/{id}", name="b_user_delete_id")
+     */
+    public function deleteUserByAdmin($id, Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository)
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+        $user = $userRepository->find($id);
+        if ($user instanceof User === false) {
+            $this->addFlash('error', "No user with ID: ".$id);
+            return $this->redirectToRoute('b_admin_dashboard');
+        }
+        if ($user->getUsername() === 'martin@cale.es') {
+            $this->addFlash('error', "Superadmin cannot be deleted");
+            return $this->redirectToRoute('b_admin_dashboard');
+        }
+        $form = $this->createForm(TerminateType::class, null);
+        $form->handleRequest($request);
+
+        $confirm = $form->get('confirm')->getViewData();
+
+        $formSubmitted = $form->isSubmitted() && $form->isValid();
+        if ($formSubmitted) {
+            if ($confirm) {
+                $entityManager->remove($user);
+                $entityManager->flush();
+                $this->addFlash('success', 'User account for '.$id.':'.$user->getUsername().' was terminated');
+                return $this->redirectToRoute('b_admin_dashboard');
+            } else {
+                $this->addFlash('error', 'Please mark the checkbox if you really want to confirm your account termination');
+            }
+        }
+
+        return $this->render(
+            'backend/user/terminate.html.twig', [
+                'title' => 'Terminate user ID:'.$id.' <'.$user->getUsername().'> account at CALE',
+                'form' => $form->createView(),
+                'menu' => $this->menu
+            ]
+        );
+    }
+
+    /**
      * @Route("/apis", name="b_admin_apis")
      */
     public function apis(ApiRepository $apiRepository)
     {
         $apis = $apiRepository->findAll();
-
         return $this->render(
             'backend/admin/apis.html.twig',
             [

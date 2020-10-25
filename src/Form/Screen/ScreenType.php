@@ -8,6 +8,7 @@ use App\Repository\DisplayRepository;
 use App\Repository\UserWifiRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -110,6 +111,11 @@ class ScreenType extends AbstractType
                 'label' => 'Bearer token',
                 'attr' => ['class' => 'form-control','readonly' => true]
             ])
+
+            ->add('loggingActive', CheckboxType::class, [
+                'label' => 'Log every request to this display'
+            ])
+
             ->add('stDayFrom', ChoiceType::class,
                 [
                     'choices' => $options['stDays'],
