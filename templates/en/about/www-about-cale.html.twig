@@ -20,28 +20,26 @@
 {% endblock carousel %}
 
 {% block body %}
-    <h3>What is <span class="cale" style="font-weight:bolder">CALE</span>?</h3>
-
-    <p><b><span class="cale" style="font-weight:bolder">CALE</span> is a screen administrator where you can mix content of different APIs and control the content
-            output</b><br>
+    <p><h3><span class="cale" style="font-weight:bolder">CALE</span> is a screen administrator where you can mix content of different APIs and control the content
+            output</h3>
+    <br>
     <h3>Practical uses</h3>
-        <ul>
+        <ul style="font-weight:bolder">
             <li>Meeting room sign that updates every hour showing next meetings and attendees</li>
             <li>Living picture, showing events or <a href="{{ path('www_api-cloudwatch') }}">Cloudwatch statistics</a></li>
             <li>Help screens at the side of your laptop, refreshing dynamic information every 10 minutes</li>
             <li>Any other application you may find interesting to see in real-time outside the monitor</li>
         </ul>
-<b>We can integrate any external API in a question of hours. This is open-source and free for personal use up to 3 Screens.</b>
+We can integrate any external API in a question of hours. This is open-source and free for personal use up to 3 Screens.
         {% if app.environment != 'dev' %}
         <video id="index" title="Video: About" width="100%" controls>
             <source src="{{ cdn_s3 }}/v/cale-1.mov">
         </video>
         {% endif %}
-<br>
-    <details>
-        <summary>
-            <h3 style="display:inline">What it does in two simple steps</h3>
-        </summary>
+<br><br>
+
+    <h3 style="display:inline">What it does in two simple steps</h3>
+
     <ol>
     <li><span class="cale">CALE</span> receives a request from your Screen</li>
     <li>Returns a response with an image or HTML if you want to use it anywhere in the web</li>
@@ -53,37 +51,8 @@
         to 3 different Screens. If you need to use it for business and need a setup with more Screens please get in touch with us on the
         support section after <a href="{{ path('register') }}">registering an account</a>.
         Check our <a href="{{ path('firmware') }}">Firmware for ESP32/ESP8266</a> and <a href="{{ path('displays-eink') }}">the supported E-ink displays</a> in order to build
-        one of this displays yourself. Additionally we recently added support for <a href="{{ path('displays-tft') }}">TFT Displays</a> (Firmware coming at the beginning of April 2020)
-    </p>
-    </details>
-    <details>
-        <summary>
-            <h3 style="display:inline">Electronic Ink</h3>
-        </summary>
-    <p>Primary target displays are the so called Eink or Epaper.
-        The technical term is electrophoretic ink, that when laminated to a plastic film and then adhered to
-        electronics, it creates an Electronic Paper Display (EPD).
-        The ones that expose an SPI interface for makers come in up to 2 EInk colors, 3 colors counting the white
-        background, but in the first version of this Screen administrator tool we are targeting only the ones with Black
-        ink (2 colors).
-    </p>
-    </details>
-
-    <div class="row">
-        <div class="col-md-6">
-            <b>Eink is made of millions of tiny microcapsules</b><br>
-            <img src="/assets/svg/eink-1.svg" width="199"><br>
-            This particles are the diameter of human hairs. We are <a href="{{ path('displays-eink') }}">supporting many EPD displays</a> using the library <a
-                    href="https://github.com/ZinggJM/GxEPD" target="_blank">GxEPD</a>
-        </div>
-        <div class="col-md-6">
-            <b>Each microcapsule contains electrically charged particles</b><br>
-            <img src="/assets/svg/eink-2.svg" width="199"><br>
-            When an electrical field is applied the microcapsules with opposite sign
-            float to the top of the display, creating a crisp image that can be seen without any backlight.
-        </div>
-    </div>
-
+        one of this displays yourself. Additionally we recently added support for <a href="{{ path('displays-tft') }}">TFT Displays</a> (Firmware coming at the beginning of April 2020
+<br>
     <h3>How the Firmare works to read the Screen</h3>
 
     <p>Right now what the Firmware does is very simple:</p>
@@ -95,7 +64,7 @@
 
 <details>
         <summary>
-            <h3 style="display:inline">Service Times functionality</h3>
+            <h3 style="display:inline">Service Times functionality</h3> <small style="font-size:9pt;color:#666666">(Click to open)</small>
         </summary>
     Optionally to save more energy, since the consumption peak is getting online, we built a mechanism to compare the hour and run
     it only on the desired time. This is called <b>Service Times</b> and is available in every Screen configuration and it boils down to 2 points:<br><br>
@@ -110,6 +79,33 @@
     sized bitmap and to send it via SPI to the display. As a second point, EInk displays have a factory lifespan of 1 million prints,
     so we want to optimize both battery lifespan and the life of your display itself.
 </details>
+    <br><br>
+    <details>
+        <summary>
+            <h3 style="display:inline">How Electronic Ink works</h3> <small style="font-size:9pt;color:#666666">(Click to open)</small>
+        </summary>
+        <p>Primary target displays are the so called Eink or Epaper.
+            The technical term is electrophoretic ink, that when laminated to a plastic film and then adhered to
+            electronics, it creates an Electronic Paper Display (EPD).
+            The ones that expose an SPI interface for makers come in up to 2 EInk colors, 3 colors counting the white
+            background, but in the first version of this Screen administrator tool we are targeting only the ones with Black
+            ink (2 colors).
+        </p>
+        <div class="row">
+            <div class="col-md-6">
+                <b>Eink is made of millions of tiny microcapsules</b><br>
+                <img src="/assets/svg/eink-1.svg" width="199"><br>
+                This particles are the diameter of human hairs. We are <a href="{{ path('displays-eink') }}">supporting many EPD displays</a> using the library <a
+                        href="https://github.com/ZinggJM/GxEPD" target="_blank">GxEPD</a>
+            </div>
+            <div class="col-md-6">
+                <b>Each microcapsule contains electrically charged particles</b><br>
+                <img src="/assets/svg/eink-2.svg" width="199"><br>
+                When an electrical field is applied the microcapsules with opposite sign
+                float to the top of the display, creating a crisp image that can be seen without any backlight.
+            </div>
+        </div>
+    </details>
 {% endblock %}
 
 {% block javascripts %}
