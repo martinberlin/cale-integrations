@@ -92,6 +92,11 @@ class Screen implements Created
     protected $outCompressed;
 
     /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    protected $loggingActive;
+
+    /**
      * On false an Authorization Bearer should be sent
      * @var bool
      * @ORM\Column(type="boolean")
@@ -151,6 +156,7 @@ class Screen implements Created
         $this->outCacheSeconds = 30;
         $this->outBitDepth = 1;
         $this->outCompressed = 0;
+        $this->loggingActive = 1;
         $this->stDayTo = '7';
         $this->stHourTo = '23';
         $this->outSsl = 0;
@@ -400,6 +406,22 @@ class Screen implements Created
     public function setOutCompressed($outCompressed)
     {
         $this->outCompressed = $outCompressed;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getLoggingActive()
+    {
+        return $this->loggingActive;
+    }
+
+    /**
+     * @param bool
+     */
+    public function setLoggingActive($l)
+    {
+        $this->loggingActive = $l;
     }
 
     /**

@@ -37,6 +37,11 @@
                     {{ form_row(form.public) }}
 
                     {{ form_row(form.outBearer) }}
+
+                    <br>
+                    {{ form_widget(form.loggingActive) }} {{ form_label(form.loggingActive) }}<br>
+                    <small>Logging will save a row per request in our DB with the local IP Address so you can identify what device downloaded an image
+                    (Only if enabled on Firmware side)</small>
                 </div>
             </div>
 

@@ -1,0 +1,107 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-8 col-sm-6 col-xs-12">
+            <div class="row">
+                <div class="col-md-4">
+                    <label>Username</label>
+                </div>
+                <div class="col-md-8">
+                    {{ user.username }} &nbsp;
+                    {% if user.doNotDisturb%}&lt;Do not disturb&gt;{% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label>Roles</label>
+                </div>
+                <div class="col-md-8">
+                    {% for role in user.roles %}
+                    {{ role }}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label>Last login</label>
+                </div>
+                <div class="col-md-8">
+                    {{ user.lastLogin|date('Y-m-d H:m')  }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label>Agreement accepted?</label>
+                </div>
+                <div class="col-md-8">
+                    {{ user.agreementAccepted }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label>Max. Screens</label>
+                </div>
+                <div class="col-md-8">
+                    {{ user.maxScreens }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label>Timezone</label>
+                </div>
+                <div class="col-md-8">
+                    {{ user.timezone }} {{ user.dateFormat }}
+                </div>
+            </div>
+
+            <hr><h3>Screens used</h3>
+            {% if user.screens|length == 0 %}
+                None.
+            {% endif %}
+            <ul>
+            {% for s in user.screens %}
+                <li>{{ s.name }}
+                {% if s.display %}
+                    {{ s.display.type }} {{ s.display.classname }}
+                    {{ s.display.width }}x{{ s.display.height }}
+                {% endif %}
+            {% endfor %}
+            </li>
+            </ul>
+
+
+            <hr><h3>APIs used</h3>
+            {% if user.userApis|length == 0 %}
+                None.
+            {% endif %}
+            {% for ua in user.userApis %}
+                UserApi {{ ua.id }} API:{{ ua.api.name }}
+                {% if ua.integrationApis|length %}
+                <label>Integrated as:</label>
+                {% endif %}
+                <ul>
+                {% for ia in ua.integrationApis %}
+                <li>{{ ia.id }}:{{ ia.name }}<br>
+                    {% if ia.partials|length %}
+                        <label>Used in template:</label>
+                    {% endif %}
+                    <ul>
+                    {% for p in ia.partials %}
+                        <li>{{ p.screen.name }} {{ p.placeholder }}</li>
+                    {% endfor %}
+                    </ul>
+                </li>
+                {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12" style="margin-top: 6.4em">
+            <span class="alert alert-danger">I would like to delete this user account and all his personal data.
+            </span>
+            <h4 class="alert alert-danger">
+                <a href="{{ path('b_user_delete_id',{'id':user.id}) }}">Terminate this user account</a>
+            </h4>
+        </div>
+    </div>
+{% endblock %}

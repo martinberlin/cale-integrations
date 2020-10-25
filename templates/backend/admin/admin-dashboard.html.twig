@@ -13,7 +13,7 @@
                    style="border:1px white solid;">
                 <thead>
                 </tr>
-                <th>Email</th>
+                <th>User/Mail</th>
                 <th>Screens</th>
                 <th>Last login</th>
                 <th>DnD</th>
@@ -22,12 +22,12 @@
                 <tbody>
                 {% for user in users %}
                     <tr style="border:1px #1b6d85 dashed">
-                        <td><small>{{ user.email }} A:{{ user.userApis|length }}</small></td>
+                        <td><a href="{{ path('b_admin_user_profile', {'id':user.id}) }}" title="{{ user.name }}"><span class="glyphicon glyphicon-user"></span></a>
+                            <small>{{ user.email }} A:{{ user.userApis|length }}</small></td>
 
                         <td valign="top">{% for s in user.screens %}
 
-                                {% if loop.index < 3 %}
-
+                                {% if loop.index < 3 and s.display %}
                                     <div class="col-md-1 col-sm-2 col-xs-2">
                                         <small><a href="{{ path('b_render_image', {'uuid':s.id, 'isThumbnail':0}) }}"
                                                   target="_blank" title="{{ s.name }}">
