@@ -24,6 +24,14 @@
             </div>
             <div class="row">
                 <div class="col-md-4">
+                    <label>Created</label>
+                </div>
+                <div class="col-md-8">
+                    {{ user.created|date('Y-m-d H:m')  }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
                     <label>Last login</label>
                 </div>
                 <div class="col-md-8">
@@ -97,8 +105,8 @@
             {% endfor %}
         </div>
         <div class="col-md-4 col-sm-6 col-xs-12" style="margin-top: 6.4em">
-            <span class="alert alert-danger">I would like to delete this user account and all his personal data.
-            </span>
+            <b>I would like to delete this user account and all his personal data.
+            </b>
             <h4 class="alert alert-danger">
                 <a href="{{ path('b_user_delete_id',{'id':user.id}) }}">Terminate this user account</a>
             </h4>
