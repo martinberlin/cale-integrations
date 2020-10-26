@@ -35,7 +35,9 @@
                     <label>Last login</label>
                 </div>
                 <div class="col-md-8">
+                    {% if user.lastLogin %}
                     {{ user.lastLogin|date('Y-m-d H:m')  }}
+                    {% endif %}
                 </div>
             </div>
             <div class="row">
