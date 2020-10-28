@@ -186,12 +186,16 @@ class BackendAdminController extends AbstractController
         if ($formSubmitted) {
             $title = $form->get('title')->getViewData();
             $body = $form->get('html')->getViewData();
+            $target = $form->get('target')->getViewData();
             $testEmailFlag = $form->get('testEmail')->getViewData();
             $users = $userRepository->findBy(['doNotDisturb' => false]);
             $sentCount = 0;
 
             foreach ($users as $user) {
                 if ($testEmailFlag && $sentCount>0) break;
+                if ($target === 'no_screen' && $user->getScreens()->count()) {
+                    continue;
+                }
                 if ($testEmailFlag) {
                     $emailTo = $emailTest;
                 } else {

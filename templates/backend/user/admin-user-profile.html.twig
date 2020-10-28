@@ -10,8 +10,10 @@
     {{ form_end(form) }}
         </div>
         <div class="col-md-6 col-sm-6 col-xs-12" style="margin-top: 6.4em">
+            {% if first_time != 1 %}
             <span class="alert alert-danger">I would like to delete my account and all my personal data.
             <a href="{{ path('b_user_terminate') }}">Terminate my account</a></span>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

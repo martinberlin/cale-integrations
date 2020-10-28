@@ -1,4 +1,7 @@
 {% set menuhigh = "background-color:darkred" %}
+{% if show_menu is not defined %}
+  {% set show_menu = true %}
+{% endif %}
 <div class="navbar-wrapper">
     <div class="navbar navbar-inverse navbar-fixed-top bg-bootstrap-backend" role="navigation">
 
@@ -9,13 +12,17 @@
             </button>
 
             <span class="visible-lg-inline-block visible-md-inline-block  visible-sm-inline-block visible-xs-inline-block" style="margin-top: -0.4em">
+                {% if show_menu %}
                     <a href="{% if is_granted('ROLE_ADMIN') %}{{ path('b_admin_dashboard') }}{% else %}{{ path('b_home') }}{% endif %}">
+                {% endif %}
                                 <img src="/assets/cale-logo.svg" width="150">
-                    </a>
+                {% if show_menu %}</a>{% endif %}
                 </span>
 
         </div>
+
         <nav id="bs-navbar" class="navbar-collapse collapse">
+            {% if show_menu %}
             <ul class="nav navbar-nav navbar-left" style="margin-left: 6em">
                 <li data-step="1" style="{% if menu == 'api' %}{{ menuhigh }}{% endif %}" data-intro="Here you can configure the connection to external Application Programming Interfaces providers
 like Google calendar, Weather or shared calendars. APIs will deliver content to your Screens">
@@ -53,6 +60,8 @@ like Google calendar, Weather or shared calendars. APIs will deliver content to 
                 </li>
                 {% endif %}
             </ul>
+            {% endif %}
+
             <div class="text-right" style="margin-top:.7em;margin-right:1em;color:#C9C9C9">
                <small>{{ "now"|date(app.user.dateFormat) }} {{ "now"|date(app.user.hourFormat) }}</small>
             </div>

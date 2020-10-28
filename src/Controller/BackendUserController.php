@@ -28,9 +28,9 @@ class BackendUserController extends AbstractController
 {
     private $menu = "user";
     /**
-     * @Route("/profile", name="b_user_profile")
+     * @Route("/profile/{firstTime?}", name="b_user_profile")
      */
-    public function userProfileEdit(Request $request, EntityManagerInterface $entityManager)
+    public function userProfileEdit($firstTime, Request $request, EntityManagerInterface $entityManager)
     {
         $user = $this->getUser();
         $languages = $this->getParameter('api_languages');
@@ -60,7 +60,8 @@ class BackendUserController extends AbstractController
             'backend/user/admin-user-profile.html.twig', [
                 'title' => 'Your user profile',
                 'form'  => $form->createView(),
-                'menu' => $this->menu
+                'menu'  => $this->menu,
+                'first_time' => $firstTime
             ]
         );
     }

@@ -12,6 +12,7 @@
             <h4><span class="glyphicon glyphicon-calendar"></span> Send only once every start of the week</h4>
             {{ form_start(form) }}
             {{ form_row(form.title) }}
+            {{ form_row(form.target) }}
             {{ form_row(form.html) }}
             <div class="col-xs-12 text-right" style="margin-top:1em">
                 <span id="maxCounter">HTML is limited to {{ html_max_chars }} chars</span>

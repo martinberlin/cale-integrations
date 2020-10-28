@@ -101,7 +101,7 @@ class BackendController extends AbstractController
                                 $this->addFlash('success',
                                     "Thanks for accepting our terms. Your account was created with the username: " . $user->getName().
                                 ". Please check that your profile is complete and set your Timezone");
-                                return $this->redirectToRoute('b_user_profile');
+                                return $this->redirectToRoute('b_user_profile', ['firstTime' => 1]);
                             } else {
                                 $this->addFlash('error', $error);
                             }
@@ -116,7 +116,8 @@ class BackendController extends AbstractController
                 'backend/admin-accept-agreement.html.twig',
                 [
                     'title' => 'Create your username',
-                    'form' => $form->createView()
+                    'form' => $form->createView(),
+                    'show_menu' => false
                 ]
             );
         } else {
