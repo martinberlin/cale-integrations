@@ -156,7 +156,7 @@ class Screen implements Created
         $this->outCacheSeconds = 30;
         $this->outBitDepth = 1;
         $this->outCompressed = 0;
-        $this->loggingActive = 1;
+        $this->loggingActive = true;
         $this->stDayTo = '7';
         $this->stHourTo = '23';
         $this->outSsl = 0;
