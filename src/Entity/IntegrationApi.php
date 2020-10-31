@@ -6,7 +6,7 @@ use App\Entity\Model\Language;
 use App\Entity\Model\Location;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\IntegrationApiRepository")
@@ -52,6 +52,7 @@ class IntegrationApi implements Language, Location, Created
 
     /**
      * @var string
+     * @Assert\Timezone
      * @ORM\Column(type="string", length=40,nullable=true)
      */
     protected $timezone;
