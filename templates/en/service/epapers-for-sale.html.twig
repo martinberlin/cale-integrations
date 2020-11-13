@@ -23,21 +23,22 @@
     <h5>Practical uses of the ESP32 WiFi epaper display:</h5>
         <ul style="font-weight:bolder">
             <li>Meeting room sign that updates every hour showing next meetings and attendees</li>
-            <li>Living picture, showing events or <a href="{{ path('www_api-cloudwatch') }}">Cloudwatch statistics</a>. They are also great to show
-                <a href="https://superrare.co" target="_blank">digital art using our web-service Gallery module</a>.</li>
-            <li>Help screens at the side of your laptop, refreshing dynamic information every 10 minutes</li>
+            <li>Living picture, showing weather forecasts and event calendars</li>
+            <li>To show rotating
+                <a href="https://superrare.co" target="_blank">digital art using our web-service Gallery module</a></li>
         </ul>
-    <p>In order to create our epaper component <span class="cale" style="font-weight:bolder">CALE-IDF</span> we purchase some epapers that now are hanging in our studio and we
+    <p>In order to create our epaper component <span class="cale" style="font-weight:bolder">CALE-IDF</span> we purchased some epapers that now are hanging in our studio and we
         would like to sell some of them. The prices are shown in Ethereum, but we accept
-        <a href="https://www.paypal.com/paypalme/fasani" target="_blank">payments also with paypal</a> or wire transfers. This will help us to finance the web-service
-        and also to add support for more epaper displays. Please note that real colors of the epaper might be slightly different than the pictures shown here.<br>
-        <b>All this epapers cases are designed by us, build by hand with care, they are tested and shipped with an A4 page explaining how is the wiring made in case you want
-        to flash a different firmware to it. They also have a battery, that is charged using USB, same as your phone and either a reset button or a power on/off small switch.</b> They can also be shipped with your desired WiFi access point and password, pointing to your Screen in <span class="cale" style="font-weight:bolder">CALE.es web-service</span>, provided you have an account with us.
-    </p>
+        <a href="https://www.paypal.com/paypalme/fasani" target="_blank">payments also with paypal</a> or wire transfers.
+   </p>
     <div class="row">
-        <div class="col-md-3 col-xs-12"><h4>Ethereum payment address:</h4></div>
-        <div class="col-md-9 col-xs-12">
-            <textarea rows="1" style="width: 50%">{{ cale_eth_address }}</textarea>
+
+        <div class="col-md-6 col-xs-12"><h4>Ethereum payment address:</h4>
+            <textarea rows="1" class="form-control">{{ cale_eth_address }}</textarea><br>
+            <p class="text-right">You can simply scan the QR Address with your wallet <span class="glyphicon glyphicon-arrow-right"></span></p>
+        </div>
+        <div class="col-md-6 col-xs-12" >
+            <img width="140" style="margin: 0.8em" src="/img/www/service/cale-eth-qr.png">
         </div>
     </div>
 
@@ -56,11 +57,12 @@
                     <div class="col-md-6 col-xs-12" style="margin-top: 2em">
                         <ul>
                             <li><b>Model:</b>
-                                <a title="Technical specifications" href="https://github.com/martinberlin/cale-idf/wiki/Model-color-Gdeh042Z21.h--Gdew042Z15-Gdew042C37">Gdeh042Z21.h</a></li>
+                                <a title="Technical specifications" href="https://github.com/martinberlin/cale-idf/wiki/Model-color-Gdeh042Z21.h--Gdew042Z15-Gdew042C37">Gdeh042Z21.h</a> - Dalian Good Display</li>
                             <li><b>Refresh time:</b> Aprox. 7 seconds</li>
                             <li><a href="https://www.youtube.com/watch?v=vvsPnjLEW0k">Refresh video</a></li>
                             <li><b>Size:</b> 100 x 125 x 21 mm</li>
                             <li><b>Communication protocol:</b> Serial Peripheral Interface (SPI)</li>
+                            <li>Comes with a ON/OFF Switch</li>
                         </ul>
 
                     </div>
@@ -82,17 +84,25 @@
                     <div class="col-md-6 col-xs-12" style="margin-top: 2em">
                         <ul>
                             <li><b>Model:</b>
-                                <a title="Technical specifications" href="https://github.com/martinberlin/cale-idf/wiki/Model-color-gdew0583z21.h">gdew0583z21.h</a></li>
+                                <a title="Technical specifications" href="https://github.com/martinberlin/cale-idf/wiki/Model-color-gdew0583z21.h">gdew0583z21.h</a> - Dalian Good Display</li>
                             <li><b>Refresh time:</b> Aprox. 10 seconds</li>
                             <li><a href="https://www.youtube.com/watch?v=EQJcNDB7EoQ">Refresh video</a></li>
                             <li><b>Size:</b> 145 x 145 x 16 mm</li>
                             <li><b>Communication protocol:</b> Serial Peripheral Interface (SPI)</li>
+                            <li>Comes with a Reset button</li>
                         </ul>
 
                     </div>
                 </div>
             </div>
         </div>
+        <h4>Handcrafted and unique</h4>
+        <b>All this epapers housings are designed by us, they are built by hand with care, and attention to detail. </b>
+            They are tested and shipped with printed documentation explaining how is the wiring made in case you want
+            to flash a different firmware to the esp32 controller. They also come with a battery that can work for about a month without being recharged. They can be recharged just leaving it connected a full night
+        with a mini-USB to work for another long period. All of them have either a on/off switch or a reset button.
+        They can also be shipped with your desired WiFi access point and password, pointing to your Screen in <span class="cale" style="font-weight:bolder">CALE.es web-service</span>, provided you have an account with us.
+
         <h4>How to make a purchase</h4>
         <p>Just register and contact us using the <b>User <span class="glyphicon glyphicon-arrow-right"></span> Get Support</b>
             option and let us know what epaper you want to purchase. <br>
