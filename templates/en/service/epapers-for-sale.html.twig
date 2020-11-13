@@ -20,7 +20,7 @@
 
 {% block body %}
     <h3><span class="cale" style="font-weight:bolder">EPAPERS</span> for sale</h3>
-    <h5>Practical uses</h5>
+    <h5>Practical uses of the ESP32 WiFi epaper display:</h5>
         <ul style="font-weight:bolder">
             <li>Meeting room sign that updates every hour showing next meetings and attendees</li>
             <li>Living picture, showing events or <a href="{{ path('www_api-cloudwatch') }}">Cloudwatch statistics</a>. They are also great to show
@@ -60,6 +60,7 @@
                             <li><b>Refresh time:</b> Aprox. 7 seconds</li>
                             <li><a href="https://www.youtube.com/watch?v=vvsPnjLEW0k">Refresh video</a></li>
                             <li><b>Size:</b> 100 x 125 x 21 mm</li>
+                            <li><b>Communication protocol:</b> Serial Peripheral Interface (SPI)</li>
                         </ul>
 
                     </div>
@@ -85,13 +86,26 @@
                             <li><b>Refresh time:</b> Aprox. 10 seconds</li>
                             <li><a href="https://www.youtube.com/watch?v=EQJcNDB7EoQ">Refresh video</a></li>
                             <li><b>Size:</b> 145 x 145 x 16 mm</li>
+                            <li><b>Communication protocol:</b> Serial Peripheral Interface (SPI)</li>
                         </ul>
 
                     </div>
                 </div>
             </div>
         </div>
-
+        <h4>How to make a purchase</h4>
+        <p>Just register and contact us using the <b>User <span class="glyphicon glyphicon-arrow-right"></span> Get Support</b>
+            option and let us know what epaper you want to purchase. <br>
+            We will reserve it for you. The sale is closed when we receive the payment in any of the offered channels <b>(Ethereum transfer, paypal, wire-transfer)</b><br>
+        </p>
+        <h4>Customized for you</h4>
+        <p>
+            Before sending it to you we will customize the Firmware, with your WiFi access point and Screen, and also the update frequency (ex. Every hour).<br>
+            When the package arrives you can switch it on and see your Screen rendered. Without complications and pre-configured.
+            But if you want to hack your epaper and flash it with customized firmware, we will also send you an A4 printed page, with the wiring details between the ESP32 and the eink display.
+            That way you can use any of our Firmware flavours, <span class="cale" style="font-weight:bolder">CALE-IDF</span> or the Arduino-esp32 version, and make all the custom modifications
+            that you wish.
+        </p>
     </div>
 {% endblock %}
 
