@@ -203,3 +203,11 @@ www_api-cloudwatch:
     _locale: en
   requirements:
     _locale: '%locales%'
+
+www_epapers-sale:
+  path:       /epapers-for-sale/{_locale}
+  controller: App\Controller\HomeController::serviceEpapersForSale
+  defaults:
+    _locale: en
+  requirements:
+    _locale: '%locales%'

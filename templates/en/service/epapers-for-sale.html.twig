@@ -1,0 +1,100 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px;
+            width: 100%;
+            background-color: #333;
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <h3><span class="cale" style="font-weight:bolder">EPAPERS</span> for sale</h3>
+    <h5>Practical uses</h5>
+        <ul style="font-weight:bolder">
+            <li>Meeting room sign that updates every hour showing next meetings and attendees</li>
+            <li>Living picture, showing events or <a href="{{ path('www_api-cloudwatch') }}">Cloudwatch statistics</a>. They are also great to show
+                <a href="https://superrare.co" target="_blank">digital art using our web-service Gallery module</a>.</li>
+            <li>Help screens at the side of your laptop, refreshing dynamic information every 10 minutes</li>
+        </ul>
+    <p>In order to create our epaper component <span class="cale" style="font-weight:bolder">CALE-IDF</span> we purchase some epapers that now are hanging in our studio and we
+        would like to sell some of them. The prices are shown in Ethereum, but we accept
+        <a href="https://www.paypal.com/paypalme/fasani" target="_blank">payments also with paypal</a> or wire transfers. This will help us to finance the web-service
+        and also to add support for more epaper displays. Please note that real colors of the epaper might be slightly different than the pictures shown here.<br>
+        <b>All this epapers cases are designed by us, build by hand with care, they are tested and shipped with an A4 page explaining how is the wiring made in case you want
+        to flash a different firmware to it. They also have a battery, that is charged using USB, same as your phone and either a reset button or a power on/off small switch.</b> They can also be shipped with your desired WiFi access point and password, pointing to your Screen in <span class="cale" style="font-weight:bolder">CALE.es web-service</span>, provided you have an account with us.
+    </p>
+    <div class="row">
+        <div class="col-md-3 col-xs-12"><h4>Ethereum payment address:</h4></div>
+        <div class="col-md-9 col-xs-12">
+            <textarea rows="1" style="width: 50%">{{ cale_eth_address }}</textarea>
+        </div>
+    </div>
+
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">4.2 400*300 black/red</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-6 col-xs-12">
+                        <img src="/img/www/service/buy/4-2-front.jpg">
+
+                        <div class="row text-right" style="margin-right: 4em">
+                            <h3>PRICE: <span style="font-size: 19pt;font-weight: bolder">0.3</span> <span style="font-size: 12pt">ETH</span> </h3>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-12" style="margin-top: 2em">
+                        <ul>
+                            <li><b>Model:</b>
+                                <a title="Technical specifications" href="https://github.com/martinberlin/cale-idf/wiki/Model-color-Gdeh042Z21.h--Gdew042Z15-Gdew042C37">Gdeh042Z21.h</a></li>
+                            <li><b>Refresh time:</b> Aprox. 7 seconds</li>
+                            <li><a href="https://www.youtube.com/watch?v=vvsPnjLEW0k">Refresh video</a></li>
+                            <li><b>Size:</b> 100 x 125 x 21 mm</li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">5.83 600*448 black/red</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-6 col-xs-12">
+                        <img src="/img/www/service/buy/5-83-front.jpg">
+
+                        <div class="row text-right" style="margin-right: 4em">
+                        <h3>PRICE: <span style="font-size: 19pt;font-weight: bolder">0.5</span> <span style="font-size: 12pt">ETH</span> </h3>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-12" style="margin-top: 2em">
+                        <ul>
+                            <li><b>Model:</b>
+                                <a title="Technical specifications" href="https://github.com/martinberlin/cale-idf/wiki/Model-color-gdew0583z21.h">gdew0583z21.h</a></li>
+                            <li><b>Refresh time:</b> Aprox. 10 seconds</li>
+                            <li><a href="https://www.youtube.com/watch?v=EQJcNDB7EoQ">Refresh video</a></li>
+                            <li><b>Size:</b> 145 x 145 x 16 mm</li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

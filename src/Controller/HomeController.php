@@ -219,6 +219,15 @@ class HomeController extends AbstractController
         );
     }
 
+    public function serviceEpapersForSale(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/service/epapers-for-sale.html.twig',
+            ['title' => $translator->trans('nav_epapers_for_sale')]
+        );
+    }
+
+
     /**
      * Good idea but does not work because of locale lang. switch
      * @deprecated Don't use as is
