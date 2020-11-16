@@ -1,0 +1,41 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-10">
+            <h2>{{ 'nav_crypto_adv'|trans }}</h2>
+            <iframe width="784" height="441" src="https://www.youtube.com/embed/NrmaqIvtCh8" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+            </iframe>
+            <h3>Conserve su criptomoneda. Use dinero en efectivo.</h3>
+            <br><a href="https://track.youhodler.com/click?offer_id=2&pid=621&sub2=cale.es&l=1591352095">Registre una cuenta en YouHodler para ganar desde 4.5% a 12% interes anual con su ahorro en Ethereum o Bitcoin</a><br><br>
+
+            <small>En <span class="cale" style="font-weight:bold">CALE.es</span> usamos <a href="{{ path('about-ethereum') }}">Ethereum</a> y lo guardamos de forma segura en YouHodler
+                para financiar el web-service.</small>
+        </div>
+        <div class="col-md-1">
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

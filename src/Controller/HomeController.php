@@ -227,6 +227,13 @@ class HomeController extends AbstractController
         );
     }
 
+    public function cryptoAdvertising(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/advertising/youhodler.html.twig',
+            ['title' => $translator->trans('nav_crypto_adv')]
+        );
+    }
 
     /**
      * Good idea but does not work because of locale lang. switch

@@ -24,7 +24,8 @@ nav_server_architecture: Arquitectura del servicio
 nav_api_cloudwatch: Monitoreo de AWS Cloudwatch
 nav_3d: Modelos para imprimir en 3D
 nav_ethereum: Financiado usando Ethereum
-nav_ethereum_short: Financiado con ♦ ETH
+nav_ethereum_short: Financiado con ♦
+nav_crypto_adv: Gana desde 4.5 a 12% TAE con Eth o Bitcoin
 nav_epapers_for_sale: Epapers a la venta
 # NAV BACKEND
 navb_api: Contenido

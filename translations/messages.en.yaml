@@ -23,8 +23,9 @@ nav_get_started: Get started
 nav_server_architecture: Server architecture
 nav_api_cloudwatch: AWS Cloudwatch monitoring
 nav_3d: Housing 3D models to print
-nav_ethereum: Financed used Ethereum
-nav_ethereum_short: Financed using ♦ ETH
+nav_ethereum: Financed with Ethereum
+nav_ethereum_short: Financed with ♦
+nav_crypto_adv: Earn interest with your Crypto
 nav_epapers_for_sale: Epapers for sale
 # NAV BACKEND
 navb_api: Content

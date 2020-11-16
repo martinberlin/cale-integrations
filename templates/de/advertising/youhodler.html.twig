@@ -1,0 +1,40 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-10">
+            <h3>{{ 'nav_crypto_adv'|trans }}</h3>
+            <iframe width="784" height="441" src="https://www.youtube.com/embed/NrmaqIvtCh8" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+            </iframe>
+            <h3>Krypto behalten. Verwenden Sie Bargeld.</h3>
+            <br><a href="https://track.youhodler.com/click?offer_id=2&pid=621&sub2=cale.es&l=1591352095">Registrieren Sie ein Konto bei YouHodler, um Zinsen für Ihre Crypto-Assets zu erhalten</a><br><br>
+
+            <small>Wir benutzen <a href="{{ path('about-ethereum') }}">Ethereum</a> mit YouHodler um <span class="cale" style="font-weight:bold">CALE.es</span> frei für unsere Benutzers zu erhalten.</small>
+        </div>
+        <div class="col-md-1">
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}
