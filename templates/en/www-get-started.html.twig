@@ -1,5 +1,9 @@
 {% extends '/base.html.twig' %}
 
+{% block stylesheets %}
+    {% include "/partials/adsense_js.html.twig" %}
+{% endblock %}
+
 {% block carousel %}
     {% include "/partials/carousel.html.twig" %}
 {% endblock carousel %}
