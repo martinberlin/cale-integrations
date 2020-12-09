@@ -180,4 +180,18 @@
             {# console.log(id, img_base_path+name); #}
         }
     </script>
+
+    {% if adsense_active %}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- Cale vertical -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-5919782356383484"
+             data-ad-slot="6845528655"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    {% endif %}
 {% endblock %}
