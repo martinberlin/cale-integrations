@@ -5,7 +5,7 @@
 {% endblock carousel %}
 
 {% block body %}
-    <div class="col-md-12" style="margin-top: -2em">
+    <div class="col-md-7" style="margin-top: -2em">
         <h3>
             <span class="glyphicon glyphicon-play-circle"></span>
             Como empezar a usarlo
@@ -36,8 +36,31 @@
         </p>
     </div>
 
+    <div class="col-md-3">
+        <div class="panel panel-default" style="margin-top: 1em">
+            <div class="panel-heading">Publicidad</div>
+            <div class="panel-body">
+                {% if adsense_active %}
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- Cale vertical -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-5919782356383484"
+                         data-ad-slot="6845528655"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                {% endif %}
+            </div></div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}
     <script type="text/javascript" src="/js/engine/common.js"></script>
+
+    {% if adsense_active %}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    {% endif %}
 {% endblock %}

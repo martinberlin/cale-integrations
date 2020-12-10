@@ -50,7 +50,7 @@
                 </a></small>
             <br><br><small>Advertising:</small><br>
             <a href="https://track.youhodler.com/click?offer_id=2&amp;pid=621&amp;sub2=cale.es&amp;l=1591352095" title="Register a savings account in YouHodler to earn with your Crypto assets (BTC, ETH and many more) If you are in Germany enter YouHodler.com directly!"
-               target="_blank"><img src="https://storage.luckycloud.de/seafhttp/files/de799dc2-a0f8-46ad-9902-723c0038d712/savings-eth-1.gif"
+               target="_blank"><img src="https://fasanis.files.wordpress.com/2020/12/youholdler-eth-1.gif"
                                     alt="Your Crypto safe" title="Register a savings account in YouHodler to earn with your Crypto assets (BTC, ETH and many more) If you are in Germany enter YouHodler.com directly!"></a>
             <br><small style="color:darkgray">We use <a href="{{ path('www_crypto_adv') }}">YouHodler</a> to generate interest from our Crypto assets and keep this web-service up and running</small>
             {% if adsense_active %}
@@ -96,4 +96,8 @@
 
 {% block javascripts %}
     <script type="text/javascript" src="/js/engine/common.js"></script>
+
+    {% if adsense_active %}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    {% endif %}
 {% endblock %}
