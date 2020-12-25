@@ -28,11 +28,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ARenderController extends AbstractController
 {
-    private function convertDateTime($unixTime,$hourFormat) {
-        $dt = new \DateTime("@$unixTime");
-        return $dt->format($hourFormat);
-    }
-
     /**
      * @param TemplatePartial $partial
      * @return string
@@ -551,6 +546,17 @@ class ARenderController extends AbstractController
         return $response;
     }
 
+    /**
+     * @param $unixTime
+     * @param $hourFormat
+     * @return string
+     * For openWeather comes already a timezone shift, otherwise:
+     * $dt->setTimezone(new \DateTimeZone("User/Timezone"));
+     */
+    private function convertDateTime($unixTime, $hourFormat) {
+        $dt = new \DateTime("@$unixTime");
+        return $dt->format($hourFormat);
+    }
 
     /**
      * OpenWeather
@@ -580,11 +586,20 @@ class ARenderController extends AbstractController
         $wIcon = '<img style="width:1.6em" src="/assets/svg/openweather/'.$iconColor.'{icon}.svg">';
         $wHourly ="";
         $hourlyCounter = 1;
-        // Start HTML building - Headlines is a try to mould this to Screen environment
+        // Find timezone Shift in seconds from UTC and city name
+        $cityName = "";
+        $timezoneCorrection = 0;
+        if (isset($json->city)) {
+            // Minus one hour since seems 3600 seconds in the future (Not sure if this is right)
+            $timezoneCorrection = $json->city->timezone-3600;
+            $cityName = $json->city->name;
+        }
+        // Start HTML building - Headlines is a try to mould this to Screen environment. Ref: https://openweathermap.org/current
         $hs = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h4':'h3';
         $colMd4 = ($partial->getScreen()->getDisplay() instanceof Display && $partial->getScreen()->getDisplay()->getWidth()>400) ? 'col-md-4 col-sm-4' : 'col-xs-4';
 
-        $responseContent = '<div class="row" style="margin:0px;padding-top:6px;'.$colorStyle.'"><div class="col-md-12 col-sm-12 col-xs-12">';
+        $responseContent = '<div class="row" style="margin:0px;padding-top:6px;'.$colorStyle.'">
+                                <div class="col-md-12 col-sm-12 col-xs-12"><h4>'.$cityName.'</h4>';
 
         $icon3 = str_replace("{icon}", 'humidity', $hIcon);
 
@@ -594,11 +609,11 @@ class ARenderController extends AbstractController
             $wHourly .= '<div class="row">';
 
             if ($partial->getScreen()->getDisplay() instanceof Display && $partial->getScreen()->getDisplay()->getWidth()>400) {
-                $wHourly .= '<div class="'.$colMd4.'"><'.$hs.'>'.$this->convertDateTime($h->dt,$hourFormat).' '.$icon1.' </'.$hs.'></div>';
+                $wHourly .= '<div class="'.$colMd4.'"><'.$hs.'>'.$this->convertDateTime($h->dt+$timezoneCorrection,$hourFormat).' '.$icon1.' </'.$hs.'></div>';
                 $wHourly .= '<div class="'.$colMd4.' text-center"><'.$hs.'>'.$temp.$units.'</'.$hs.'></div>';
                 $wHourly .= '<div class="'.$colMd4.' text-right"><'.$hs.'>'.$h->main->humidity.' '.$icon3.'</'.$hs.'></div>';
             } else {
-                $wHourly .= '<div class="'.$colMd4.'"><'.$hs.'>'.$this->convertDateTime($h->dt,$hourFormat).' '.$icon1.' </'.$hs.'></div>';
+                $wHourly .= '<div class="'.$colMd4.'"><'.$hs.'>'.$this->convertDateTime($h->dt+$timezoneCorrection,$hourFormat).' '.$icon1.' </'.$hs.'></div>';
                 $wHourly .= '<div class="'.$colMd4.' text-center" style="margin-left:1.4em"><'.$hs.'>'.$temp.$units.'</'.$hs.'></div>';
                 $wHourly .= '<div class="'.$colMd4.' text-right" style="margin-left:1.4em"><'.$hs.'>'.$h->main->humidity.' '.$icon3.'</'.$hs.'></div>';
             }
