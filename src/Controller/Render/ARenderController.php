@@ -584,7 +584,7 @@ class ARenderController extends AbstractController
         $colorStyle = $this->getColorStyleNoWrap($partial);
         $user = $partial->getScreen()->getUser();
         $hourFormat = $user->getHourFormat();
-        $units = ($partial->getIntegrationApi()->getUnits() === 'imperial') ? ' F° ':' C° ';
+        $units = ($partial->getIntegrationApi()->getUnits() === 'imperial') ? ' F°':'°';
 
         $hIcon = '<i class="wi wi-{icon}"></i>';
         $iconColor = ($partial->getInvertedColor()) ? 'w/' : '';
