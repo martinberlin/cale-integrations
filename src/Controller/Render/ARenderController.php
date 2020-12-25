@@ -546,15 +546,20 @@ class ARenderController extends AbstractController
         return $response;
     }
 
+    private function convertDateTime($unixTime, $hourFormat) {
+        $dt = new \DateTime("@$unixTime");
+        return $dt->format($hourFormat);
+    }
+
     /**
      * @param $unixTime
      * @param $hourFormat
      * @return string
-     * For openWeather comes already a timezone shift, otherwise:
-     * $dt->setTimezone(new \DateTimeZone("User/Timezone"));
+     * For openWeather comes already a timezone shift from UTC
      */
-    private function convertDateTime($unixTime, $hourFormat) {
+    private function convertDateTimeUTC($unixTime, $hourFormat) {
         $dt = new \DateTime("@$unixTime");
+        $dt->setTimezone(new \DateTimeZone("UTC"));
         return $dt->format($hourFormat);
     }
 
@@ -590,8 +595,8 @@ class ARenderController extends AbstractController
         $cityName = "";
         $timezoneCorrection = 0;
         if (isset($json->city)) {
-            // Minus one hour since seems 3600 seconds in the future (Not sure if this is right)
-            $timezoneCorrection = $json->city->timezone-3600;
+            // Minus one hour since seems 3600 seconds in the future (Not sure if this is right)  -3600
+            $timezoneCorrection = $json->city->timezone - 3600;
             $cityName = $json->city->name;
         }
         // Start HTML building - Headlines is a try to mould this to Screen environment. Ref: https://openweathermap.org/current
@@ -609,11 +614,11 @@ class ARenderController extends AbstractController
             $wHourly .= '<div class="row">';
 
             if ($partial->getScreen()->getDisplay() instanceof Display && $partial->getScreen()->getDisplay()->getWidth()>400) {
-                $wHourly .= '<div class="'.$colMd4.'"><'.$hs.'>'.$this->convertDateTime($h->dt+$timezoneCorrection,$hourFormat).' '.$icon1.' </'.$hs.'></div>';
+                $wHourly .= '<div class="'.$colMd4.'"><'.$hs.'>'.$this->convertDateTimeUTC($h->dt+$timezoneCorrection,$hourFormat).' '.$icon1.' </'.$hs.'></div>';
                 $wHourly .= '<div class="'.$colMd4.' text-center"><'.$hs.'>'.$temp.$units.'</'.$hs.'></div>';
                 $wHourly .= '<div class="'.$colMd4.' text-right"><'.$hs.'>'.$h->main->humidity.' '.$icon3.'</'.$hs.'></div>';
             } else {
-                $wHourly .= '<div class="'.$colMd4.'"><'.$hs.'>'.$this->convertDateTime($h->dt+$timezoneCorrection,$hourFormat).' '.$icon1.' </'.$hs.'></div>';
+                $wHourly .= '<div class="'.$colMd4.'"><'.$hs.'>'.$this->convertDateTimeUTC($h->dt+$timezoneCorrection,$hourFormat).' '.$icon1.' </'.$hs.'></div>';
                 $wHourly .= '<div class="'.$colMd4.' text-center" style="margin-left:1.4em"><'.$hs.'>'.$temp.$units.'</'.$hs.'></div>';
                 $wHourly .= '<div class="'.$colMd4.' text-right" style="margin-left:1.4em"><'.$hs.'>'.$h->main->humidity.' '.$icon3.'</'.$hs.'></div>';
             }
