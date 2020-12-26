@@ -243,6 +243,13 @@ class HomeController extends AbstractController
         );
     }
 
+    public function demoDigitalArt(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/demos/digital-art.html.twig',
+            ['title' => $translator->trans('nav_demo_display')]
+        );
+    }
     /**
      * Good idea but does not work because of locale lang. switch
      * @deprecated Don't use as is

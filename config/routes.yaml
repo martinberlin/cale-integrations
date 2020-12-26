@@ -227,3 +227,11 @@ www_demos_display:
     _locale: en
   requirements:
     _locale: '%locales%'
+
+www_demos_digital_art:
+  path:       /demos/digital-art/{_locale}
+  controller: App\Controller\HomeController::demoDigitalArt
+  defaults:
+    _locale: en
+  requirements:
+    _locale: '%locales%'
