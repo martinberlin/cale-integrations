@@ -235,6 +235,14 @@ class HomeController extends AbstractController
         );
     }
 
+    public function demoDisplay(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/demos/display.html.twig',
+            ['title' => $translator->trans('nav_demo_display')]
+        );
+    }
+
     /**
      * Good idea but does not work because of locale lang. switch
      * @deprecated Don't use as is

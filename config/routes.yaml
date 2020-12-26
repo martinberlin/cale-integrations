@@ -219,3 +219,11 @@ www_crypto_adv:
     _locale: en
   requirements:
     _locale: '%locales%'
+
+www_demos_display:
+  path:       /demos/display/{_locale}
+  controller: App\Controller\HomeController::demoDisplay
+  defaults:
+    _locale: en
+  requirements:
+    _locale: '%locales%'

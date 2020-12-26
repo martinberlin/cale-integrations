@@ -90,7 +90,7 @@ class ScreenType extends AbstractType
                 [
                     'label' => 'Output display',
                     'class' => Display::class,
-                    'required' => false,
+                    'required' => true,
                     'placeholder' => 'Optional choose an Eink display',
                     'label_attr' => ['style' => 'margin-top:1em'],
                     'attr' => [

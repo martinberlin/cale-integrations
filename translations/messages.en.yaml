@@ -27,6 +27,8 @@ nav_ethereum: Financed with Ethereum
 nav_ethereum_short: Financed with ♦
 nav_crypto_adv: Earn interest with your Crypto
 nav_epapers_for_sale: Epapers for sale
+nav_demo_display: Image generation rendering demo
+
 # NAV BACKEND
 navb_api: Content
 navb_user: User
