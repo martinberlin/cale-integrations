@@ -595,8 +595,8 @@ class ARenderController extends AbstractController
         $cityName = "";
         $timezoneCorrection = 0;
         if (isset($json->city)) {
-            // Minus one hour since seems 3600 seconds in the future (Not sure if this is right)  -3600
-            $timezoneCorrection = $json->city->timezone - 3600;
+            // Minus 2 hours since seems 7200 seconds in the future (Not sure if this is right)  3600 secs per hour
+            $timezoneCorrection = $json->city->timezone - 7200;
             $cityName = $json->city->name;
         }
         // Start HTML building - Headlines is a try to mould this to Screen environment. Ref: https://openweathermap.org/current
