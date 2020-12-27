@@ -4,3 +4,5 @@ twig:
          cdn_s3: 'https://cale.s3.eu-central-1.amazonaws.com'
          cale_eth_address: '%env(CALE_ETH_ADRESS)%'
          adsense_active: 1
+         cale_android: 'https://play.google.com/store/apps/details?id=io.cordova.cale'
+         cale_android_apk: 'https://github.com/martinberlin/cale-app/tree/master/releases'

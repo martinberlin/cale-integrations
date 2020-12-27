@@ -1,6 +1,4 @@
 {% extends '/base.html.twig' %}
-{% set cale_android = 'https://play.google.com/store/apps/details?id=io.cordova.cale' %}
-{% set cale_android_apk = 'https://github.com/martinberlin/cale-app/tree/master/releases' %}
 {% set carousel_high = 110 %}
 
 {% block stylesheets %}
@@ -84,9 +82,11 @@
             <h4 style="margin-top:4em"><span class="cale" style="font-weight:bolder">CALE</span> Android application</h4>
 
             <br style="margin-top:3em">Please download the APK with your mobile browser and give it permissions:<br>
-            <h3><a href="{{ cale_android }}" target="_blank"><span class="cale" style="font-weight:bolder">CALE</span>Android in Play store</a></h3>
+            <h3><a href="{{ cale_android }}" target="_blank"><span class="cale" style="font-weight:bolder">CALE</span> Android in Play store</a></h3>
             <h4><a href="{{ cale_android_apk }}" target="_blank"><span class="cale" style="font-weight:bolder">CALE</span> Android APK Releases</a>
                 Please use this version to get the latest APK if your version is < 1.1.3 and it does not come automatically from the Play store</h4>
+            {# Spacer #}
+            <div class="row" style="height:20px"></div>
 
         </div>
         <div class="col-md-5">
