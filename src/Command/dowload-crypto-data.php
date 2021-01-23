@@ -1,4 +1,5 @@
 <?php
+// Not part of Symfony files, initial plain PHP that I made fast to download CSV from cryptodatadownload
 // Simply downloads a CSV and stores it in a certain location where it can be read later
 $basePath = 'http://www.cryptodatadownload.com/cdd/';
 $downloadLocalPath = '/var/www/html/plot/data/';

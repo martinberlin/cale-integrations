@@ -1,9 +1,13 @@
 <?php
-// download-crypto-data refactored as Symfony Command
+/**
+ * download-crypto-data refactored as Symfony Command
+ *
+ *  bin/console download:crypto --t a
+ *
+ *  -a ALL option should be put in a cron every 6 hours
+ */
 namespace App\Command;
 
-use App\Entity\User;
-use App\Repository\UserRepository;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class DownloadCryptoCommand extends Command
 {
-    // the name of the command (the part after "bin/console")
+    // Name of the command (the part after "bin/console")
     protected static $defaultName = 'download:crypto';
     private $container;
     private $basePath = 'http://www.cryptodatadownload.com/cdd/';
@@ -51,6 +55,17 @@ class DownloadCryptoCommand extends Command
             );
     }
 
+    private function downloadUrl($downloadUrlBase, $file)
+    {;
+        echo "\nDownloading: $downloadUrlBase".$file;
+        $downloadOK = ($this->tools->download($downloadUrlBase.$file)) ? 'OK' : 'error';
+        if ($downloadOK === 'OK') {
+            // Remove https://www.CryptoDataDownload.com
+            $this->tools->removeFirstLine($this->downloadLocalPath.$file);
+        }
+        return $downloadOK;
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $type = $input->getOption('t');
@@ -63,15 +78,8 @@ class DownloadCryptoCommand extends Command
             case 'd':
                 echo "Daily option selected. Downloading:\n";
                 foreach ($this->datafiles['d'] as $file) {
-                    $downloadUrlPath = $this->basePath.$file;
-                    echo "\n$downloadUrlPath";
-                    $downloadOK = ($this->tools->download($downloadUrlPath)) ? 'OK' : 'error';
-                    if ($downloadOK === 'OK') {
-                        // Remove https://www.CryptoDataDownload.com
-                        $this->tools->removeFirstLine($this->downloadLocalPath.$file);
-                    }
-
-                    $output->writeln("<success>Seconds taken: ".round($this->tools->getTimer(),2)." $downloadOK</success>");
+                    $downloadOK = $this->downloadUrl($this->basePath, $file);
+                    $output->writeln(" <comment>Seconds taken: ".round($this->tools->getTimer(),2)." $downloadOK</comment>");
                 }
                 break;
 
@@ -79,21 +87,28 @@ class DownloadCryptoCommand extends Command
                 echo "Hourly option selected. Downloading\n";
                 foreach ($this->datafiles['h'] as $file) {
                     $downloadUrlPath = $this->basePath.$file;
-                    echo "\n$downloadUrlPath";
-                    $downloadOK = ($this->tools->download($downloadUrlPath)) ? 'OK' : 'error';
-                    if ($downloadOK === 'OK') {
-                        // Remove https://www.CryptoDataDownload.com
-                        $this->tools->removeFirstLine($this->downloadLocalPath.$file);
-                    }
+                    $downloadOK = $this->downloadUrl($this->basePath, $file);
+                    $output->writeln(" <comment>Seconds taken: ".round($this->tools->getTimer(),2)." $downloadOK</comment>");
+                }
+                break;
 
-                    $output->writeln("<success>Seconds taken: ".round($this->tools->getTimer(),2)." $downloadOK</success>");
+            case 'a':
+                echo "All option selected. Downloading\n";
+                foreach ($this->datafiles['d'] as $file) {
+                    $downloadUrlPath = $this->basePath.$file;
+                    $downloadOK = $this->downloadUrl($this->basePath, $file);
+                    $output->writeln(" <comment>Seconds taken: ".round($this->tools->getTimer(),2)." $downloadOK</comment>");
+                }
+                foreach ($this->datafiles['h'] as $file) {
+                    $downloadUrlPath = $this->basePath.$file;
+                    $downloadOK = $this->downloadUrl($this->basePath, $file);
+                    $output->writeln(" <comment>Seconds taken: ".round($this->tools->getTimer(),2)." $downloadOK</comment>");
                 }
                 break;
         }
 
-
         $output->writeln("<info>DONE</info>");
-        return 1;
+        return 0;
     }
 }
 

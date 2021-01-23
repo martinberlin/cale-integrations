@@ -5,6 +5,8 @@
 /public/log
 /var/
 /vendor/
+/data/crypto/*.csv
+
 # Test JSON for import
 /public/dev/demo-mantis-api.json
 ###< symfony/framework-bundle ###
