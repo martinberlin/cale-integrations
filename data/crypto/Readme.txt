@@ -1,0 +1,1 @@
+Destination for CSV data downloaded with DownloadCryptoCommand
