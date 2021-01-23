@@ -1,0 +1,8 @@
+{
+  "BTCEUR": "Bitcoin/Euro",
+  "ETHEUR": "Ethereum/Euro",
+  "LTCEUR": "Litecoin/Euro",
+  "BTCUSD": "Bitcoin/Dollar",
+  "ETHUSD": "Ethereum/Dollar",
+  "LTCUSD": "Litecoin/Dollar"
+}

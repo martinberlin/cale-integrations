@@ -36,11 +36,16 @@ class DownloadCryptoCommand extends Command
         $this->datafiles['d'][0] = 'Bitstamp_BTCUSD_d.csv';
         $this->datafiles['d'][1] = 'Bitstamp_ETHUSD_d.csv';
         $this->datafiles['d'][2] = 'Bitstamp_LTCUSD_d.csv';
-
+        $this->datafiles['d'][3] = 'Bitstamp_BTCEUR_d.csv';
+        $this->datafiles['d'][4] = 'Bitstamp_ETHEUR_d.csv';
+        $this->datafiles['d'][5] = 'Bitstamp_LTCEUR_d.csv';
         // Hourly: h
         $this->datafiles['h'][0] = 'Bitstamp_BTCUSD_1h.csv';
         $this->datafiles['h'][1] = 'Bitstamp_ETHUSD_1h.csv';
         $this->datafiles['h'][2] = 'Bitstamp_LTCUSD_1h.csv';
+        $this->datafiles['h'][3] = 'Bitstamp_BTCEUR_1h.csv';
+        $this->datafiles['h'][4] = 'Bitstamp_ETHEUR_1h.csv';
+        $this->datafiles['h'][5] = 'Bitstamp_LTCEUR_1h.csv';
     }
 
     protected function configure()
