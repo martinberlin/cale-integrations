@@ -3,7 +3,7 @@ namespace App\Repository;
 
 use App\Entity\UserApi;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 
 class UserApiRepository extends ServiceEntityRepository

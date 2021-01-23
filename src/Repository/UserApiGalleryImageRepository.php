@@ -5,7 +5,7 @@ use App\Entity\IntegrationApi;
 use App\Entity\User;
 use App\Entity\UserApiGalleryImage;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
 

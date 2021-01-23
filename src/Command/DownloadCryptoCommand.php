@@ -81,7 +81,7 @@ class DownloadCryptoCommand extends Command
 
         switch ($type) {
             case 'd':
-                echo "Daily option selected. Downloading:\n";
+                echo "Daily option selected\n";
                 foreach ($this->datafiles['d'] as $file) {
                     $downloadOK = $this->downloadUrl($this->basePath, $file);
                     $output->writeln(" <comment>Seconds taken: ".round($this->tools->getTimer(),2)." $downloadOK</comment>");
@@ -89,7 +89,7 @@ class DownloadCryptoCommand extends Command
                 break;
 
             case 'h':
-                echo "Hourly option selected. Downloading\n";
+                echo "Hourly option selected\n";
                 foreach ($this->datafiles['h'] as $file) {
                     $downloadUrlPath = $this->basePath.$file;
                     $downloadOK = $this->downloadUrl($this->basePath, $file);
@@ -98,7 +98,7 @@ class DownloadCryptoCommand extends Command
                 break;
 
             case 'a':
-                echo "All option selected. Downloading\n";
+                echo "All option selected\n";
                 foreach ($this->datafiles['d'] as $file) {
                     $downloadUrlPath = $this->basePath.$file;
                     $downloadOK = $this->downloadUrl($this->basePath, $file);

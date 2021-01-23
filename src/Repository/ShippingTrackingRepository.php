@@ -4,7 +4,7 @@ namespace App\Repository;
 use App\Entity\ShippingTracking;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 class ShippingTrackingRepository extends ServiceEntityRepository
 {
