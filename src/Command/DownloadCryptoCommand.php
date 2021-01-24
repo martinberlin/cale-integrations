@@ -20,8 +20,8 @@ class DownloadCryptoCommand extends Command
     protected static $defaultName = 'download:crypto';
     private $container;
     private $basePath = 'http://www.cryptodatadownload.com/cdd/';
-    private $downloadLocalPath;
-    private $datafiles = [];
+    public $downloadLocalPath;
+    public $datafiles = [];
     private $tools;
 
     public function __construct(ContainerInterface $container)

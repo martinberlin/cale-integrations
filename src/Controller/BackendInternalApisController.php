@@ -229,12 +229,12 @@ class BackendInternalApisController extends BackendHelpersController
             }
         }
 
-        $form = $this->createForm(IntegrationFinanceType::class, $financial);
+        $form = $this->createForm(IntegrationFinanceType::class, $financial, ['apiName' => $api->getName()]);
         $form->handleRequest($request);
         $error = "";
         $messageSuccess = "Chart settings updated";
-
-        if ($form->isSubmitted() && $form->isValid()) {
+        $formSubmitted = $form->isSubmitted() && $form->isValid();
+        if ($formSubmitted) {
             $apiName = $form->get('name')->getData();
             $api->setUserApi($userApi);
             $api->setName($apiName);
@@ -258,7 +258,7 @@ class BackendInternalApisController extends BackendHelpersController
 
             if ($error === '') {
                 $this->addFlash('success', $messageSuccess);
-                return $this->redirectToRoute('b_api_image_gallery',
+                return $this->redirectToRoute('b_api_wizard_cale-crypto',
                     [
                         'uuid' => $userApi->getId(),
                         'intapi_uuid' => $api->getId()
@@ -271,9 +271,10 @@ class BackendInternalApisController extends BackendHelpersController
             'form' => $form->createView(),
             'intapi_uuid' => $intapi_uuid,
             'userapi_id' => $userApi->getId(),
-            'menu' => $this->menu
+            'menu' => $this->menu,
+            'showImage' => ($formSubmitted || $financial->getIntApi() instanceof IntegrationApi)
         ];
-        //dump($render);exit();
+        
         return $this->render(
             'backend/api/crypto/conf-financial-charts.html.twig', $render
         );

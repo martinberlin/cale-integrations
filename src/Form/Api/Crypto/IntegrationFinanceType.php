@@ -26,6 +26,7 @@ class IntegrationFinanceType extends AbstractType
             ->add('name', TextType::class,
                 [
                     'label' => 'Name your stock chart',
+                    'data' => $options['apiName'],
                     'required' => true,
                     'mapped' => false,
                     'attr' => [
@@ -104,7 +105,7 @@ class IntegrationFinanceType extends AbstractType
 
             ->add('submit', SubmitType::class,
                 [
-                    'label' => 'Save contents',
+                    'label' => 'Save settings and refresh preview',
                     'attr' => ['class' => 'btn btn-primary form-control', 'style' => 'margin-top:2em']
                 ])
         ;
@@ -123,6 +124,7 @@ class IntegrationFinanceType extends AbstractType
     {
         $resolver->setDefaults([
             'allow_extra_fields' => true,
+            'apiName' => '',
             'candleTypes' => [
                 'Filled candles' => 'candlesticks2',
                 'Hollow candles' => 'candlesticks'
@@ -137,7 +139,7 @@ class IntegrationFinanceType extends AbstractType
             ],
             'timeseries' => [
                 'Daily' => 'd',
-                'Hourly' => 'h'
+                'Hourly' => '1h'
             ],
             'colors' => [
                 'Red' => 'red',

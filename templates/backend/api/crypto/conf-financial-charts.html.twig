@@ -89,7 +89,10 @@
             </div>
         </div>
         <div class="col-md-6">
-            Preview
+            {% if showImage %}
+            Preview:<br>
+            <img src="{{ path('render_crypto_candlesticks', {'userId':app.user.id, 'intApiId':intapi_uuid}) }}?nc=YmdHis">
+            {% endif %}
         </div>
 
         {{ form_end(form) }}
