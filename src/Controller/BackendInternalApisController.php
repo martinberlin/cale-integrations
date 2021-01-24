@@ -274,7 +274,7 @@ class BackendInternalApisController extends BackendHelpersController
             'menu' => $this->menu,
             'showImage' => ($formSubmitted || $financial->getIntApi() instanceof IntegrationApi)
         ];
-        
+
         return $this->render(
             'backend/api/crypto/conf-financial-charts.html.twig', $render
         );

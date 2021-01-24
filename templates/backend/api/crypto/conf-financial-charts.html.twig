@@ -84,13 +84,13 @@
                 Make sure to make this chart as big as possible so you can render it nicely in your
                 display. Recommended to use a template that gives you enough space like the 1 column option and at least
                 a 400x300 display.
-                <br><b>Please note: </b> The results are retrieved every morning and are not real time so it's useful
-                only to see past data. Real time data APIs cost approx. 4000€ per month (Ex. Nomics.com)
+                <br><b>Please note: </b> 1. The results are retrieved every morning and are not real time so it's useful
+                only to see past data. Real time data APIs cost approx. 4000€ per month (Ex. Nomics.com)<br>
+                2. Number of data rows may differ with the real calculation due that the last hour that comes is todays at 00:00
             </div>
         </div>
         <div class="col-md-6">
             {% if showImage %}
-            Preview:<br>
             <img src="{{ path('render_crypto_candlesticks', {'userId':app.user.id, 'intApiId':intapi_uuid}) }}?nc=YmdHis">
             {% endif %}
         </div>

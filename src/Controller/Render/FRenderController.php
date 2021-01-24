@@ -78,7 +78,7 @@ EOT;
 
         $plot->SetFont('x_label', null, 8);
         $plot->SetFont('y_label', null, 9);
-        $parseCsv = $this->read_prices_data_data($datafile, $financial->getDataRows());
+        $parseCsv = $this->read_prices_data_data($datafile, $financial->getDataRows(), $financial->getTimeseries());
 
         $plot->SetImageBorderType('plain'); // Improves presentation in the manual
         $plot->SetTitle(strtoupper(substr(basename($datafile),0,-4)).' rows processed: '.$parseCsv[1]);
@@ -110,9 +110,9 @@ EOT;
       Convert to PHPlot data-data data array w7ith empty labels and time_t X
       values and return the data array
     */
-    private function read_prices_data_data($filename, $rowsToRender)
+    private function read_prices_data_data($filename, $rowsToRender, $renderType)
     {
-        $renderType = 'd'; // d - days  h - hours
+        //$now = time();
         $now = strtotime(date('Y-m-d 00:01:00')); // Last hour retrieved is always 00:00:00
         $f = fopen($filename, 'r');
         if (!$f) {
@@ -129,12 +129,12 @@ EOT;
             if ($d[3]<0.1 && $d[4]<0.1 && $d[5]<0.1 & $d[6]<0.1) break;
 
             switch ($renderType) {
-                case 'h':
-                    if (($now-$d[0])/ (60 * 60 )>$rowsToRender) break 2;
+                case '1h':
+                    if (($now-$d[0]) / 3600 > $rowsToRender) break 2;
                     break;
                 case 'd':
-                    // Correction 86400 is one day in seconds
-                    if (($now-$d[0]-(86400*2))/86400 > $rowsToRender) break 2;
+                    // Correction 86400 is one day in seconds (Otherwise gives 2 days less)
+                    if (($now-$d[0]-(86400*2)) / 86400 > $rowsToRender) break 2;
                     break;
             }
             // $d[0] unixtimestamp use strtotime(date) if comes as string
