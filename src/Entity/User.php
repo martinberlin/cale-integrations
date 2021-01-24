@@ -37,6 +37,12 @@ class User implements UserInterface, Language, Created
     private $userGalleryImages;
 
     /**
+     * One user has many userFinanceCharts. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="UserApiFinancialChart", mappedBy="user", orphanRemoval=true)
+     */
+    private $userFinanceCharts;
+
+    /**
      * One user has many wifi configurations. This is the inverse side.
      * @ORM\OneToMany(targetEntity="UserWifi", mappedBy="user", orphanRemoval=true)
      */
@@ -187,6 +193,7 @@ class User implements UserInterface, Language, Created
         $this->sysScreenLogs = new ArrayCollection();
         $this->userShippings = new ArrayCollection();
         $this->userGalleryImages = new ArrayCollection();
+        $this->userFinanceCharts = new ArrayCollection();
         $this->doNotDisturb = false;
         $this->setCreated(new \DateTime());
         $this->apiKey = strtoupper(hash("ripemd160", time()));
@@ -564,6 +571,13 @@ class User implements UserInterface, Language, Created
      */
     public function getUserGalleryImages() {
         return $this->userGalleryImages;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getUserFinanceCharts() {
+        return $this->userFinanceCharts;
     }
 
     /**

@@ -1,0 +1,104 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+
+        {{ form_start(form) }}
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-4" style="margin-top:0.5em">
+                    {{ form_label(form.name) }}
+                </div>
+                <div class="col-md-8">
+                    {{ form_widget(form.name) }}
+                </div>
+            </div>
+            <div class="row" style="margin-top:1em">
+                <div class="col-md-4" style="margin-top:0.5em">
+                    {{ form_label(form.width) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_widget(form.width) }}
+                </div>
+                <div class="col-md-2" style="margin-top:0.5em">
+                    {{ form_label(form.height) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_widget(form.height) }}
+                </div>
+            </div>
+            <div class="row" style="margin-top:1em">
+                <div class="col-md-4" style="margin-top:0.5em">
+                    {{ form_label(form.dataRows) }}
+                </div>
+                <div class="col-md-8">
+                    {{ form_widget(form.dataRows) }}
+                </div>
+            </div>
+            <div class="row" style="margin-top:1em">
+                <div class="col-md-4" style="margin-top:0.5em">
+                    {{ form_label(form.candleType) }}
+                </div>
+                <div class="col-md-8">
+                    {{ form_widget(form.candleType) }}
+                </div>
+            </div>
+            <div class="row" style="margin-top:1em">
+                <div class="col-md-4" style="margin-top:0.5em">
+                    {{ form_label(form.symbol) }}
+                </div>
+                <div class="col-md-8">
+                    {{ form_widget(form.symbol) }}
+                </div>
+            </div>
+            <div class="row" style="margin-top:1em">
+                <div class="col-md-4" style="margin-top:0.5em">
+                    {{ form_label(form.timeseries) }}
+                </div>
+                <div class="col-md-8">
+                    {{ form_widget(form.timeseries) }}
+                </div>
+            </div>
+
+            <div class="row" style="margin-top:1em">
+                <div class="col-md-4" style="margin-top:0.5em">
+                    {{ form_label(form.colorAscending) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_widget(form.colorAscending) }}
+                </div>
+                <div class="col-md-4" style="margin-top:0.5em">
+                    {{ form_label(form.colorDescending) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_widget(form.colorDescending) }}
+                </div>
+            </div>
+            <div class="row" style="margin-top:1em">
+                <div class="col-md-12">
+                    {{ form_widget(form.submit) }}
+                </div>
+            </div>
+
+            <div style="background-color: #0c0c0c;color:white;padding:1em;margin-top:4em">
+                Make sure to make this chart as big as possible so you can render it nicely in your
+                display. Recommended to use a template that gives you enough space like the 1 column option and at least
+                a 400x300 display.
+                <br><b>Please note: </b> The results are retrieved every morning and are not real time so it's useful
+                only to see past data. Real time data APIs cost approx. 4000€ per month (Ex. Nomics.com)
+            </div>
+        </div>
+        <div class="col-md-6">
+            Preview
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        // No javascript for now
+    </script>
+{% endblock %}

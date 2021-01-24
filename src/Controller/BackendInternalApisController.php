@@ -2,10 +2,13 @@
 namespace App\Controller;
 
 use App\Entity\IntegrationApi;
+use App\Entity\UserApiFinancialChart;
 use App\Entity\UserApiGalleryImage;
+use App\Form\Api\Crypto\IntegrationFinanceType;
 use App\Form\Api\IntegrationGalleryType;
 use App\Form\Api\IntegrationHtmlType;
 use App\Repository\IntegrationApiRepository;
+use App\Repository\UserApiFinancialChartRepository;
 use App\Repository\UserApiGalleryImageRepository;
 use App\Repository\UserApiRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -17,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/backend")
  */
-class BackendInternalGalleryController extends BackendHelpersController
+class BackendInternalApisController extends BackendHelpersController
 {
     private $menu = "api";
 
@@ -197,6 +200,82 @@ class BackendInternalGalleryController extends BackendHelpersController
         //dump($render);exit();
         return $this->render(
             'backend/api/conf-gallery.html.twig', $render
+        );
+    }
+
+    /**
+     * Wizard to configure an internal image Gallery
+     * @Route("/financial-charts/{uuid}/{intapi_uuid?}/{image_id?}", name="b_api_wizard_cale-crypto")
+     */
+    public function apiInternalCryptoCharts(
+        $uuid, $intapi_uuid, $image_id, Request $request,
+        UserApiRepository $userApiRepository,
+        IntegrationApiRepository $intApiRepository,
+        UserApiFinancialChartRepository $userFinancialRepository,
+        EntityManagerInterface $entityManager)
+    {
+        $userApi = $this->getUserApi($userApiRepository, $uuid);
+        $api = $this->getIntegrationApi($intApiRepository, $intapi_uuid);
+        if (!$api instanceof IntegrationApi) {
+            $api = new IntegrationApi();
+            $financial = new UserApiFinancialChart();
+        } else {
+            $financial = $userFinancialRepository->findOneBy([
+                'user' => $this->getUser(),
+                'intApi' => $api
+            ]);
+            if (!$financial instanceof UserApiFinancialChart){
+                $financial = new UserApiFinancialChart();
+            }
+        }
+
+        $form = $this->createForm(IntegrationFinanceType::class, $financial);
+        $form->handleRequest($request);
+        $error = "";
+        $messageSuccess = "Chart settings updated";
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $apiName = $form->get('name')->getData();
+            $api->setUserApi($userApi);
+            $api->setName($apiName);
+
+            try {
+                $entityManager->persist($api);
+                $financial->setUser($this->getUser());
+                $financial->setIntApi($api);
+                $entityManager->persist($financial);
+                $entityManager->flush();
+            }
+            // Not sure if this is adequate here
+            /*catch (UniqueConstraintViolationException $e) {
+                $error = '"'.$api->getName().'" exists already. Please use another name for this HTML element (Name your API)';
+                $this->addFlash('error', $error);
+            }*/
+            catch (\Exception $e) {
+                $error = $e->getMessage();
+                $this->addFlash('error', $error);
+            }
+
+            if ($error === '') {
+                $this->addFlash('success', $messageSuccess);
+                return $this->redirectToRoute('b_api_image_gallery',
+                    [
+                        'uuid' => $userApi->getId(),
+                        'intapi_uuid' => $api->getId()
+                    ]);
+            }
+        }
+
+        $render = [
+            'title' => 'Candlestick chart settings',
+            'form' => $form->createView(),
+            'intapi_uuid' => $intapi_uuid,
+            'userapi_id' => $userApi->getId(),
+            'menu' => $this->menu
+        ];
+        //dump($render);exit();
+        return $this->render(
+            'backend/api/crypto/conf-financial-charts.html.twig', $render
         );
     }
 }

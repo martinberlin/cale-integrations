@@ -39,6 +39,12 @@ class IntegrationApi implements Language, Location, Created
     private $galleryImages;
 
     /**
+     * One IntegrationApi may haves many financialCharts. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="App\Entity\UserApiFinancialChart", mappedBy="intApi", orphanRemoval=true)
+     */
+    private $financeCharts;
+
+    /**
      * @var string
      * @ORM\Column(type="string", length=130)
      */
