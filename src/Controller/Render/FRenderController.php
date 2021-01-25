@@ -64,7 +64,7 @@ EOT;
         if (!$financial instanceof UserApiFinancialChart) {
             // Drop plot error and exit
             $plot = new \PHPlot(400, 300);
-            $plot->SetUseTTF(true);
+            //$plot->SetUseTTF(true);
             $plot->DrawMessage("Financial settings not found");
             exit();
         }
@@ -75,7 +75,7 @@ EOT;
             "Bitstamp_".$financial->getSymbol().'_'.$financial->getTimeseries().'.csv';
 
         $plot = new \PHPlot($financial->getWidth(), $financial->getHeight());
-        $plot->SetUseTTF(true);
+        //$plot->SetUseTTF(true);
 
 
         if (!file_exists($datafile)) {
