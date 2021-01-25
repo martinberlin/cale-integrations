@@ -64,7 +64,6 @@ EOT;
         if (!$financial instanceof UserApiFinancialChart) {
             // Drop plot error and exit
             $plot = new \PHPlot(400, 300);
-            //$plot->SetUseTTF(true);
             $plot->DrawMessage("Financial settings not found");
             exit();
         }
@@ -111,8 +110,10 @@ EOT;
         //dump($financial,$cryptoSettings->downloadLocalPath,$cryptoSettings->datafiles);exit();
 
         // Don't need a Symfony response, plot does this already
-        //$response = new Response();$response->headers->set('Content-Type', 'image/png');
-        $plot->DrawGraph();
+        $response = new Response();
+        $response->headers->set('Content-Type', 'image/png');
+        $response->setContent($plot->DrawGraph());
+        return $response;
     }
 
      /**
