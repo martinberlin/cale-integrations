@@ -99,17 +99,23 @@ class IntegrationFinanceType extends AbstractType
                     'required' => true,
                     "choices" => $options['timeseries'],
                 ])
-            ->add('colorAscending', ChoiceType::class,
+            ->add('colorAscending', TextType::class,
                 [
                     'label' => 'Ascending color',
                     'required' => true,
-                    "choices" => $options['colors'],
+                    'attr' => [
+                        'class' => 'form-control pickr',
+                        'maxlength' => '7'
+                    ]
                 ])
-            ->add('colorDescending', ChoiceType::class,
+            ->add('colorDescending', TextType::class,
                 [
                     'label' => 'Descending color',
                     'required' => true,
-                    "choices" => $options['colors'],
+                    'attr' => [
+                        'class' => 'form-control pickr',
+                        'maxlength' => '7'
+                    ]
                 ])
 
             ->add('axisFontFile', ChoiceType::class,
@@ -163,12 +169,6 @@ class IntegrationFinanceType extends AbstractType
                 'Daily' => 'd',
                 'Hourly' => '1h'
             ],
-            'colors' => [
-                'Red' => 'red',
-                'Green' => 'green',
-                'Black' => 'black',
-                'Gray' => 'gray',
-            ],
             'fontSize' => [
                 '9' => 9,
                 '10' => 10,
@@ -177,7 +177,10 @@ class IntegrationFinanceType extends AbstractType
             ],
             'fontFile' => [
                 'Digital 7'   => 'digital-7.ttf',
-                'Benjamin G.' => 'benjamingothic.ttf'
+                'Benjamin G.' => 'benjamingothic.ttf',
+                'Futura'      => 'futura.ttf',
+                'Varela'      => 'varela.ttf',
+                'IBM plex'    => 'ibm-plex.ttf',
             ],
             'displays' => []
         ]);
