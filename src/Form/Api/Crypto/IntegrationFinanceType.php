@@ -75,7 +75,7 @@ class IntegrationFinanceType extends AbstractType
             ->add('setDisplayDimensions', ChoiceType::class,
                 [
                     'label' => 'Set width and height',
-                    'required' => true,
+                    'required' => false,
                     'mapped'  => false,
                     "choices" => $options['displays'],
                     'placeholder' => 'Select one display',
@@ -110,6 +110,19 @@ class IntegrationFinanceType extends AbstractType
                     'label' => 'Descending color',
                     'required' => true,
                     "choices" => $options['colors'],
+                ])
+
+            ->add('axisFontFile', ChoiceType::class,
+                [
+                    'label' => 'Font',
+                    'required' => true,
+                    "choices" => $options['fontFile'],
+                ])
+            ->add('axisFontSize', ChoiceType::class,
+                [
+                    'label' => 'Font size',
+                    'required' => true,
+                    "choices" => $options['fontSize'],
                 ])
 
             ->add('submit', SubmitType::class,
@@ -155,6 +168,16 @@ class IntegrationFinanceType extends AbstractType
                 'Green' => 'green',
                 'Black' => 'black',
                 'Gray' => 'gray',
+            ],
+            'fontSize' => [
+                '9' => 9,
+                '10' => 10,
+                '11' => 11,
+                '12' => 12,
+            ],
+            'fontFile' => [
+                'Digital 7'   => 'digital-7.ttf',
+                'Benjamin G.' => 'benjamingothic.ttf'
             ],
             'displays' => []
         ]);

@@ -73,6 +73,20 @@ class UserApiFinancialChart
      */
     protected $colorDescending = 'gray';
 
+    /**
+     * Font trueType file
+     *
+     * @ORM\Column(type="string", length=50,nullable=false)
+     */
+    protected $axisFontFile = 'digital-7.ttf';
+
+    /**
+     * @var integer
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    protected $axisFontSize = 10;
+
+
     public function __toString()
     {
         return (string) $this->intApi.'_'.$this->symbol;
@@ -238,4 +252,35 @@ class UserApiFinancialChart
         $this->colorDescending = $colorDescending;
     }
 
+    /**
+     * @return string
+     */
+    public function getAxisFontFile(): ?string
+    {
+        return $this->axisFontFile;
+    }
+
+    /**
+     * @param string $axisFontFile
+     */
+    public function setAxisFontFile(string $axisFontFile): void
+    {
+        $this->axisFontFile = $axisFontFile;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAxisFontSize(): int
+    {
+        return $this->axisFontSize;
+    }
+
+    /**
+     * @param int $axisFontSize
+     */
+    public function setAxisFontSize(int $axisFontSize): void
+    {
+        $this->axisFontSize = $axisFontSize;
+    }
 }

@@ -28,6 +28,8 @@ final class Version20210123171453 extends AbstractMigration
         $this->addSql("CREATE TABLE app_user_api_financial (user_id INT NOT NULL, user_api_id VARCHAR(40) NOT NULL, width INT NOT NULL, height INT NOT NULL, data_rows INT NOT NULL, candle_type VARCHAR(20) DEFAULT NULL, symbol VARCHAR(20) DEFAULT NULL, timeseries VARCHAR(20) DEFAULT NULL, color_ascending VARCHAR(7) DEFAULT NULL, color_descending VARCHAR(7) DEFAULT NULL, INDEX IDX_9DCB69FFA76ED395 (user_id), INDEX IDX_9DCB69FF31C42205 (user_api_id), UNIQUE INDEX user_api_name_idx (user_id, user_api_id), PRIMARY KEY(user_id, user_api_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB;");
         $this->addSql("ALTER TABLE app_user_api_financial ADD CONSTRAINT FK_9DCB69FFA76ED395 FOREIGN KEY (user_id) REFERENCES app_user (id);");
         $this->addSql("ALTER TABLE app_user_api_financial ADD CONSTRAINT FK_9DCB69FF31C42205 FOREIGN KEY (user_api_id) REFERENCES app_int_api (uuid);");
+        // Additional axis font selection
+        $this->addSql("ALTER TABLE app_user_api_financial ADD axis_font_file VARCHAR(50) NOT NULL, ADD axis_font_size INT NOT NULL;");
     }
 
     public function down(Schema $schema) : void

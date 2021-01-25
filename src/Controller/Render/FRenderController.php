@@ -77,14 +77,19 @@ EOT;
         $plot = new \PHPlot($financial->getWidth(), $financial->getHeight());
         $plot->SetUseTTF(true);
 
+
         if (!file_exists($datafile)) {
             // Drop plot error and exit
             $plot->DrawMessage("Data file: ".basename($datafile)." not found");
             exit();
         }
 
-        $plot->SetFont('x_label', null, 8);
-        $plot->SetFont('y_label', null, 9);
+        // Set label fonts:
+        $elements = ['x_label','y_label'];
+        foreach ($elements as $element) {
+            $plot->SetFontTTF($element, $_ENV["FONTS_BASEURL"].$financial->getAxisFontFile(), $financial->getAxisFontSize());
+        }
+
         $parseCsv = $this->read_prices_data_data($datafile, $financial->getDataRows(), $financial->getTimeseries());
 
         $plot->SetImageBorderType('plain'); // Improves presentation in the manual

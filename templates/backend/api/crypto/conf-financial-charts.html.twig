@@ -83,6 +83,21 @@
                 </div>
             </div>
             <div class="row" style="margin-top:1em">
+                <div class="col-md-4" style="margin-top:0.5em">
+                    {{ form_label(form.axisFontFile) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_widget(form.axisFontFile) }}
+                </div>
+                <div class="col-md-4" style="margin-top:0.5em">
+                    {{ form_label(form.axisFontSize) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_widget(form.axisFontSize) }}
+                </div>
+            </div>
+
+            <div class="row" style="margin-top:1em">
                 <div class="col-md-12">
                     {{ form_widget(form.submit) }}
                 </div>
