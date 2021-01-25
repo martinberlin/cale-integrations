@@ -72,6 +72,15 @@ class IntegrationFinanceType extends AbstractType
                         ])
                     ]
                 ])
+            ->add('setDisplayDimensions', ChoiceType::class,
+                [
+                    'label' => 'Set width and height',
+                    'required' => true,
+                    'mapped'  => false,
+                    "choices" => $options['displays'],
+                    'placeholder' => 'Select one display',
+                    'attr' => ['onChange'=>'onSetDimension(this)']
+                ])
             ->add('candleType', ChoiceType::class,
                 [
                     'label' => 'Candlestick type',
@@ -146,7 +155,8 @@ class IntegrationFinanceType extends AbstractType
                 'Green' => 'green',
                 'Black' => 'black',
                 'Gray' => 'gray',
-            ]
+            ],
+            'displays' => []
         ]);
     }
 }

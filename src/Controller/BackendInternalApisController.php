@@ -228,8 +228,18 @@ class BackendInternalApisController extends BackendHelpersController
                 $financial = new UserApiFinancialChart();
             }
         }
+        $displays = [];
+        foreach ($this->getUser()->getScreens() as $screen) {
+            $display = $screen->getDisplay();
+            $displays[$display->getName()] = $display->getWidth().'x'.$display->getHeight();
+        }
 
-        $form = $this->createForm(IntegrationFinanceType::class, $financial, ['apiName' => $api->getName()]);
+        $form = $this->createForm(IntegrationFinanceType::class, $financial,
+            [
+                'apiName'  => $api->getName(),
+                'displays' => $displays
+            ]);
+
         $form->handleRequest($request);
         $error = "";
         $messageSuccess = "Chart settings updated";

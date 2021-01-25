@@ -13,6 +13,14 @@
                     {{ form_widget(form.name) }}
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-4" style="margin-top:1em">
+                    {{ form_label(form.setDisplayDimensions) }}
+                </div>
+                <div class="col-md-8" style="margin-top:0.5em">
+                    {{ form_widget(form.setDisplayDimensions) }} <small>Not saved: Just fills automatically width & height</small>
+                </div>
+            </div>
             <div class="row" style="margin-top:1em">
                 <div class="col-md-4" style="margin-top:0.5em">
                     {{ form_label(form.width) }}
@@ -103,5 +111,14 @@
 {% block javascripts %}
     <script>
         // No javascript for now
+        function onSetDimension(choiceDropdown) {
+            let choice = choiceDropdown.value;
+            if (choice == "") return;
+
+            let splitDim = choice.split('x');
+            document.getElementById('width').value  = splitDim[0];
+            document.getElementById('height').value = splitDim[1];
+            //console.log(choiceDropdown.value);
+        }
     </script>
 {% endblock %}
