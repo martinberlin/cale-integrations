@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 
 /**
  * This controller is responsible to render Financial/ Crypto related APIs
@@ -21,14 +22,20 @@ class FRenderController extends AbstractController
 {
 
     /**
-     * render_candlesticks_html is internally called
-     * @Route("/candlesticks-html", name="render_candlesticks_html")
+     * render_int_crypto is internally called
+     * @Route("/render_int_crypto", name="render_int_crypto")
      */
-    public function render_candlesticks_img(TemplatePartial $partial)
+    public function render_int_crypto(TemplatePartial $partial)
     {
         $api = $partial->getIntegrationApi();
+        $intApiId = $api->getId();
+        $userId = $api->getUserApi()->getUser()->getId();
+        $imgSrc = $this->generateUrl('render_crypto_candlesticks', [
+            'userId'   => $userId,
+            'intApiId' => $intApiId
+        ], UrlGenerator::ABSOLUTE_URL);
         $html = <<<EOT
-        <img src="">
+        <img src="$imgSrc">
 EOT;
 
         // Render the content partial and return the composed HTML

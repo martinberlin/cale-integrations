@@ -92,13 +92,13 @@ class IntegrationFinanceType extends AbstractType
                 ])
             ->add('colorAscending', ChoiceType::class,
                 [
-                    'label' => 'Color of ascending candle',
+                    'label' => 'Ascending color',
                     'required' => true,
                     "choices" => $options['colors'],
                 ])
             ->add('colorDescending', ChoiceType::class,
                 [
-                    'label' => 'Color of descending candle',
+                    'label' => 'Descending color',
                     'required' => true,
                     "choices" => $options['colors'],
                 ])
