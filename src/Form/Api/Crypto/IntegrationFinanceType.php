@@ -72,6 +72,7 @@ class IntegrationFinanceType extends AbstractType
                         ])
                     ]
                 ])
+
             ->add('setDisplayDimensions', ChoiceType::class,
                 [
                     'label' => 'Set width and height',
@@ -79,8 +80,9 @@ class IntegrationFinanceType extends AbstractType
                     'mapped'  => false,
                     "choices" => $options['displays'],
                     'placeholder' => 'Select one display',
-                    'attr' => ['onChange'=>'onSetDimension(this)']
+                    'attr' => ['onChange'=>'onSetDimension(this)', 'title'=>'Not saved: Just fills automatically width & height']
                 ])
+
             ->add('candleType', ChoiceType::class,
                 [
                     'label' => 'Candlestick type',
