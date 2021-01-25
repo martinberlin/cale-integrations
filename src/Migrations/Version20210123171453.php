@@ -33,5 +33,6 @@ final class Version20210123171453 extends AbstractMigration
     public function down(Schema $schema) : void
     {
         $this->addSql("DELETE FROM app_api WHERE id=10");
+        $this->addSql("DROP TABLE app_user_api_financial");
     }
 }
