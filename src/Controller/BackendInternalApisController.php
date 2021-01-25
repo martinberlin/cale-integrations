@@ -231,13 +231,13 @@ class BackendInternalApisController extends BackendHelpersController
         $displays = [];
         foreach ($this->getUser()->getScreens() as $screen) {
             $display = $screen->getDisplay();
-            $displays[$display->getName()] = $display->getWidth().'x'.$display->getHeight();
+            $displays[$display->getWidth().'x'.$display->getHeight()] = $display->getName();
         }
 
         $form = $this->createForm(IntegrationFinanceType::class, $financial,
             [
                 'apiName'  => $api->getName(),
-                'displays' => $displays
+                'displays' => array_flip($displays)
             ]);
 
         $form->handleRequest($request);
