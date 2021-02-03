@@ -3,7 +3,6 @@
 parameters:
     version: 1.0.3
     locales: en|es|de
-    cale_support_email: martin@cale.es
     cale_official_email: martin@cale.es
     screen_templates:
         '1 Column':  1-col.html.twig
