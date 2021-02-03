@@ -19,13 +19,15 @@ class HealthMysqlCommand extends Command
     private $twig;
     private $mysqlConnection;
     private $mailer;
+    private $container;
 
-    public function __construct(Environment $twig, EntityManagerInterface $manager, \Swift_Mailer $mailer)
+    public function __construct(Environment $twig, ContainerInterface $container, EntityManagerInterface $manager, \Swift_Mailer $mailer)
     {
         parent::__construct();
         $this->twig = $twig;
         $this->mysqlConnection = $manager->getConnection();
         $this->mailer = $mailer;
+        $this->container = $container;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -50,7 +52,7 @@ class HealthMysqlCommand extends Command
         }
 
         $message = (new \Swift_Message("CRITICAL: Server DB is down"))
-            ->setFrom('martinico@gmail.com')
+            ->setFrom($this->container->getParameter('cale_official_email'))
             ->setTo($_ENV['HEALTH_EMAIL1'])
             ->setCc($_ENV['HEALTH_EMAIL2'])
             ->setBody(
