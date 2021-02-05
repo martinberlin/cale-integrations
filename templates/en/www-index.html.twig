@@ -1,4 +1,5 @@
 {% extends '/base.html.twig' %}
+{% set bmp_800_demo = 'https://img.cale.es/bmp/cale_www/5f927722b40d9' %}
 
 {% block carousel %}
     {% include "/partials/carousel.html.twig" %}
@@ -8,25 +9,19 @@
     <div class="text-center" style="margin-top: -2em">
     <h3><span class="cale">API Mashup creator for your WiFi displays</span></h3>
     <h4>
-        <span class="cale" style="font-weight:bold">CALE</span> is a screen administrator where you can mix content of different APIs
-            and control the content output.
+        <span class="cale" style="font-weight:bold">CALE</span> is a screen administrator where you can mix the content of different APIs
+            and control the output.
     </h4>
 
         {% if app.environment != 'dev' %}
-            {% set img_cloudwatch = cdn_s3~'/img/index_cloudwatch.png' %}
-            {% set bmp_cloudwatch = cdn_s3~'/img/index_cloudwatch.bmp' %}
-
         <video id="index" title="Video: Convert your Screen into an Eink" width="100%" controls autoplay>
             <source src="{{ cdn_s3 }}/v/c-converts-your-screens.mov">
         </video>
-            {% else %}
-                {% set img_cloudwatch = '/img/www/carousel/index_cloudwatch.png' %}
-                {% set bmp_cloudwatch = '/img/www/carousel/index_cloudwatch.bmp' %}
         {% endif %}
 
     </div>
     <h5>You can use it on any <b>WiFi display</b> like your tablet, mobile, or ultimately in a
-        WiFi E-Paper screen that is every hour fetching new content at a minimum consumption.
+        WiFi E-Paper screen that is every hour fetching new content at minimum consumption.
     </h5>
 
     <div class="row">
@@ -45,30 +40,27 @@
     <br><br>
     <div class="row">
     <div class="col-md-12">
-        <h4>API integration example with Cloudwatch monitoring</h4>
+        <h3>API integration example with Ethereum balance and Cloudwatch monitoring</h3>
 
-        <h3>Output for a <a href="{{ path('displays-tft') }}">TFT WiFi display</a></h3>
-        <img src="{{ img_cloudwatch }}" style="border:1px solid gray;margin-left:1px" width="98%"><br>
-        <small>800*480 resulution output for a color TFT display</small>
 
-        <h3>Same output for a <a href="{{ path('displays-eink') }}">E-Ink WiFi display</a></h3>
-        <img src="{{ bmp_cloudwatch }}" style="border:1px solid gray;margin-left:1px" width="98%"><br>
-        <small>800*480 for a 7.5 inches Epaper display</small>
+        <h4>800*600 pixels bitmap demo for an <a href="{{ path('displays-eink') }}">Epaper WiFi display</a></h4>
+        <img src="{{ bmp_800_demo}}" style="border:1px solid #EEEEEE;margin-left:1px" width="98%"><br>
+        <small style="font-size:9pt;color:#666666">800*600 bitmap preview (4 bits por pixel). Image generated dynamically each 2 hrs</small>
 
         <a href="https://play.google.com/store/apps/details?id=io.cordova.cale" target="_blank" title="CALE Android application">
             <img src="/assets/www/firmware/cale_app_1.jpg" style="margin-top:1.6em;margin-right:19px" alt="CALE Android app" class="pull-right"></a>
         <p style="margin-top:2em">
             <h4><a href="{{ path('firmware-blue') }}">Our Firmware</a> is compatible with ESP32 / ESP8266 Espressif boards and it's ready to be configured with
-            <span class="cale" style="font-weight:bold">CALE ANDROID APP</span></h4>
+            <span class="cale" style="font-weight:bold">CALE Android Application</span></h4>
         <br>
         Both the Firmware and the Android application are fully open source.
         Enabling you to have full control of what is going on between your application and the display controller.
         You can even fork it and customize it for your own project or use our working examples in your own Firmware implementation.<br><br>
 
-        <b>To sync your App to our web-service backend just create an account and follow this steps:</b><br><br>
+        <b>To sync your App to our web-service just create an account and follow this steps:</b><br><br>
         <ol>
             <li><a href="https://play.google.com/store/apps/details?id=io.cordova.cale" target="_blank">
-                    Download <span class="cale" style="font-weight:bold">CALE ANDROID APP</span></a></li>
+                    Download <span class="cale" style="font-weight:bold">CALE Android App</span></a></li>
             <li>Configure a test Screen, associated to an Eink display, and one WiFi access point</li>
             <li>Activate Bluetooth in your Android device and log in to <span class="cale" style="font-weight:bold">CALE BACKEND</span></li>
             <li>Scan the QR Code you can see on <b>User <span class="glyphicon glyphicon-arrow-right"></span> My api QR code</b></li>

@@ -1,9 +1,8 @@
 # This file is the entry point to configure your own services.
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    version: 1.0.2
+    version: 1.0.3
     locales: en|es|de
-    cale_support_email: martin@cale.es
     cale_official_email: martin@cale.es
     screen_templates:
         '1 Column':  1-col.html.twig
@@ -33,6 +32,10 @@ parameters:
     html_max_chars: 2000
     # Notice that ../public is hardcoded in BackendApiController::apiInternalHtml
     screen_images_directory: /screenimg
+    # gallery_max_size is used as File maxSize constraint (needs 'k' appended later in FormType)
+    gallery_max_size: 499
+    gallery_max_size_total: 10000
+
     # Email config
     email_reset_password:   'dontreply@cale.es'
     email_reset_pass_title: 'CALE password recovery'

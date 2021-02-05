@@ -36,6 +36,7 @@
         <li><a href="#a1">Quick start with the Lilygo T5</a></li>
         <li><a href="#a2">GPIO reference</a></li>
         <li><a href="#a3">3Dprint a case</a></li>
+        <li><a href="{{ path('firmware-idf') }}">Firmware for ESP-IDF (Also works for T5)</a> <span class="cale" style="font-weight: bold">NEW!</span></li>
         <li><a href="{{ path('firmware-tft') }}">Firmware for TFT displays - cale_tft</a></li>
         <li><a href="{{ path('firmware') }}">ESP32/ESP8266 Firmware - cale</a></li>
         <li><a href="{{ path('firmware-blue') }}">Main Firmware with Bluetooth - master</a></li>
@@ -51,10 +52,11 @@
     The steps will be reduced to two:
     <ul>
     <li><b>Adquire one of this epaper displays</b></li>
-    <li><b>Prepare up to 3 Screens</b><br>Keep in mind the Screen display should match your T5, we used a 2.13" 250 x 122 pixels</li>
+    <li><b>Prepare up to 3 Screens</b><br>Keep in mind the Screen display should match your T5 model size</li>
     <li><b>Download and compile the Firmware</b></li>
     </ul>
 
+    We tested this with a T5 2.4 version (2.13" 250*122 pix) and also with a T5S 2.7" (264*176 pix). Both models are supported.
 
     <a id="a1"></a><br><br>
 <br>The open source Firmware is here:<br>
@@ -91,7 +93,7 @@ String bearer3 = "";
 </pre>
 
     Since the T5 has 4 buttons, 3 that are wired to a GPIO of the ESP32 and one reset button. Reset will just restart everything and
-    the Firware will call screen1. Button 2 will make a request to get screen2 and so on.
+    the Firmware will call screen1. Button 2 will make a request to get screen2 and so on.
 
     <a id="a2">PINs for this boards</a><br><br>
     The Eink is already wired to the SPI interface, so please check their documentation in the
@@ -391,12 +393,14 @@ int8_t EINK_BUSY = 4;
     <a id="a3"></a><br><br>
     <h3>3D print a case</h3>
 
-    Doing a search for <a href="https://www.thingiverse.com/search?q=TTGO+T5" target="_blank">"ttgo T5" in Thingiverse</a>
+    Doing a search for <a href="https://www.thingiverse.com/search?q=TTGO+T5" target="_blank">TTGO T5 2.13" in Thingiverse</a>
     returns some cases for different models. We designed one in CALE for the 2.13 inches (250x122) display:
     <a href="https://www.thingiverse.com/thing:4209788" data-toggle="tooltip" title="External link -> Thingiverse"
     target="_blank"><img src="/img/www/ttgo-t5-2-13.jpg"><br>
-    Ready for any 3D-Printer</a>
-
+    TTGO T5 2.13" ready for your 3D-Printer</a>
+ <br>And one for the version with bigger epaper display of 264*176 pixels:<br>
+    <a href="https://www.thingiverse.com/thing:4283328" target="_blank"><img src="/img/www/firmware/T5S-2.7.jpg"><br>
+        TTGO T5 2.7" in Thingiverse</a>
 {% endblock %}
 
 {% block javascripts %}

@@ -28,11 +28,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ARenderController extends AbstractController
 {
-    private function convertDateTime($unixTime,$hourFormat) {
-        $dt = new \DateTime("@$unixTime");
-        return $dt->format($hourFormat);
-    }
-
     /**
      * @param TemplatePartial $partial
      * @return string
@@ -44,6 +39,16 @@ class ARenderController extends AbstractController
         $colorStyle = ' style="color:'.$fColor.';background-color:'.$bColor.'"';
         } else {
             $colorStyle = ' style="background-color:'.$fColor.';color:'.$bColor.'"';
+        }
+        return $colorStyle;
+    }
+    private function getColorStyleNoWrap(TemplatePartial $partial, $invert = false) {
+        $fColor = ($partial->getInvertedColor()===false) ? $partial->getForegroundColor() : $partial->getBackgroundColor();
+        $bColor = ($partial->getInvertedColor()===false) ? $partial->getBackgroundColor() : $partial->getForegroundColor();
+        if ($invert === false) {
+            $colorStyle = "color:$fColor;background-color:$bColor";
+        } else {
+            $colorStyle = "background-color:$fColor;color:$bColor";
         }
         return $colorStyle;
     }
@@ -131,10 +136,10 @@ class ARenderController extends AbstractController
         // Start HTML building - Headlines is a try to mould this to Screen environment
         $hs = (substr($partial->getScreen()->getTemplateTwig(), 0, 1) > 1) ? 'h4' : 'h3';
         // Retrieve color styles
-        $colorStyle = $this->getColorStyle($partial);
+        $mainColorStyle = $this->getColorStyle($partial);
         $invertedColorStyle = $this->getColorStyle($partial, true);
         $iconArrowRight = ' <span class="glyphicon glyphicon-arrow-right"></span>';
-        $responseContent = '<div class="row"' . $colorStyle . '><div class="col-md-12">';
+        $responseContent = '<div class="row" style="margin-left:0px;'.$mainColorStyle.'"><div class="col-md-12">';
 
         foreach ($events as $event) {
             $dateStart = ($event->start->getDate() != '') ? $event->start->getDate() : $event->start->getDateTime();
@@ -248,15 +253,20 @@ class ARenderController extends AbstractController
         $responseContent = '';
         // Start HTML building - Headlines is a try to mould this to Screen environment
         $hs = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h4':'h3';
+        $mainColorStyle = $this->getColorStyleNoWrap($partial);
         $colorStyle = $this->getColorStyle($partial);
         $invertedColorStyle = $this->getColorStyle($partial, true);
 
         $iconArrowRight = '<span class="glyphicon glyphicon-arrow-right"></span>';
         $iconLogo = '<img src="/assets/screen/logo/timetree-default_color.png"> ';
 
-        $responseContent = '<div class="row"'.$colorStyle.'><div class="col-md-12">';
+        $responseContent = '<div class="row" style="margin-left:0px;'.$mainColorStyle.'"><div class="col-md-12">';
         if (isset($json->data)) {
+            $countResults = 1;
             foreach ($json->data as $item) {
+                if ($countResults>$partial->getMaxResults()) {
+                    break;
+                }
                 $attr = $item->attributes;
                 $isAllDay = $attr->all_day;
                 $start = new \DateTime($attr->start_at, new \DateTimeZone($partial->getIntegrationApi()->getTimezone()));
@@ -284,6 +294,8 @@ class ARenderController extends AbstractController
                 $responseContent .= '<div class="col-md-4 col-sm-6 col-xs-6"><'.$hs.'>'.$attr->location.'</'.$hs.'></div>';
 
                 $responseContent .= '</div>';
+
+                $countResults++;
             }
         } else {
             $responseContent .= '<b>NO DATA FROM API: There was no data response from Timetree.</b><br>Please check in Content that the API has a Token configured';
@@ -314,7 +326,7 @@ class ARenderController extends AbstractController
             return $response;
         }
         // Read user preferences
-        $colorStyle = $this->getColorStyle($partial);
+        $colorStyle = $this->getColorStyleNoWrap($partial);
         $user = $partial->getScreen()->getUser();
         $hourFormat = $user->getHourFormat();
         // WEATHER Dark sky
@@ -335,7 +347,7 @@ class ARenderController extends AbstractController
         $colMd6 = ($partial->getScreen()->getDisplay() instanceof Display && $partial->getScreen()->getDisplay()->getWidth()>400) ? 'col-md-6 col-sm-6' : 'col-xs-6';
         $colMd4 = ($partial->getScreen()->getDisplay() instanceof Display && $partial->getScreen()->getDisplay()->getWidth()>400) ? 'col-md-4 col-sm-4' : 'col-xs-4';
 
-        $responseContent = '<div class="row"'.$colorStyle.'><div class="col-md-12 col-sm-12 col-xs-12">';
+        $responseContent = '<div class="row" style="margin:0px;padding-top:6px;'.$colorStyle.'"><div class="col-md-12 col-sm-12 col-xs-12">';
         $responseContent .= "<div class=\"row\">
             <div class=\"$colMd6 col-xs-6 \"><$hs>Low&nbsp; {$d['daily-avg-low']}<br>High {$d['daily-avg-high']}</$hs></div>
             <div class=\"$colMd6 col-xs-6 text-right\"><$hs>$iconSunrise {$d['sunrise']}<br>&nbsp;Sunset {$d['sunset']}</$hs></div></div>";
@@ -534,6 +546,22 @@ class ARenderController extends AbstractController
         return $response;
     }
 
+    private function convertDateTime($unixTime, $hourFormat) {
+        $dt = new \DateTime("@$unixTime");
+        return $dt->format($hourFormat);
+    }
+
+    /**
+     * @param $unixTime
+     * @param $hourFormat
+     * @return string
+     * For openWeather comes already a timezone shift from UTC
+     */
+    private function convertDateTimeUTC($unixTime, $hourFormat) {
+        $dt = new \DateTime("@$unixTime");
+        $dt->setTimezone(new \DateTimeZone("UTC"));
+        return $dt->format($hourFormat);
+    }
 
     /**
      * OpenWeather
@@ -553,21 +581,30 @@ class ARenderController extends AbstractController
             return $response;
         }
         // Read user preferences
-        $colorStyle = $this->getColorStyle($partial);
+        $colorStyle = $this->getColorStyleNoWrap($partial);
         $user = $partial->getScreen()->getUser();
         $hourFormat = $user->getHourFormat();
-        $units = ($partial->getIntegrationApi()->getUnits() === 'imperial') ? ' F° ':' C° ';
+        $units = ($partial->getIntegrationApi()->getUnits() === 'imperial') ? ' F°':'°';
 
         $hIcon = '<i class="wi wi-{icon}"></i>';
         $iconColor = ($partial->getInvertedColor()) ? 'w/' : '';
         $wIcon = '<img style="width:1.6em" src="/assets/svg/openweather/'.$iconColor.'{icon}.svg">';
         $wHourly ="";
         $hourlyCounter = 1;
-        // Start HTML building - Headlines is a try to mould this to Screen environment
+        // Find timezone Shift in seconds from UTC and city name
+        $cityName = "";
+        $timezoneCorrection = 0;
+        if (isset($json->city)) {
+            // Minus 2 hours since seems 7200 seconds in the future (Not sure if this is right)  3600 secs per hour
+            $timezoneCorrection = $json->city->timezone - 7200;
+            $cityName = $json->city->name;
+        }
+        // Start HTML building - Headlines is a try to mould this to Screen environment. Ref: https://openweathermap.org/current
         $hs = (substr($partial->getScreen()->getTemplateTwig(),0,1)>1)?'h4':'h3';
         $colMd4 = ($partial->getScreen()->getDisplay() instanceof Display && $partial->getScreen()->getDisplay()->getWidth()>400) ? 'col-md-4 col-sm-4' : 'col-xs-4';
 
-        $responseContent = '<div class="row"'.$colorStyle.'><div class="col-md-12 col-sm-12 col-xs-12">';
+        $responseContent = '<div class="row" style="margin:0px;padding-top:6px;'.$colorStyle.'">
+                                <div class="col-md-12 col-sm-12 col-xs-12"><h4>'.$cityName.'</h4>';
 
         $icon3 = str_replace("{icon}", 'humidity', $hIcon);
 
@@ -577,11 +614,11 @@ class ARenderController extends AbstractController
             $wHourly .= '<div class="row">';
 
             if ($partial->getScreen()->getDisplay() instanceof Display && $partial->getScreen()->getDisplay()->getWidth()>400) {
-                $wHourly .= '<div class="'.$colMd4.'"><'.$hs.'>'.$this->convertDateTime($h->dt,$hourFormat).' '.$icon1.' </'.$hs.'></div>';
+                $wHourly .= '<div class="'.$colMd4.'"><'.$hs.'>'.$this->convertDateTimeUTC($h->dt+$timezoneCorrection,$hourFormat).' '.$icon1.' </'.$hs.'></div>';
                 $wHourly .= '<div class="'.$colMd4.' text-center"><'.$hs.'>'.$temp.$units.'</'.$hs.'></div>';
                 $wHourly .= '<div class="'.$colMd4.' text-right"><'.$hs.'>'.$h->main->humidity.' '.$icon3.'</'.$hs.'></div>';
             } else {
-                $wHourly .= '<div class="'.$colMd4.'"><'.$hs.'>'.$this->convertDateTime($h->dt,$hourFormat).' '.$icon1.' </'.$hs.'></div>';
+                $wHourly .= '<div class="'.$colMd4.'"><'.$hs.'>'.$this->convertDateTimeUTC($h->dt+$timezoneCorrection,$hourFormat).' '.$icon1.' </'.$hs.'></div>';
                 $wHourly .= '<div class="'.$colMd4.' text-center" style="margin-left:1.4em"><'.$hs.'>'.$temp.$units.'</'.$hs.'></div>';
                 $wHourly .= '<div class="'.$colMd4.' text-right" style="margin-left:1.4em"><'.$hs.'>'.$h->main->humidity.' '.$icon3.'</'.$hs.'></div>';
             }

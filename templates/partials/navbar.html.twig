@@ -17,11 +17,13 @@
                 <li><a href="{{ path('www_getting-started') }}"><span class="glyphicon glyphicon-play-circle"></span>
                         {{ 'nav_get_started'|trans }}</a></li>
                 <li><a href="{{ path('firmware-blue') }}" data-toggle="tooltip" title="ESP32">Firmware</a></li>
+                <li><a href="{{ path('www_demos_display') }}" data-toggle="tooltip" title="Rendering examples">Demos</a></li>
                 <li class="dropdown"><a href="#" data-toggle="dropdown" aria-expanded="false">
                         {{ 'nav_about'|trans }} <span
                                 class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ path('about-cale') }}">{{ 'nav_about'|trans }}</a></li>
+                        <li><a href="{{ path('about-ethereum') }}">{{ 'nav_ethereum'|trans }}</a></li>
                         <li><a href="{{ path('about-3d-model') }}">{{ 'nav_3d'|trans }}</a></li>
                         <li><a href="{{ path('transparently') }}">
                                 {{ 'nav_transparently_built'|trans }}</a></li>
@@ -31,6 +33,8 @@
                         {{ 'nav_service'|trans }} <span
                                 class="caret"></span></a>
                     <ul class="dropdown-menu">
+                        <li><a href="{{ path('www_epapers-sale') }}">
+                                {{ 'nav_epapers_for_sale'|trans }}</a></li>
                         <li><a href="{{ path('www_service-pricing') }}">
                                 {{ 'nav_pricing'|trans }}</a></li>
                         <li><a href="{{ path('www_server-architecture') }}">{{ 'nav_server_architecture'|trans }}</a></li>

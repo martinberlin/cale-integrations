@@ -1,0 +1,110 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        {{ form_start(form) }}
+        <div class="col-md-7">
+            This API shows the balance of your Ethereum account as default, with a small icon and the balance.
+
+            {{ form_errors(form) }}
+            {{ form_row(form.name) }}
+            {{ form_row(form.address) }}
+        </div>
+        <div class="col-md-3">
+            <label>Preview with dummy values:</label>
+
+            <table>
+                <tbody>
+                <tr>
+                    <td style="width:20%" class="text-right">
+                        {% if intapi_uuid %}
+                            <img src="/assets/svg/api/etherscan/{{ intapi.imagePath }}">
+                        {% else %}
+                            ♦
+                        {% endif %}
+                    </td>
+                    <td style="width:80%">
+                        <b style="font-size:20px"><span style="font-size:25px">0.1 ETH</span></b>
+                        <div id="eth_usd" style="font-size:20px"></div>
+                        <div id="eth_tx"></div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <p style="color:#A9A9A9">The json settings for this API are filled automatically when this form is filled
+                </p>
+                {{ form_row(form.jsonSettings) }}
+            </div>
+            <div class="col-md-4" style="margin-top: 0.8em">
+                <h4>API Settings</h4>
+                <small>Please be aware that the <b>Action query</b> can either show the balance or last transactions but not both since Etherscan does let multiple queries to be
+                        done in the same time.</small><br>
+                {{ form_widget(form.actionQuery) }} {{ form_label(form.actionQuery) }}
+                <table>
+                    <tr>
+                        <td>{{ form_widget(form.imagePath) }}</td>
+                        <td>{{ form_label(form.imagePath) }}</td>
+                    </tr>
+                </table>
+                <table style="margin-top: -1em">
+                    <tr><td>{{ form_widget(form.numberOfTransactions) }}</td>
+                    <td>{{ form_label(form.numberOfTransactions) }}</td>
+                    </tr>
+                </table>
+
+                {{ form_widget(form.showConversionPrice) }} {{ form_label(form.showConversionPrice) }}
+                {{ form_widget(form.submit, {'attr':{'style':'margin-top:0.4em'}}) }}
+            </div>
+            {% if intapi_uuid %}
+            <label style="margin-left: 1em">{{'api_response'|trans}}</label>
+            <div class="col-md-5" id="api_preview" style="height: 500px;overflow-y: auto">
+                Preview after saving configuration settings.
+            </div>
+
+                <small style="margin-left:1em">Formula: $wei / pow(10, 18)</small>
+            {% endif %}
+            {{ form_end(form) }}
+        </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        function showPreview() {
+            if (showConversionPrice.checked) {
+                eth_usd.innerHTML = "37.00 USD";
+            } else {
+                eth_usd.innerHTML = "";
+            }
+        }
+        let action_query = "{{ action_query }}";
+        let intapi_uuid = "{{ intapi_uuid }}";
+        let userapi_id = "{{ userapi_id }}";
+        let cal_id = "{{ form.vars.value.calId }}";
+        let showConversionPrice  = document.getElementById('showConversionPrice');
+        let numberOfTransactions = document.getElementById('numberOfTransactions');
+        let eth_usd_text  = document.getElementById('eth_usd');
+        let eth_tx_text  = document.getElementById('eth_tx');
+
+        let api_preview = document.getElementById('api_preview');
+        var xhReq = new XMLHttpRequest();
+        showPreview();
+        showConversionPrice.onchange = function() {
+            showPreview();
+        }
+
+        if (intapi_uuid !== "" && action_query!=="") {
+            xhReq.open("GET", "{{ path('json_etherscan', {'intapi_uuid':intapi_uuid, 'action':action_query}) }}", false);
+            xhReq.send(null);
+            var jsonObj = JSON.parse(xhReq.responseText);
+            var str = JSON.stringify(jsonObj, undefined, 2); {# 2 = spacing #}
+            api_preview.innerHTML = '';
+            api_preview.appendChild(document.createElement('pre')).innerHTML = syntaxHighlightJson(str);
+        }
+    </script>
+{% endblock %}

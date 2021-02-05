@@ -77,10 +77,27 @@
             is valid until we run out of the black PLA that we have bought with this mission.
         </p>
         </details>
+
+        {% if adsense_active %}
+        <!-- Cale horizontal -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-5919782356383484"
+             data-ad-slot="5254736071"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+        {% endif %}
     </div>
 
 {% endblock %}
 
 {% block javascripts %}
     <script type="text/javascript" src="/js/engine/common.js"></script>
+
+    {% if adsense_active %}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    {% endif %}
 {% endblock %}

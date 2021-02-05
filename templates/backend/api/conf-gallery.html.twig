@@ -1,0 +1,101 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+{% set remove_img_visibility = 'hidden' %}
+
+{# HTML editor include #}
+{% block stylesheets %}
+    <script src="/js/jquery/jquery-2.1.0.min.js"></script>
+{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+    <div class="row">
+
+        <div class="col-md-8 col-sm-8 col-xs-12">
+
+            {{ form_errors(form) }}
+
+            {{ form_row(form.name) }}
+            {{ form_row(form.imagePosition) }}
+
+            <div class="panel panel-default" style="margin-top: 8px">
+                <div class="panel-heading">Image</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-8 col-sm-12 col-xs-12">
+                            {{ form_row(form.imageFile) }}
+                        </div>
+
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            {{ form_row(form.position) }}
+                        </div>
+                    </div>
+
+                    {{ form_row(form.caption) }}
+                </div>
+                <div class="row">
+                    <div class="col-md-10 col-sm-12 col-xs-12">
+                {{ form_widget(form.submit) }}
+                    </div>
+                    <div class="col-md-2 col-sm-12 col-xs-12" style="margin-top:2em">
+                {% if image_id>0 %}
+                    <a style="color:darkred" href="{{ path('b_api_image_gallery', {'uuid':userapi_id,'intapi_uuid':intapi_uuid, 'image_id':image_id}) }}?delete=1">
+                    <span class="glyphicon glyphicon-edit"></span> Delete image
+                    </a>
+                {% endif %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-12" style="background-color: #333333;color:white">
+            {% if gallery.images|length %}<label>Gallery contents</label>
+                <div class="row" style="margin-left:0;margin-right:0.1em;margin-bottom:0.1em;border: 1px solid #BBBBBB">
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                            {{ gallery.kb_used }} / {{ gallery.kb_max }} Kb
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12" style="font-size:9pt">
+                    position / size
+                    </div>
+                    <div class="col-md-5 col-sm-12 col-xs-12 text-right bold">
+                        {{ gallery.kb_percentage_used }} % used
+                    </div>
+                </div>
+            {% endif %}
+
+            {% for i in gallery.images %}
+                <div class="row" style="margin-bottom:1em;{% if i.imageId==image_id %}background-color:black{% endif %}">
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                        <figure class="figure">
+                <img class="figure-img img-fluid z-depth-1" src="{{ gallery_path ~ '/' ~ i.imageId ~ '.' ~ i.extension }}" style="max-width:100px;border:1px solid black">
+                            <figcaption style="font-size:8pt" class="figure-caption">{{ i.caption }}</figcaption>
+                        </figure>
+                    </div>
+                    <div class="col-md-8 col-sm-12 col-xs-12" style="font-size:9pt">
+                        {{ i.position }} / {{ i.kb }} Kb.<br>
+                        <div style="margin-top:0.45em;margin-bottom:0.4em;padding-left: 1em; border: 1px solid #2b2b2b;background-color:#EEEEEE;width:6em">
+                            <a href="{{ path('b_api_image_gallery', {'uuid':userapi_id,'intapi_uuid':intapi_uuid, 'image_id':i.imageId}) }}">
+                                <span class="glyphicon glyphicon-edit"></span> edit</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            {% if gallery.images|length %}
+            <small>Images will be sorted by position ascendant. So first request to this gallery will show position 0, then 10, and so on. Just edit and update the position to a new number to update the sorting.</small>
+            {% else %}
+            <small>If you want that your images appear full size in your display please make sure to upload them as big as your display dimension in pixels.
+                Uploading small images will render them in the original size uploaded even if the HTML preview shows them bigger.<br>
+                <b>Please be aware that the max. upload size of one gallery is {{ gallery.kb_max }} Kilobytes. Please contact us if you need to use this for an exhibition.</b></small>
+            {% endif %}
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+
+    </script>
+{% endblock %}

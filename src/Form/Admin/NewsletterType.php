@@ -3,6 +3,7 @@ namespace App\Form\Admin;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -36,7 +37,16 @@ class NewsletterType extends AbstractType
                     'required' => true,
                     'attr' => ['class' => 'form-control']
                 ])
-
+            ->add('target', ChoiceType::class,
+                [
+                    'label' => "Targets",
+                    'required' => true,
+                    'choices' => [
+                        'All users' => 'all',
+                        'Only no screens' => 'no_screen'
+                    ],
+                    'attr' => ['class' => 'form-control']
+                ])
             ->add('html', TextareaType::class,
                 [
                     'required' => false,

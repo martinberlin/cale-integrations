@@ -24,7 +24,10 @@ class IntegrationHtmlType extends AbstractType
                     'attr' => [
                         'placeholder' => 'Use a meaningful name to identify it in your list',
                         'class' => 'form-control'
-                    ]
+                    ],
+                    'constraints' => array(
+                        new Length(array('max' => 130))
+                    )
                 ])
 
             ->add('html', TextareaType::class,
@@ -49,7 +52,7 @@ class IntegrationHtmlType extends AbstractType
                     ],
                     'constraints' => [
                         new File([
-                            'maxSize' => '150k',
+                            'maxSize' => '400k',
                             'mimeTypes' => [
                                 'image/jpeg',
                                 'image/bmp',
@@ -83,6 +86,11 @@ class IntegrationHtmlType extends AbstractType
                 [
                     'label' => 'Remove image',
                     'attr' => ['class' => 'btn btn-default form-control', 'style' => 'margin-top:0.4em']
+                ])
+            ->add('remove_html', SubmitType::class,
+                [
+                    'label' => 'Remove',
+                    'attr' => ['class' => 'btn btn-danger form-control', 'style' => 'margin-top:2em']
                 ])
             ->add('submit', SubmitType::class,
                 [

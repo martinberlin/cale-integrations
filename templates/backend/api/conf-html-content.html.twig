@@ -57,6 +57,14 @@
             {{ form_widget(form.remove_image, {'attr': {'style': 'visibility:'~remove_img_visibility} }) }}
         </div>
     </div>
+<div class="row">
+    <div class="col-md-2 col-sm-4 col-xs-12">
+        {{ form_widget(form.remove_html) }}
+    </div>
+    <div class="col-md-6 col-sm-8 col-xs-12">
+        {{ form_widget(form.submit) }}
+    </div>
+</div>
 
     {{ form_end(form) }}
 {% endblock %}
@@ -70,6 +78,8 @@
         let max_counter = document.getElementById('maxCounter');
 
         $('.summernote').summernote({
+            codeviewFilter: false,
+            height: 250,
             toolbar: [
                 ['style', ['bold', 'italic', 'clear']],
                 ['font', ['strikethrough', 'superscript', 'subscript']],
@@ -79,6 +89,10 @@
                 ['insert', ['link', 'table','codeview']]
             ],
             callbacks: {
+                onInit: function (e) {
+                    self.editable = e.editable[0]
+                    self.editable.style.backgroundColor = "white"
+                },
                 onKeydown: function (e) {
                     var t = e.currentTarget.innerText;
                     if (t.length >= maxchars) {

@@ -4,8 +4,9 @@ namespace App\Entity;
 use App\Entity\Model\Created;
 use App\Entity\Model\Language;
 use App\Entity\Model\Location;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\IntegrationApiRepository")
@@ -32,6 +33,18 @@ class IntegrationApi implements Language, Location, Created
     private $partials;
 
     /**
+     * One IntegrationApi may haves many galleryImages. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="UserApiGalleryImage", mappedBy="intApi", orphanRemoval=true)
+     */
+    private $galleryImages;
+
+    /**
+     * One IntegrationApi may haves many financialCharts. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="App\Entity\UserApiFinancialChart", mappedBy="intApi", orphanRemoval=true)
+     */
+    private $financeCharts;
+
+    /**
      * @var string
      * @ORM\Column(type="string", length=130)
      */
@@ -45,6 +58,7 @@ class IntegrationApi implements Language, Location, Created
 
     /**
      * @var string
+     * @Assert\Timezone
      * @ORM\Column(type="string", length=40,nullable=true)
      */
     protected $timezone;
@@ -113,6 +127,12 @@ class IntegrationApi implements Language, Location, Created
     protected $units;
 
     /**
+     * @var integer
+     * @ORM\Column(type="integer",nullable=true)
+     */
+    protected $galleryIndex;
+
+    /**
      * @var \DateTime
      * @ORM\Column(type="datetime")
      */
@@ -122,6 +142,8 @@ class IntegrationApi implements Language, Location, Created
     {
         $this->uuid = uniqid();
         $this->setCreated(new \DateTime());
+        $this->partials = new ArrayCollection();
+        $this->galleryImages = new ArrayCollection();
     }
 
     /**
@@ -342,6 +364,38 @@ class IntegrationApi implements Language, Location, Created
     public function setUnits(string $u): void
     {
         $this->units = $u;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getGalleryImages()
+    {
+        return $this->galleryImages;
+    }
+
+    /**
+     * @return int
+     */
+    public function getGalleryIndex():?int
+    {
+        return $this->galleryIndex;
+    }
+
+    /**
+     * @param int $galleryIndex
+     */
+    public function setGalleryIndex(?int $galleryIndex)
+    {
+        $this->galleryIndex = $galleryIndex;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getPartials()
+    {
+        return $this->partials;
     }
 
     public function getCreated() {

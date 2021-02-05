@@ -10,7 +10,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @ORM\Table(name="app_user", uniqueConstraints={@ORM\UniqueConstraint(name="name_idx", columns={"name"})})
+ * @ORM\Table(name="app_user",
+ *     uniqueConstraints={@ORM\UniqueConstraint(name="name_idx", columns={"name"}),@ORM\UniqueConstraint(name="apikey_idx", columns={"api_key"})})
  * @UniqueEntity("email")
  * @ORM\HasLifecycleCallbacks
  */
@@ -30,6 +31,18 @@ class User implements UserInterface, Language, Created
     private $userApis;
 
     /**
+     * One user has many apis. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="UserApiGalleryImage", mappedBy="user", orphanRemoval=true)
+     */
+    private $userGalleryImages;
+
+    /**
+     * One user has many userFinanceCharts. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="UserApiFinancialChart", mappedBy="user", orphanRemoval=true)
+     */
+    private $userFinanceCharts;
+
+    /**
      * One user has many wifi configurations. This is the inverse side.
      * @ORM\OneToMany(targetEntity="UserWifi", mappedBy="user", orphanRemoval=true)
      */
@@ -40,6 +53,12 @@ class User implements UserInterface, Language, Created
      * @ORM\OneToMany(targetEntity="Screen", mappedBy="user", orphanRemoval=true)
      */
     private $screens;
+
+    /**
+     * One user has many shipped products. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="ShippingTracking", mappedBy="user", orphanRemoval=true)
+     */
+    private $userShippings;
 
     /**
      * @var string
@@ -172,9 +191,12 @@ class User implements UserInterface, Language, Created
         $this->screens = new ArrayCollection();
         $this->sysLogs = new ArrayCollection();
         $this->sysScreenLogs = new ArrayCollection();
+        $this->userShippings = new ArrayCollection();
+        $this->userGalleryImages = new ArrayCollection();
+        $this->userFinanceCharts = new ArrayCollection();
         $this->doNotDisturb = false;
         $this->setCreated(new \DateTime());
-        $this->apiKey = strtoupper(hash("ripemd160", $this->id.$this->email));
+        $this->apiKey = strtoupper(hash("ripemd160", time()));
     }
 
     /**
@@ -187,7 +209,7 @@ class User implements UserInterface, Language, Created
     }
 
     public function setUpdated(\DateTime $dateTime = null) {
-        $this->uddated = $dateTime;
+        $this->updated = $dateTime;
     }
 
     public function getUpdated() {
@@ -538,6 +560,27 @@ class User implements UserInterface, Language, Created
     }
 
     /**
+     * @return ArrayCollection
+     */
+    public function getUserShippings() {
+        return $this->userShippings;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getUserGalleryImages() {
+        return $this->userGalleryImages;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getUserFinanceCharts() {
+        return $this->userFinanceCharts;
+    }
+
+    /**
      * @return mixed
      */
     public function getApiKey()
@@ -553,6 +596,10 @@ class User implements UserInterface, Language, Created
         $this->apiKey = $a;
     }
 
+    public function getIdFirstname()
+    {
+        return (string) $this->id.'-'.$this->firstname;
+    }
 
     public function __toString()
     {

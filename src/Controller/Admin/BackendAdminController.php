@@ -4,15 +4,21 @@ namespace App\Controller\Admin;
 
 use App\Entity\Api;
 use App\Entity\Display;
+use App\Entity\ShippingTracking;
+use App\Entity\User;
 use App\Form\Admin\ApiType;
 use App\Form\Admin\DisplayType;
 use App\Form\Admin\NewsletterType;
+use App\Form\Admin\ShippingType;
+use App\Form\TerminateType;
 use App\Repository\ApiRepository;
 use App\Repository\DisplayRepository;
+use App\Repository\ShippingTrackingRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -42,12 +48,74 @@ class BackendAdminController extends AbstractController
     }
 
     /**
+     * @Route("/user/{id}", name="b_admin_user_profile")
+     */
+    public function userProfile($id, UserRepository $userRepository)
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+        $user = $userRepository->find($id);
+        if ($user instanceof User === false) {
+            $this->addFlash('error', "No user with ID: ".$id);
+            return $this->redirectToRoute('b_admin_dashboard');
+        }
+
+        return $this->render(
+            'backend/admin/admin-user-profile-view.html.twig',
+            [
+                'title' => 'User profile for '.$user->getName().' (id:'.$user->getId().')',
+                'user' => $user,
+                'menu' => $this->menu
+            ]
+        );
+    }
+
+    /**
+     * @Route("/user_delete/{id}", name="b_user_delete_id")
+     */
+    public function deleteUserByAdmin($id, Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository)
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+        $user = $userRepository->find($id);
+        if ($user instanceof User === false) {
+            $this->addFlash('error', "No user with ID: ".$id);
+            return $this->redirectToRoute('b_admin_dashboard');
+        }
+        if ($user->getUsername() === 'martin@cale.es') {
+            $this->addFlash('error', "Superadmin cannot be deleted");
+            return $this->redirectToRoute('b_admin_dashboard');
+        }
+        $form = $this->createForm(TerminateType::class, null);
+        $form->handleRequest($request);
+
+        $confirm = $form->get('confirm')->getViewData();
+
+        $formSubmitted = $form->isSubmitted() && $form->isValid();
+        if ($formSubmitted) {
+            if ($confirm) {
+                $entityManager->remove($user);
+                $entityManager->flush();
+                $this->addFlash('success', 'User account for '.$id.':'.$user->getUsername().' was terminated');
+                return $this->redirectToRoute('b_admin_dashboard');
+            } else {
+                $this->addFlash('error', 'Please mark the checkbox if you really want to confirm your account termination');
+            }
+        }
+
+        return $this->render(
+            'backend/user/terminate.html.twig', [
+                'title' => 'Terminate user ID:'.$id.' <'.$user->getUsername().'> account at CALE',
+                'form' => $form->createView(),
+                'menu' => $this->menu
+            ]
+        );
+    }
+
+    /**
      * @Route("/apis", name="b_admin_apis")
      */
     public function apis(ApiRepository $apiRepository)
     {
         $apis = $apiRepository->findAll();
-
         return $this->render(
             'backend/admin/apis.html.twig',
             [
@@ -106,9 +174,11 @@ class BackendAdminController extends AbstractController
     {
         $maxChars = 5000;
         $emailFrom = $this->getParameter('cale_official_email');
+
         $emailUser = $this->getUser()->getEmail();
+        $emailTest = ($_ENV['EMAIL_TEST']) ? $_ENV['EMAIL_TEST'] : $emailUser;
         $form = $this->createForm(NewsletterType::class, null,
-            ['html_max_chars' => $maxChars, 'email_from' => $emailFrom, 'test_email' => $emailUser]);
+            ['html_max_chars' => $maxChars, 'email_from' => $emailFrom, 'test_email' => $emailTest]);
         $form->handleRequest($request);
         $formSubmitted = $form->isSubmitted() && $form->isValid();
         $error = '';
@@ -116,13 +186,21 @@ class BackendAdminController extends AbstractController
         if ($formSubmitted) {
             $title = $form->get('title')->getViewData();
             $body = $form->get('html')->getViewData();
-            $testEmail = $form->get('testEmail')->getViewData();
+            $target = $form->get('target')->getViewData();
+            $testEmailFlag = $form->get('testEmail')->getViewData();
             $users = $userRepository->findBy(['doNotDisturb' => false]);
             $sentCount = 0;
 
             foreach ($users as $user) {
-                if ($testEmail && $sentCount>0) break;
-
+                if ($testEmailFlag && $sentCount>0) break;
+                if ($target === 'no_screen' && $user->getScreens()->count()) {
+                    continue;
+                }
+                if ($testEmailFlag) {
+                    $emailTo = $emailTest;
+                } else {
+                    $emailTo = $user->getEmail();
+                }
                 $message = (new \Swift_Message($title))
                     ->setFrom($emailFrom)
                     ->setBody(
@@ -136,12 +214,6 @@ class BackendAdminController extends AbstractController
                         ),
                         'text/html'
                     );
-
-                if ($testEmail) {
-                    $emailTo = $emailUser;
-                } else {
-                    $emailTo = $user->getEmail();
-                }
                 $message->setTo($emailTo);
 
                 if (!$mailer->send($message, $failures)) {
@@ -224,4 +296,63 @@ class BackendAdminController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/shippings", name="b_admin_shipping")
+     */
+    public function shipping(ShippingTrackingRepository $shipRepository)
+    {
+        $ships = $shipRepository->findAll();
+        $total = $shipRepository->totalCosts();
+
+        return $this->render(
+            'backend/admin/shipping.html.twig',
+            [
+                'title' => 'List shipping',
+                'ships' => $ships,
+                'total' => $total,
+                'menu'  => $this->menu
+            ]
+        );
+    }
+
+    /**
+     * @Route("/shipping/edit/{id?}", name="b_admin_shipping_edit")
+     */
+    public function shippingEdit($id, Request $request, ShippingTrackingRepository $shipRepository,
+                            EntityManagerInterface $em)
+    {
+        if (isset($id)) {
+            $ship = $shipRepository->find($id);
+            if (!$ship instanceof ShippingTracking) {
+                throw $this->createNotFoundException("$id is not a valid Shipping id");
+            }
+            $title = "Editing Shipping $id:".$ship->getSentBy();
+        } else {
+            $ship = new ShippingTracking();
+            $title = 'Creating new Shipping';
+        }
+
+        $form = $this->createForm(ShippingType::class, $ship);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $em->persist($ship);
+                $em->flush();
+            } catch (\Exception $e) {
+                $error = $e->getMessage();
+                $this->addFlash('error', $error);
+            }
+            if (!isset($error)) {
+                $this->addFlash('success', "Shipping saved");
+                return $this->redirectToRoute('b_admin_shipping');
+            }
+        }
+
+        return $this->render('backend/admin/common-edit.html.twig', [
+            'title' => $title,
+            'form' => $form->createView(),
+            'menu' => $this->menu
+        ]);
+    }
 }

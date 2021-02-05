@@ -32,6 +32,14 @@ class HomeController extends AbstractController
         );
     }
 
+    public function aboutEthereum(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/about/ethereum-powered.html.twig',
+            ['title' => $translator->trans('nav_ethereum')]
+        );
+    }
+
     public function threeDModels(Request $request, TranslatorInterface $translator)
     {
         return $this->render(
@@ -154,6 +162,15 @@ class HomeController extends AbstractController
         );
     }
 
+    public function firmwareIdf(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/firmware/www-firmware-idf.html.twig',
+            ['title' => $translator->trans('title_firmware_idf')]
+        );
+    }
+
+
     public function firmwareTft(Request $request, TranslatorInterface $translator)
     {
         return $this->render(
@@ -202,6 +219,37 @@ class HomeController extends AbstractController
         );
     }
 
+    public function serviceEpapersForSale(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/service/epapers-for-sale.html.twig',
+            ['title' => $translator->trans('nav_epapers_for_sale')]
+        );
+    }
+
+    public function cryptoAdvertising(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/advertising/youhodler.html.twig',
+            ['title' => $translator->trans('nav_crypto_adv')]
+        );
+    }
+
+    public function demoDisplay(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/demos/display.html.twig',
+            ['title' => $translator->trans('nav_demo_display')]
+        );
+    }
+
+    public function demoDigitalArt(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/demos/digital-art.html.twig',
+            ['title' => $translator->trans('nav_demo_display')]
+        );
+    }
     /**
      * Good idea but does not work because of locale lang. switch
      * @deprecated Don't use as is

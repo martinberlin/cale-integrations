@@ -30,7 +30,6 @@ class HRenderController extends AbstractController
     {
         $api = $partial->getIntegrationApi();
         $image = $api->getImagePath();
-        $imagePosition = $api->getImagePosition();
         $html = '';
         $imageHtml = '';
         $closingRow = '';
@@ -38,15 +37,18 @@ class HRenderController extends AbstractController
         if (!is_null($image)) {
             switch ($api->getImageType()) {
                 case 'background':
-                    $html = '<div class="row" style="background-image:url('.$image.');background-position:'.$imagePosition.';background-repeat:no-repeat">';
+                    $html = '<div class="row" style="background-image:url('.$image.');background-position:'.$api->getImagePosition().';background-repeat:no-repeat">';
                     $closingRow = '</div>';
                     break;
+
                 case 'float':
-                    $imageHtml = '<img src="'.$image.'" class="float-'.$imagePosition.'">';
+                    $float = ($api->getImagePosition()==='center') ? "mx-auto d-block center-img" : "float-{$api->getImagePosition()}";
+                    $imageHtml = '<img src="'.$image.'" class="rounded '.$float.'">';
                     $html .= $imageHtml;
                     break;
             }
         }
+
         $html .= $api->getHtml();
         $user = $partial->getScreen()->getUser();
         $dateFormat = $user->getDateFormat();

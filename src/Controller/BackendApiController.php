@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\IntegrationApi;
 use App\Entity\UserApi;
 use App\Form\Api\ApiConfigureSelectionType;
+use App\Form\Api\Crypto\IntegrationEtherscanType;
 use App\Form\Api\IntegrationAwsCloudwatchType;
 use App\Form\Api\IntegrationAwsType;
 use App\Form\Api\IntegrationHtmlType;
@@ -22,7 +23,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -430,18 +433,31 @@ class BackendApiController extends AbstractController
         $form->handleRequest($request);
         $error = "";$preSuccessMsg = "";
         $imageUploaded = false;
-        if ($form->getClickedButton() && 'remove_image' === $form->getClickedButton()->getName()) {
-            try {
-              $removeFlag = unlink($publicRelativePath.$api->getImagePath());
-            } catch (\ErrorException $e) {
-                $this->addFlash('error', "Could not find image. ");
-                $removeFlag = false;
-            }
-            if ($removeFlag) {
-                $api->setImagePath('');
-                $preSuccessMsg = "Image was removed. ";
+        if ($form->getClickedButton()) {
+            switch ($form->getClickedButton()->getName()) {
+
+                case 'remove_image':
+                    try {
+                        $removeFlag = unlink($publicRelativePath . $api->getImagePath());
+                    } catch (\ErrorException $e) {
+                        $this->addFlash('error', "Could not find image. ");
+                        $removeFlag = false;
+                    }
+                    if ($removeFlag) {
+                        $api->setImagePath('');
+                        $preSuccessMsg = "Image was removed. ";
+                    }
+                    break;
+
+                case 'remove_html':
+                    $this->addFlash('success', "The HTML api integration ".$api->getName()." was removed");
+                    $entityManager->remove($api);
+                    $entityManager->flush();
+                    return $this->redirectToRoute('b_home_apis');
+                    break;
             }
         }
+
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('imageFile')->getData();
             // This condition is needed because the 'imageFile' field is not required
@@ -597,6 +613,115 @@ class BackendApiController extends AbstractController
                 'menu' => $this->menu
             ]
         );
+    }
+
+
+    /**
+     * @Route("/crypto/etherscan/{uuid}/{intapi_uuid?}/{step?1}", name="api_etherscan")
+     */
+    public function apiEtherscan(
+        $uuid, $intapi_uuid, $step, Request $request,
+        UserApiRepository $userApiRepository,
+        IntegrationApiRepository $intApiRepository,
+        EntityManagerInterface $entityManager)
+    {
+        $userApi = $this->getUserApi($userApiRepository, $uuid);
+        $api = $this->getIntegrationApi($intApiRepository, $intapi_uuid);
+        if (is_null($api->getJsonSettings()) || $api->getJsonSettings() ==='') {
+            $api->setJsonSettings($userApi->getApi()->getDefaultJsonSettings());
+        }
+
+        $form = $this->createForm(IntegrationEtherscanType::class, $api);
+        // If step is 2 then prefill the form
+        $decodeJson = json_decode($api->getJsonSettings(), true);
+        if (in_array('address', $decodeJson)) {
+            $form->get('address')->setData($decodeJson['address']);
+            $form->get('numberOfTransactions')->setData($decodeJson['numberOfTransactions']);
+            $form->get('showConversionPrice')->setData($decodeJson['showConversionPrice']);
+            $form->get('actionQuery')->setData($decodeJson['action']);
+        }
+        $form->handleRequest($request);
+        $error = "";
+        $actionQuery = $form->get('actionQuery')->getData();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // handle non-mapped: showTransactions, showConversionPrice
+            $data = array();
+            $data['address'] = $form->get('address')->getData();
+            $data['action'] = $form->get('actionQuery')->getData();
+            $data['numberOfTransactions'] = ($form->get('numberOfTransactions')->getData()) ?? 0;
+            $data['showConversionPrice'] = $form->get('showConversionPrice')->getData();
+            $defaultJsonArray = [];
+            try {
+                $defaultJsonArray = json_decode($userApi->getApi()->getDefaultJsonSettings(), true);
+            } catch (\Exception $e) {
+                // Warn about default settings missing
+            }
+            $defaultJsonArray = array_merge($data,$defaultJsonArray);
+            $userApi->setIsConfigured(true);
+            $api->setJsonSettings(json_encode($defaultJsonArray));
+            $api->setUserApi($userApi);
+            try {
+                $entityManager->persist($api);
+                $entityManager->flush();
+            } catch (\Exception $e) {
+                $error = $e->getMessage();
+                $this->addFlash('error', $error);
+            }
+
+            if ($error === '') {
+                $this->addFlash('success', ($actionQuery==="balance")?"Saved":
+                    "Saved. Keep in mind that the transactions list will work good only in big screens (WIDTH >= 400px)");
+                return $this->redirectToRoute('api_etherscan',
+                    ['uuid' => $userApi->getId(), 'intapi_uuid' => $api->getId(), 'step' => 2]);
+            }
+        }
+        return $this->render(
+            'backend/api/crypto/conf-etherscan.html.twig',
+            [
+                'title' => 'Configure Etherscan.io API',
+                'form'  => $form->createView(),
+                'intapi_uuid' => $intapi_uuid,
+                'intapi'      => $api,
+                'userapi_id'  => $userApi->getId(),
+                'action_query' => $actionQuery,
+                'menu' => $this->menu
+            ]
+        );
+    }
+
+    /**
+     * @Route("/crypto/json/ether_balance/{intapi_uuid?}/{action?}", name="json_etherscan")
+     */
+    public function jsonEtherBalance(Request $r, $intapi_uuid, $action, IntegrationApiRepository $intApiRepository)
+    {
+        $options = [];
+        if (isset($_ENV['API_PROXY'])) {
+            $options = array('proxy' => 'http://'.$_ENV['API_PROXY']);
+        }
+        $api = $intApiRepository->findOneBy(['uuid' => $intapi_uuid]);
+        if (!$api instanceof IntegrationApi) {
+           throw $this->createNotFoundException("$intapi_uuid is not a valid integration API");
+        }
+        $userApi = $api->getUserApi();
+        $apiConfig = $userApi->getApi();
+        $apiKey = $userApi->getAccessToken();
+        $jsonConfig = json_decode($api->getJsonSettings());
+        // Prepare URL
+        // https://api.etherscan.io/api?module=[module]&action=[action]&address=[address]&apikey=[apikey]
+        $url = str_replace('[module]','account', $apiConfig->getUrl());
+        $url = str_replace('[action]',$action, $url);
+        $url = str_replace('[address]',$jsonConfig->address, $url);
+        $url = str_replace('[apikey]',$apiKey, $url);
+        $client = HttpClient::create();
+        $response = $client->request('GET', $url, $options);
+        $r = new JsonResponse();
+        if ($response->getStatusCode() === 200) {
+            $r->setContent($response->getContent());
+        } else {
+            $r->setContent('{"error":"Etherscan API returned status code:"'.$response->getStatusCode().'"}")');
+        }
+        return $r;
     }
 
 }

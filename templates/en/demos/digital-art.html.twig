@@ -1,0 +1,56 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row" style="height: 30px;background-color:#EEEEEE;font-weight: bolder">
+                <div class="col-md-6">
+                    <a href="{{ path('www_demos_display') }}">Displays demo</a>
+                </div>
+                <div class="col-md-6">
+                    Epapers for digital art
+                </div>
+            </div>
+            <br>
+            <h2>{{ 'nav_demo_display'|trans }}</h2>
+            This are renderings generated using CALE engine for different displays.
+
+            <h3>Using the image gallery component for digital art exhibitions</h3>
+            The image gallery internal API is ideal to use as a photo frame for digital art.
+
+            <img width="1200" height="825" style="border: 1px solid #EEEEEE;margin-top: 1em" src="http://img.cale.es/bmp/cale_www/5fe75dd93524e">
+            <div class="caption small" style="color: gray">1200x825 Epaper 4 bits render for a Red/Black epaper using dithering mode: 2x2. &nbsp; Digital art by:
+                <a href="http://joshkatzenmeyer.com" target="_blank">Josh Katzenmeyer</a></div>
+
+            <img width="1200" height="825" style="border: 1px solid #EEEEEE;margin-top: 3em" src="http://img.cale.es/bmp/cale_www/5fe85a9ec4d9a">
+            <div class="caption small" style="color: gray">1200x825 Epaper 4 bits render with dithering mode: 3x3. &nbsp; Digital art by many artist in Superrare inc.
+                <a href="https://superrare.co/albert" target="_blank">@albert</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+
+    {% if adsense_active %}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    {% endif %}
+{% endblock %}

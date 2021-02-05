@@ -92,6 +92,11 @@ class Screen implements Created
     protected $outCompressed;
 
     /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    protected $loggingActive;
+
+    /**
      * On false an Authorization Bearer should be sent
      * @var bool
      * @ORM\Column(type="boolean")
@@ -102,6 +107,16 @@ class Screen implements Created
      * @ORM\Column(type="boolean")
      */
     protected $outSsl;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $imgDither;
+
+    /**
+     * @ORM\Column(type="string", length=20, nullable=true)
+     */
+    protected $imgDitherOptions;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -141,9 +156,11 @@ class Screen implements Created
         $this->outCacheSeconds = 30;
         $this->outBitDepth = 1;
         $this->outCompressed = 0;
+        $this->loggingActive = true;
         $this->stDayTo = '7';
         $this->stHourTo = '23';
         $this->outSsl = 0;
+        $this->imgDither = true;
         $this->hits = 0;
         $this->partials = new ArrayCollection();
         $this->sysScreenLogs = new ArrayCollection();
@@ -392,6 +409,22 @@ class Screen implements Created
     }
 
     /**
+     * @return bool
+     */
+    public function getLoggingActive()
+    {
+        return $this->loggingActive;
+    }
+
+    /**
+     * @param bool
+     */
+    public function setLoggingActive($l)
+    {
+        $this->loggingActive = $l;
+    }
+
+    /**
      * @return boolean
      */
     public function isPublic(): bool
@@ -485,6 +518,32 @@ class Screen implements Created
     public function setStHourTo($stHourTo)
     {
         $this->stHourTo = $stHourTo;
+    }
+
+    public function getImgDither()
+    {
+        return $this->imgDither;
+    }
+
+    /**
+     * @param bool $imgDither
+     */
+    public function setImgDither(bool $imgDither)
+    {
+        $this->imgDither = $imgDither;
+    }
+
+    public function getImgDitherOptions()
+    {
+        return $this->imgDitherOptions;
+    }
+
+    /**
+     * @param string $options
+     */
+    public function setImgDitherOptions($options)
+    {
+        $this->imgDitherOptions = $options;
     }
 
     public function __toString()

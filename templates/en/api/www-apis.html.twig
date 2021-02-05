@@ -49,7 +49,7 @@
                 </td>
             </tr>
         {% endfor %}
-        <tr style="border:1px #1b6d85 dashed;height: 4em">
+        {#<tr style="border:1px #1b6d85 dashed;height: 4em">
             <td>&nbsp;<b>Github issues</b> </td>
             <td><small>Development & IT</small></td>
             <td><small>
@@ -57,17 +57,28 @@
                     <span class="glyphicon glyphicon-link"></span></a></small>
             </td>
             <td><small>Planned May'20</small></td>
-        </tr>
+        </tr>#}
 
         </tbody>
     </table>
     <br>
-    UPDATE: We recently added an <a href="{{ path('www_api-ical') }}">Internet Calendaring support API</a> enabling our users to get in sync with any Calendar provider.
-    <p>If the application programming interface you want to use is not listed here, please send us a message on twitter mentioning @martinfasani or after logging into our Backend simply use
+
+ <p>If the application programming interface you want to use is not listed here, please send us a message on twitter mentioning @martinfasani or after logging into our Backend simply use
         <b>User <span class="glyphicon glyphicon-arrow-right"></span> Get support</b>
+     <br>
+     New APIs will be implemented per voting request in a Github issue.
+     If you need an API for your business I would kindly ask you first to
+     <a href="https://cale.local/powered-by-ethereum">make a donation</a> to cover partly the implementation costs.
+     Your company will be listed and linked as the promoter for the new API integration but the condition is that it will be open source for all the rest of the users.
+     <br>
+     Now if the API needs to be used only by you as an internal API please request a custom proposal to install CALE internally in your company.
     </p>
 {% endblock %}
 
 {% block javascripts %}
     <script type="text/javascript" src="/js/engine/common.js"></script>
+
+    {% if adsense_active %}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    {% endif %}
 {% endblock %}

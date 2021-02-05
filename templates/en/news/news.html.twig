@@ -21,7 +21,71 @@
         <h3>
             <span class="cale" style="font-weight:bold">CALE News</span>
         </h3>
-
+        <div class="row">
+            <div class="col-md-7 col-xs-12">
+                <h4>ESP-IDF version 1.0 of the Firmware ready</h4>
+            </div>
+            <div class="col-md-5 col-xs-12 text-right cale" style="margin-top:0.6em;font-weight:bold">
+                <h5>SUN 21, JUN ´20</h5>
+            </div>
+        </div>
+        <p>
+            <a href="{{ path('firmware-idf') }}"><img src="/assets/svg/logo/cale-idf.svg" align="left" style="margin-right: 2em"></a>The Espressif IoT Development Framework (esp-idf) version of our firmware is ready to be tested:<br>
+            <a href="https://github.com/martinberlin/cale-idf">https://github.com/martinberlin/cale-idf</a><br>Nightly branch: <b>refactor/oop</b>  Stable: master<br><br>
+            It took long development weeks but was time well spent. This version is working faster than Arduino-framework version and is using our own CalEPD epaper component.
+            Only using our own component it was possible to make SPI communication faster. Last measurements for an 800*480 1 bit image was 800 ms download plus 2200 ms rendering.
+            That means that you can get the image pixel buffer sent to the display in about 3 seconds.<br>
+            <b>Known limitations:</b> No bluetooth support, configuration must be defined before compilation.
+            The Bearer security token support is only in nightly build for now on branch: <b>refactor/oop</b>
+            <br>Additional development efforts that are available as independant IDF components:<br>
+            <ol>
+            <li><a href="https://github.com/martinberlin/CalEPD">CalEPD - Epaper ESP-IDF component</a></li>
+            <li><a href="https://github.com/martinberlin/Adafruit-GFX-Library-ESP-IDF">Adafruit GFX graphics core component for ESP-IDF</a></li>
+            </ol>
+        This components are the core of the <span class="cale" style="font-weight:bold">Cale-idf</span> Firmware but can be used as components working together for your own firmware. Please check the detailed
+        instructions in the repository on how to compile it. It's quite easy, even more than Arduino version, since just needs Display configuration and CALE bitmap URL.<br>
+        <pre>
+ idf.py menuconfig
+ idf.py flash monitor</pre>
+        </p>
+        <div class="row">
+            <div class="col-md-7 col-xs-12">
+                <h4>New epaper display of 12.48 inches added</h4>
+            </div>
+            <div class="col-md-5 col-xs-12 text-right cale" style="margin-top:0.6em;font-weight:bold">
+                <h5>WED 10, JUN ´20</h5>
+            </div>
+        </div>
+        <p>
+            <img src="/assets/display/Waveshare-12.jpg" align="center"><br>
+            This new composite eink Firmware from the firma Waveshare is still in research phase. It's already added as an output display. We find this
+            composite epaper display technology amazing, internally has 4 interconnected displays, that share MOSI and CLK.
+            There is <a href="https://github.com/martinberlin/esp32-epaper-12.48-waveshare" target="_blank">an example from the provider</a> but we are actively working in making the WiFi download from this web-service
+            a possibility at the end of June.<br>
+            As an extra development since the end of Mai we are working in an Espressif IDF driver to be able to control exactly what is being
+            sent to the epaper displays using ESP32 as an SPI master in the communication. Check the next news release for the repository address.
+        </p>
+        <div class="row">
+            <div class="col-md-7 col-xs-12">
+                <h4>ESP8266/ESP32 non Bluetooth version updated</h4>
+            </div>
+            <div class="col-md-5 col-xs-12 text-right cale" style="margin-top:0.6em;font-weight:bold">
+                <h5>WED 13, MAI ´20</h5>
+            </div>
+        </div>
+        <p><a href="http://cale.es/firmware"><span class="cale">CALE</span> original Firmware</a>,
+            the one that was done after the <a href="https://hackaday.io/project/169086" target="_blank">Eink Hackaday project</a>,
+            with hardcoded configuration and support for the ESP8266 has been updated.<br>
+        Now it supports Service times, so it won't refresh at nights, and also goes to sleep as soon as the Epaper is rendered.
+        One user reported up to 45 days of operational time with a 2200 mA/hr Lion battery.
+            In his case the Eink was refreshed every 3 hours giving an aprox. consumption of 49 mA per day.
+            With this new update that will make less refresh times per day, as per your <a href="#service_times">Service Times settings</a>, we expect the
+            battery lifetime be even longer.<br>
+        <h4>Four Epaper refresh Firmware is on the way</h4>
+        Based on a technology developed by Waveshare, we are going to support bigger Eink screens, that are composed internally by 4 displays.
+        This will enable us to render our screens in an astonishing resolution of
+        1304×984 pixels on a 12.48 inches Epaper display. Being almost A4 sized, that's so far the biggest epaper display, we've dealt with so far.
+        </p>
         <div class="row">
             <div class="col-md-6 col-xs-12">
                 <h4>A new Epaper is coming soon</h4>
@@ -79,7 +143,9 @@
         <h4>EINK Firmware update</h4>
         <p><a href="https://fasani.de">Martin</a>, our <span class="cale">CALE Firmware Developer</span>, found a flaw in the Firmware that got an update last weekend.
             It was not going to sleep when it wakes up out of the Service Times.
-            The Service Times concept is easy to grasp:<br>You set a predefined time period where your display should refresh.
+            <a id="service_times"></a><br><br><br><br>
+            <h4>The Service Times concept</h4>
+            You set a predefined time period where your display should refresh.
             The display wakes up and pings cale, the actual URL is your screen URL with /st at the end.
 
             This route returns just one byte: 0 or 1.&nbsp; On 1 your display should be the seconds connected till downloading

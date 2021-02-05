@@ -1,0 +1,72 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+{% set linkPre = '#' %}
+
+{% block body %}
+
+  <table style="border-spacing:4px;width: 100%">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>User</th>
+      <th>Sent by</th>
+      <th>Tracking ID</th>
+      <th>Country</th>
+      <th>Description</th>
+      <th>€ Shipping</th>
+      <th>€ Hard</th>
+      <th>€ Manu</th>
+      <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    {% for a in ships %}
+      <tr style="border:1px #1b6d85 dashed">
+        <td>{{ a.id }}</td>
+        <td>{{ a.user.name }}</td>
+        <td>{{ a.sentBy }}</td>
+        <td>
+          {% if a.sentBy == 'hermes' %}
+            {% set linkPre = 'https://www.myhermes.de/empfangen/sendungsverfolgung/sendungsinformation/#' %}
+          {% endif %}
+          <a href="{{ linkPre ~ a.tracking }}">{{ a.tracking }}</a>
+        </td>
+        <td><small>{{ a.countryCode }}</small></td>
+        <td><small>{{ a.description }}</small></td>
+        <td><small>{{ a.costShip }}</small></td>
+        <td><small>{{ a.costHardware }}</small></td>
+        <td><small>{{ a.costManufacturing }}</small></td>
+        <td>{{ a.status }}</td>
+        <td><a href="{{ path('b_admin_shipping_edit', {'id': a.id}) }}">
+            <h3><span class="glyphicon glyphicon-edit"></span></h3></a>
+        </td>
+      </tr>
+    {% endfor %}
+
+  {% if total %}
+    {% set totals = total.shipping+total.hardware+total.manufacturing %}
+    <tfoot>
+    <tr>
+    <th></th>
+      <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+      <th>{{ total.shipping }}</th>
+      <th>{{ total.hardware }}</th>
+      <th>{{ total.manufacturing }}</th>
+      <th>{{ totals }}</th>
+    </tr>
+    </tfoot>
+  {% endif %}
+    </tbody>
+  </table>
+
+  <a href="{{ path('b_admin_shipping_edit', {'id':null}) }}"
+     class="btn btn-default">
+    <span class="glyphicon glyphicon-plus"></span> Add new tracking</a>
+
+  <img style="float: right" src="/assets/svg/admin/shipping.svg">
+{% endblock %}

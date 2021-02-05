@@ -28,9 +28,9 @@ class BackendUserController extends AbstractController
 {
     private $menu = "user";
     /**
-     * @Route("/profile", name="b_user_profile")
+     * @Route("/profile/{firstTime?}", name="b_user_profile")
      */
-    public function userProfileEdit(Request $request, EntityManagerInterface $entityManager)
+    public function userProfileEdit($firstTime, Request $request, EntityManagerInterface $entityManager)
     {
         $user = $this->getUser();
         $languages = $this->getParameter('api_languages');
@@ -60,7 +60,8 @@ class BackendUserController extends AbstractController
             'backend/user/admin-user-profile.html.twig', [
                 'title' => 'Your user profile',
                 'form'  => $form->createView(),
-                'menu' => $this->menu
+                'menu'  => $this->menu,
+                'first_time' => $firstTime
             ]
         );
     }
@@ -83,7 +84,7 @@ class BackendUserController extends AbstractController
 
             $message = (new \Swift_Message($title))
                 ->setFrom($emailFrom)
-                ->setTo($this->getParameter('cale_support_email'))
+                ->setTo($this->getParameter('cale_official_email'))
                 ->setBody(
                     $this->renderView(
                         'emails/support.html.twig',
@@ -104,7 +105,7 @@ class BackendUserController extends AbstractController
                 $this->addFlash('success', 'Thanks! Your support Email was sent to CALE. We reply usually in the next 24 hours and we will let you know if we need further information to solve your problem');
             } else {
                 $this->addFlash('error', 'Sorry there was an error trying to send this. '.print_r($failures, true).
-                    ' Please copy the message and send it to '.$this->getParameter('cale_support_email'));
+                    ' Please copy the message and send it to '.$this->getParameter('cale_official_email'));
             }
         }
 

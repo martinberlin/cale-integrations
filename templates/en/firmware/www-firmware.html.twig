@@ -34,6 +34,7 @@
         <li><a href="#a3">Selecting the right driver for your display</a></li>
         <li><a href="#s_esp32">Schematics ESP32</a></li>
         <li><a href="#s_esp8266">Schematics ESP8266</a></li>
+        <li><a href="{{ path('firmware-idf') }}">Firmware for ESP-IDF</a> <span class="cale" style="font-weight: bold">NEW!</span></li>
         <li><a href="{{ path('firmware-blue') }}">Configuring the Firmware using Bluetooth - master</a></li>
         <li><a href="{{ path('firmware-t5') }}">Quick start with the Lilygo T5 - cale_t5</a></li>
         <li><a href="{{ path('firmware-tft') }}">Firmware for TFT displays - cale_tft</a></li>
@@ -140,6 +141,19 @@
     <h4>ESP8266 Schematic</h4>
     <img src="/assets/svg/schematic-cale-esp8266.svg" width="100%">
 
+    {% if adsense_active %}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- Cale vertical -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-5919782356383484"
+             data-ad-slot="6845528655"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    {% endif %}
 {% endblock %}
 
 {% block javascripts %}

@@ -3,8 +3,7 @@ namespace App\Repository;
 
 use App\Entity\TemplatePartial;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
-
+use Doctrine\Persistence\ManagerRegistry;
 
 class TemplatePartialRepository extends ServiceEntityRepository
 {

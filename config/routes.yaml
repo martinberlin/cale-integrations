@@ -28,6 +28,14 @@ about-cale:
   requirements:
     _locale: '%locales%'
 
+about-ethereum:
+  path:       /powered-by-ethereum/{_locale}
+  controller: App\Controller\HomeController::aboutEthereum
+  defaults:
+    _locale: en
+  requirements:
+    _locale: '%locales%'
+
 about-3d-model:
   path:       /housing-3d-models/{_locale}
   controller: App\Controller\HomeController::threeDModels
@@ -108,6 +116,14 @@ firmware:
   requirements:
     _locale: '%locales%'
 
+firmware-idf:
+  path:       /firmware-idf/{_locale}
+  controller: App\Controller\HomeController::firmwareIdf
+  defaults:
+    _locale: en
+  requirements:
+    _locale: '%locales%'
+
 firmware-tft:
   path:       /firmware-tft/{_locale}
   controller: App\Controller\HomeController::firmwareTft
@@ -183,6 +199,38 @@ www_api-ical:
 www_api-cloudwatch:
   path:       /api-cloudwatch/{_locale}
   controller: App\Controller\HomeController::cloudwatch
+  defaults:
+    _locale: en
+  requirements:
+    _locale: '%locales%'
+
+www_epapers-sale:
+  path:       /epapers-for-sale/{_locale}
+  controller: App\Controller\HomeController::serviceEpapersForSale
+  defaults:
+    _locale: en
+  requirements:
+    _locale: '%locales%'
+
+www_crypto_adv:
+  path:       /youhodler/{_locale}
+  controller: App\Controller\HomeController::cryptoAdvertising
+  defaults:
+    _locale: en
+  requirements:
+    _locale: '%locales%'
+
+www_demos_display:
+  path:       /demos/display/{_locale}
+  controller: App\Controller\HomeController::demoDisplay
+  defaults:
+    _locale: en
+  requirements:
+    _locale: '%locales%'
+
+www_demos_digital_art:
+  path:       /demos/digital-art/{_locale}
+  controller: App\Controller\HomeController::demoDigitalArt
   defaults:
     _locale: en
   requirements:

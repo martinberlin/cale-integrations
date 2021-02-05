@@ -1,0 +1,205 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+{# Important: Color pickers need a special CSS #}
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/nano.min.css"/>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+
+        {{ form_start(form) }}
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-4" style="margin-top:0.5em">
+                    {{ form_label(form.name) }}
+                </div>
+                <div class="col-md-8">
+                    {{ form_widget(form.name) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" style="margin-top:1em">
+                    {{ form_label(form.setDisplayDimensions) }}
+                </div>
+                <div class="col-md-8" style="margin-top:0.5em">
+                    {{ form_widget(form.setDisplayDimensions) }}
+                </div>
+            </div>
+            <div class="row" style="margin-top:1em">
+                <div class="col-md-4" style="margin-top:0.5em">
+                    {{ form_label(form.width) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_widget(form.width) }}
+                </div>
+                <div class="col-md-2" style="margin-top:0.5em">
+                    {{ form_label(form.height) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_widget(form.height) }}
+                </div>
+            </div>
+            <div class="row" style="margin-top:1em">
+                <div class="col-md-4" style="margin-top:0.5em">
+                    {{ form_label(form.dataRows) }}
+                </div>
+                <div class="col-md-8">
+                    {{ form_widget(form.dataRows) }}
+                </div>
+            </div>
+            <div class="row" style="margin-top:1em">
+                <div class="col-md-4" style="margin-top:0.5em">
+                    {{ form_label(form.candleType) }}
+                </div>
+                <div class="col-md-8">
+                    {{ form_widget(form.candleType) }}
+                </div>
+            </div>
+            <div class="row" style="margin-top:1em">
+                <div class="col-md-4" style="margin-top:0.5em">
+                    {{ form_label(form.symbol) }}
+                </div>
+                <div class="col-md-8">
+                    {{ form_widget(form.symbol) }}
+                </div>
+            </div>
+            <div class="row" style="margin-top:1em">
+                <div class="col-md-4" style="margin-top:0.5em">
+                    {{ form_label(form.timeseries) }}
+                </div>
+                <div class="col-md-8">
+                    {{ form_widget(form.timeseries) }}
+                </div>
+            </div>
+
+            <div class="row" style="margin-top:1em">
+                <div class="col-md-4" style="margin-top:0.5em">
+                    {{ form_label(form.colorAscending) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_widget(form.colorAscending) }}
+                </div>
+                <div class="col-md-4" style="margin-top:0.5em">
+                    {{ form_label(form.colorDescending) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_widget(form.colorDescending) }}
+                </div>
+            </div>
+            <div class="row" style="margin-top:1em">
+                <div class="col-md-4" style="margin-top:0.5em">
+                    {{ form_label(form.axisFontFile) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_widget(form.axisFontFile) }}
+                </div>
+                <div class="col-md-4" style="margin-top:0.5em">
+                    {{ form_label(form.axisFontSize) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_widget(form.axisFontSize) }}
+                </div>
+            </div>
+
+            <div class="row" style="margin-top:1em">
+                <div class="col-md-12">
+                    {{ form_widget(form.submit) }}
+                </div>
+            </div>
+
+            <div style="background-color: #0c0c0c;color:white;padding:1em;margin-top:4em">
+                Make sure to make this chart as big as possible so you can render it nicely in your
+                display. Recommended to use a template that gives you enough space like the 1 column option and at least
+                a 400x300 display.
+                <br><b>Please note: </b> 1. The results are retrieved every morning and are not real time so it's useful
+                only to see past data. Real time data APIs cost approx. 4000€ per month (Ex. Nomics.com)<br>
+                2. Number of data rows may differ with the real calculation due that the last hour that comes is today's at 00:00
+            </div>
+        </div>
+        <div class="col-md-6">
+            {% if showImage %}
+            <img src="{{ path('render_crypto_candlesticks', {'userId':app.user.id, 'intApiId':intapi_uuid}) }}?nc={{ date().timestamp }}">
+            {% endif %}
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/js/jquery/jquery-2.1.0.min.js"></script>
+    <script src="/js/engine/pickr.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            drawPickers();
+        });
+
+        function onSetDimension(choiceDropdown) {
+            let choice = choiceDropdown.value;
+            if (choice == "") return;
+
+            let splitDim = choice.split('x');
+            document.getElementById('width').value  = splitDim[0];
+            document.getElementById('height').value = splitDim[1];
+            //console.log(choiceDropdown.value);
+        }
+
+        function drawPickers() {
+
+            document.querySelectorAll('.pickr').forEach(function (picker) {
+                console.log(picker);
+                let pickr = Pickr.create({
+                    el: picker,
+                    theme: 'nano',
+                    useAsButton: true,
+                    swatches: [
+                        'rgb(0, 0, 0)',
+                        'rgb(30, 30, 30)',
+                        'rgb(50, 50, 50)',
+                        'rgb(70, 70, 70)',
+                        'rgb(90, 90, 90)',
+                        'rgb(130, 130, 130)',
+                        'rgb(160, 160, 160)',
+                        'rgb(255, 255, 255)',
+                        'rgb(63, 81, 181)',
+                        'rgb(3, 169, 244)',
+                        'rgb(0, 150, 136)',
+                        'rgb(76, 175, 80)',
+                        'rgb(205, 220, 57)',
+                        'rgb(225, 123, 7)',
+                        'rgb(255, 255, 255)',
+                        'rgb(244, 167, 0)',
+                        'rgb(255, 0, 0)',
+                        'rgb(233, 30, 99)',
+                        'rgb(156, 39, 176)',
+                        'rgb(232, 64, 170)',
+                        'rgb(255, 113, 181)',
+                    ],
+                    defaultRepresentation: 'HEX',
+                    components: {
+                        // Main components
+                        preview: true,
+                        opacity: false,
+                        hue: false,
+                        interaction: {
+                            hex: true,
+                            rgba: false,
+                            hsva: false,
+                            input: true,
+                            save: false
+                        }
+                    }
+                }).on('init', pickr => {
+                    let el = pickr._root.button;
+                    pickr.setColor(el.value);
+                }).on('change', color => {
+                    let el = pickr._root.button;
+                    el.value = color.toHEXA().toString();
+                    el.style.backgroundColor = color.toHEXA();
+                });
+            });
+        }
+    </script>
+{% endblock %}

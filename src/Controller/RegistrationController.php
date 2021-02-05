@@ -38,6 +38,7 @@ class RegistrationController extends AbstractController
             $password = $encoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
             $user->setRoles(['ROLE_USER']);
+            $user->setApiKey(strtoupper(hash("ripemd160", $user->getEmail().time())));
             $entityManager->persist($user);
             $entityManager->flush();
 

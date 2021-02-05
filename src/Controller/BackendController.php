@@ -2,7 +2,9 @@
 namespace App\Controller;
 
 use App\Entity\Display;
+use App\Entity\ShippingTracking;
 use App\Form\UsernameAgreementType;
+use App\Repository\ShippingTrackingRepository;
 use App\Repository\SysScreenLogRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
@@ -37,15 +39,30 @@ class BackendController extends AbstractController
     /**
      * @Route("/", name="b_home")
      */
-    public function home(Request $request)
+    public function home(Request $request, ShippingTrackingRepository $shipRepository, EntityManagerInterface $entityManager)
     {
+        if ($request->get('received')) {
+            $shipment = $shipRepository->findOneBy(['tracking'=>$request->get('received')]);
+            if ($shipment instanceof ShippingTracking ===false) {
+                $this->addFlash('error', 'Sending with tracking '.$request->get('received').' not found');
+            } else {
+                $shipment->setStatus('received');
+                $shipment->setArchived(true);
+                $entityManager->persist($shipment);
+                $entityManager->flush();
+                $this->addFlash('success', 'Package marked as received. Thanks!');
+            }
+        }
+        $shippings = $shipRepository->getForUser($this->getUser());
+
         return $this->render(
             'backend/admin-home.html.twig',
             [
                 'title' => 'User dashboard',
                 'version' => $this->getParameter('version'),
                 'hasScreen' => count($this->getUser()->getScreens()),
-                'isMobile' => $this->isMobile($request),
+                'isMobile'  => $this->isMobile($request),
+                'shippings' => $shippings,
                 'menu' => 'user'
             ]
         );
@@ -84,7 +101,7 @@ class BackendController extends AbstractController
                                 $this->addFlash('success',
                                     "Thanks for accepting our terms. Your account was created with the username: " . $user->getName().
                                 ". Please check that your profile is complete and set your Timezone");
-                                return $this->redirectToRoute('b_user_profile');
+                                return $this->redirectToRoute('b_user_profile', ['firstTime' => 1]);
                             } else {
                                 $this->addFlash('error', $error);
                             }
@@ -99,7 +116,8 @@ class BackendController extends AbstractController
                 'backend/admin-accept-agreement.html.twig',
                 [
                     'title' => 'Create your username',
-                    'form' => $form->createView()
+                    'form' => $form->createView(),
+                    'show_menu' => false
                 ]
             );
         } else {
@@ -267,7 +285,7 @@ class BackendController extends AbstractController
 
             case 'screen_log_admin':
                 $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'No report without ROLE_ADMIN');
-                $logs = $screenLogRepository->findBy([],[],2000);
+                $logs = $screenLogRepository->findBy([],['created' => 'DESC'],2000);
 
                 foreach ($logs as $log){
                     $display = $log->getScreen()->getDisplay();

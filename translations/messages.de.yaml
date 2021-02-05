@@ -23,6 +23,13 @@ nav_get_started: Ersten Schritten
 nav_server_architecture: Serverarchitektur
 nav_api_cloudwatch: AWS Cloudwatch-Überwachung
 nav_3d: Gehäuse 3D-Modelle
+nav_ethereum: Finanziert mit Ethereum-Kryptowährung
+nav_ethereum_short: Finanziert mit ♦
+nav_crypto_adv: Verdienen Sie mit Krypto von 4.5 bis zum 12% APR
+nav_epapers_for_sale: Epapers zu verkaufen
+nav_demo_display: Bilder generation Beispielen
+nav_digital_art: Epaper Bilderrahmen
+
 # NAV BACKEND
 navb_api: Inhalten
 navb_user: Benutzer
@@ -285,3 +292,10 @@ Found a bug in [AREA]: Fehler in [BEREICH] gefunden
 Support message: Support-Nachricht
 Send support Email: Support-E-Mail senden
 
+
+#Gallery plugin
+Name your Gallery: Galerietitel
+Upload a new image (max. %max_kb% Kb): Ein Bild hochladen (max. %max_kb% Kb)
+Sort position: Sortierung (number)
+Image caption: Bildbeschreibung
+Photo credits: Bildnachweis

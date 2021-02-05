@@ -23,6 +23,13 @@ nav_get_started: Como usarlo
 nav_server_architecture: Arquitectura del servicio
 nav_api_cloudwatch: Monitoreo de AWS Cloudwatch
 nav_3d: Modelos para imprimir en 3D
+nav_ethereum: Financiado usando Ethereum
+nav_ethereum_short: Financiado con ♦
+nav_crypto_adv: Gana desde 4.5 a 12% TAE con Eth o Bitcoin
+nav_epapers_for_sale: Epapers a la venta
+nav_demo_display: Demonstración de rendering
+nav_digital_art: Display para arte digital
+
 # NAV BACKEND
 navb_api: Contenido
 navb_user: User
@@ -284,3 +291,11 @@ Setting up Cloudwatch monitoring: Setup de Cloudwatch monitoring
 Found a bug in [AREA]: He encontrado un error en [AREA]
 Support message: Mensaje
 Send support Email: Enviar Email de soporte
+
+
+#Gallery plugin
+Name your Gallery: Nombre de la galeria de fotos
+Upload a new image (max. %max_kb% Kb): Subir una nueva imagen (max. %max_kb% Kb)
+Sort position: Posición
+Image caption: Texto para el pie de foto
+Photo credits: Creditos o autor

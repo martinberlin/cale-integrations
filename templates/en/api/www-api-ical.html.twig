@@ -5,7 +5,7 @@
 {% endblock carousel %}
 
 {% block body %}
-    <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top: -2em">
+    <div class="col-md-10 col-sm-12 col-xs-12" style="margin-top: -2em">
         <h2>
             <span class="glyphicon glyphicon-calendar"></span> iCal
         </h2>
@@ -37,10 +37,27 @@
             </div>
         </div>
     </div>
-
+    <div class="col-md-2">
+        {% if adsense_active %}
+        <!-- Cale vertical -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-5919782356383484"
+             data-ad-slot="6845528655"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+        {% endif %}
+    </div>
 
 {% endblock %}
 
 {% block javascripts %}
     <script type="text/javascript" src="/js/engine/common.js"></script>
+
+    {% if adsense_active %}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    {% endif %}
 {% endblock %}

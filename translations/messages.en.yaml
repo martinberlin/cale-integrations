@@ -23,6 +23,13 @@ nav_get_started: Get started
 nav_server_architecture: Server architecture
 nav_api_cloudwatch: AWS Cloudwatch monitoring
 nav_3d: Housing 3D models to print
+nav_ethereum: Financed with Ethereum
+nav_ethereum_short: Financed with ♦
+nav_crypto_adv: Earn interest with your Crypto
+nav_epapers_for_sale: Epapers for sale
+nav_demo_display: Image generation demos
+nav_digital_art: Digital art frame
+
 # NAV BACKEND
 navb_api: Content
 navb_user: User
@@ -31,6 +38,7 @@ titleb_apis: API content providers
 # Titles
 title_ical: Importing iCal calendars
 title_firmware: ESP32 / ESP8266 Firmware
+title_firmware_idf: ESP-IDF Firmware
 title_firmware_tft: Firmware for TFT displays
 title_firmware_t5: Firmware for T5 ESP32 boards
 title_firmware_blue: Configuring the Firmware using Bluetooth
@@ -285,3 +293,9 @@ Found a bug in [AREA]: Found a bug in [AREA]
 Support message: Support message
 Send support Email: Send support Email
 
+#Gallery plugin
+Name your Gallery: Name your Gallery
+Upload a new image (max. %max_kb% Kb): Upload a new image (max. %max_kb% Kb)
+Sort position: Sort position
+Image caption: Image caption
+Photo credits: Photo credits

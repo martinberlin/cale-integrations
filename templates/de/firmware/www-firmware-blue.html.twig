@@ -1,6 +1,4 @@
 {% extends '/base.html.twig' %}
-{% set cale_android = 'https://play.google.com/store/apps/details?id=io.cordova.cale' %}
-{% set cale_android_apk = 'https://github.com/martinberlin/cale-app/tree/master/releases' %}
 {% set carousel_high = 110 %}
 
 {% block stylesheets %}
@@ -41,6 +39,7 @@
         <li><a href="#repo">C++ Repository - master</a></li>
         <li><a href="#a2">Config referenz</a></li>
         <li><a href="#a3">Android App</a></li>
+        <li><a href="{{ path('firmware-idf') }}">Firmware für ESP-IDF</a> <span class="cale" style="font-weight: bold">NEU!</span></li>
         <li><a href="{{ path('firmware-t5') }}">TTGO T5 Firmware mit 3 Screens</a></li>
         <li><a href="{{ path('firmware') }}">Firmware und Schaltpläne ohne Bluetooth (ESP8266 / ESP32)</a></li>
     </ul>

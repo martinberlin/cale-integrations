@@ -1,0 +1,75 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <h3>{{ 'nav_ethereum'|trans }}</h3>
+    <p>Das Gewürz Melange ist der Name der fiktiven Droge, die in der Dune-Reihe von Science-Fiction-Romanen eine zentrale Rolle spielt.
+        Um dieses Projekt von unseren finanziellen Problemen zu trennen, werden wir Ethereum als Gewürz für die Finanzierung von <span class="cale">CALE.es</span> verwenden.
+        Mit dieser Vision haben wir einen Mining-Server in unserem Studio installiert und werden weitere Premium-Funktionen auf der Website implementieren, die mit Mikrotransfers dieser Währung freigeschaltet werden können.
+     </p>
+    <div class="row" style="margin-top: 40px">
+        <div class="col-md-4">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Planning new update to the <a href="https://twitter.com/hashtag/Ether?src=hash&amp;ref_src=twsrc%5Etfw">#Ether</a> <a href="https://twitter.com/hashtag/mining?src=hash&amp;ref_src=twsrc%5Etfw">#mining</a> server this weekend <a href="https://t.co/bUsZf9ZLEM">pic.twitter.com/bUsZf9ZLEM</a></p>&mdash; Martin the Creator (@martinfasani) <a href="https://twitter.com/martinfasani/status/1314507547244625920?ref_src=twsrc%5Etfw">October, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+        <div class="col-md-8"><h4>Sicher und anonym</h4>
+            <p>Da dies alles zu 100% transparent für alle ist, aber gleichzeitig anonym und sicher,
+                ist es die ideale Möglichkeit, dieses Web-Service-Projekt zu finanzieren.<br>
+
+                Wenn Sie den Webservice in Ihrem Unternehmen nutzen, wir bitten um finanzielle Hilfe, mit
+                <a href="https://github.com/martinberlin/eink-calendar" target="_blank">github
+                    <span class="glyphicon glyphicon-heart"></span> Sponsoring</a>  oder einfach mit eine anonyme Übertragung an unsere
+                <a href="https://etherscan.io/address/{{ cale_eth_address }}" title="CALE Ethereum address" target="_blank">ETH-Adresse vorzunehmen</a>.
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 text-center">
+            <img src="/assets/svg/ethereum_sm.svg">
+            <br>
+            <small><a href="https://etherscan.io/address/{{ cale_eth_address }}" title="CALE Ethereum address" target="_blank">
+                    {{ cale_eth_address }}
+                </a></small>
+        </div>
+
+        <div class="col-md-8"><h4>Bergbauinitiative</h4>
+            Unser Ethereum-Mining-Server, der monatlich 0.15 ETH verdient, reicht aus um die Kosten für unseren Amazon AWS-Server zu bezahlen. Zusätzlich haben wir die Option hinzugefügt, Ethereum für die Zusammenarbeit mit diesem Projekt in unseren Github-Repositories zu spenden.
+            All dies kann anonym erfolgen und wir werden diese finanzielle Unterstützung mit folgenden Zielen verwenden:<br><br>
+            <ul>
+                <li>In erster Linie zur Erforschung und Entwicklung neuer Epaper-Treiber. Wir haben bereits unsere eigene
+                    <a href="https://github.com/martinberlin/CalEPD" target="_blank">Epaper-Komponente <span class="cale">CalEPD</span></a>
+                    die derzeit mit neuen Funktionen wie Farbunterstützung und Touch entwickelt wird.</li>
+                <li>Neue Hardware kaufen (Epaper, Controller & Elektronik)</li>
+                <li>Mehr Serverleistung für die wachsende Nachfrage nach Bildverarbeitung</li>
+                <li>Anforderungen zur Installation dieses Dienstes in einer lokalen Umgebung (Ab <b>1.5 ♦ ETH</b>)</li>
+            </ul>
+
+            <h4>Etherscan API integration</h4>
+            <p>Mit <a href="{{ path('apis') }}">Etherscan API</a> könnten sie auch den Ethereum balance in epaper displays anzeigen. Anbei eine demo mit zwei APIs.
+            </p>
+
+            <img src="https://img.cale.es/bmp/cale_www/5f92ff232800c"><br>
+            <small style="font-size:9pt;color:#666666">Bitmap dynamisch generiert.
+                Seitenanfang: <span class="cale" style="font-weight: bolder">CALE</span> Ether Kontostand. Da unten: ETH Address QR code</small>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

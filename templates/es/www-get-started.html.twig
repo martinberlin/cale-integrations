@@ -5,7 +5,7 @@
 {% endblock carousel %}
 
 {% block body %}
-    <div class="col-md-12" style="margin-top: -2em">
+    <div class="col-md-7" style="margin-top: -2em">
         <h3>
             <span class="glyphicon glyphicon-play-circle"></span>
             Como empezar a usarlo
@@ -27,17 +27,42 @@
         <p><a href="{{ path('firmware') }}">La configuración necesaria para el firmware esta expliada aquí</a>.
         En el Config puedes empezar copiando las dos lineas que salen en el punto 1 al configurar tu Screen.</p>
 
-        <h4>4. Encienda CALE</h4>
-        <p>En este último punto ya tendría que poder encender su cliente de E-Ink
-            y debería estar online pidiendo una imágen a CALE. Pruebe de jugar con el render, agregar
-            nuevo contenido dínamico usando APIs, y pruebe de ver como se ve. En el Render puede
+        <h4>4. Conecte su Epaper display</h4>
+        <p>En este último punto cuando el micro ya tiene su clave WiFi, estando conectado correctamente al epaper,
+            tendría que arrancar y pedir una imágen a CALE para luego enviar los datos al display.
+
+            Del lado del Web-Service Cale.es pruebe de jugar con el render, agregar
+             nuevo contenido dínamico usando APIs, y previsualizarlo en el display. Con las opciones de Render puede
             cambiar parametros como Zoom hasta encontrar la imágen ideal para su pantalla.
-            Una vez que estes conforme en el punto 3 puedes decidir cada cuanto se refresca su pantalla.
+            Una vez que este conforme con en el punto 3 puedes decidir cada cuanto tiempo se refresca su pantalla.
         </p>
     </div>
 
+    <div class="col-md-3">
+        <div class="panel panel-default" style="margin-top: 1em">
+            <div class="panel-heading">Publicidad</div>
+            <div class="panel-body">
+                {% if adsense_active %}
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- Cale vertical -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-5919782356383484"
+                         data-ad-slot="6845528655"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                {% endif %}
+            </div></div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}
     <script type="text/javascript" src="/js/engine/common.js"></script>
+
+    {% if adsense_active %}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    {% endif %}
 {% endblock %}

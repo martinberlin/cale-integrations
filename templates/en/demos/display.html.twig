@@ -1,0 +1,77 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-10">
+            <div class="row" style="height: 30px;background-color:#EEEEEE;font-weight: bolder">
+                <div class="col-md-6">
+                    Displays demo
+                </div>
+                <div class="col-md-6">
+                    <a href="{{ path('www_demos_digital_art') }}">Epapers for digital art</a>
+                </div>
+            </div>
+            <br>
+            <h2>{{ 'nav_demo_display'|trans }}</h2>
+
+
+
+            This are renderings generated using CALE engine for different displays.
+
+            <h3>Using the image gallery component</h3>
+            The image gallery internal API is ideal to use for a photo frame. Each gallery let's you upload up to 10 Mb. of images and on each
+            request the display renders the next one. The render is cached for 30 mins. so if you visit this page later you will see the next image.<br>
+
+            <img style="border: 1px solid #EEEEEE;margin-top: 1em" src="http://img.cale.es/bmp/cale_www/5fe705aa20e9f">
+            <div class="caption small" style="color: gray">800x480 Epaper 2 to 6 colors 4 bits Bitmap (BMP) using dithering mode: Checks</div>
+        <br>
+            <img style="border: 1px solid #EEEEEE;margin-top: 1em" src="http://img.cale.es/bmp/cale_www/5fe7102007941">
+            <div class="caption small" style="color: gray">800x480 Epaper 1 bit simulated grayscales using dithering mode: 2x2</div>
+
+            <img style="border: 1px solid #EEEEEE;margin-top: 1em" src="http://img.cale.es/jpg/cale_www/5fe6ec28832aa">
+            <div class="caption small" style="color: gray">800x480 TFT fullcolor 24 bits JPG</div>
+
+            <h2>Smaller displays</h2>
+            Using smaller displays is also possible though we recommend using at least 4.2 inches (400x300). With smaller epapers also works
+            but the possibility of rendering something is reduced. This is because we are taking a screenshot of HTML using bootstrap 4 which renders
+            quite good for devices too, but not super small ones, like those with screens that are smaller than 4 inches.
+
+            <img style="border: 1px solid #EEEEEE;margin-top: 1em" src="http://img.cale.es/bmp/cale_www/5f92ff232800c">
+            <div class="caption small" style="color: gray">400x300 Epaper 4 bits rendering our ETH wallet using Etherscan</div>
+
+            <h2>Inkplate 6</h2>
+            <img style="border: 1px solid #EEEEEE;margin-top: 1em" src="http://img.cale.es/bmp/cale_www/5fe716674578b">
+            <div class="caption small" style="color: gray">800x600 Inkplate 6 ESP32 eink screen showing a OpenWeather API for New York and Berlin</div>
+
+        </div>
+        <div class="col-md-1">
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+
+    {% if adsense_active %}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    {% endif %}
+{% endblock %}
