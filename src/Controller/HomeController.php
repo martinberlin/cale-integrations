@@ -263,4 +263,17 @@ class HomeController extends AbstractController
             $request->getLocale().'/'.$page.'.html.twig'
         );
     }
+
+    public function einkLanding($brand, $id, Request $request, DisplayRepository $displayRepository, TranslatorInterface $translator)
+    {
+        $display = $displayRepository->findOneBy(['type' => 'eink', 'brand' => $brand, 'id' => $id]);
+
+        return $this->render(
+            $request->getLocale().'/display/www-eink-landing.html.twig',
+            [
+                'd' => $display,
+                'title' => $translator->trans('nav_displays')
+            ]
+        );
+    }
 }

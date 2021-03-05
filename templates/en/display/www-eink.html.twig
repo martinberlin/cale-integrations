@@ -38,8 +38,8 @@
         {% endif %}
             <tr style="border:1px #1b6d85 dashed">
                 <td style="width:300px">
-                    <a href="{{ d.purchaseUrl }}" target="_blank"><img style="height:{{ h }}px;margin-top: 1px" src="/assets/display/{{ d.className }}.jpg"></a><br>
-                    &nbsp;<small>{{ d.brand }}</small>
+                    <a href="{{ path('eink-landing', {'brand': d.brand, 'id':d.id}) }}"><img style="height:{{ h }}px;margin-top: 1px" src="/assets/display/{{ d.className }}.jpg"></a><br>
+                    &nbsp;<a href="{{ path('eink-landing', {'brand': d.brand, 'id':d.id}) }}"><small>{{ d.brand }}</small></a>
                 </td>
                 <td><h3>{{ d.name }}</h3>
                     {{ d.htmlDescription|raw }}

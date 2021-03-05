@@ -52,6 +52,16 @@ displays-eink:
   requirements:
     _locale: '%locales%'
 
+eink-landing:
+  path:       /epaper/{_locale}/{brand}/{id}
+  controller: App\Controller\HomeController::einkLanding
+  defaults:
+    _locale: en
+    brand: 'Good_Display'
+    id: 1
+  requirements:
+    _locale: '%locales%'
+
 displays-tft:
   path:       /tft-displays/{_locale}
   controller: App\Controller\HomeController::tftDisplays
