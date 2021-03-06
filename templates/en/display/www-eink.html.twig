@@ -33,7 +33,7 @@
                     <a href="{{ path('eink-landing', {'brand': d.brand, 'id':d.id}) }}" title="Read full details"><img style="height:{{ h }}px;margin-top: 1px" src="/assets/display/{{ d.className }}.jpg"></a><br>
                     <div class="row">
                         <div class="col-md-6">
-                            <a href="{{ path('eink-landing', {'brand': d.brand, 'id':d.id}) }}" title="Read full details"><small>{{ d.brand }}</small></a>
+                            <a href="{{ path('eink-landing', {'brand': d.brand, 'id':d.id}) }}" title="Read full details"><small>{{ d.brand|replace({'_':' '}) }}</small></a>
                         </div>
                         <div class="col-md-6 text-right">
                            <b>{{ d.width }}x{{ d.height }}</b>&nbsp;&nbsp;&nbsp;

@@ -27,7 +27,7 @@
         </div>
 
         <div class="col-md-6">
-            <h3>Epaper display de {{ d.brand }}: {{ d.name }}</h3>
+            <h3>Epaper display de {{ d.brand|replace({'_':' '}) }}: {{ d.name }}</h3>
             <div class="row">
                 <div class="col-md-6">
                     <h4>Resolución:</h4>

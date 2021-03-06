@@ -22,14 +22,6 @@
 
 
     <table style="border-spacing:4px;width: 99%">
-        <thead>
-        </tr>
-        <th></th>
-        <th>GxEPD Display</th>
-        <th>Resolución</th>
-        <th>Enlaces</th>
-        </tr>
-        </thead>
         <tbody>
         {% for d in displays %}
             {% set h = 200 %}
@@ -38,20 +30,24 @@
             {% endif %}
             <tr style="border:1px #1b6d85 dashed">
                 <td style="width:300px">
-                    <a href="{{ d.purchaseUrl }}" target="_blank"><img style="height:{{ h }}px;margin-top: 1px" src="/assets/display/{{ d.className }}.jpg"></a><br>
-                    &nbsp;<small>{{ d.brand }}</small>
+                    <a href="{{ path('eink-landing', {'brand': d.brand, 'id':d.id}) }}" title="Read full details"><img style="height:{{ h }}px;margin-top: 1px" src="/assets/display/{{ d.className }}.jpg"></a><br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a href="{{ path('eink-landing', {'brand': d.brand, 'id':d.id}) }}" title="Read full details"><small>{{ d.brand|replace({'_':' '}) }}</small></a>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <b>{{ d.width }}x{{ d.height }}</b>&nbsp;&nbsp;&nbsp;
+                        </div>
+                    </div> &nbsp;
                 </td>
-
                 <td><h3>{{ d.name }}</h3>
                     {{ d.htmlDescription|raw }}
-                    <br>Refresca en: {{ d.timeOfRefresh }} milisegundos
                 </td>
 
-                <td>{{ d.width }}x{{ d.height }}</td>
-
-                <td><a href="{{ d.manualUrl }}" target="_blank">webpage</a>&nbsp;
-                    <br>
-                    <button class="btn btn-primary" onclick="window.location='{{ d.purchaseUrl }}'">Buy</button>
+                <td><a href="{{ d.manualUrl }}" target="_blank">web</a>
+                    <br><br>
+                    <button class="btn btn-primary" onclick="window.location='{{ d.purchaseUrl }}'">Comprar</button><br><br>
+                    <a href="{{ path('eink-landing', {'brand': d.brand, 'id':d.id}) }}">Detalles</a>
                 </td>
             </tr>
         {% endfor %}
