@@ -48,18 +48,6 @@ class HomeController extends AbstractController
         );
     }
 
-    public function einkDisplays(Request $request, DisplayRepository $displayRepository, TranslatorInterface $translator)
-    {
-        $displays = $displayRepository->findBy(['type' => 'eink'],['width' => 'DESC']);
-        return $this->render(
-            $request->getLocale().'/display/www-eink.html.twig',
-        [
-            'displays' => $displays,
-            'title' => $translator->trans('nav_displays')
-        ]
-        );
-    }
-
     public function tftDisplays(Request $request, DisplayRepository $displayRepository, TranslatorInterface $translator)
     {
         $displays = $displayRepository->findBy(['type' => 'tft'],['width' => 'DESC']);
@@ -261,6 +249,28 @@ class HomeController extends AbstractController
     {
         return $this->render(
             $request->getLocale().'/'.$page.'.html.twig'
+        );
+    }
+
+    public function einkDisplays(Request $request, DisplayRepository $displayRepository, TranslatorInterface $translator)
+    {
+        $displaysList = $displayRepository->findBy(['type' => 'eink'],['width' => 'DESC']);
+        $displays = array();
+        // Cut only short description
+        foreach ($displaysList as $d) {
+            $pos = strpos($d->getHtmlDescription(), "<ld>");
+
+            $shortDescription = ($pos === false) ? $d->getHtmlDescription() : substr($d->getHtmlDescription(), 0, $pos);
+            if (is_null($shortDescription)) $shortDescription = '';
+            $d->setHtmlDescription($shortDescription);
+            $displays[] = $d;
+        }
+        return $this->render(
+            $request->getLocale().'/display/www-eink.html.twig',
+            [
+                'displays' => $displays,
+                'title' => $translator->trans('nav_displays')
+            ]
         );
     }
 
