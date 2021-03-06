@@ -22,23 +22,23 @@
 
     <div class="row">
         <div class="col-md-4 col-xs-12">
-            <h3><span class="glyphicon glyphicon-circle-arrow-left"></span> <a href="{{ path('displays-eink') }}">Back to epapers list</a></h3>
+            <h3><span class="glyphicon glyphicon-circle-arrow-left"></span> <a href="{{ path('displays-eink') }}">Zurück nach Liste</a></h3>
             <img src="/assets/display/{{ d.className }}.jpg">
         </div>
 
         <div class="col-md-6">
-            <h3>Epaper display from {{ d.brand }}: {{ d.name }}</h3>
+            <h3>Epaper display von {{ d.brand }}: {{ d.name }}</h3>
             <div class="row">
                 <div class="col-md-6">
-                    <h4>Resolution</h4>
-                  <b>Refresh time:</b><br>
-                    <b>Active size:</b><br>
-                    <b>Shades of gray:</b><br>
+                    <h4>Pixelauflösung:</h4>
+                  <b>Refresh Zeit:</b><br>
+                    <b>Aktiv size:</b><br>
+                    <b>Grautönes:</b><br>
                     <b>Cale-idf classname:</b>
                 </div>
                 <div class="col-md-6">
                     <h4>{{ d.width }}x{{ d.height }}</h4>
-                  {{ d.timeOfRefresh }} Millis<br>
+                  {{ d.timeOfRefresh }} Millisekunden<br>
                     {{ d.activeSize }}<br>
                     {{ d.grayLevels }}<br>
                     {{ d.className }}
@@ -49,14 +49,14 @@
                     <h4>Description</h4>
                     {{ d.htmlDescription|raw }}
                     <br><br>
-                    <a href="{{ d.purchaseUrl }}" target="_blank">Purchase link</a>
+                    <a href="{{ d.purchaseUrl }}" target="_blank">Link zu kaufen</a>
                 </div>
             </div>
         </div>
     </div>
 <br><br>
-    Please check our <a href="{{ path('firmware-blue') }}" >Arduino esp32 C++ Firmware for Epaper</a> to use the image provided with <span class="cale">CALE</span> in your ESP32 SPI display.
-If you want to build a custom Firmware using Espressif IDF own framework we highly recommend to check our <a href="{{ path('firmware-idf') }}">project Cale-Idf</a>.
+
+Wir empfehlen unsere <a href="{{ path('firmware-idf') }}">projekt Cale-Idf</a> für custom epaper Firmware zu bauen.
 {% endblock %}
 
 {% block javascripts %}
