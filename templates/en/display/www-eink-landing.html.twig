@@ -34,17 +34,19 @@
                   <b>Refresh time:</b><br>
                     <b>Active size:</b><br>
                     <b>Shades of gray:</b><br>
-                    <b>Cale-id classname:</b><br>
-
-                    <b>Description:</b>
-
+                    <b>Cale-id classname:</b>
                 </div>
                 <div class="col-md-6">
                     <h4>{{ d.width }}x{{ d.height }}</h4>
                   {{ d.timeOfRefresh }} Millis<br>
                     {{ d.activeSize }}<br>
                     {{ d.grayLevels }}<br>
-                    {{ d.className }}<br>
+                    {{ d.className }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Description</h4>
                     {{ d.htmlDescription|raw }}
                     <br><br>
                     <a href="{{ d.purchaseUrl }}" target="_blank">Purchase link</a>
