@@ -1,10 +1,12 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\Display;
 use App\Repository\ApiRepository;
 use App\Repository\DisplayRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -277,12 +279,13 @@ class HomeController extends AbstractController
     public function einkLanding($brand, $id, Request $request, DisplayRepository $displayRepository, TranslatorInterface $translator)
     {
         $display = $displayRepository->findOneBy(['type' => 'eink', 'brand' => $brand, 'id' => $id]);
-
+        if ($display instanceof Display === false) throw new NotFoundHttpException('Display #'.$id.' not found');
+        $brand = str_replace('_', ' ', $display->getBrand());
         return $this->render(
             $request->getLocale().'/display/www-eink-landing.html.twig',
             [
                 'd' => $display,
-                'title' => $translator->trans('nav_displays')
+                'title' => $translator->trans('epaper_from').' '.$brand.' '.$display->getName()
             ]
         );
     }
