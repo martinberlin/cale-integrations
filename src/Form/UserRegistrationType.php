@@ -2,6 +2,7 @@
 namespace App\Form;
 
 use App\Entity\User;
+use Gregwar\CaptchaBundle\Type\CaptchaType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -40,6 +41,11 @@ class UserRegistrationType extends AbstractType
                     'attr' => ['class' => 'form-control']
 
                 ])
+
+            ->add('captcha', CaptchaType::class, [
+              'label' => 'Are you human? Please repeat this characters:'
+            ])
+
             ->add('submit', SubmitType::class,
                 [
                     'attr' => ['class' => 'btn btn-primary']
