@@ -52,15 +52,15 @@ logs_purge_tooltip: Deletes 100 log rows
 # Registration
 create_account: Create an account
 used_for_login: This is what is used for login
-Firstname:	Firstname
-English:	English
-German:	German
+Firstname: Firstname
+English: English
+German: German
 Spanish: Spanish
 Catalan: Catalan
-French:	French
+French: French
 Croatian: Croatian
 Czech: Czech
-Danish:	Danish
+Danish: Danish
 Greek: Greek
 Arabic: Arabic
 Esperanto: Esperanto
@@ -82,7 +82,7 @@ Marathi: Marathi
 Norwegian Bokmål: Norwegian Bokmål
 Dutch: Dutch
 Punjabi: Punjabi
-Polish:	Polish
+Polish: Polish
 Portuguese: Portuguese
 Romanian: Romanian
 Russian: Russian
@@ -91,11 +91,11 @@ Slovenian: Slovenian
 Serbian: Serbian
 Swedish: Swedish
 Tamil: Tamil
-Telugu:	Telugu
+Telugu: Telugu
 Turkish: Turkish
 Ukrainian: Ukrainian
 Urdu: Urdu
-simplified Chinese:	simplified Chinese
+simplified Chinese: simplified Chinese
 Email: Email
 Language of preference: Language of preference
 Repeat password: Repeat password
@@ -116,7 +116,7 @@ Encrypted before persisting: Encrypted before persisting
 Name your Api: Name your Api
 Use a meaningful name to identify it in your list: Use a meaningful name to identify it in your list
 Your timezone: Your timezone
-Europe/Berlin:	Europe/Berlin
+Europe/Berlin: Europe/Berlin
 Customized json settings: Customized json settings
 Calendar ID: Calendar ID
 Authorization token: Authorization token
@@ -139,7 +139,7 @@ Max results: 'Max results'
 Sort pos: 'Sort pos'
 'template area:': 'template area:'
 1st Column: 1st Column
-2nd Column:	2nd Column
+2nd Column: 2nd Column
 3rd Column: 3rd Column
 Invert B/Text: Invert B/Text
 Text color: Text color

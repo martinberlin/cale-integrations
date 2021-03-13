@@ -53,13 +53,13 @@ create_account: Erstellen Sie ein Konto
 used_for_login: Dies wird für die Anmeldung verwendet
 Firstname: Vorname
 English: Englisch
-German:	Deutsch
+German: Deutsch
 Spanish: Spanisch
 Catalan: Katalanisch
-French:	Französisch
+French: Französisch
 Croatian: Kroatisch
 Czech: Tschechisch
-Danish:	Dänisch
+Danish: Dänisch
 Greek: Griechisch
 Arabic: Arabisch
 Esperanto: Esperanto
@@ -81,7 +81,7 @@ Marathi: Marathi
 Norwegian Bokmål: Norwegisches Bokmål
 Dutch: Niederländisch
 Punjabi: Punjabi
-Polish:	Polnisch
+Polish: Polnisch
 Portuguese: Portugiesisch
 Romanian: Rumänisch
 Russian: Russisch
@@ -90,11 +90,11 @@ Slovenian: Slowenisch
 Serbian: Serbisch
 Swedish: Schwedisch
 Tamil: Tamil
-Telugu:	Telugu
+Telugu: Telugu
 Turkish: Türkisch
 Ukrainian: Ukrainisch
 Urdu: Urdu
-simplified Chinese:	vereinfachtes Chinese
+simplified Chinese: vereinfachtes Chinese
 Email: E-Mail
 Language of preference: Präferenzsprache
 Repeat password: Passwort wiederholen
@@ -115,7 +115,7 @@ Encrypted before persisting: Vor dem speichern verschlüsselt
 Name your Api: Benennen Sie Ihre API
 Use a meaningful name to identify it in your list: Verwenden Sie einen aussagekräftigen Namen, um ihn in Ihrer Liste zu identifizieren
 Your timezone: Ihre Zeitzone
-Europe/Berlin:	Europe/Berlin
+Europe/Berlin: Europe/Berlin
 Customized json settings: Benutzerdefinierte JSON-Einstellungen
 Calendar ID: Kalender-ID
 Authorization token: Autorisierungstoken
@@ -138,7 +138,7 @@ Max results: 'max. Ergebnisse'
 Sort pos: 'Sort'
 'template area:': 'Vorlagen Spalte:'
 1st Column: erste Spalte
-2nd Column:	zweite Spalte
+2nd Column: zweite Spalte
 3rd Column: dritte Spalte
 Invert B/Text: Textfarbe umkehren
 Text color: Textfarbe
