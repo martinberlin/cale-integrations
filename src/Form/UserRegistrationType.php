@@ -48,7 +48,11 @@ class UserRegistrationType extends AbstractType
 
             ->add('submit', SubmitType::class,
                 [
-                    'attr' => ['class' => 'btn btn-primary']
+                    'label' => 'register_here',
+                    'attr' => [
+                        'class' => 'btn btn-primary form-control',
+                        'style' => 'margin-top:1.4em'
+                    ]
                 ]
                 );
     }
