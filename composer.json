@@ -28,6 +28,7 @@
         "symfony/twig-pack": "dev-master",
         "symfony/validator": "^4.4",
         "symfony/yaml": "^4.4",
+        "gregwar/captcha-bundle": "2.1.4",
         "davefx/phplot": "6.2.1"
     },
     "require-dev": {

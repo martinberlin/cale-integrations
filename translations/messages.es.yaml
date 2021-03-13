@@ -51,12 +51,12 @@ logs_purge_tooltip: Borra 100 entradas de log
 # Registration
 create_account: Crea tu cuenta
 used_for_login: El email y la contraseña se usan para el login
-Firstname:	Nombre
+Firstname:  Nombre
 English: Ingles
-German:	Alemán
+German:  Alemán
 Spanish: Español
 Catalan: Catalan
-French:	Frances
+French:  Frances
 Croatian: Croata
 Czech: Checo
 Danish: Danes
@@ -81,7 +81,7 @@ Marathi: Marathi
 Norwegian Bokmål: Noruego
 Dutch: Holandes
 Punjabi: Punjabi
-Polish:	Polaco
+Polish:  Polaco
 Portuguese: Portugues
 Romanian: Rumano
 Russian: Ruso
@@ -90,11 +90,11 @@ Slovenian: Slovenian
 Serbian: Serbian
 Swedish: Sueco
 Tamil: Tamil
-Telugu:	Telugu
+Telugu:  Telugu
 Turkish: Turco
 Ukrainian: Ukraniano
 Urdu: Urdu
-simplified Chinese:	Chino
+simplified Chinese:  Chino
 Email: Email
 Language of preference: Idioma de preferencia
 Repeat password: Repite el password
@@ -115,9 +115,9 @@ Encrypted before persisting: Encriptado en nuestra DB antes de guardarlo
 Name your Api: Nombre de la Api
 Use a meaningful name to identify it in your list: Usa un nombre apropiado para poder identificarlo en tu lista
 Your timezone: Tu zona del tiempo
-Europe/Berlin:	Europa/Berlin
+Europe/Berlin:  Europa/Berlin
 Customized json settings: Configuracón avanzada del api JSON (No hace falta editar)
-Calendar ID: ID del	Calendar
+Calendar ID: ID del  Calendar
 Authorization token: Token de autorización
 api_response: Respuesta de la API
 # Auth steps
@@ -138,7 +138,7 @@ Max results: Entradas
 Sort pos: Posición
 'template area:': 'la columna:'
 1st Column: 1ra
-2nd Column:	2da
+2nd Column:  2da
 3rd Column: 3ra
 Invert B/Text: Invertir B/Texto
 Text color: Color texto
