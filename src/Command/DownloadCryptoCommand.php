@@ -19,7 +19,7 @@ class DownloadCryptoCommand extends Command
     // Name of the command (the part after "bin/console")
     protected static $defaultName = 'download:crypto';
     private $container;
-    private $basePath = 'http://www.cryptodatadownload.com/cdd/';
+    private $basePath = 'https://www.cryptodatadownload.com/cdd/';
     public $downloadLocalPath;
     public $datafiles = [];
     private $tools;
@@ -123,6 +123,11 @@ class Tools
     private $startTime;
     private $callsCounter;
     private $downloadPath;
+    private $opts = [
+        "ssl" => [
+            "verify_peer" => false,
+            "verify_peer_name" => false,
+        ]];
 
     function __construct(string $downloadPath)
     {
@@ -140,7 +145,8 @@ class Tools
     }
     public function download(string $url)
     {
-        $f = fopen($url, 'r');
+        $f = fopen($url, 'r',false, stream_context_create($this->opts));
+
         if (!$f) {
             fwrite(STDERR, "Failed to open: $url\n");
             return FALSE;
