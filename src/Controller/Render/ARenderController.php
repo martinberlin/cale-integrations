@@ -160,7 +160,7 @@ class ARenderController extends AbstractController
             $responseContent .= '<div class="row"' . $invertedColorStyle . '>';
             $responseContent .= '<div class="col-md-12"><' . $hs . '>' . $event->summary . '</' . $hs . '></div>' .
                 '</div>' .
-                '<div class="row">' .
+                '<div class="row"'. $mainColorStyle .'>' .
                 '<div class="col-md-12"><' . $hs . '>' . $fromTo . '</' . $hs . '></div>' .
                 '</div>';
             $responseContent .= '<div class="row">';
