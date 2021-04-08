@@ -36,9 +36,18 @@ class ARenderController extends AbstractController
         $fColor = ($partial->getInvertedColor()===false) ? $partial->getForegroundColor() : $partial->getBackgroundColor();
         $bColor = ($partial->getInvertedColor()===false) ? $partial->getBackgroundColor() : $partial->getForegroundColor();
         if ($invert === false) {
-        $colorStyle = ' style="color:'.$fColor.';background-color:'.$bColor.'"';
+            if ($bColor === $fColor) {
+                $fColor = '#D8D8D8';
+            }
+           $colorStyle = ' style="color:'.$fColor.';background-color:'.$bColor.'"';
         } else {
-            $colorStyle = ' style="background-color:'.$fColor.';color:'.$bColor.'"';
+            if ($bColor === $fColor) {
+                $bColor = '#E8E8E8';
+            }
+            $backColor = new Color();
+            $backColor->set_hex($bColor);
+            $backColor->modify(120,120,120);
+            $colorStyle = ' style="background-color:#'.$backColor->get_hex().';color:'.$fColor.'"';
         }
         return $colorStyle;
     }
@@ -46,9 +55,18 @@ class ARenderController extends AbstractController
         $fColor = ($partial->getInvertedColor()===false) ? $partial->getForegroundColor() : $partial->getBackgroundColor();
         $bColor = ($partial->getInvertedColor()===false) ? $partial->getBackgroundColor() : $partial->getForegroundColor();
         if ($invert === false) {
+            if ($bColor === $fColor) {
+                $fColor = '#D8D8D8';
+            }
             $colorStyle = "color:$fColor;background-color:$bColor";
         } else {
-            $colorStyle = "background-color:$fColor;color:$bColor";
+            if ($bColor === $fColor) {
+                $bColor = '#E8E8E8';
+            }
+            $backColor = new Color();
+            $backColor->set_hex($bColor);
+            $backColor->modify(120,120,120);
+            $colorStyle = "background-color:$bColor;color:$fColor";
         }
         return $colorStyle;
     }
