@@ -63,6 +63,7 @@ class UserApiGalleryImageRepository extends ServiceEntityRepository
 
     public function getImageNext(User $user, IntegrationApi $api, bool $moveToNext)
     {
+        $image = $api->getName();
         $imageIndex = is_null($api->getGalleryIndex()) ? 1 : $api->getGalleryIndex();
         try {
             $images = $this->createQueryBuilder('d')
