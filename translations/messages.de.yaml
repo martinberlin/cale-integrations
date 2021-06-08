@@ -21,7 +21,8 @@ nav_pricing: Preisgestaltung
 nav_faq: Häufig gestellte Fragen
 nav_get_started: Ersten Schritten
 nav_server_architecture: Serverarchitektur
-nav_api_cloudwatch: AWS Cloudwatch-Überwachung
+nav_api_cloudwatch: API Cloudwatch-Überwachung
+nav_api_crypto: API Crypto Candlesticks-chart
 nav_3d: Gehäuse 3D-Modelle
 nav_ethereum: Finanziert mit Ethereum-Kryptowährung
 nav_ethereum_short: Finanziert mit ♦

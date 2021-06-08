@@ -289,4 +289,12 @@ class HomeController extends AbstractController
             ]
         );
     }
+
+    public function candlestickCharts(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/api/www-api-candlesticks.html.twig',
+            ['title' => $translator->trans('nav_api_crypto')]
+        );
+    }
 }

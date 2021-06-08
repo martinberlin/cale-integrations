@@ -1,0 +1,40 @@
+{% extends '/base.html.twig' %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: 110px;
+        }
+        #myCarousel .item {
+            height: 110px; width: 100%;
+            background-color: #333;
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top: -2em">
+
+        <h2>
+            <img src="/img/svg/candlestick.svg"> Candlestick charts
+        </h2>
+        <p>
+            The data provider for the candlestick Open / High / Low / Close pricing is provided by <a href="https://cryptodatadownload.com" target="_blank">cryptodatadownload.com</a>
+            This charts are not real time data and they show yesterday's price variations. They are freely usable for non-Commercial applications.
+
+            <h3>Demo for a grayscale epaper</h3>
+          <img src="http://img.cale.es/bmp/cale_www/60bfc428dbf85">
+
+        <h3>Demo for a 3 color display</h3>
+        <img src="http://img.cale.es/bmp/cale_www/60bfc53ec09c0">
+        </p>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

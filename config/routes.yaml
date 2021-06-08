@@ -245,3 +245,11 @@ www_demos_digital_art:
     _locale: en
   requirements:
     _locale: '%locales%'
+
+www_api-crypto-candles:
+  path:       /api/crypto_charts/{_locale}
+  controller: App\Controller\HomeController::candlestickCharts
+  defaults:
+    _locale: en
+  requirements:
+    _locale: '%locales%'

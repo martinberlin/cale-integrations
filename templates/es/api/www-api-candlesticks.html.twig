@@ -1,0 +1,28 @@
+{% extends '/base.html.twig' %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top: -2em">
+
+        <h2>
+            <img src="/img/svg/candlestick.svg"> Candlestick charts
+        </h2>
+        <p>
+            El proovedor de datos para este grafico de precios Open / High / Low / Close es <a href="https://cryptodatadownload.com" target="_blank">cryptodatadownload.com</a>
+            Estos diagramas no son en tiempo real y muestran las variaciones de precio del dia de ayer. Se pueden usar en cualquier aplicación no comercial.
+
+            <h3>Demo para un epaper monocromático</h3>
+          <img src="http://img.cale.es/bmp/cale_www/60bfc428dbf85">
+
+        <h3>Demo for a 3 color display</h3>
+        <img src="http://img.cale.es/bmp/cale_www/60bfc53ec09c0">
+        </p>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}
