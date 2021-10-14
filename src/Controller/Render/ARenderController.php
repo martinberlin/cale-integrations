@@ -288,10 +288,10 @@ class ARenderController extends AbstractController
                 $attr = $item->attributes;
                 $isAllDay = $attr->all_day;
                 $start = new \DateTime($attr->start_at, new \DateTimeZone($partial->getIntegrationApi()->getTimezone()));
-                // For some reason setting timezone still returns events dated one hour before
-                $start->add(new \DateInterval('PT1H'));
+                // For some reason setting timezone still returns events dated two hours before (Because Z DateTime?)
+                $start->add(new \DateInterval('PT2H'));
                 $end = new \DateTime($attr->end_at);
-                $end->add(new \DateInterval('PT1H'));
+                $end->add(new \DateInterval('PT2H'));
 
                 $responseContent .= '<div class="row"'.$invertedColorStyle.'>';
 
