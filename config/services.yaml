@@ -142,3 +142,7 @@ services:
     App\Service\SimpleCacheService:
         arguments:
             - '%cache_config%'
+
+    App\Twig\FileexistsExtension:
+        tags:
+            - { name: twig.extension }

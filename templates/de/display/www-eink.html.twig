@@ -33,7 +33,8 @@
         {% endif %}
             <tr style="border:1px #1b6d85 dashed">
                 <td style="width:300px">
-                    <a href="{{ path('eink-landing', {'brand': d.brand, 'id':d.id}) }}" title="Read full details"><img style="height:{{ h }}px;margin-top: 1px" src="/assets/display/{{ d.className }}.jpg"></a><br>
+                    <a href="{{ path('eink-landing', {'brand': d.brand, 'id':d.id}) }}" title="Read full details">
+                        <img style="height:{{ h }}px;margin-top: 1px" src="{{ file_exists(web_path, '/assets/display/', d.className, '.jpg') }}"></a><br>
                     <div class="row">
                         <div class="col-md-6">
                             <a href="{{ path('eink-landing', {'brand': d.brand, 'id':d.id}) }}" title="Read full details"><small>{{ d.brand|replace({'_':' '}) }}</small></a>
