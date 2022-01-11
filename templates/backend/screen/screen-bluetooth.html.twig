@@ -36,7 +36,7 @@
                     <img id="img_raw" src="{{ bmpUrl }}">
                 </div>
                 <div class="col-md-6">
-                    <img id="img_proc" src="{{ path('b_screen_ble_image', {'uuid':uuid}) }}">
+                    <img id="img_proc" src="/assets/icon/preload.gif">
                 </div>
             </div>
 
@@ -47,6 +47,24 @@
                 </div>
                 <div class="col-md-6">
                 <button id="sendimage" type="button" onclick="sendimg(document.getElementById('cmdIMAGE').value)" class="btn btn-warning" style="font-size:18px"><i class="fa fa-arrow-right" ></i> <strong>Send image to Epaper</strong></button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                </div>
+                <div class="col-md-6">
+                    <input id="delay" type="number" value="0" style="width: 3em"> <small>Millis delay between packets</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="100"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                <div id="status" style="width: 100%;height: 20px"></div>
                 </div>
             </div>
             Start reading image at position {{ image_offset }}, generating a {{ image_size }} bytes HEX array<br>
@@ -60,7 +78,7 @@
 
         <div class="col-md-5">
         <h4>Log viewer</h4>
-            <div id="status" style="width: 100%;height: 20px"><b>Upload status</b></div>
+
 {#            {{ dump(bmpheader) }}#}
             <div id="log"></div>
         </div>
@@ -72,6 +90,8 @@
 
 {% block javascripts %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-slider.min.css">
+    <script src="/js/engine/bootstrap-slider.min.js"></script>
     <script>
 
         let gattServer;
@@ -81,6 +101,26 @@
         let imgArray;
         let imgArrayLen = 0;
         let uploadPart = 0;
+        let delayInput = document.getElementById('delay');
+
+        function loadProcessedImg() {
+           document.getElementById('img_proc').src =  '{{ path('b_screen_ble_image', {'uuid':uuid}) }}';
+        }
+        var slider = new Slider('#ex1', {
+            formatter: function(value) {
+                delayInput.value = 100-value;
+                return 'Current ms delay: ' + value;
+            }
+        });
+        setTimeout(loadProcessedImg, 2000);
+
+        function sleep(millis) {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve();
+                }, millis);
+            });
+        }
 
         function resetVariables() {
             busy = false;
@@ -137,7 +177,10 @@
                 .catch(handleError);
         }
 
-        function sendIMGpart(){
+        async function sendIMGpart(){
+            if (delayInput.value) {
+                sleep(delayInput.value);
+            }
             if(imgArray.length > 0){
                 let currentpart = "03"+ imgArray.substring(0, 38);
                 imgArray = imgArray.substring(38);
