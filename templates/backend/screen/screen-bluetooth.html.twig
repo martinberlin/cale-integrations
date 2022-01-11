@@ -11,6 +11,7 @@
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <h3>Bluetooth send</h3>
+                <strong>First connect and only click on Send image when it turns green after a successful connection.</strong><br>
                 <small>Please note that this was tested only in Google Chrome and won't work on Firefox.
                     Additionally the <a href="{{ path('b_screen_render', {'uuid':uuid}) }}">Screen rendering</a> needs to use 1 bit pixel depth setting.</small>
             </div>
@@ -45,10 +46,10 @@
                 <button id="connectbutton" type="button" onclick="connect()" class="btn btn-primary" style="font-size:18px"><strong>Connect </strong><i class="fa fa-bluetooth"></i></button><br><br>
                 </div>
                 <div class="col-md-6">
-                <button type="button" onclick="sendimg(document.getElementById('cmdIMAGE').value)" class="btn btn-success" style="font-size:18px"><i class="fa fa-arrow-right" ></i> <strong>Send image to Epaper</strong></button>
+                <button id="sendimage" type="button" onclick="sendimg(document.getElementById('cmdIMAGE').value)" class="btn btn-warning" style="font-size:18px"><i class="fa fa-arrow-right" ></i> <strong>Send image to Epaper</strong></button>
                 </div>
             </div>
-            Start reading image at position {{ image_offset }}, generating {{ image_size }} bytes<br>
+            Start reading image at position {{ image_offset }}, generating a {{ image_size }} bytes HEX array<br>
             <textarea id="cmdIMAGE" rows="30" class="form-control">
 {{ image_bytes }}
 </textarea>
@@ -60,7 +61,7 @@
         <div class="col-md-5">
         <h4>Log viewer</h4>
             <div id="status" style="width: 100%;height: 20px"><b>Upload status</b></div>
-            <b>BMP header</b>{{ dump(bmpheader) }}
+            {{ dump(bmpheader) }}
             <div id="log"></div>
         </div>
         </div>
@@ -156,8 +157,9 @@
         function disconnect() {
             resetVariables();
             console.log('Disconnected.');
-            addLog('Disconnected.');
-            document.getElementById("connectbutton").innerHTML ='Connected';
+            addLog('Disconnected. Click again to connect to a new device');
+            document.getElementById("connectbutton").innerHTML ='<strong>Connect </strong><i class="fa fa-bluetooth"></i>';
+            document.getElementById("sendimage").className = 'btn btn-warning';
         }
 
         function connect() {
@@ -189,7 +191,8 @@
                         .then(characteristic => {
                             console.log('> Found write characteristic');
                             addLog('> Found write characteristic');
-                            document.getElementById("connectbutton").innerHTML ='Disconnect';
+                            document.getElementById("connectbutton").innerHTML = 'Disconnect';
+                            document.getElementById("sendimage").className = 'btn btn-success';
                             writeCharacteristic = characteristic;
                             return;
                         })
@@ -218,23 +221,6 @@
             return new Uint8Array(data).reduce(function(memo, i) {
                 return memo + ("0" + i.toString(16)).slice(-2);
             }, "");
-        }
-
-        window.onload = function() {
-            document.querySelector("#file").addEventListener("change", function() {
-                var reader = new FileReader();
-                reader.onload = function() {
-                    imgArray = bytesToHex(this.result);
-                    addLog("Image was selected, size: " + imgArray.length / 2 + " bytes");
-
-                    blockCount = imgArray.length / 32;
-                    addLog("Count: " + blockCount);
-                }
-                if (this.files[0] != null)
-                    reader.readAsArrayBuffer(this.files[0]);
-                else
-                    addLog("No file selected");
-            }, false);
         }
 
         function resetFileSelector(){

@@ -339,11 +339,15 @@ class BackendScreenController extends AbstractController
      * @return string
      * @throws \ImagickException
      */
-    private function screenImageBlobMirrored($bmpUrl) {
+    private function screenImageBlobProcess($bmpUrl, $rotation) {
         // Load
         $imageX = new \Imagick($bmpUrl);
         // Mirror it:
         $imageX->flopImage();
+        // Rotate it?
+        if ($rotation) {
+            $imageX->rotateImage(new \ImagickPixel('#00000000'), 90);
+        }
         $imageX->setImageFormat('bmp3');
         $imageX->setCompression(\Imagick::COMPRESSION_NO);
         return $imageX->getimageblob();
@@ -359,8 +363,13 @@ class BackendScreenController extends AbstractController
         }
         $bmpUrl = ($screen->getDisplay() instanceof Display) ?
             $this->imageUrlGenerator($screen->isOutSsl(), 'bmp', $screen->getUser()->getName(), $screen->getId()): '';
+        if ($screen->getDisplay()->getWidth() > 122) {
+            $bitmap = $this->screenImageBlobProcess($bmpUrl, true);
+        } else {
+            $bitmap = $this->screenImageBlobProcess($bmpUrl, false);
+        }
         $response = new Response();
-        $response->setContent($this->screenImageBlobMirrored($bmpUrl));
+        $response->setContent($bitmap);
         $response->headers->set('Content-Type', 'image/bmp');
         return $response;
     }
@@ -376,9 +385,11 @@ class BackendScreenController extends AbstractController
         $bmpUrl = ($screen->getDisplay() instanceof Display) ?
             $this->imageUrlGenerator($screen->isOutSsl(), 'bmp', $screen->getUser()->getName(), $screen->getId()): '';
 
-        if ($screen->getDisplay()->getWidth())
-        $bitmap = $this->screenImageBlobMirrored($bmpUrl);
-
+        if ($screen->getDisplay()->getWidth() > 122) {
+            $bitmap = $this->screenImageBlobProcess($bmpUrl, true);
+        } else {
+            $bitmap = $this->screenImageBlobProcess($bmpUrl, false);
+        }
         $bmp_header = $this->bmp_header($bitmap);
         $hexStr = bin2hex($bitmap);
         $hexArray = str_split($hexStr,2);
