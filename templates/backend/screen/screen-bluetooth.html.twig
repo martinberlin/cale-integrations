@@ -33,10 +33,10 @@
         <div class="col-md-7">
             <div class="row">
                 <div class="col-md-6">
-                    <img id="img_raw" src="{{ bmpUrl }}">
+                    <img id="img_raw" src="/assets/icon/preload.gif">
                 </div>
                 <div class="col-md-6">
-                    <img id="img_proc" src="/assets/icon/preload.gif">
+                    <img id="img_proc" src="{{ path('b_screen_ble_image', {'uuid':uuid}) }}">
                 </div>
             </div>
 
@@ -104,7 +104,7 @@
         let delayInput = document.getElementById('delay');
 
         function loadProcessedImg() {
-           document.getElementById('img_proc').src =  '{{ path('b_screen_ble_image', {'uuid':uuid}) }}';
+           document.getElementById('img_raw').src =  '{{ bmpUrl }}';
         }
         var slider = new Slider('#ex1', {
             formatter: function(value) {
