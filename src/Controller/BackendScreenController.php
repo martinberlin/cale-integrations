@@ -334,6 +334,38 @@ class BackendScreenController extends AbstractController
     }
 
     /**
+     * Simply returns the mirrored BMP
+     * @param $bmpUrl
+     * @return string
+     * @throws \ImagickException
+     */
+    private function screenImageBlobMirrored($bmpUrl) {
+        // Load
+        $imageX = new \Imagick($bmpUrl);
+        // Mirror it:
+        $imageX->flopImage();
+        $imageX->setImageFormat('bmp3');
+        $imageX->setCompression(\Imagick::COMPRESSION_NO);
+        return $imageX->getimageblob();
+    }
+
+    /**
+     * @Route("/ble_img_process/{uuid?}", name="b_screen_ble_image")
+     */
+    public function screenImageBle($uuid, ScreenRepository $screenRepository) {
+        $screen = $screenRepository->find($uuid);
+        if (!$screen instanceof Screen) {
+            throw $this->createNotFoundException("$uuid is not a valid screen");
+        }
+        $bmpUrl = ($screen->getDisplay() instanceof Display) ?
+            $this->imageUrlGenerator($screen->isOutSsl(), 'bmp', $screen->getUser()->getName(), $screen->getId()): '';
+        $response = new Response();
+        $response->setContent($this->screenImageBlobMirrored($bmpUrl));
+        $response->headers->set('Content-Type', 'image/bmp');
+        return $response;
+    }
+
+    /**
      * @Route("/ble_send/{uuid?}", name="b_screen_bluetooth")
      */
     public function screenBlue($uuid, Request $request, ScreenRepository $screenRepository) {
@@ -343,22 +375,30 @@ class BackendScreenController extends AbstractController
         }
         $bmpUrl = ($screen->getDisplay() instanceof Display) ?
             $this->imageUrlGenerator($screen->isOutSsl(), 'bmp', $screen->getUser()->getName(), $screen->getId()): '';
-        $bitmap = file_get_contents($bmpUrl);
+
+        if ($screen->getDisplay()->getWidth())
+        $bitmap = $this->screenImageBlobMirrored($bmpUrl);
+
         $bmp_header = $this->bmp_header($bitmap);
         $hexStr = bin2hex($bitmap);
         $hexArray = str_split($hexStr,2);
         $count = 0;
         $image_array = array();
         foreach ($hexArray as $byte) {
-            if ($bmp_header['bitmap_offset'] < $count) {
-                $count++;continue;
+            if ($count > $bmp_header['bitmap_offset']-1) {
+                $image_array[] = "0x".$byte;
             }
-            $image_array[] = "0x".$byte;
+            $count++;
         }
 
         return $this->render(
-            'backend/screen/screen-bluetooth.html.twig',
-            ['uuid' => $uuid, 'bmpheader' => $bmp_header, 'image_bytes' => implode(",", $image_array)]);
+            'backend/screen/screen-bluetooth.html.twig', [
+                'uuid' => $uuid,
+                'bmpheader' => $bmp_header,
+                'image_bytes' => implode(",", $image_array),
+                'image_size'  => sizeof($image_array),
+                'image_offset'  => $bmp_header['bitmap_offset']
+            ]);
 
     }
 }

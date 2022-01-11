@@ -11,34 +11,59 @@
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <h3>Bluetooth send</h3>
-                <small>Please note that this was tested only in Google Chrome and won't work on Firefox. Additionally the image rendering needs to use 1 bit pixel depth setting.</small>
+                <small>Please note that this was tested only in Google Chrome and won't work on Firefox.
+                    Additionally the <a href="{{ path('b_screen_render', {'uuid':uuid}) }}">Screen rendering</a> needs to use 1 bit pixel depth setting.</small>
             </div>
         </div>
     <div class="row">
-        <div class="col-md-6"><h4>Preview image</h4></div>
+        <div class="col-md-7">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Preview image</h4>
+                </div>
+                <div class="col-md-6">
+                    <h4>Post processed for price-tag</h4>
+                </div>
+            </div>
+        </div>
     </div>
+
     <div class="row">
-        <div class="col-md-6">
-        <img src="{{ path('b_render_image', {'uuid':uuid, 'isThumbnail':0}) }}">
+        <div class="col-md-7">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="{{ path('b_render_image', {'uuid':uuid, 'isThumbnail':0}) }}">
+                </div>
+                <div class="col-md-6">
+                    <img src="{{ path('b_screen_ble_image', {'uuid':uuid}) }}">
+                </div>
+            </div>
+
             <div style="width: 100%;height:40px"></div>
-            <button id="connectbutton" type="button" onclick="connect()" class="btn btn-primary">Connect <i class="fa fa-bluetooth" style="font-size:24px"></i></button><br><br>
-
-            <button type="button" onclick="sendimg(document.getElementById('cmdIMAGE').value)" class="btn btn-success">Send image to E-Paper</button><br>
-            <div id="status">Upload status</div><br>
-
-            <textarea id="cmdIMAGE" rows="50" cols="50">
+            <div class="row">
+                <div class="col-md-6">
+                <button id="connectbutton" type="button" onclick="connect()" class="btn btn-primary" style="font-size:18px"><strong>Connect </strong><i class="fa fa-bluetooth"></i></button><br><br>
+                </div>
+                <div class="col-md-6">
+                <button type="button" onclick="sendimg(document.getElementById('cmdIMAGE').value)" class="btn btn-success" style="font-size:18px"><i class="fa fa-arrow-right" ></i> <strong>Send image to Epaper</strong></button>
+                </div>
+            </div>
+            Start reading image at position {{ image_offset }}, generating {{ image_size }} bytes<br>
+            <textarea id="cmdIMAGE" rows="30" class="form-control">
 {{ image_bytes }}
 </textarea>
 
             <input type="text" id="cmdTXT" value="01">
             <button type="button" onclick="sendcmd(document.getElementById('cmdTXT').value)" class="btn btn-default">SendCMD</button>
         </div>
-        <div class="col-md-6">
+
+        <div class="col-md-5">
         <h4>Log viewer</h4>
+            <div id="status" style="width: 100%;height: 20px"><b>Upload status</b></div>
             <b>BMP header</b>{{ dump(bmpheader) }}
             <div id="log"></div>
         </div>
-    </div>
+        </div>
     <div class="row">
         <div class="col-md-9 card-footer">Disclaimer: This code to send the image via Bluetooth is an experimental test done by <a href="https://github.com/atc1441/ATC_TLSR_Paper" target="_blank">ATC1441</a> in his price labels hacking project</div>
     </div>
