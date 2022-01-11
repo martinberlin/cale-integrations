@@ -364,9 +364,10 @@ class BackendScreenController extends AbstractController
         $bmpUrl = ($screen->getDisplay() instanceof Display) ?
             $this->imageUrlGenerator($screen->isOutSsl(), 'bmp', $screen->getUser()->getName(), $screen->getId()): '';
         if ($screen->getDisplay()->getWidth() > 122) {
-            $bitmap = $this->screenImageBlobProcess($bmpUrl, true);
+            $bitmap = file_get_contents($bmpUrl."?flop=1&rotate=1");
         } else {
-            $bitmap = $this->screenImageBlobProcess($bmpUrl, false);
+            //$bitmap = $this->screenImageBlobProcess($bmpUrl, false);
+            $bitmap = file_get_contents($bmpUrl."?flop=1&rotate=0");
         }
         $response = new Response();
         $response->setContent($bitmap);
@@ -386,9 +387,9 @@ class BackendScreenController extends AbstractController
             $this->imageUrlGenerator($screen->isOutSsl(), 'bmp', $screen->getUser()->getName(), $screen->getId()): '';
 
         if ($screen->getDisplay()->getWidth() > 122) {
-            $bitmap = $this->screenImageBlobProcess($bmpUrl, true);
+            $bitmap = file_get_contents($bmpUrl."?flop=1&rotate=1");
         } else {
-            $bitmap = $this->screenImageBlobProcess($bmpUrl, false);
+            $bitmap = file_get_contents($bmpUrl."?flop=1&rotate=0");
         }
         $bmp_header = $this->bmp_header($bitmap);
         $hexStr = bin2hex($bitmap);
@@ -408,7 +409,8 @@ class BackendScreenController extends AbstractController
                 'bmpheader' => $bmp_header,
                 'image_bytes' => implode(",", $image_array),
                 'image_size'  => sizeof($image_array),
-                'image_offset'  => $bmp_header['bitmap_offset']
+                'image_offset'  => $bmp_header['bitmap_offset'],
+                'bmpUrl' => $bmpUrl
             ]);
 
     }
