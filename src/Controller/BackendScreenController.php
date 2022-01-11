@@ -319,4 +319,46 @@ class BackendScreenController extends AbstractController
         return $response;
     }
 
+    private function bmp_header($bmp)
+    {
+        $header = "vfile_type/Vfile_size/Vreserved/Vbitmap_offset";
+        $header .= '/Vheader_size/Vwidth/Vheight/vplanes/vbits_per_pixel' .
+            '/Vcompression/Vsize_bitmap/Vhoriz_resolution' .
+            '/Vvert_resolution/Vcolors_used/Vcolors_important';
+        $file = unpack($header, $bmp);
+
+        // check for bitmap WINDOWS
+        if ($file['file_type'] != 19778)
+            return false;
+        return $file;
+    }
+
+    /**
+     * @Route("/ble_send/{uuid?}", name="b_screen_bluetooth")
+     */
+    public function screenBlue($uuid, Request $request, ScreenRepository $screenRepository) {
+        $screen = $screenRepository->find($uuid);
+        if (!$screen instanceof Screen) {
+            throw $this->createNotFoundException("$uuid is not a valid screen");
+        }
+        $bmpUrl = ($screen->getDisplay() instanceof Display) ?
+            $this->imageUrlGenerator($screen->isOutSsl(), 'bmp', $screen->getUser()->getName(), $screen->getId()): '';
+        $bitmap = file_get_contents($bmpUrl);
+        $bmp_header = $this->bmp_header($bitmap);
+        $hexStr = bin2hex($bitmap);
+        $hexArray = str_split($hexStr,2);
+        $count = 0;
+        $image_array = array();
+        foreach ($hexArray as $byte) {
+            if ($bmp_header['bitmap_offset'] < $count) {
+                $count++;continue;
+            }
+            $image_array[] = "0x".$byte;
+        }
+
+        return $this->render(
+            'backend/screen/screen-bluetooth.html.twig',
+            ['uuid' => $uuid, 'bmpheader' => $bmp_header, 'image_bytes' => implode(",", $image_array)]);
+
+    }
 }

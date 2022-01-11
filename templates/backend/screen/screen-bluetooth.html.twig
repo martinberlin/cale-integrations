@@ -1,0 +1,220 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+{% set extra_visibility = 'visible' %}
+{% set extra_display = 'block' %}
+{% if is_new %}
+    {% set extra_visibility = 'hidden' %}
+    {% set extra_display = 'none' %}
+{% endif %}
+
+{% block body %}
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <h3>Bluetooth send</h3>
+                <small>Please note that this was tested only in Google Chrome and won't work on Firefox. Additionally the image rendering needs to use 1 bit pixel depth setting.</small>
+            </div>
+        </div>
+    <div class="row">
+        <div class="col-md-6"><h4>Preview image</h4></div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+        <img src="{{ path('b_render_image', {'uuid':uuid, 'isThumbnail':0}) }}">
+            <div style="width: 100%;height:40px"></div>
+            <button id="connectbutton" type="button" onclick="connect()" class="btn btn-primary">Connect <i class="fa fa-bluetooth" style="font-size:24px"></i></button><br><br>
+
+            <button type="button" onclick="sendimg(document.getElementById('cmdIMAGE').value)" class="btn btn-success">Send image to E-Paper</button><br>
+            <div id="status">Upload status</div><br>
+
+            <textarea id="cmdIMAGE" rows="50" cols="50">
+{{ image_bytes }}
+</textarea>
+
+            <input type="text" id="cmdTXT" value="01">
+            <button type="button" onclick="sendcmd(document.getElementById('cmdTXT').value)" class="btn btn-default">SendCMD</button>
+        </div>
+        <div class="col-md-6">
+        <h4>Log viewer</h4>
+            <b>BMP header</b>{{ dump(bmpheader) }}
+            <div id="log"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9 card-footer">Disclaimer: This code to send the image via Bluetooth is an experimental test done by <a href="https://github.com/atc1441/ATC_TLSR_Paper" target="_blank">ATC1441</a> in his price labels hacking project</div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script>
+
+        let gattServer;
+        let Theservice;
+        let writeCharacteristic;
+        let busy = false;
+        let imgArray;
+        let imgArrayLen = 0;
+        let uploadPart = 0;
+
+        function resetVariables() {
+            busy = false;
+            gattServer = null;
+            Theservice = null;
+            writeCharacteristic = null;
+            document.getElementById("log").value = '';
+        }
+
+        function handleError(error) {
+            console.log(error);
+            resetVariables();
+        }
+
+        function sendCommand(cmd) {
+            if (writeCharacteristic) {
+                if (busy) {
+                    return Promise.resolve();
+                }
+                busy = true;
+                return writeCharacteristic.writeValue(cmd).then(() => {
+                    busy = false;
+                });
+            } else {
+                return Promise.resolve();
+            }
+        }
+
+        function sendcmd(cmdTXT) {
+            console.log('SendCMDnow');
+            let cmd = hexToBytes(cmdTXT);
+            addLog('Send CMD: ' + cmdTXT);
+            console.log('Send CMD: ');
+            console.log(cmdTXT);
+            console.log('Send CMD bytes: ');
+            console.log(cmd);
+            sendCommand(cmd).then(() => {
+                console.log('CMD was Send');
+
+            })
+                .catch(handleError);
+        }
+
+        function sendimg(cmdIMG) {
+            imgArray = cmdIMG.replace(/(?:\r\n|\r|\n|,|0x| )/g, '');
+            imgArrayLen = imgArray.length;
+            uploadPart = 0;
+            console.log('Sending image ' + imgArrayLen);
+            sendCommand(hexToBytes("0000")).then(() => {
+                sendCommand(hexToBytes("020000")).then(() => {
+                    sendIMGpart();
+                })
+            })
+                .catch(handleError);
+        }
+
+        function sendIMGpart(){
+            if(imgArray.length > 0){
+                let currentpart = "03"+ imgArray.substring(0, 38);
+                imgArray = imgArray.substring(38);
+                setStatus('Current part: '+ uploadPart++);
+                console.log('Curr Part: '+ currentpart);
+                sendCommand(hexToBytes(currentpart)).then(() => {
+                    sendIMGpart();
+                })
+            }else{
+                console.log('Last Part: '+ imgArray);
+                sendCommand(hexToBytes("01")).then(() => {
+                    console.log('Update was send');
+                })
+            }
+        }
+
+        function disconnect() {
+            resetVariables();
+            console.log('Disconnected.');
+            addLog('Disconnected.');
+            document.getElementById("connectbutton").innerHTML ='Connected';
+        }
+
+        function connect() {
+            if (gattServer != null && gattServer.connected) {
+                disconnect();
+            } else {
+                console.log('Connecting...');
+                addLog('Connecting...');
+                if (writeCharacteristic == null) {
+                    navigator.bluetooth.requestDevice({
+                        optionalServices: ['13187b10-eba9-a3ba-044e-83d3217d9a38'],
+                        acceptAllDevices: true
+                    })
+                        .then(device => {
+                            console.log('> ' + device.name);
+                            console.log('Connecting to GATT Server...');
+                            return device.gatt.connect();
+                        })
+                        .then(server => {
+                            console.log('> Found GATT server');
+                            gattServer = server;
+                            return gattServer.getPrimaryService('13187b10-eba9-a3ba-044e-83d3217d9a38');
+                        })
+                        .then(service => {
+                            console.log('> Found service');
+                            Theservice = service;
+                            return Theservice.getCharacteristic('4b646063-6264-f3a7-8941-e65356ea82fe');
+                        })
+                        .then(characteristic => {
+                            console.log('> Found write characteristic');
+                            addLog('> Found write characteristic');
+                            document.getElementById("connectbutton").innerHTML ='Disconnect';
+                            writeCharacteristic = characteristic;
+                            return;
+                        })
+                        .catch(handleError);
+                } else {
+
+                }
+            }
+        }
+
+        function setStatus(statusText){
+            document.getElementById("status").innerHTML = statusText;
+        }
+
+        function addLog(logTXT){
+            document.getElementById("log").innerHTML += logTXT+ '<br>';
+        }
+
+        function hexToBytes(hex) {
+            for (var bytes = [], c = 0; c < hex.length; c += 2)
+                bytes.push(parseInt(hex.substr(c, 2), 16));
+            return new Uint8Array(bytes);
+        }
+
+        function bytesToHex(data) {
+            return new Uint8Array(data).reduce(function(memo, i) {
+                return memo + ("0" + i.toString(16)).slice(-2);
+            }, "");
+        }
+
+        window.onload = function() {
+            document.querySelector("#file").addEventListener("change", function() {
+                var reader = new FileReader();
+                reader.onload = function() {
+                    imgArray = bytesToHex(this.result);
+                    addLog("Image was selected, size: " + imgArray.length / 2 + " bytes");
+
+                    blockCount = imgArray.length / 32;
+                    addLog("Count: " + blockCount);
+                }
+                if (this.files[0] != null)
+                    reader.readAsArrayBuffer(this.files[0]);
+                else
+                    addLog("No file selected");
+            }, false);
+        }
+
+        function resetFileSelector(){
+            document.getElementById("file").value = '';
+        };
+
+    </script>
+{% endblock javascripts %}
