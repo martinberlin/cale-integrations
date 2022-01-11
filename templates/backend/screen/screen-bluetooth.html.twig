@@ -33,10 +33,10 @@
         <div class="col-md-7">
             <div class="row">
                 <div class="col-md-6">
-                    <img src="{{ bmpUrl }}">
+                    <img id="img_raw" src="{{ bmpUrl }}">
                 </div>
                 <div class="col-md-6">
-                    <img src="{{ path('b_screen_ble_image', {'uuid':uuid}) }}">
+                    <img id="img_proc" src="{{ path('b_screen_ble_image', {'uuid':uuid}) }}">
                 </div>
             </div>
 
