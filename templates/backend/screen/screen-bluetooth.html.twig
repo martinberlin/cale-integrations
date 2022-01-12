@@ -27,6 +27,12 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-5">
+            <h4>Log viewer</h4>
+            <div id="status" style="width: 100%;height: 20px;font-family:'Courier New', Courier, monospace"></div>
+            {#            {{ dump(bmpheader) }}#}
+            <div id="log" style="font-family:'Courier New', Courier, monospace"></div>
+        </div>
     </div>
 
     <div class="row">
@@ -53,18 +59,13 @@
                 <div class="col-md-6">
                 </div>
                 <div class="col-md-6">
-                    <input id="delay" type="number" value="0" style="width: 3em"> <small>Millis delay between packets</small>
+                    <input id="delay" type="number" value="0" style="width: 3.1em"> <small>Millis delay between packets</small>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6"></div>
                 <div class="col-md-6">
                 <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="100"/>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                <div id="status" style="width: 100%;height: 20px"></div>
                 </div>
             </div>
             Start reading image at position {{ image_offset }}, generating a {{ image_size }} bytes HEX array<br>
@@ -76,12 +77,7 @@
             <button type="button" onclick="sendcmd(document.getElementById('cmdTXT').value)" class="btn btn-default">SendCMD</button>
         </div>
 
-        <div class="col-md-5">
-        <h4>Log viewer</h4>
 
-{#            {{ dump(bmpheader) }}#}
-            <div id="log"></div>
-        </div>
         </div>
     <div class="row">
         <div class="col-md-9 card-footer">Disclaimer: This code to send the image via Bluetooth is an experimental test done by <a href="https://github.com/atc1441/ATC_TLSR_Paper" target="_blank">ATC1441</a> in his price labels hacking project</div>
@@ -184,6 +180,7 @@
             if(imgArray.length > 0){
                 let currentpart = "03"+ imgArray.substring(0, 38);
                 imgArray = imgArray.substring(38);
+
                 setStatus('Current part: '+ uploadPart++);
                 console.log('Curr Part: '+ currentpart);
                 sendCommand(hexToBytes(currentpart)).then(() => {
