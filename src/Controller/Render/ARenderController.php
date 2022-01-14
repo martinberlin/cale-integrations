@@ -39,7 +39,8 @@ class ARenderController extends AbstractController
             if ($bColor === $fColor) {
                 $fColor = '#D8D8D8';
             }
-           $colorStyle = ' style="color:'.$fColor.';background-color:'.$bColor.'"';
+            $colorStyle = ' style="color:'.$fColor.';background-color:'.$bColor.'"';
+
         } else {
             if ($bColor === $fColor) {
                 $bColor = '#E8E8E8';
@@ -47,7 +48,7 @@ class ARenderController extends AbstractController
             $backColor = new Color();
             $backColor->set_hex($bColor);
             $backColor->modify(120,120,120);
-            $colorStyle = ' style="background-color:#'.$backColor->get_hex().';color:'.$fColor.'"';
+            $colorStyle = ' style="background-color:#'.$backColor->get_hex().';color:'.$fColor.';border:1px solid '.$bColor.'"';
         }
         return $colorStyle;
     }
