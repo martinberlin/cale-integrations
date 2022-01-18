@@ -49,7 +49,8 @@
                     <h4>Description</h4>
                     {{ d.htmlDescription|raw }}
                     <br><br>
-                    <a href="{{ d.purchaseUrl }}" target="_blank">Purchase link</a>
+                    {% if d.purchaseUrl != '' %}<a href="{{ d.purchaseUrl }}" target="_blank">Purchase link</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

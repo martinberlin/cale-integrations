@@ -48,7 +48,9 @@
 
                 <td><a href="{{ d.manualUrl }}" target="_blank">webpage</a>
                     <br><br>
-                    <button class="btn btn-primary" onclick="window.location='{{ d.purchaseUrl }}'">Buy</button><br><br>
+                    {% if d.purchaseUrl != '' %}<button class="btn btn-primary" onclick="window.location='{{ d.purchaseUrl }}'">Buy</button>
+                    {% endif %}
+                    <br><br>
                     <a href="{{ path('eink-landing', {'brand': d.brand, 'id':d.id}) }}">Details</a>
                 </td>
             </tr>
