@@ -392,23 +392,36 @@ class BackendScreenController extends AbstractController
             $bitmap = file_get_contents($bmpUrl."?flop=1&rotate=0");
         }
         $bmp_header = $this->bmp_header($bitmap);
-        $hexStr = bin2hex($bitmap);
-        $hexArray = str_split($hexStr,2);
-        $count = 0;
+
+        $image_data = substr($bitmap, $bmp_header['bitmap_offset'], strlen($bitmap));
+        // Needs PECL extension
+        $compressed = lzf_compress($image_data);
+        // Convert that bytes
+        $hexCompStr = bin2hex($compressed);
+        $hexComp = str_split($hexCompStr,2);
+        $hexImgStr = bin2hex($image_data);
+        $hexImgArray = str_split($hexImgStr,2);
+
         $image_array = array();
-        foreach ($hexArray as $byte) {
-            if ($count > $bmp_header['bitmap_offset']-1) {
-                $image_array[] = "0x".$byte;
-            }
-            $count++;
+        $comp_bytes  = array();
+        foreach ($hexImgArray as $byte) {
+            $image_array[] = "0x".$byte;
         }
 
+        foreach ($hexComp as $byte) {
+            $comp_bytes[] = "0x".$byte;
+        }
+        $image_size = count($image_array);
+        $comp_size = count($comp_bytes);
         return $this->render(
             'backend/screen/screen-bluetooth.html.twig', [
                 'uuid' => $uuid,
                 'bmpheader' => $bmp_header,
                 'image_bytes' => implode(",", $image_array),
-                'image_size'  => sizeof($image_array),
+                'comp_bytes' => implode(",", $comp_bytes),
+                'image_size'  => $image_size,
+                'comp_size' => $comp_size,
+                'comp_ratio' => round( $image_size/$comp_size,1),
                 'image_offset'  => $bmp_header['bitmap_offset'],
                 'bmpUrl' => $bmpUrl
             ]);
