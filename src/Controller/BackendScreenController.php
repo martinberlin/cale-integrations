@@ -427,4 +427,32 @@ class BackendScreenController extends AbstractController
             ]);
 
     }
+
+    /**
+     * @Route("/ble_jpg/{uuid?}", name="b_screen_ble_jpg")
+     */
+    public function screenBleJpg($uuid, Request $request, ScreenRepository $screenRepository) {
+        $screen = $screenRepository->find($uuid);
+        if (!$screen instanceof Screen) {
+            throw $this->createNotFoundException("$uuid is not a valid screen");
+        }
+        $jpgUrl = ($screen->getDisplay() instanceof Display) ?
+            $this->imageUrlGenerator($screen->isOutSsl(), 'jpg', $screen->getUser()->getName(), $screen->getId()): '';
+
+        $jpg = file_get_contents($jpgUrl);
+
+        // Convert that bytes
+        $hexStr = bin2hex($jpg);
+        $image_size = strlen($jpg);
+        $hex_size = strlen($hexStr);
+        return $this->render(
+            'backend/screen/screen-ble-jpg.html.twig', [
+            'uuid' => $uuid,
+            'image_bytes' => $hexStr,
+            'image_size'  => $image_size,
+            'hex_size' => $hex_size,
+            'jpgUrl' => $jpgUrl
+        ]);
+
+    }
 }
