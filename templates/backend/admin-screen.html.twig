@@ -74,6 +74,10 @@
                         <a class="btn {{ btnstyle }} btn-default" href="{{ path('b_screen_bluetooth', {'uuid':s.id}) }}"
                            data-toggle="tooltip" title="Chrome: Send using Bluetooth">
                         <span class="glyphicon glyphicon-share-alt"></span> Bluetooth</a>
+                        {% elseif s.display.width == 960 %}
+                            <a class="btn {{ btnstyle }} btn-default" href="{{ path('b_screen_ble_jpg', {'uuid':s.id}) }}"
+                               data-toggle="tooltip" title="Chrome: Send using Bluetooth">
+                                <span class="glyphicon glyphicon-share-alt"></span> Ble JPG</a>
                     {% endif %}
                 {% endif %}
 
