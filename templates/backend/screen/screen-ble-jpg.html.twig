@@ -46,7 +46,7 @@
     <div class="row">
         <div class="col-md-7">
            Imaze size: {{ image_size }} bytes. HEX payload: {{ hex_size }} (2 chars per byte)<br>
-            <textarea id="cmdIMAGE" rows="30" class="form-control">{{ image_bytes }}</textarea>
+            <textarea id="cmdIMAGE" rows="30" cols="60" class="form-control">{{ image_bytes }}</textarea>
 
             <input type="text" id="cmdTXT" value="01">
             <button type="button" onclick="sendcmd(document.getElementById('cmdTXT').value)" class="btn btn-default">SendCMD</button>
@@ -62,6 +62,8 @@
     <link rel="stylesheet" href="/css/bootstrap-slider.min.css">
     <script src="/js/engine/bootstrap-slider.min.js"></script>
     <script>
+        let sendByteChunks = 128+128;
+
         // Regular expression to check if string is a valid UUID
         const regexExp = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
 
@@ -141,11 +143,7 @@
             imgArrayLen = imgArray.length;
             uploadPart = 0;
             console.log('Sending image ' + imgArrayLen);
-            sendCommand(hexToBytes("0000")).then(() => {
-                sendCommand(hexToBytes("020000")).then(() => {
-                    sendIMGpart();
-                })
-            })
+            sendIMGpart()
                 .catch(handleError);
         }
 
@@ -153,23 +151,23 @@
             if (delayInput.value) {
                 sleep(delayInput.value);
             }
+
             if(imgArray.length > 0){
-                let currentpart = "03"+ imgArray.substring(0, 38);
-                imgArray = imgArray.substring(38);
+                let currentpart = imgArray.substring(0, sendByteChunks);
+                imgArray = imgArray.substring(sendByteChunks);
 
                 setStatus('Current part: '+ uploadPart++);
-                console.log('Curr Part: '+ currentpart);
                 sendCommand(hexToBytes(currentpart)).then(() => {
                     sendIMGpart();
                 })
-            }else{
+
+            } else {
                 console.log('Last Part: '+ imgArray);
                 console.log('Full JPG was send');
 
-                /*sendCommand(hexToBytes("01")).then(() => {
+                sendCommand(hexToBytes("01")).then(() => {
                     console.log('Update was send');
                 })
-                */
             }
         }
 
@@ -206,7 +204,6 @@
                         .then(service => {
                             console.log('> Found service');
                             Theservice = service;
-                            console.log(Theservice.getCharacteristics());
                             return Theservice.getCharacteristic(char_uuid);
                         })
                         .then(characteristic => {

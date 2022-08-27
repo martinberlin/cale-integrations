@@ -445,10 +445,24 @@ class BackendScreenController extends AbstractController
         $hexStr = bin2hex($jpg);
         $image_size = strlen($jpg);
         $hex_size = strlen($hexStr);
+
+        $image_array = array(" ");
+        $hexImgArray = str_split($hexStr,2);
+        $count = 0;
+        foreach ($hexImgArray as $byte) {
+            $count++;
+
+            if ($count%16 === 0) {
+                $image_array[] = $byte."\n";
+            } else {
+                $image_array[] = $byte;
+            }
+        }
+
         return $this->render(
             'backend/screen/screen-ble-jpg.html.twig', [
             'uuid' => $uuid,
-            'image_bytes' => $hexStr,
+            'image_bytes' => implode(" ", $image_array), // $image_array
             'image_size'  => $image_size,
             'hex_size' => $hex_size,
             'jpgUrl' => $jpgUrl
