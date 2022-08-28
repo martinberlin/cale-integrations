@@ -62,16 +62,15 @@
     <link rel="stylesheet" href="/css/bootstrap-slider.min.css">
     <script src="/js/engine/bootstrap-slider.min.js"></script>
     <script>
-        let sendByteChunks = 128+128;
+        let sendByteChunks = 896; // 128*6: 768 128*7: 896
 
         // Regular expression to check if string is a valid UUID
         const regexExp = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
 
         let service_uuid = '0000180d-0000-1000-8000-00805f9b34fb';
-        let char_uuid =    '00006063-6264-f3a7-8941-e65356ea82fe';
-        char_uuid = service_uuid;
+        let char_uuid =    '0000180d-0000-1000-8000-00805f9b34fb';
+        console.log("SERV uuid: "+regexExp.test(service_uuid)+"CHAR valid: "+ regexExp.test(char_uuid))
 
-        console.log("CHAR valid: "+ regexExp.test(char_uuid))
         let gattServer;
         let Theservice;
         let writeCharacteristic;
@@ -163,11 +162,13 @@
 
             } else {
                 console.log('Last Part: '+ imgArray);
-                console.log('Full JPG was send');
 
-                sendCommand(hexToBytes("01")).then(() => {
-                    console.log('Update was send');
+                addLog('> Full JPG was sent');
+                let update_display_cmd = "01";
+                sendCommand(hexToBytes(update_display_cmd)).then(() => {
+                    console.log('Update was sent');
                 })
+                addLog('> 0x'+update_display_cmd+' CMD send to update display');
             }
         }
 
