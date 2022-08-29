@@ -444,7 +444,6 @@ class BackendScreenController extends AbstractController
         // Convert that bytes
         $hexStr = bin2hex($jpg);
         $image_size = strlen($jpg);
-        $hex_size = strlen($hexStr);
 
         $image_array = array(" ");
         $hexImgArray = str_split($hexStr,2);
@@ -464,7 +463,6 @@ class BackendScreenController extends AbstractController
             'uuid' => $uuid,
             'image_bytes' => implode(" ", $image_array), // $image_array
             'image_size'  => $image_size,
-            'hex_size' => $hex_size,
             'jpgUrl' => $jpgUrl
         ]);
 

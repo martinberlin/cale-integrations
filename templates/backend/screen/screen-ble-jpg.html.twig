@@ -45,7 +45,7 @@
     </div>
     <div class="row">
         <div class="col-md-7">
-           Imaze size: {{ image_size }} bytes. HEX payload: {{ hex_size }} (2 chars per byte)<br>
+           Imaze size: {{ image_size }} bytes<br>
             <textarea id="cmdIMAGE" rows="30" cols="60" class="form-control">{{ image_bytes }}</textarea>
 
             <input type="text" id="cmdTXT" value="01">
@@ -164,7 +164,7 @@
                 console.log('Last Part: '+ imgArray);
 
                 addLog('> Full JPG was sent');
-                let update_display_cmd = "01";
+                let update_display_cmd = "09";
                 sendCommand(hexToBytes(update_display_cmd)).then(() => {
                     console.log('Update was sent');
                 })
