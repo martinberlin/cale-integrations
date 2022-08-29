@@ -68,7 +68,7 @@
         // Very funny: SERV uuid: true CHAR valid: false   (When they are both the same!)
         //console.log("SERV uuid: "+regexExp.test(service_uuid)+" CHAR valid: "+ regexExp.test(char_uuid))
 
-        let image_size = 0{{ image_size }};
+        let image_size = {{ image_size }};
         let gattServer;
         let Theservice;
         let writeCharacteristic;
@@ -143,7 +143,7 @@
         }
 
         async function sendIMGpart(){
-            console.log(imgArray.length);
+            //console.log(imgArray.length);
 
             if(imgArray.length > 0){
                 let currentpart = imgArray.substring(0, sendByteChunks);
@@ -238,6 +238,7 @@
         }
 
         function cmdUint32(cmd, number) {
+            console.log("Uint32:"+number)
             var byte0 = cmd;
             var byte1 = 0xff & number;
             var byte2 = 0xff & (number >> 8);
