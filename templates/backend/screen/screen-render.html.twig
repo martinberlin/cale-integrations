@@ -95,12 +95,12 @@
                         {{ form_widget(form.imgDither) }} {{ form_label(form.imgDither) }}<br>
                         {#<small>{{ 'only_esp32_supported'|trans }}</small>#}
                     </div>
-                    <div class="col-md-1 col-sm-6 col-xs-6">
-                        {{ form_row(form.outJpegCompression) }}
-                        <small>Only JPG</small>
-                    </div>
                     <div class="col-md-2 col-sm-6 col-xs-6">
-                        <label>Advanced</label><br>
+                        {{ form_row(form.outJpegCompression) }}
+                        <div style="text-align:center" id="jpg_compression"></div>
+                    </div>
+                    <div class="col-md-1 col-sm-6 col-xs-6">
+                        <label>Extra</label><br>
                         {{ form_widget(form.outSsl) }} {{ form_label(form.outSsl) }}<br>
                         {{ form_widget(form.outCompressed) }} {{ form_label(form.outCompressed) }}<br>
                     </div>
@@ -167,5 +167,11 @@
         if (window.focus) {o.focus()}
         return false;
     }
+
+   let jpeg_comp_range = document.getElementById('outJpegCompression')
+    let jpg_compression = document.getElementById('jpg_compression')
+    jpg_compression.innerText = jpeg_comp_range.value
+    jpeg_comp_range.onchange=function(){ jpg_compression.innerText = this.value }
+
 </script>
 {% endblock %}
