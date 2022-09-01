@@ -89,11 +89,15 @@
                     <div class="col-md-1 col-sm-12 col-xs-12">
                         {{ form_row(form.outCacheSeconds) }}
                     </div>
-                    <div class="col-md-2 col-sm-6 col-xs-6">
+                    <div class="col-md-1 col-sm-6 col-xs-6">
                         <label>Imagick</label><br>
                         {{ form_widget(form.imgDitherOptions) }}
                         {{ form_widget(form.imgDither) }} {{ form_label(form.imgDither) }}<br>
                         {#<small>{{ 'only_esp32_supported'|trans }}</small>#}
+                    </div>
+                    <div class="col-md-1 col-sm-6 col-xs-6">
+                        {{ form_row(form.outJpegCompression) }}
+                        <small>Only JPG</small>
                     </div>
                     <div class="col-md-2 col-sm-6 col-xs-6">
                         <label>Advanced</label><br>
