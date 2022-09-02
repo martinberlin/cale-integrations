@@ -248,6 +248,8 @@ class BackendScreenController extends AbstractController
         $imageType = ($isDisplayAssigned && $screen->getDisplay()->getType()==='eink') ?'bmp':'jpg';
         $imageUrl = ($isDisplayAssigned) ?
             $this->imageUrlGenerator($screen->isOutSsl(), $imageType, $this->getUser()->getName(), $screen->getId()): '';
+        $imageJpgUrl = ($isDisplayAssigned) ?
+            $this->imageUrlGenerator($screen->isOutSsl(), 'jpg', $this->getUser()->getName(), $screen->getId()): '';
 
         $renderParams = [
             'uuid' => $uuid,
@@ -260,6 +262,7 @@ class BackendScreenController extends AbstractController
             'form' => $form->createView(),
             'html_url' => $htmlUrl,
             'image_url' => $imageUrl,
+            'image_jpg_url' => $imageJpgUrl,
             'menu' => $this->menu
         ];
         $htmlPerColumn['Header'] = '';

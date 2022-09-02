@@ -122,7 +122,12 @@
                            class="btn btn-default form-control">
                             <span class="glyphicon glyphicon-paperclip"></span> {{ 'screen_edit_partials'|trans }}</a>
                     </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6 text-right">
+                    <div class="col-md-3 col-sm-6 col-xs-6" style="margin-top:0.4em">
+                        {% if screen_image_type == 'BMP' %}
+                            <a href="{{ image_jpg_url }}" target="_blank" style="color:white">{{ image_jpg_url }}</a>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-1 col-sm-6 col-xs-6 text-right">
                     {{ form_widget(form.submit) }}
                     </div>
                 </div>
