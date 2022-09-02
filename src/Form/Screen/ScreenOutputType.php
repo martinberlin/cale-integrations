@@ -7,6 +7,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -115,7 +117,18 @@ class ScreenOutputType extends AbstractType
                 [
                     'value' => 1,
                     'required' => false,
-                    'label' => 'Zlib compressed',
+                    'label' => 'Zlib',
+                    'attr' => ['title' => 'Zlib compressed is just experimental and for BMP']
+                ])
+            ->add('outJpegCompression', RangeType::class,
+                [
+                    'required' => false,
+                    'label' => 'Compression quality (JPG)',
+                    'attr' => [
+                        'maxlength' => 2,
+                        'min' => 50,
+                        'max' => 99
+                    ]
                 ])
             ->add('outSsl', CheckboxType::class,
                 [
@@ -127,7 +140,7 @@ class ScreenOutputType extends AbstractType
                 [
                     'value' => 1,
                     'required' => false,
-                    'label' => 'Enable dithering',
+                    'label' => 'Enable dither',
                 ])
             ->add('imgDitherOptions', ChoiceType::class,
                 [

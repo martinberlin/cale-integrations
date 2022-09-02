@@ -248,6 +248,8 @@ class BackendScreenController extends AbstractController
         $imageType = ($isDisplayAssigned && $screen->getDisplay()->getType()==='eink') ?'bmp':'jpg';
         $imageUrl = ($isDisplayAssigned) ?
             $this->imageUrlGenerator($screen->isOutSsl(), $imageType, $this->getUser()->getName(), $screen->getId()): '';
+        $imageJpgUrl = ($isDisplayAssigned) ?
+            $this->imageUrlGenerator($screen->isOutSsl(), 'jpg', $this->getUser()->getName(), $screen->getId()): '';
 
         $renderParams = [
             'uuid' => $uuid,
@@ -260,6 +262,7 @@ class BackendScreenController extends AbstractController
             'form' => $form->createView(),
             'html_url' => $htmlUrl,
             'image_url' => $imageUrl,
+            'image_jpg_url' => $imageJpgUrl,
             'menu' => $this->menu
         ];
         $htmlPerColumn['Header'] = '';
@@ -425,6 +428,46 @@ class BackendScreenController extends AbstractController
                 'image_offset'  => $bmp_header['bitmap_offset'],
                 'bmpUrl' => $bmpUrl
             ]);
+
+    }
+
+    /**
+     * @Route("/ble_jpg/{uuid?}", name="b_screen_ble_jpg")
+     */
+    public function screenBleJpg($uuid, Request $request, ScreenRepository $screenRepository) {
+        $screen = $screenRepository->find($uuid);
+        if (!$screen instanceof Screen) {
+            throw $this->createNotFoundException("$uuid is not a valid screen");
+        }
+        $jpgUrl = ($screen->getDisplay() instanceof Display) ?
+            $this->imageUrlGenerator($screen->isOutSsl(), 'jpg', $screen->getUser()->getName(), $screen->getId()): '';
+
+        $jpg = file_get_contents($jpgUrl);
+
+        // Convert that bytes
+        $hexStr = bin2hex($jpg);
+        $image_size = strlen($jpg);
+
+        $image_array = array(" ");
+        $hexImgArray = str_split($hexStr,2);
+        $count = 0;
+        foreach ($hexImgArray as $byte) {
+            $count++;
+
+            if ($count%16 === 0) {
+                $image_array[] = $byte."\n";
+            } else {
+                $image_array[] = $byte;
+            }
+        }
+
+        return $this->render(
+            'backend/screen/screen-ble-jpg.html.twig', [
+            'uuid' => $uuid,
+            'image_bytes' => implode(" ", $image_array), // $image_array
+            'image_size'  => $image_size,
+            'jpgUrl' => $jpgUrl
+        ]);
 
     }
 }

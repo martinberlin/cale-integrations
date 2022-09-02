@@ -9,9 +9,13 @@
         "ext-json": "*",
         "ext-openssl": "*",
         "aws/aws-sdk-php-symfony": "^2.2",
+        "davefx/phplot": "6.2.1",
+        "doctrine/doctrine-bundle": "^2.7",
         "doctrine/doctrine-migrations-bundle": "^2.1",
+        "doctrine/orm": "^2.13",
         "endroid/qr-code": "^3.7",
         "google/apiclient": "^2.4",
+        "gregwar/captcha-bundle": "2.1.4",
         "johngrogg/ics-parser": "^2",
         "sensio/framework-extra-bundle": "^5.4",
         "symfony/console": "^4.4",
@@ -20,27 +24,32 @@
         "symfony/form": "^4.4",
         "symfony/framework-bundle": "^4.4",
         "symfony/http-client": "^4.4",
-        "symfony/orm-pack": "dev-master",
-        "symfony/profiler-pack": "dev-master",
+        "symfony/proxy-manager-bridge": "^4.4",
         "symfony/security-bundle": "^4.4",
         "symfony/swiftmailer-bundle": "^3.4@dev",
         "symfony/translation": "^4.4",
-        "symfony/twig-pack": "dev-master",
+        "symfony/twig-bundle": "^4.4",
         "symfony/validator": "^4.4",
         "symfony/yaml": "^4.4",
-        "gregwar/captcha-bundle": "2.1.4",
-        "davefx/phplot": "6.2.1"
+        "twig/extra-bundle": "^2.12|^3.0",
+        "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
-        "symfony/debug-pack": "dev-master",
-        "doctrine/doctrine-fixtures-bundle": "^3.2"
+        "doctrine/doctrine-fixtures-bundle": "^3.2",
+        "symfony/debug-bundle": "^4.4",
+        "symfony/monolog-bundle": "^3.0",
+        "symfony/stopwatch": "^4.4",
+        "symfony/web-profiler-bundle": "^4.4"
     },
     "config": {
         "optimize-autoloader": true,
         "preferred-install": {
             "*": "dist"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "symfony/flex": true
+        }
     },
     "autoload": {
         "psr-4": {

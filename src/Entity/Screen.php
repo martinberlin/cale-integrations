@@ -92,6 +92,11 @@ class Screen implements Created
     protected $outCompressed;
 
     /**
+     * @ORM\Column(type="integer", nullable=true, options={"default" : 90})
+     */
+    protected $outJpegCompression;
+
+    /**
      * @ORM\Column(type="boolean", nullable=true)
      */
     protected $loggingActive;
@@ -406,6 +411,16 @@ class Screen implements Created
     public function setOutCompressed($outCompressed)
     {
         $this->outCompressed = $outCompressed;
+    }
+
+    public function getOutJpegCompression()
+    {
+        return $this->outJpegCompression;
+    }
+
+    public function setOutJpegCompression($outCompressed)
+    {
+        $this->outJpegCompression = $outCompressed;
     }
 
     /**
