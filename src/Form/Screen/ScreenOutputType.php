@@ -86,6 +86,7 @@ class ScreenOutputType extends AbstractType
                 'bitdepth' => [
                     '1 bit' => 1,
                     '4 bit' => 4,
+                    '8 bit gray' => 8,
                     '24 TFT' => 24,
                     ],
                 'data_class' => Screen::class
