@@ -1,0 +1,72 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+    </style>
+
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <h3>{{ 'nav_pcb_cinwrite'|trans }}</h3>
+<b>Das Ziel des Cinwrite HAT ist die Bereitstellung von WLAN, RTC und 3,3 bis 5 V Step-up für ein schnelles E-Paper-Update, das den IT8951 antreibt als SPI slave peripheral.</b>
+    Schon in seine dritte revision Cinwrite wurde bereits ein paar Mal auf Tindie verkauft und versorgt einige Geschäfte mit E-Paper-Panels, die die Zeit kennen und Sensorinformationen anzeigen.
+    <img src="/img/www/product/cinwrite-front.jpg?">
+    <a class="btn btn-primary btn-empty" href="https://www.tindie.com/stores/fasani" role="button">▲ Unsere PCB kaufen</a>
+    <a class="btn btn-default btn-empty" href="#features" role="button">▼ Überprüfen Sie, was es bietet</a>
+    <a class="btn btn-default btn-empty" href="https://github.com/martinberlin/epaper-weather-station" role="button">Open source Firmware demos</a>
+    <a class="btn btn-default" href="https://certification.oshwa.org/es000029.html" role="button">OSHWA zertifizierte</a>
+    <a class="btn btn-default" href="https://github.com/martinberlin/H-cinread-it8951/blob/main/Schematic/IT8951-S3-HAT-Schematic.pdf" role="button">Electronic schematics</a>
+
+    <h3>What is it?</h3>
+    Die Cinwrite PCB ist ein HAT, der auf einem <a href="https://www.good-display.com/product/425.html" target="_blank">DEXA-C097 IT8951 controller</a> verwendet werden kann.
+
+    <img src="/img/www/product/cinwrite-front-tagged.jpg"><br>
+    <caption>Revision 1.2 bietet einen zusätzlichen I2C-Grove-Anschluss (kompatibel mit Seeed-Sensoren)</caption>
+    <a name="features" id="features"></a><br><br>
+    <h3>Angebotene Funktionen:</h3>
+    <ul>
+       <li>Wlan (WiFi Konnektivität)</li>
+        <li>BLE. Oder Bluetooth Low Energy</li>
+        <li>DS3231 real time clock</li>
+        <li>40Mhz SPI</li>
+        <li>Batterie nach 5V Aufwärtswandler und Load-switch (ENABLE mit IO 38 High)</li>
+        <li>3.7v LiPo Akkuladegerät</li>
+        <li>I2C connectors (Sensors)</li>
+        <li>Zusätzlicher SPI-Anschluss (Mit seine eigene Busy & CS IO)</li>
+    </ul>
+
+    <img src="/img/www/product/boost-converter.png">
+    <caption>Boost converter Aufwärtswandler mit 5V output damit du kontrollieren kannst IT8951 epaper Regler oder mini-PC wie Raspberry PI (Max: 900 mA)</caption>
+    <br>
+    <img src="/img/www/product/cinwrite-back.jpg">
+    <caption>Back side showing the SPI IOs and Grove connector</caption>
+
+    <img src="/img/www/product/cinwrite-with-it8951-and-epaper.jpg">
+    <caption>Mit eine IT8951 da unten und ein 1200x825 epaper display</caption>
+    <br>
+    <h3>Video demo</h3>
+    <video width="100%" controls>
+    <source src="https://cale.s3.eu-central-1.amazonaws.com/img/www/cinwrite-chinese.mp4" type=video/mp4>
+    </video>
+    In dieser Demo wird Unicode-Chinesisch mit Google Noto Font und einer Komponente namens Open Font Render gerendert.
+    Der Plan ist, Open-Source-Demos zu erstellen, die in jeder Sprache verwendet werden können,
+    nicht nur mit westlichen Schriftzeichen, sondern unterstützt auch Asiatische oder Arabische Ideogrammen.
+    <br>
+    <a class="btn btn-primary btn-empty" href="https://www.tindie.com/products/fasani/cinwrite-dexa-c097-hat-for-parallel-epapers/" role="button">Cinwrite PCB kaufen in Tindie store</a>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

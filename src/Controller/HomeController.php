@@ -297,4 +297,12 @@ class HomeController extends AbstractController
             ['title' => $translator->trans('nav_api_crypto')]
         );
     }
+
+    public function productCinwrite(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/product/cinwrite.html.twig',
+            ['title' => $translator->trans('nav_pcb_cinwrite')]
+        );
+    }
 }

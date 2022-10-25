@@ -253,3 +253,11 @@ www_api-crypto-candles:
     _locale: en
   requirements:
     _locale: '%locales%'
+
+www_product-cinwrite:
+  path:       /product/cinwrite/{_locale}
+  controller: App\Controller\HomeController::productCinwrite
+  defaults:
+    _locale: en
+  requirements:
+    _locale: '%locales%'
