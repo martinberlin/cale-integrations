@@ -261,3 +261,11 @@ www_product-cinwrite:
     _locale: en
   requirements:
     _locale: '%locales%'
+
+news_good-display:
+  path:       /collaboration/Good-Display/{_locale}
+  controller: App\Controller\HomeController::goodDisplay
+  defaults:
+    _locale: en
+  requirements:
+    _locale: '%locales%'

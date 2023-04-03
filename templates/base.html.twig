@@ -21,14 +21,16 @@
         {# Bootstrap 3 core CSS #}
     {% if app.environment != 'dev' %}
         <link href="{{ cdn_s3 }}/css/bootstrap.min.css" rel="stylesheet">
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-161455060-1"></script>
+
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-WPXS5ZLVRC"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'UA-161455060-1');
-            gtag('config', 'AW-1065885836');
+            gtag('config', 'G-WPXS5ZLVRC');
         </script>
+
     {% else %}
         <link href="/css/bootstrap.min.css" rel="stylesheet">
     {% endif %}
@@ -80,8 +82,7 @@
                         <a href="{{ path('privacy-policy') }}">{{ 'nav_privacy'|trans }}</a> |
                         <a href="{{ path('apis') }}">{{ 'nav_apis'|trans }}</a> |
                         <a href="{{ path('firmware') }}">ESP32 Firmware</a> |
-                        <a href="{{ path('about-ethereum') }}">{{ 'nav_ethereum_short'|trans }}</a> |
-                        Sponsored by: <a href="https://www.good-display.com"><img src="/assets/good-display-small.png"></a>
+                        Sponsored by: <a href="{{ path('news_good-display') }}"><img src="/assets/good-display-small.png"></a>
                     </p>
 
                     {% if app.user is null and the_route != 'home'

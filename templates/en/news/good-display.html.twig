@@ -1,0 +1,64 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+    </style>
+{% endblock stylesheets %}
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="col-md-8 col-sm-8 col-xs-12" style="margin-top: -2em">
+        <h3>
+            <span class="cale" style="font-weight:bold">CALE collaboration agreement with Good-Display</span>
+        </h3>
+
+        <b>Good Display</b> is one of leading manufacturer of electronic paper displays in China.
+        <b>Fasani Corp.</b> is the company behind CALE.es website and also the maintainer of CalEPD and Touch components that work with most of Good-Display SPI epapers.
+        Founded in 2020, on a cold German winter, CALE is service to deliver great quality Bitmaps or JPGs to your displays. That can connect to APIs like Google Calendar, Weather apps, #
+        and also internal Galleries that are hosted in our Amazon Web Servers in Frankturt am Main, Germany.<br>
+        Martin Fasani also is a <a href="https://github.com/vroland/epdiy/graphs/contributors" target="_blank">collaborator of EPDiy</a> which is a very complex hardware
+        and software project to control parallel epapers using ESP32 and ESP32-S3 in it's newest V7 model.
+        <br>
+        Is in this context, that Fasani Corporation and Good Display, collaborate in order to promote the use of epaper displays to a wider audience. But also to
+        build great hardware and open source software, so everyone in the community can benefit from it, and build great Firmware using the best Hardware available in the market.
+        <br>
+        We also stand for custom works, displays that show weather information using 4 grays, or 3 & 4 colors. That are both low consumption, but also can be connected 24/7 to a plug,
+        and deliver every minute updated information about anything. Remote image URLs, Bluetooth and any protocol that Espressif offers in their MCU workhorses.
+
+        <h3>References</h3>
+
+        <a href="https://www.good-display.com"><img src="/assets/good-display.png"></a> Our Chinese Harware partner.</br></br>
+
+        <a href="https://github.com/martinberlin/cale-idf">Cale-idf</a> is where our development of both the SPI epaper component and the touch part is developed.
+        There you can find many different examples on how to use it and a extensive <a href="https://github.com/martinberlin/cale-idf/wiki">epaper technical WiKi</a>
+        where we explain many implementation details.<br><br>
+
+        <a href="https://github.com/martinberlin/CalEPD">CalEPD</a> is the epaper library which is ready to be added as an ESP-IDF component.
+<br><br>
+        <a href="https://github.com/martinberlin/FT6X36-IDF">FT6X36-IDF</a> is the touch library, that is ready to be added as an ESP-IDF component, to your project.
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 col-sm-4 col-xs-12"></div>
+        <div class="col-md-4 col-sm-4 col-xs-12 text-center">
+            <button type="button" class="btn btn-success form-control" onclick="window.location='{{ path('register') }}'">
+                Register here to receive the newsletter</button>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{% endblock %}

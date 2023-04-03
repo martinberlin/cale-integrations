@@ -305,4 +305,12 @@ class HomeController extends AbstractController
             ['title' => $translator->trans('nav_pcb_cinwrite')]
         );
     }
+
+    public function goodDisplay(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/news/good-display.html.twig',
+            ['title' => $translator->trans('nav_good-display')]
+        );
+    }
 }
