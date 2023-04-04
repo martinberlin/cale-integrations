@@ -262,6 +262,14 @@ www_product-cinwrite:
   requirements:
     _locale: '%locales%'
 
+www_product-c3-epaper:
+  path:       /product/c3-epaper/{_locale}
+  controller: App\Controller\HomeController::productC3Epaper
+  defaults:
+    _locale: en
+  requirements:
+    _locale: '%locales%'
+
 news_good-display:
   path:       /collaboration/Good-Display/{_locale}
   controller: App\Controller\HomeController::goodDisplay

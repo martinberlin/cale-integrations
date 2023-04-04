@@ -31,6 +31,7 @@ nav_epapers_for_sale: Epapers for sale
 nav_demo_display: Image generation demos
 nav_digital_art: Digital art frame
 nav_pcb_cinwrite: Our ESP32S3 SPI master controller
+nav_pcb_c3_24: Our ESP32-C3 epaper w/touch controller
 nav_good-display: Good Display collaboration
 # NAV BACKEND
 navb_api: Content

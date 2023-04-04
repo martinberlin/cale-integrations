@@ -306,6 +306,14 @@ class HomeController extends AbstractController
         );
     }
 
+    public function productC3Epaper(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/product/c3-controller-24fpc.html.twig',
+            ['title' => $translator->trans('nav_pcb_c3_24')]
+        );
+    }
+
     public function goodDisplay(Request $request, TranslatorInterface $translator)
     {
         return $this->render(
