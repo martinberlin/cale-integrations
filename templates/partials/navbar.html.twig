@@ -8,7 +8,9 @@
             </button>
 
             <span class="visible-lg-inline-block visible-md-inline-block visible-sm-inline-block visible-xs-inline-block" style="margin-top: -0.4em">
-                    <a href="/"><img src="/assets/cale-logo-black.svg" width="150"></a>
+                <a href="/"><img src="/assets/cale-logo-black.svg" width="150"></a>
+
+                <a href="https://www.good-display.com"><img src="/assets/good-display.png"></a>
                 </span>
         </div>
 
@@ -23,7 +25,7 @@
                                 class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ path('about-cale') }}">{{ 'nav_about'|trans }}</a></li>
-                        <li><a href="{{ path('about-ethereum') }}">{{ 'nav_ethereum'|trans }}</a></li>
+                        <li><a href="{{ path('news_good-display') }}">{{ 'nav_good-display'|trans }}</a></li>
                         <li><a href="{{ path('about-3d-model') }}">{{ 'nav_3d'|trans }}</a></li>
                         <li><a href="{{ path('transparently') }}">
                                 {{ 'nav_transparently_built'|trans }}</a></li>
@@ -33,6 +35,8 @@
                         {{ 'nav_service'|trans }} <span
                                 class="caret"></span></a>
                     <ul class="dropdown-menu">
+                        <li><a href="{{ path('displays-eink') }}">Epaper displays</a></li>
+                        <li><a href="{{ path('www_product-c3-epaper') }}">C3 epaper controller</a></li>
                         <li><a href="{{ path('www_epapers-sale') }}">
                                 {{ 'nav_epapers_for_sale'|trans }}</a></li>
                         <li><a href="{{ path('www_service-pricing') }}">
@@ -40,7 +44,7 @@
                         <li><a href="{{ path('www_server-architecture') }}">{{ 'nav_server_architecture'|trans }}</a></li>
                         <li><a href="{{ path('apis') }}">{{ 'nav_apis'|trans }}</a></li>
                         <li><a href="{{ path('www_api-cloudwatch') }}">{{ 'nav_api_cloudwatch'|trans }}</a></li>
-                        <li><a href="{{ path('displays-eink') }}">Eink Displays</a></li>
+                        <li><a href="{{ path('www_api-crypto-candles') }}">{{ 'nav_api_crypto'|trans }}</a></li>
                         <li><a href="{{ path('displays-tft') }}">TFT Displays</a></li>
                     </ul>
                 </li>

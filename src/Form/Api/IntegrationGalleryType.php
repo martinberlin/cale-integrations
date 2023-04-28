@@ -44,6 +44,7 @@ class IntegrationGalleryType extends AbstractType
                         new File([
                             'maxSize' => $options['max_size'].'k',
                             'mimeTypes' => [
+                                'image/webp',
                                 'image/jpeg',
                                 'image/bmp',
                                 'image/png',

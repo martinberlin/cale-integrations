@@ -1,0 +1,78 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+    </style>
+
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <h3>{{ 'nav_pcb_cinwrite'|trans }}</h3>
+<b>The goal of the Cinwrite HAT is to provide WiFi, an RTC and 3.3 to 5V step-up for a fast epaper update driving IT8951 as SPI master</b>
+    Already in it's third revision Cinwrite has been already sold a couple of times on Tindie and it's powering some stores with epaper panels that are aware of time and display sensors information.
+    <img src="/img/www/product/cinwrite-front.jpg?">
+    <a class="btn btn-primary btn-empty" href="https://www.tindie.com/stores/fasani" role="button">▲ Buy this PCB in our Tindie store</a>
+    <a class="btn btn-default btn-empty" href="#features" role="button">▼ Check what it offers</a>
+    <a class="btn btn-default btn-empty" href="https://github.com/martinberlin/epaper-weather-station" role="button">Open source Firmware demos</a>
+    <a class="btn btn-default" href="https://certification.oshwa.org/es000029.html" role="button">OSHWA certified design</a>
+    <a class="btn btn-default" href="https://github.com/martinberlin/H-cinread-it8951/blob/main/Schematic/IT8951-S3-HAT-Schematic.pdf" role="button">Electronic schematics</a>
+
+    <h3>What is it?</h3>
+    The Cinwrite PCB is a HAT to use on top of <a href="https://www.good-display.com/product/425.html" target="_blank">DEXA-C097 IT8951 controller</a>.
+    Please note that this PCB is pin compatible with an IT8951 epaper controller that is actually sold by Good-Display. But more than that it is a full pfleged Espressif ESP32S3
+    board, that exposes an SPI interface, and 2 I2C connectors. The SPI interface has the possibility to control 2 peripherals offering their respective Chip Select and Busy pins.
+    Below you can see an image showing what does what in the PCB.
+    <img src="/img/www/product/cinwrite-front-tagged.jpg"><br>
+    <caption>Rev 1.2 offers an additional I2C Grove connector (Compatible with Seeed sensors)</caption>
+    <a name="features" id="features"></a><br><br>
+    <h3>Features offered:</h3>
+    <ul>
+       <li>WiFi</li>
+        <li>BLE. Important point: BLE, not Bluetooth classic (Only ESP32 has BT-classic)</li>
+        <li>DS3231 real time clock</li>
+        <li>Fast 40Mhz SPI</li>
+        <li>Battery to 5V step-up (And a way to enable this boost converter)</li>
+        <li>3.7v LiPo battery charger</li>
+        <li>I2C connectors (Sensors)</li>
+        <li>Additional SPI connector (With own Busy & CS pin)</li>
+    </ul>
+
+    What is great of having an RTC on board is that you can reduce consumption making your Firmware sleep all night in case it's a display and does not need to
+    get updated when no-one is in the office. And being time compensated and with a CR1220 battery backup, you can ensure it will be in time for long, offering the
+    possibility to be aware of day of the week, month, year and precise time.
+    <img src="/img/www/product/boost-converter.png">
+    <caption>Boost converted circuit with 5V so you can control IT8951 boards or a mini-PC like Raspberry PI (Limited to 900 mA, not secured for more)</caption>
+    <br>
+    <img src="/img/www/product/cinwrite-back.jpg">
+    <caption>Back side showing the SPI IOs and Grove connector</caption>
+
+    <img src="/img/www/product/cinwrite-with-it8951-and-epaper.jpg">
+    <caption>Connected to an IT8951 board below and a 1200x825 epaper display</caption>
+    <br>
+    <h3>Video demo</h3>
+    <video width="100%" controls>
+    <source src="https://cale.s3.eu-central-1.amazonaws.com/img/www/cinwrite-chinese.mp4" type=video/mp4>
+    </video>
+    In this demo it does render Unicode Chinese using Google Noto Font and a component called Open Font Render which renders vector fonts on the fly.
+    The plan is to make open source demos that can be used in any language,
+    not only with western characters, but supporting your native way of writing.
+    This panels where so far featured only in Barcelona showing CO2, temperature and other readings in a factory in Martorell.
+    <br>
+    <a class="btn btn-primary btn-empty" href="https://www.tindie.com/products/fasani/cinwrite-dexa-c097-hat-for-parallel-epapers/" role="button">Buy this PCB in our Tindie store</a>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

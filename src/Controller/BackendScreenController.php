@@ -248,6 +248,8 @@ class BackendScreenController extends AbstractController
         $imageType = ($isDisplayAssigned && $screen->getDisplay()->getType()==='eink') ?'bmp':'jpg';
         $imageUrl = ($isDisplayAssigned) ?
             $this->imageUrlGenerator($screen->isOutSsl(), $imageType, $this->getUser()->getName(), $screen->getId()): '';
+        $imageJpgUrl = ($isDisplayAssigned) ?
+            $this->imageUrlGenerator($screen->isOutSsl(), 'jpg', $this->getUser()->getName(), $screen->getId()): '';
 
         $renderParams = [
             'uuid' => $uuid,
@@ -260,6 +262,7 @@ class BackendScreenController extends AbstractController
             'form' => $form->createView(),
             'html_url' => $htmlUrl,
             'image_url' => $imageUrl,
+            'image_jpg_url' => $imageJpgUrl,
             'menu' => $this->menu
         ];
         $htmlPerColumn['Header'] = '';
@@ -319,4 +322,152 @@ class BackendScreenController extends AbstractController
         return $response;
     }
 
+    private function bmp_header($bmp)
+    {
+        $header = "vfile_type/Vfile_size/Vreserved/Vbitmap_offset";
+        $header .= '/Vheader_size/Vwidth/Vheight/vplanes/vbits_per_pixel' .
+            '/Vcompression/Vsize_bitmap/Vhoriz_resolution' .
+            '/Vvert_resolution/Vcolors_used/Vcolors_important';
+        $file = unpack($header, $bmp);
+
+        // check for bitmap WINDOWS
+        if ($file['file_type'] != 19778)
+            return false;
+        return $file;
+    }
+
+    /**
+     * Simply returns the mirrored BMP
+     * @param $bmpUrl
+     * @return string
+     * @throws \ImagickException
+     */
+    private function screenImageBlobProcess($bmpUrl, $rotation) {
+        // Load
+        $imageX = new \Imagick($bmpUrl);
+        // Mirror it:
+        $imageX->flopImage();
+        // Rotate it?
+        if ($rotation) {
+            $imageX->rotateImage(new \ImagickPixel('#00000000'), 90);
+        }
+        $imageX->setImageFormat('bmp3');
+        $imageX->setCompression(\Imagick::COMPRESSION_NO);
+        return $imageX->getimageblob();
+    }
+
+    /**
+     * @Route("/ble_img_process/{uuid?}", name="b_screen_ble_image")
+     */
+    public function screenImageBle($uuid, ScreenRepository $screenRepository) {
+        $screen = $screenRepository->find($uuid);
+        if (!$screen instanceof Screen) {
+            throw $this->createNotFoundException("$uuid is not a valid screen");
+        }
+        $bmpUrl = ($screen->getDisplay() instanceof Display) ?
+            $this->imageUrlGenerator($screen->isOutSsl(), 'bmp', $screen->getUser()->getName(), $screen->getId()): '';
+        if ($screen->getDisplay()->getWidth() > 122) {
+            $bitmap = file_get_contents($bmpUrl."?flop=1&rotate=1");
+        } else {
+            //$bitmap = $this->screenImageBlobProcess($bmpUrl, false);
+            $bitmap = file_get_contents($bmpUrl."?flop=1&rotate=0");
+        }
+        $response = new Response();
+        $response->setContent($bitmap);
+        $response->headers->set('Content-Type', 'image/bmp');
+        return $response;
+    }
+
+    /**
+     * @Route("/ble_send/{uuid?}", name="b_screen_bluetooth")
+     */
+    public function screenBlue($uuid, Request $request, ScreenRepository $screenRepository) {
+        $screen = $screenRepository->find($uuid);
+        if (!$screen instanceof Screen) {
+            throw $this->createNotFoundException("$uuid is not a valid screen");
+        }
+        $bmpUrl = ($screen->getDisplay() instanceof Display) ?
+            $this->imageUrlGenerator($screen->isOutSsl(), 'bmp', $screen->getUser()->getName(), $screen->getId()): '';
+
+        if ($screen->getDisplay()->getWidth() > 122) {
+            $bitmap = file_get_contents($bmpUrl."?flop=1&rotate=1");
+        } else {
+            $bitmap = file_get_contents($bmpUrl."?flop=1&rotate=0");
+        }
+        $bmp_header = $this->bmp_header($bitmap);
+
+        $image_data = substr($bitmap, $bmp_header['bitmap_offset'], strlen($bitmap));
+        // Needs PECL extension
+        $compressed = lzf_compress($image_data);
+        // Convert that bytes
+        $hexCompStr = bin2hex($compressed);
+        $hexComp = str_split($hexCompStr,2);
+        $hexImgStr = bin2hex($image_data);
+        $hexImgArray = str_split($hexImgStr,2);
+
+        $image_array = array();
+        $comp_bytes  = array();
+        foreach ($hexImgArray as $byte) {
+            $image_array[] = "0x".$byte;
+        }
+
+        foreach ($hexComp as $byte) {
+            $comp_bytes[] = "0x".$byte;
+        }
+        $image_size = count($image_array);
+        $comp_size = count($comp_bytes);
+        return $this->render(
+            'backend/screen/screen-bluetooth.html.twig', [
+                'uuid' => $uuid,
+                'bmpheader' => $bmp_header,
+                'image_bytes' => implode(",", $image_array),
+                'comp_bytes' => implode(",", $comp_bytes),
+                'image_size'  => $image_size,
+                'comp_size' => $comp_size,
+                'comp_ratio' => round( $image_size/$comp_size,1),
+                'image_offset'  => $bmp_header['bitmap_offset'],
+                'bmpUrl' => $bmpUrl
+            ]);
+
+    }
+
+    /**
+     * @Route("/ble_jpg/{uuid?}", name="b_screen_ble_jpg")
+     */
+    public function screenBleJpg($uuid, Request $request, ScreenRepository $screenRepository) {
+        $screen = $screenRepository->find($uuid);
+        if (!$screen instanceof Screen) {
+            throw $this->createNotFoundException("$uuid is not a valid screen");
+        }
+        $jpgUrl = ($screen->getDisplay() instanceof Display) ?
+            $this->imageUrlGenerator($screen->isOutSsl(), 'jpg', $screen->getUser()->getName(), $screen->getId()): '';
+
+        $jpg = file_get_contents($jpgUrl);
+
+        // Convert that bytes
+        $hexStr = bin2hex($jpg);
+        $image_size = strlen($jpg);
+
+        $image_array = array(" ");
+        $hexImgArray = str_split($hexStr,2);
+        $count = 0;
+        foreach ($hexImgArray as $byte) {
+            $count++;
+
+            if ($count%16 === 0) {
+                $image_array[] = $byte."\n";
+            } else {
+                $image_array[] = $byte;
+            }
+        }
+
+        return $this->render(
+            'backend/screen/screen-ble-jpg.html.twig', [
+            'uuid' => $uuid,
+            'image_bytes' => implode(" ", $image_array), // $image_array
+            'image_size'  => $image_size,
+            'jpgUrl' => $jpgUrl
+        ]);
+
+    }
 }

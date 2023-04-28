@@ -1,0 +1,48 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+    </style>
+{% endblock stylesheets %}
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="col-md-8 col-sm-8 col-xs-12" style="margin-top: -2em">
+        <h3>
+            <span class="cale" style="font-weight:bold">CALE partnershaft mit Good-Display</span>
+        </h3>
+
+        <b>Good Display</b> ist einer der führenden Hersteller von elektronischen Papierdisplays in China.
+        <b>Fasani Corp.</b> ist die Unternehmen das hat CALE.es konzipiert. Auch Martin Fasani hat CalEPD und Touch components die mit Good-Display SPI Papierdisplays zusammenarbeiten gebaut.
+        Gegründet in 2020, an einem kalten deutschen Winter, CALE ist ein service die Bitmaps und JPEG Bildern für epapers vorbereitet. Dann ist einfach eine URL, oder einem
+        secure URL, und in Echtzeit generierte Bilder herunterzuladen.<br>
+        Martin Fasani ist auch einer <a href="https://github.com/vroland/epdiy/graphs/contributors" target="_blank">EPDiy Maintainer</a> das ist eine komplex Hardware
+        und open-source Software Projekt mit das Ziel, Paralell-epapers zu controllieren mit nur eine PCB und Espressif MCU.
+        <br>
+        In diesem Zusammenhang arbeiten Fasani Corporation und Good Display zusammen, um die Verwendung von E-Paper-Displays einem breiteren Publikum bekannt zu machen. Aber auch zu
+        Erstellen Sie großartige Hardware und Open-Source-Software, damit jeder in der Community davon profitieren kann, und erstellen Sie großartige Firmware mit der besten auf dem Markt erhältlichen Hardware.<br>
+
+
+        <h3>References</h3>
+
+        <a href="https://github.com/martinberlin/CalEPD">CalEPD</a> epaper ESP-IDF component (Meistens SPI epapers).
+<br><br>
+        <a href="https://github.com/martinberlin/FT6X36-IDF">FT6X36-IDF</a> ESP-IDF Touch component.
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{% endblock %}

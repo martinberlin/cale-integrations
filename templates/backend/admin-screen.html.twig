@@ -70,6 +70,15 @@
                 <a class="btn {{ btnstyle }} btn-default" href="{{ path('b_screen_render', {'uuid':s.id}) }}"
                    data-toggle="tooltip" title="Preview your screen in HTML">
                             <span class="glyphicon glyphicon-screenshot"></span> {{'screen_render'|trans}}</a>
+                    {% if s.display.width == 122 or  s.display.width == 250 %}
+                        <a class="btn {{ btnstyle }} btn-default" href="{{ path('b_screen_bluetooth', {'uuid':s.id}) }}"
+                           data-toggle="tooltip" title="Chrome: Send using Bluetooth">
+                        <span class="glyphicon glyphicon-share-alt"></span> Bluetooth</a>
+                        {% elseif s.display.width == 960 or s.display.width == 1200 %}
+                            <a class="btn {{ btnstyle }} btn-default" href="{{ path('b_screen_ble_jpg', {'uuid':s.id}) }}"
+                               data-toggle="tooltip" title="Chrome: Send using Bluetooth">
+                                <span class="glyphicon glyphicon-share-alt"></span> Ble JPG</a>
+                    {% endif %}
                 {% endif %}
 
                 {% if s.partials|length==0 %}

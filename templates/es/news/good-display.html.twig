@@ -1,0 +1,61 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+    </style>
+{% endblock stylesheets %}
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="col-md-8 col-sm-8 col-xs-12" style="margin-top: -2em">
+        <h3>
+            <span class="cale" style="font-weight:bold">Acuerdo de colaboración entre <span class="cale">CALE</span> y Good-Display</span>
+        </h3>
+
+        <b>Good Display</b> es uno de los principales fabricantes de Epaper displays en China.
+        <b>Fasani Corp.</b> es la compañia detras del sitio web CALE.es y que mantiene los componentes <b>CalEPD</b> y otras librerias Touch
+        que funcionan con la mayoría de los displays del fabricante Good-Display.
+        Fundada en 2020, en un frio invierno alemán, CALE es el servicio que te permite bajar imagenes tipo Bitmap o JPGs desde tu Firmware en
+        MCU's Espressif o de cualquier otro tipo como los nuevos Arduino con WiFi.
+        <br>
+        Martin Fasani es también un <a href="https://github.com/vroland/epdiy/graphs/contributors" target="_blank">colaborador de EPDiy</a> que es un hardware complejo
+        y un proyecto de software open-source para controlar epapers con interfaz paralela usando micro-controladores Espressif (de 8 o 16 bits en su nueva versión V7).
+        <br>
+        Es en este contexto de colaboración, que Fasani Corporation y Good Display, esponsorizan este projecto con el fin de promover el use de los displays epaper
+        a una mayor audiencia. Pero también con la misión de construir buen Hardware y mantener nuestros componentes open-source así la comunidad puede beneficiarse de ello,
+        y ello facilite crear un buen Firmware para sus clientes o sus proyectos personales.
+
+        <h3>Referencias</h3>
+        <a href="https://github.com/martinberlin/cale-idf">Cale-idf</a> es donde creamos los componentes de SPI epaper y Touch.
+        Allí puedes encontrar muchos ejemplos diferentes de como usarlos y también un <a href="https://github.com/martinberlin/cale-idf/wiki">WiKi</a>
+        donde explicamos detalles técnicos y de implementación de cada modelo de display.<br><br>
+
+        <a href="https://github.com/martinberlin/CalEPD">CalEPD</a> es el componente epaper para Espressif ESP-IDF.
+<br><br>
+        <a href="https://github.com/martinberlin/FT6X36-IDF">FT6X36-IDF</a>  es el componente Touch para Espressif ESP-IDF.
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 col-sm-4 col-xs-12"></div>
+        <div class="col-md-4 col-sm-4 col-xs-12 text-center">
+            <button type="button" class="btn btn-success form-control" onclick="window.location='{{ path('register') }}'">
+                Registrate aquí para recibir nuestra newsletter</button>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{% endblock %}

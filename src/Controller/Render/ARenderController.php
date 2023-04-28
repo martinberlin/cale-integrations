@@ -36,9 +36,19 @@ class ARenderController extends AbstractController
         $fColor = ($partial->getInvertedColor()===false) ? $partial->getForegroundColor() : $partial->getBackgroundColor();
         $bColor = ($partial->getInvertedColor()===false) ? $partial->getBackgroundColor() : $partial->getForegroundColor();
         if ($invert === false) {
-        $colorStyle = ' style="color:'.$fColor.';background-color:'.$bColor.'"';
+            if ($bColor === $fColor) {
+                $fColor = '#D8D8D8';
+            }
+            $colorStyle = ' style="color:'.$fColor.';background-color:'.$bColor.'"';
+
         } else {
-            $colorStyle = ' style="background-color:'.$fColor.';color:'.$bColor.'"';
+            if ($bColor === $fColor) {
+                $bColor = '#E8E8E8';
+            }
+            $backColor = new Color();
+            $backColor->set_hex($bColor);
+            $backColor->modify(120,120,120);
+            $colorStyle = ' style="background-color:#'.$backColor->get_hex().';color:'.$fColor.';border:1px solid '.$bColor.'"';
         }
         return $colorStyle;
     }
@@ -46,9 +56,18 @@ class ARenderController extends AbstractController
         $fColor = ($partial->getInvertedColor()===false) ? $partial->getForegroundColor() : $partial->getBackgroundColor();
         $bColor = ($partial->getInvertedColor()===false) ? $partial->getBackgroundColor() : $partial->getForegroundColor();
         if ($invert === false) {
+            if ($bColor === $fColor) {
+                $fColor = '#D8D8D8';
+            }
             $colorStyle = "color:$fColor;background-color:$bColor";
         } else {
-            $colorStyle = "background-color:$fColor;color:$bColor";
+            if ($bColor === $fColor) {
+                $bColor = '#E8E8E8';
+            }
+            $backColor = new Color();
+            $backColor->set_hex($bColor);
+            $backColor->modify(120,120,120);
+            $colorStyle = "background-color:$bColor;color:$fColor";
         }
         return $colorStyle;
     }
@@ -160,7 +179,7 @@ class ARenderController extends AbstractController
             $responseContent .= '<div class="row"' . $invertedColorStyle . '>';
             $responseContent .= '<div class="col-md-12"><' . $hs . '>' . $event->summary . '</' . $hs . '></div>' .
                 '</div>' .
-                '<div class="row">' .
+                '<div class="row"'. $mainColorStyle .'>' .
                 '<div class="col-md-12"><' . $hs . '>' . $fromTo . '</' . $hs . '></div>' .
                 '</div>';
             $responseContent .= '<div class="row">';
@@ -269,11 +288,11 @@ class ARenderController extends AbstractController
                 }
                 $attr = $item->attributes;
                 $isAllDay = $attr->all_day;
-                $start = new \DateTime($attr->start_at, new \DateTimeZone($partial->getIntegrationApi()->getTimezone()));
-                // For some reason setting timezone still returns events dated one hour before
-                $start->add(new \DateInterval('PT1H'));
+                $start = new \DateTime($attr->start_at);
+                $start->setTimezone(new \DateTimeZone($partial->getIntegrationApi()->getTimezone()));
+
                 $end = new \DateTime($attr->end_at);
-                $end->add(new \DateInterval('PT1H'));
+                $end->setTimezone(new \DateTimeZone($partial->getIntegrationApi()->getTimezone()));
 
                 $responseContent .= '<div class="row"'.$invertedColorStyle.'>';
 

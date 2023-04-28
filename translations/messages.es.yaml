@@ -21,7 +21,8 @@ nav_pricing: Cuánto cuesta
 nav_faq: Preguntas frequentes
 nav_get_started: Como usarlo
 nav_server_architecture: Arquitectura del servicio
-nav_api_cloudwatch: Monitoreo de AWS Cloudwatch
+nav_api_cloudwatch: API de AWS Cloudwatch
+nav_api_crypto: API Crypto candlesticks
 nav_3d: Modelos para imprimir en 3D
 nav_ethereum: Financiado usando Ethereum
 nav_ethereum_short: Financiado con ♦
@@ -29,7 +30,9 @@ nav_crypto_adv: Gana desde 4.5 a 12% TAE con Eth o Bitcoin
 nav_epapers_for_sale: Epapers a la venta
 nav_demo_display: Demonstración de rendering
 nav_digital_art: Display para arte digital
-
+nav_pcb_cinwrite: Nuestra plaqueta ESP32S3 SPI master controller
+nav_pcb_c3_24: Nuestro ESP32-C3 epaper controlador con touch
+nav_good-display: Acuerdo de colaboración con Good Display
 # NAV BACKEND
 navb_api: Contenido
 navb_user: User
@@ -51,12 +54,12 @@ logs_purge_tooltip: Borra 100 entradas de log
 # Registration
 create_account: Crea tu cuenta
 used_for_login: El email y la contraseña se usan para el login
-Firstname:	Nombre
+Firstname:  Nombre
 English: Ingles
-German:	Alemán
+German:  Alemán
 Spanish: Español
 Catalan: Catalan
-French:	Frances
+French:  Frances
 Croatian: Croata
 Czech: Checo
 Danish: Danes
@@ -81,7 +84,7 @@ Marathi: Marathi
 Norwegian Bokmål: Noruego
 Dutch: Holandes
 Punjabi: Punjabi
-Polish:	Polaco
+Polish:  Polaco
 Portuguese: Portugues
 Romanian: Rumano
 Russian: Ruso
@@ -90,11 +93,11 @@ Slovenian: Slovenian
 Serbian: Serbian
 Swedish: Sueco
 Tamil: Tamil
-Telugu:	Telugu
+Telugu:  Telugu
 Turkish: Turco
 Ukrainian: Ukraniano
 Urdu: Urdu
-simplified Chinese:	Chino
+simplified Chinese:  Chino
 Email: Email
 Language of preference: Idioma de preferencia
 Repeat password: Repite el password
@@ -115,9 +118,9 @@ Encrypted before persisting: Encriptado en nuestra DB antes de guardarlo
 Name your Api: Nombre de la Api
 Use a meaningful name to identify it in your list: Usa un nombre apropiado para poder identificarlo en tu lista
 Your timezone: Tu zona del tiempo
-Europe/Berlin:	Europa/Berlin
+Europe/Berlin:  Europa/Berlin
 Customized json settings: Configuracón avanzada del api JSON (No hace falta editar)
-Calendar ID: ID del	Calendar
+Calendar ID: ID del  Calendar
 Authorization token: Token de autorización
 api_response: Respuesta de la API
 # Auth steps
@@ -138,7 +141,7 @@ Max results: Entradas
 Sort pos: Posición
 'template area:': 'la columna:'
 1st Column: 1ra
-2nd Column:	2da
+2nd Column:  2da
 3rd Column: 3ra
 Invert B/Text: Invertir B/Texto
 Text color: Color texto
@@ -155,7 +158,7 @@ Choose a template: Elige una plantilla
 3 Columns: 3 Columnas
 3 Columns with header: 3 Columnas con cabezera
 Output display: Output display
-Optional choose an Eink display: Opcional elige un display de E-Ink
+Optional choose an Eink display: Elige un epaper display
 Save screen: Guardar Screen
 screen_edit_partials: Editar secciones
 screen_edit_config: Editar configuración de Screen
@@ -299,3 +302,6 @@ Upload a new image (max. %max_kb% Kb): Subir una nueva imagen (max. %max_kb% Kb)
 Sort position: Posición
 Image caption: Texto para el pie de foto
 Photo credits: Creditos o autor
+
+#Displays
+epaper_from: Epaper de

@@ -30,6 +30,8 @@
             {{ form_label(form.plainPassword.second, 'Repeat password') }}
             {{ form_widget(form.plainPassword.second,{'attr': { 'class': 'form-control' }}) }}
             <br>
+            {{ form_row(form.captcha) }}
+
             {{ form_widget(form.submit) }}
 
             {{ form_end(form) }}

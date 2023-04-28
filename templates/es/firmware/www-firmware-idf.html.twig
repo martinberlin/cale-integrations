@@ -77,8 +77,18 @@ ____
     <a id="a2"></a><br><br><br><h4>Selecciona la clase correcta para tu epaper display</h4>
 Chequa el listado en el Wiki de <a href="https://github.com/martinberlin/cale-idf/wiki" class="cale">Cale-idf</a>
 
+
+    <a id="limitations"></a><br><br><br><h4>Specificaciones técnicas y limitaciones</h4>
+    <ul>
+        <li>No hay soporte de grises excepto en el modelo <a href="https://github.com/martinberlin/cale-idf/wiki/Model-gdew075T7.h">7.5 T7 de Goodisplay</a> (gdew075T7)</li>
+        <li>No soporta recibir el WiFi con nuestro Android app.<br>Pero se puede hacer <a href="https://github.com/martinberlin/cale-idf/wiki/RainMaker-WiFi-provisioning">WiFi provisioning</a> usando la aplicación de ESP-Rainmaker (Android and IOs)<br>
+            Esto significa que el URL de la imagen tiene que estar compilado en el Firmware.</li>
+        <li>Supporta solo formato BMP sin compresión, con bit depth 1,4,8 y 24 bits (También el modelo de <a href="https://github.com/martinberlin/cale-idf/wiki/Model-color-wave4i7color.h">7 color epaper de Waveshare</a>)</li>
+        <li>Varios desarrolladores usan actualmente nuestro componente ESP-IDF para sus proyectos. Hay 3 colaboraciones externas que ayudaron agregando nuevos Einks.</li>
+    </ul>
+
     <br><br><small>Demo de Fonts (Ubuntu)</small><br>
-    <img src="https://storage.luckycloud.de/thumbnail/61544feac3354a469448/1024/img/ubuntu-demo.jpeg">
+    <img src="https://sync.luckycloud.de/thumbnail/61544feac3354a469448/1024/img/ubuntu-demo.jpeg">
 {% endblock %}
 
 {% block javascripts %}

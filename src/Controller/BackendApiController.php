@@ -118,7 +118,7 @@ class BackendApiController extends AbstractController
         return $this->render(
             'backend/api/configure-api.html.twig',
             [
-                'title' => 'Api configurator',
+                'title' => 'New content item',
                 'form' => $form->createView(),
                 'json_apis' => json_encode($apis),
                 'menu' => $this->menu

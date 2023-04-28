@@ -1,0 +1,97 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+    </style>
+
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <h3>{{ 'nav_pcb_c3_24'|trans }}</h3>
+
+    <b>Das Ziel des C3 epaper Controller mit Touch ist es, WiFi, BLE und Touch plus RTC bereitzustellen, die über I2C verbunden sind. Der epaper-Anschluss ist mit einem 24-Pin vorbereitet
+        Standardstecker und verfügt über alle externen "Boost-Spannungs" -Helfer, die benötigt werden, damit diese SPI-epapers funktionieren.</b>
+    <br><br>
+    <a class="btn btn-primary btn-empty" href="https://lectronz.com/products/esp32-c3-24-pin-fpc-epaper-controller-with-touch" role="button">▲ PCB in unsere Lectronz store</a>
+    <a class="btn btn-default btn-empty" href="#features" role="button">▼ Was es bietet</a>
+    <a class="btn btn-default btn-empty" href="https://github.com/martinberlin/bistable-smart-switch" role="button">Open source Firmware</a>
+    <a class="btn btn-default" href="https://github.com/martinberlin/bistable-smart-switch/tree/master/Hardware/C3-27-epaper-touch/schematics" role="button">Electronic schematics</a>
+    <br><br>
+    <center><img src="/img/www/product/c3-pcb-new.png"></center>
+
+    <h3>Was es bietet</h3>
+    <h4>Das ESP32-C3 2,7-Zoll-Touch-Wandschalter-Demokit ist das neueste Produkt von <b>Fasani Corp</b>, das Ihr Home-Automation revolutionieren wird!</h4>
+    Mit seinem hochmodernen ESP32C3-Chip und dem meistverkauften elektronischen 2,7-Zoll-Papierdisplay von GOOD DISPLAY mit Touchscreen GDEY027T91-T01,
+    Mit diesem Kit können Sie verschiedene Geräte in Ihrem Zuhause einfach steuern. Ausgestattet mit einem stabilen und zuverlässigen 220AC2DC-Modul und Grove I2C-Anschlüssen,
+    Sie können I2C-Sensoren für intelligentere Funktionen anschließen. Das 4-Lagen-PCB-Design sorgt für eine stabile Signalübertragung und macht es langlebiger und zuverlässiger.
+    Dieses Demo-Kit unterstützt RESE-Schalter, wodurch Sie verschiedene Arten von elektronischen Tintensieben frei auswählen und individuellere Funktionen erzielen können.<br><br>
+    <div class="row">
+        <div class="col-md-6">
+            <img src="/img/www/product/c3-3d-front.png">
+        </div>
+        <div class="col-md-6">
+            <img src="/img/www/product/c3-3d-back.png">
+            <br>
+            <small style="margin-left: 12px">3D views von PCBnew (KiCAD)</small>
+        </div>
+    </div>
+    <video width="100%" controls>
+        <source src="https://cale.s3.eu-central-1.amazonaws.com/img/www/c3-video-1.mp4" type="video/mp4">
+    </video>
+    <br>
+
+    <a name="features" id="features"></a><br><br>
+    <h3>Features offered:</h3>
+    <ul>
+        <li>WiFi</li>
+        <li>BLE. Wichtig: BLE, nicht Bluetooth classic (nur ESP32 hat BT-classic)</li>
+        <li>PCF8563 Real-Time-Clock</li>
+        <li>Niedrigverbrauchs-Controller für 24 FPC-E-Paper-Displays (keine LEDs, kein Batterieladegerät)</li>
+        <li>6 FPC-Touch-Anschluss bereits zu I2C im C3 geroutet (SDA: IO5 SCL: IO4) mit bereits vorhandenen Pull-up resistor</li>
+        <li>Machen Sie das E-Paper-Display bereit, um es zu kämmen, und befestigen Sie es sicher auf der anderen Seite mit etwas doppelseitigem Klebeband</li>
+        <li>USB-zu-UART-Chip CP2102N (QFN28) mit USB-C-Schnittstelle</li>
+        <li>3 Ausgangs-IOs zur Steuerung externer Geräte: IO1, IO2 und IO3.
+            <br>Beachten Sie, dass IO2 intern mit dem RTC-Interrupt-Pin verbunden ist, verwenden Sie ihn also nicht, wenn Sie den RTC-Tick für etwas anderes verwenden.
+        </li>
+    </ul>
+
+    <img src="/img/www/product/c3-on-switch-back.png"><img src="/img/www/product/c3-controller-1.png"><br>
+
+    <div class="row">
+        <div class="col-md-6">
+            <small>C3-Ansicht auf der Rückseite des Schalters</small>
+        </div>
+        <div class="col-md-6">
+            <small>ON / OFF demo</small>
+        </div>
+    </div>
+
+    <a class="btn btn-primary btn-empty" href="https://lectronz.com/products/esp32-c3-24-pin-fpc-epaper-controller-with-touch" role="button">Buy this PCB in our Lectronz store</a>
+
+    <h3>Bald in Lectronz laden!</h3>
+    <img src="/img/www/product/220-AC-adapter.png"><br>
+    <small>220 AC to 3.3DC adapter mit Latch relay (ON/OFF Schalter)</small>
+    <br><br>
+    It's already designed and tested we just need more orders to send it to production.
+    Check old first 1.0 release in action at home:<br>
+    <video width="100%" controls>
+        <source src="https://cale.s3.eu-central-1.amazonaws.com/img/www/c3-video-2.mp4" type="video/mp4">
+    </video>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

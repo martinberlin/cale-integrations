@@ -21,7 +21,8 @@ nav_pricing: Preisgestaltung
 nav_faq: Häufig gestellte Fragen
 nav_get_started: Ersten Schritten
 nav_server_architecture: Serverarchitektur
-nav_api_cloudwatch: AWS Cloudwatch-Überwachung
+nav_api_cloudwatch: API Cloudwatch-Überwachung
+nav_api_crypto: API Crypto Candlesticks-chart
 nav_3d: Gehäuse 3D-Modelle
 nav_ethereum: Finanziert mit Ethereum-Kryptowährung
 nav_ethereum_short: Finanziert mit ♦
@@ -29,7 +30,9 @@ nav_crypto_adv: Verdienen Sie mit Krypto von 4.5 bis zum 12% APR
 nav_epapers_for_sale: Epapers zu verkaufen
 nav_demo_display: Bilder generation Beispielen
 nav_digital_art: Epaper Bilderrahmen
-
+nav_pcb_cinwrite: Unsere ESP32S3 SPI master Regler
+nav_pcb_c3_24: Eine ESP32-C3 epaper mit touch Controller
+nav_good-display: Good Display partnershaft
 # NAV BACKEND
 navb_api: Inhalten
 navb_user: Benutzer
@@ -53,13 +56,13 @@ create_account: Erstellen Sie ein Konto
 used_for_login: Dies wird für die Anmeldung verwendet
 Firstname: Vorname
 English: Englisch
-German:	Deutsch
+German: Deutsch
 Spanish: Spanisch
 Catalan: Katalanisch
-French:	Französisch
+French: Französisch
 Croatian: Kroatisch
 Czech: Tschechisch
-Danish:	Dänisch
+Danish: Dänisch
 Greek: Griechisch
 Arabic: Arabisch
 Esperanto: Esperanto
@@ -81,7 +84,7 @@ Marathi: Marathi
 Norwegian Bokmål: Norwegisches Bokmål
 Dutch: Niederländisch
 Punjabi: Punjabi
-Polish:	Polnisch
+Polish: Polnisch
 Portuguese: Portugiesisch
 Romanian: Rumänisch
 Russian: Russisch
@@ -90,11 +93,11 @@ Slovenian: Slowenisch
 Serbian: Serbisch
 Swedish: Schwedisch
 Tamil: Tamil
-Telugu:	Telugu
+Telugu: Telugu
 Turkish: Türkisch
 Ukrainian: Ukrainisch
 Urdu: Urdu
-simplified Chinese:	vereinfachtes Chinese
+simplified Chinese: vereinfachtes Chinese
 Email: E-Mail
 Language of preference: Präferenzsprache
 Repeat password: Passwort wiederholen
@@ -115,7 +118,7 @@ Encrypted before persisting: Vor dem speichern verschlüsselt
 Name your Api: Benennen Sie Ihre API
 Use a meaningful name to identify it in your list: Verwenden Sie einen aussagekräftigen Namen, um ihn in Ihrer Liste zu identifizieren
 Your timezone: Ihre Zeitzone
-Europe/Berlin:	Europe/Berlin
+Europe/Berlin: Europe/Berlin
 Customized json settings: Benutzerdefinierte JSON-Einstellungen
 Calendar ID: Kalender-ID
 Authorization token: Autorisierungstoken
@@ -138,7 +141,7 @@ Max results: 'max. Ergebnisse'
 Sort pos: 'Sort'
 'template area:': 'Vorlagen Spalte:'
 1st Column: erste Spalte
-2nd Column:	zweite Spalte
+2nd Column: zweite Spalte
 3rd Column: dritte Spalte
 Invert B/Text: Textfarbe umkehren
 Text color: Textfarbe
@@ -155,7 +158,7 @@ Choose a template: Wählen Sie eine Vorlage
 3 Columns: 3 Spalten
 3 Columns with header: 3 Spalten mit Kopfzeile
 Output display: Ausgang Display
-Optional choose an Eink display: Optional wählen Sie ein E-Ink-Display
+Optional choose an Eink display: Wählen Sie ein Epaper Display
 Save screen: Screen speichern
 screen_edit_partials: Screen-Inhalte bearbeiten
 screen_edit_config: Screen config bearbeiten
@@ -299,3 +302,6 @@ Upload a new image (max. %max_kb% Kb): Ein Bild hochladen (max. %max_kb% Kb)
 Sort position: Sortierung (number)
 Image caption: Bildbeschreibung
 Photo credits: Bildnachweis
+
+#Displays
+epaper_from: Epaper von

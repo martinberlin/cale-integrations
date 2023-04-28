@@ -1,0 +1,107 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+    </style>
+
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <h3>{{ 'nav_pcb_c3_24'|trans }}</h3>
+
+<b>The goal of the C3 epaper controller with touch is to provide WiFi, BLE, and Touch plus RTC connected via I2C. The epaper connector is prepared with a 24 pin
+    standard connector and has all the external "boost voltage" helper that is needed to make this SPI epapers work.</b>
+    Already in it's second revision the C3 controller has been already sold a couple of times on <a href="https://lectronz.com/stores/fasani/">our Lectronz store</a>
+    and it's powering some home switches already.<br><br>
+    It's sold with a 2.7" epaper but you can actually test any 24 pin FPC epapers with this C3 controller.
+    This is because it comes with a "RESE switch" so you can use select 3Ω or 0.47Ω setting that generate different high voltages and adapt to any epapers (Older & newer)<br>
+<br>
+    <a class="btn btn-primary btn-empty" href="https://lectronz.com/products/esp32-c3-24-pin-fpc-epaper-controller-with-touch" role="button">▲ Buy this PCB in our Lectronz store</a>
+    <a class="btn btn-default btn-empty" href="#features" role="button">▼ Check what it offers</a>
+    <a class="btn btn-default btn-empty" href="https://github.com/martinberlin/bistable-smart-switch" role="button">Open source Firmware demos</a>
+    <a class="btn btn-default" href="https://github.com/martinberlin/bistable-smart-switch/tree/master/Hardware/C3-27-epaper-touch/schematics" role="button">Electronic schematics</a>
+<br><br>
+    <center><img src="/img/www/product/c3-pcb-new.png"></center>
+
+    <h3>What is it?</h3>
+    <h4>The ESP32-C3 2.7-inch Touch Wall Switch Demo Kit, is the latest product from <b>Fasani Corp</b> that will revolutionize your home automation experience!</h4>
+    With its cutting-edge ESP32C3 chip and GOOD DISPLAY's hot-selling 2.7-inch electronic paper display with touch screen GDEY027T91-T01,
+    this kit allows you to easily control various devices in your home. Equipped with a stable and reliable 220AC2DC module and Grove I2C connectors,
+    you can connect I2C sensors for more intelligent functions. The 4-layer PCB design ensures stable signal transmission, making it more durable and reliable.
+    This demo kit supports RESE switches, which allows you to freely choose different types of electronic ink screens and achieve more customized features.<br><br>
+    <div class="row">
+        <div class="col-md-6">
+            <img src="/img/www/product/c3-3d-front.png">
+        </div>
+        <div class="col-md-6">
+         <img src="/img/www/product/c3-3d-back.png">
+         <br>
+         <small style="margin-left: 12px">3D views in PCBnew (KiCAD)</small>
+        </div>
+    </div>
+    <video width="100%" controls>
+        <source src="https://cale.s3.eu-central-1.amazonaws.com/img/www/c3-video-1.mp4" type="video/mp4">
+    </video>
+    <br>
+
+
+    It also includes the PCF8563 RTC real-time clock module, with a 10-minute capacitor backup power supply to ensure that the clock never fails due to short power outages. Get this kit today and make your home smarter, more convenient, and efficient!
+    <caption>Rev 1.2 offers an additional I2C Grove connector (Compatible with Seeed sensors)</caption>
+    <a name="features" id="features"></a><br><br>
+    <h3>Features offered:</h3>
+    <ul>
+       <li>WiFi</li>
+        <li>BLE. Important point: BLE, not Bluetooth classic (Only ESP32 has BT-classic)</li>
+        <li>PCF8563 real time clock</li>
+        <li>Low consumption controller for 24 FPC epaper displays (No LEDs, no additional consuming devices)</li>
+        <li>6 FPC touch connector already routed to I2C in the C3 (SDA: IO5 SCL: IO4) with pull-ups already in place</li>
+        <li>Size ready to comb the epaper display and place it safely in the other side with some double sided tape</li>
+        <li>USB to UART chip CP2102N (QFN28) with USB-C interface</li>
+        <li>3 Output IOs to control external devices: IO1, IO2 and IO3.<br>Note that IO2 is connected internally to the RTC Interrupt pin, so don't use it, if you use the RTC tick for something else.</li>
+    </ul>
+
+    What is great of having an RTC on board is that you can reduce consumption making your Firmware sleep all night in case it's a display and does not need to
+    get updated when no-one is in the office. Having an RTC on board, that is independant of the MCU, facilitates the
+    possibility to be aware of day of the week, month, year and precise time every time you want. And also to have a precise INT that goes signaling LOW, every second,
+    every minute or period of time you want.
+
+    <img src="/img/www/product/c3-on-switch-back.png"><img src="/img/www/product/c3-controller-1.png"><br>
+
+    <div class="row">
+        <div class="col-md-6">
+            <small>C3 view on the back-side of the switch</small>
+        </div>
+        <div class="col-md-6">
+            <small>ON / OFF demo</small>
+        </div>
+    </div>
+
+    <a class="btn btn-primary btn-empty" href="https://lectronz.com/products/esp32-c3-24-pin-fpc-epaper-controller-with-touch" role="button">Buy this PCB in our Lectronz store</a>
+
+    <h3>Coming soon!</h3>
+    <img src="/img/www/product/220-AC-adapter.png"><br>
+    <small>220 AC to 3.3DC adapter w/ Latch relay (ON/OFF for the lamp)</small>
+<br><br>
+    It's already designed and tested we just need more orders to send it to production.
+    Check old first 1.0 release in action at home:<br>
+    <video width="100%" controls>
+        <source src="https://cale.s3.eu-central-1.amazonaws.com/img/www/c3-video-2.mp4" type="video/mp4">
+    </video>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

@@ -21,7 +21,8 @@ nav_pricing: Pricing
 nav_faq: Frequent asked questions
 nav_get_started: Get started
 nav_server_architecture: Server architecture
-nav_api_cloudwatch: AWS Cloudwatch monitoring
+nav_api_cloudwatch: API Cloudwatch monitoring
+nav_api_crypto: API Crypto candlesticks
 nav_3d: Housing 3D models to print
 nav_ethereum: Financed with Ethereum
 nav_ethereum_short: Financed with ♦
@@ -29,12 +30,14 @@ nav_crypto_adv: Earn interest with your Crypto
 nav_epapers_for_sale: Epapers for sale
 nav_demo_display: Image generation demos
 nav_digital_art: Digital art frame
-
+nav_pcb_cinwrite: Our ESP32S3 SPI master controller
+nav_pcb_c3_24: Our ESP32-C3 epaper w/touch controller
+nav_good-display: Good Display collaboration
 # NAV BACKEND
 navb_api: Content
 navb_user: User
 # TITLES BACKEND
-titleb_apis: API content providers
+titleb_apis: Content pieces
 # Titles
 title_ical: Importing iCal calendars
 title_firmware: ESP32 / ESP8266 Firmware
@@ -52,15 +55,15 @@ logs_purge_tooltip: Deletes 100 log rows
 # Registration
 create_account: Create an account
 used_for_login: This is what is used for login
-Firstname:	Firstname
-English:	English
-German:	German
+Firstname: Firstname
+English: English
+German: German
 Spanish: Spanish
 Catalan: Catalan
-French:	French
+French: French
 Croatian: Croatian
 Czech: Czech
-Danish:	Danish
+Danish: Danish
 Greek: Greek
 Arabic: Arabic
 Esperanto: Esperanto
@@ -82,7 +85,7 @@ Marathi: Marathi
 Norwegian Bokmål: Norwegian Bokmål
 Dutch: Dutch
 Punjabi: Punjabi
-Polish:	Polish
+Polish: Polish
 Portuguese: Portuguese
 Romanian: Romanian
 Russian: Russian
@@ -91,11 +94,11 @@ Slovenian: Slovenian
 Serbian: Serbian
 Swedish: Swedish
 Tamil: Tamil
-Telugu:	Telugu
+Telugu: Telugu
 Turkish: Turkish
 Ukrainian: Ukrainian
 Urdu: Urdu
-simplified Chinese:	simplified Chinese
+simplified Chinese: simplified Chinese
 Email: Email
 Language of preference: Language of preference
 Repeat password: Repeat password
@@ -107,7 +110,7 @@ Token: Token
 Configure API: Configure API
 no_apis_configured: You still don't have any APIs configured
 api_configure_first: Configure your first API
-apis_header: The APIs will deliver your Screen partials fresh information
+apis_header: The content pieces can be added to any Screen
 'Name:': 'Name:'
 iCal URL: iCal URL
 Encrypted before persisting: Encrypted before persisting
@@ -116,7 +119,7 @@ Encrypted before persisting: Encrypted before persisting
 Name your Api: Name your Api
 Use a meaningful name to identify it in your list: Use a meaningful name to identify it in your list
 Your timezone: Your timezone
-Europe/Berlin:	Europe/Berlin
+Europe/Berlin: Europe/Berlin
 Customized json settings: Customized json settings
 Calendar ID: Calendar ID
 Authorization token: Authorization token
@@ -131,15 +134,15 @@ api_location_set: Use the detected Latitude and Longitude parameters
 # Screen
 screen_render: Render Screen
 screen_add: Add one Screen
-screen_add_partial: Add content partial
-screen_partials: Screen Partials
-Save screen partials: Save screen partials
+screen_add_partial: Add content
+screen_partials: Screen content
+Save screen partials: Save screen content configuration
 'content from:': 'content from:'
 Max results: 'Max results'
 Sort pos: 'Sort pos'
 'template area:': 'template area:'
 1st Column: 1st Column
-2nd Column:	2nd Column
+2nd Column: 2nd Column
 3rd Column: 3rd Column
 Invert B/Text: Invert B/Text
 Text color: Text color
@@ -156,21 +159,21 @@ Choose a template: Choose a template
 3 Columns: 3 Columns
 3 Columns with header: 3 Columns with header
 Output display: Output display
-Optional choose an Eink display: Optional choose an E-Ink display
+Optional choose an Eink display: Choose an Epaper display
 Save screen: Save Screen
-screen_edit_partials: Edit content partials
+screen_edit_partials: Edit content
 screen_edit_config: Edit Screen configuration
 screen_edit_line1: Configure what template to use to render your content
-screen_edit_line2: Content partials are small pieces of content where your APIs are rendered
+screen_edit_line2: Content pieces are small pieces of content where your dynamic information is rendered
 screen_edit_configure1: You can configure up to
 screen_edit_configure2: different output Screens
 
-screen_partials_edit_line1: In your Screens you can add partials that will render the content in the template column you choose
-screen_partials_edit_line2: This content partials will render in ascendant order so Sort position 1 will be the first on his column
+screen_partials_edit_line1: In your Screens you can add content pieces that will render their output in the template column you choose
+screen_partials_edit_line2: This content pieces will render in ascendant order so Sort position 1 will be the first on his column
 screen_partials_edit_line3: 'Please note that you want to output the Screen in a E-Ink display is the best to keep the colors in shades of gray otherwise the resulting Bitmap will not be of 1 bit depth. Another option is to use pure black and white (Rgb HEX: #FFFFFF y #000000)'
-screen_help_5: Click here to add a new content from one or your API connections. Make sure to select in what column of the selected template will display it's contents
-screen_help_6: When you are done adding partials save them to preview your selection and then go to Render Screen
-screen_partials_title: Manage partials for Screen
+screen_help_5: Click here to add a new content piece. Make sure to select in what column of the selected template will display it's contents
+screen_help_6: When you are done adding Content pieces save them to preview your selection and then go to Render Screen
+screen_partials_title: Manage content pieces for Screen
 screen_token_firmware_step1: To configure this Screen in your Display select 1. WiFi AP 2. Method
 screen_token_firmware_blue: Copy the JSON text and paste it on CALE Android app. Two WiFi access points are supported, the Firmware will connect to the one with more signal.
 screen_token_firmware_c: This method supports only one WiFi configuration. Copy the C configuration and add it to Config.h in the
@@ -230,12 +233,12 @@ Config: Config
 show: Show
 buy: Buy
 Submit: Save
-Connect a new: Connect a new
+Connect a new: Add new content
 Guide: Guide
 Add an integration: Add an integration
 Name: Name
 Template: Template
-Partials: Partials
+Partials: Content pieces
 Created: Created
 Integrations: Integrations
 
@@ -299,3 +302,6 @@ Upload a new image (max. %max_kb% Kb): Upload a new image (max. %max_kb% Kb)
 Sort position: Sort position
 Image caption: Image caption
 Photo credits: Photo credits
+
+#Displays
+epaper_from: Epaper from

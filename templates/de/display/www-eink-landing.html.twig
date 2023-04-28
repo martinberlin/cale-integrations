@@ -1,0 +1,79 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+{% set recommended_link = 'https://www.digitspace.com/lilygo-ttgo-t5s-v2-8-esp32-2-7-inch-black-epaper-plus-module-for-alexa-i2s-dac-max98357a-mems-microphone-ics43434?9c12f43bc77de9e6' %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-4 col-xs-12">
+            <h3><span class="glyphicon glyphicon-circle-arrow-left"></span> <a href="{{ path('displays-eink') }}">Zurück nach Liste</a></h3>
+            <img src="{{ file_exists(web_path, '/assets/display/', d.className, '.jpg') }}">
+        </div>
+
+        <div class="col-md-6">
+            <h3>Epaper display von {{ d.brand|replace({'_':' '}) }}: {{ d.name }}</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Pixelauflösung:</h4>
+                  <b>Refresh Zeit:</b><br>
+                    <b>Aktiv size:</b><br>
+                    <b>Grautönes:</b><br>
+                    <b>Cale-idf classname:</b>
+                </div>
+                <div class="col-md-6">
+                    <h4>{{ d.width }}x{{ d.height }}</h4>
+                  {{ d.timeOfRefresh }} Millisekunden<br>
+                    {{ d.activeSize }}<br>
+                    {{ d.grayLevels }}<br>
+                    {{ d.className }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Description</h4>
+                    {{ d.htmlDescription|raw }}
+                    <br><br>
+                    {% if d.purchaseUrl != '' %}<a href="{{ d.purchaseUrl }}" target="_blank">Link zu kaufen</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+<br><br>
+
+Wir empfehlen unsere <a href="{{ path('firmware-idf') }}">projekt Cale-Idf</a> für custom epaper Firmware zu bauen.
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+
+    {% if adsense_active %}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- Cale vertical -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-5919782356383484"
+             data-ad-slot="6845528655"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    {% endif %}
+{% endblock %}

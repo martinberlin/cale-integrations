@@ -80,15 +80,18 @@ Please check <a href="https://github.com/martinberlin/cale-idf/wiki" class="cale
     We are planning to support only 400*300 and bigger einks (Although some T5's 2.13 & 2.7 inches are supported)
 
 
-    <a id="limitations"></a><br><br><br><h4>3. Known limitations</h4>
+    <a id="limitations"></a><br><br><br><h4>3. Known limitations and facts</h4>
 
-    <ol>
-        <li>No bluetooth support, configuration must be defined before compilation like described in <a href="#a1">Section 1</a></li>
-        <li>Supports only uncompressed BMP formats, bit depth 1,4 or 8 (Not planning to add >8 bit depth support)</li>
-        <li>It needs more testing and probably more optimizations</li>
-    </ol>
+    <ul>
+        <li>No grayscale support except in the <a href="https://github.com/martinberlin/cale-idf/wiki/Model-gdew075T7.h">7.5 T7 Goodisplay model</a> (gdew075T7)</li>
+        <li>Does not support sending WiFi with our Android mobile app.<br>Instead there is <a href="https://github.com/martinberlin/cale-idf/wiki/RainMaker-WiFi-provisioning">WiFi provisioning branch</a> using the ESP-Rainmaker application (Android and IOs)<br>
+        That means that the image URL should be hardcoded on the Firmware side.</li>
+        <li>Supports only uncompressed BMP formats, bit depth 1,4,8 and 24 bits (And <a href="https://github.com/martinberlin/cale-idf/wiki/Model-color-wave4i7color.h">7 color epapers</a>)</li>
+        <li>At this point a mature development that many developers use even for other Firmware's that need an ESP-IDF epaper component</li>
+    </ul>
+
     <br><br><small>Font rendering demo:</small><br>
-    <img src="https://storage.luckycloud.de/thumbnail/61544feac3354a469448/1024/img/ubuntu-demo.jpeg">
+    <img src="https://sync.luckycloud.de/thumbnail/61544feac3354a469448/1024/img/ubuntu-demo.jpeg">
     <br>
 
     {% if adsense_active %}

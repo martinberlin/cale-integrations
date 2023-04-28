@@ -52,6 +52,16 @@ displays-eink:
   requirements:
     _locale: '%locales%'
 
+eink-landing:
+  path:       /epaper/{_locale}/{brand}/{id}
+  controller: App\Controller\HomeController::einkLanding
+  defaults:
+    _locale: en
+    brand: 'Good_Display'
+    id: 1
+  requirements:
+    _locale: '%locales%'
+
 displays-tft:
   path:       /tft-displays/{_locale}
   controller: App\Controller\HomeController::tftDisplays
@@ -231,6 +241,38 @@ www_demos_display:
 www_demos_digital_art:
   path:       /demos/digital-art/{_locale}
   controller: App\Controller\HomeController::demoDigitalArt
+  defaults:
+    _locale: en
+  requirements:
+    _locale: '%locales%'
+
+www_api-crypto-candles:
+  path:       /api/crypto_charts/{_locale}
+  controller: App\Controller\HomeController::candlestickCharts
+  defaults:
+    _locale: en
+  requirements:
+    _locale: '%locales%'
+
+www_product-cinwrite:
+  path:       /product/cinwrite/{_locale}
+  controller: App\Controller\HomeController::productCinwrite
+  defaults:
+    _locale: en
+  requirements:
+    _locale: '%locales%'
+
+www_product-c3-epaper:
+  path:       /product/c3-epaper/{_locale}
+  controller: App\Controller\HomeController::productC3Epaper
+  defaults:
+    _locale: en
+  requirements:
+    _locale: '%locales%'
+
+news_good-display:
+  path:       /collaboration/Good-Display/{_locale}
+  controller: App\Controller\HomeController::goodDisplay
   defaults:
     _locale: en
   requirements:

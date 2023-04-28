@@ -18,7 +18,7 @@ class ApiConfigureSelectionType extends AbstractType
             ->add('api', EntityType::class,
                 [
                     'class' => Api::class,
-                    'label' => 'Select Api',
+                    'label' => 'Select Content provider',
                     'attr' => ['class' => 'form-control']
                 ])
             ->add('accessToken', TextType::class,

@@ -89,14 +89,18 @@
                     <div class="col-md-1 col-sm-12 col-xs-12">
                         {{ form_row(form.outCacheSeconds) }}
                     </div>
-                    <div class="col-md-2 col-sm-6 col-xs-6">
+                    <div class="col-md-1 col-sm-6 col-xs-6">
                         <label>Imagick</label><br>
                         {{ form_widget(form.imgDitherOptions) }}
                         {{ form_widget(form.imgDither) }} {{ form_label(form.imgDither) }}<br>
                         {#<small>{{ 'only_esp32_supported'|trans }}</small>#}
                     </div>
                     <div class="col-md-2 col-sm-6 col-xs-6">
-                        <label>Advanced</label><br>
+                        {{ form_row(form.outJpegCompression) }}
+                        <div style="text-align:center" id="jpg_compression"></div>
+                    </div>
+                    <div class="col-md-1 col-sm-6 col-xs-6">
+                        <label>Extra</label><br>
                         {{ form_widget(form.outSsl) }} {{ form_label(form.outSsl) }}<br>
                         {{ form_widget(form.outCompressed) }} {{ form_label(form.outCompressed) }}<br>
                     </div>
@@ -118,7 +122,12 @@
                            class="btn btn-default form-control">
                             <span class="glyphicon glyphicon-paperclip"></span> {{ 'screen_edit_partials'|trans }}</a>
                     </div>
-                    <div class="col-md-4 col-sm-6 col-xs-6 text-right">
+                    <div class="col-md-3 col-sm-6 col-xs-6" style="margin-top:0.4em">
+                        {% if screen_image_type == 'BMP' %}
+                            <a href="{{ image_jpg_url }}" target="_blank" style="color:white">{{ image_jpg_url }}</a>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-1 col-sm-6 col-xs-6 text-right">
                     {{ form_widget(form.submit) }}
                     </div>
                 </div>
@@ -163,5 +172,11 @@
         if (window.focus) {o.focus()}
         return false;
     }
+
+   let jpeg_comp_range = document.getElementById('outJpegCompression')
+    let jpg_compression = document.getElementById('jpg_compression')
+    jpg_compression.innerText = jpeg_comp_range.value
+    jpeg_comp_range.onchange=function(){ jpg_compression.innerText = this.value }
+
 </script>
 {% endblock %}

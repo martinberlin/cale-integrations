@@ -1,0 +1,84 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 110 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+    </style>
+
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <h3>{{ 'nav_pcb_cinwrite'|trans }}</h3>
+<b>La misión de nuestra plaqueta Cinwrite es ser un HAT para ofrecer WiFi, Reloj de tiempo real (RTC) y un boost-converter de 3 a 5 Volts
+    que puede usarse para enviar imagenes a epaper displays que usan controladores IT8951 a traves del protocolo SPI.</b>
+    Esta PCB ya esta en su 3ra revisión y a la venta en nuestra tienda en Tindie.
+
+    <img src="/img/www/product/cinwrite-front.jpg?">
+    <a class="btn btn-primary btn-empty" href="https://www.tindie.com/stores/fasani" role="button">▲ Compra este PCB en Tindie</a>
+    <a class="btn btn-default btn-empty" href="#features" role="button">▼ Que es lo que ofrece?</a>
+    <a class="btn btn-default btn-empty" href="https://github.com/martinberlin/epaper-weather-station" role="button">Firmware fuente abierta</a>
+    <a class="btn btn-default" href="https://certification.oshwa.org/es000029.html" role="button">Diseño certificado por OSHWA</a>
+    <a class="btn btn-default" href="https://github.com/martinberlin/H-cinread-it8951/blob/main/Schematic/IT8951-S3-HAT-Schematic.pdf" role="button">Schematica</a>
+
+    <h3>Para que sirve</h3>
+    La plaqueta Cinwrite esta originalmente diseñada para ser un HAT, o sea ubicarse directamente arriba y con pines que coinciden con,
+    <a href="https://www.good-display.com/product/425.html" target="_blank">el controlador DEXA-C097 IT8951</a>. Los IT8951 son controladores de epapers paralelos,
+    que reciben el framebuffer con 8 o 16 pins de datos (Mas otros 4 de control). Este en particular controla un epaper de 1200*825 pixeles de resolución con 16 niveles de grises.
+    Puede usarse también con cualquier otro display que soporte tanto SPI como I2C.
+
+    La interfaz de SPI se ofrece con la posibilidad de controlar 2 perifericos, teniendo GPIOs individuales para Chip Select y Busy (HOST_HRDY) <br><br>
+
+    En la imagen de abajo se puede apreciar en donde estan estas funcionalidades ubicadas en la plaqueta.
+
+    <img src="/img/www/product/cinwrite-front-tagged.jpg"><br>
+    <caption>La revisión 1.2 ofrece también un conector I2C Grove adicional (Compatible con sensores tipo Seeed y otros)</caption>
+    <a name="features" id="features"></a><br><br>
+    <h3>Funcionalidades que ofrece Cinwrite PCB:</h3>
+    <ul>
+       <li>WiFi</li>
+        <li>BLE. Punto importante: BLE, no tiene Bluetooth classic (Solo ESP32 tiene BT-classic, pero no S3)</li>
+        <li>DS3231 RTC Reloj de tiempo real</li>
+        <li>SPI hasta 40Mhz o el limite que ofrezca ESP32S3 en otros pines dedicados</li>
+        <li>Voltage de bateria hasta 5V step-up (Y un pin para habilitar el boost converter: IO38)</li>
+        <li>Cargador de baterias Lipo de 3.7v</li>
+        <li>2 Conectores I2C (Sensores y otros)</li>
+        <li>Conectores para 2 SPI slaves (Con sus respectivos pines Busy & CS)</li>
+    </ul>
+
+    Lo que nos parece genial de tener un RTC on board es que se puede reducir el consumo teniendo tu propio Firmware en modo deepsleep toda la noche
+    en caso de que no sea necesario actualizar el display cuando nadie esta en el negocio o la oficina.
+    Teniendo un RTC como el DS3231 con compensación de temperatura y una bateria tipo backup (CR1220)
+    podemos asegurarnos de que el Micro-controlador podrá consultar la hora, el dia de la semana, mes y año a parte de poder despertar con la señal RTC_INT que cambia de estado
+    a una hora determinada. Esto puede usarse para despertarse del deep-sleep con ultra bajo consumo y tener un equipo que dure muchas semanas con bateria.
+    <img src="/img/www/product/boost-converter.png">
+    <caption>El circuito de Boost converter a 5V para alimentar un IT8951 o una Raspberry PI (Limitado a 900 mA!)</caption>
+    <br>
+    <img src="/img/www/product/cinwrite-back.jpg">
+    <caption>Parte de atras del PCB sin la bateria de backup soldada</caption>
+
+    <img src="/img/www/product/cinwrite-with-it8951-and-epaper.jpg">
+    <caption>Connectado a un IT8951 (abajo) y un epaper display de 1200x825 (9 pulgadas)</caption>
+    <br>
+    <h3>Video</h3>
+    <video width="100%" controls>
+    <source src="https://cale.s3.eu-central-1.amazonaws.com/img/www/cinwrite-chinese.mp4" type=video/mp4>
+    </video>
+
+    <br>
+    <a class="btn btn-primary btn-empty" href="https://www.tindie.com/products/fasani/cinwrite-dexa-c097-hat-for-parallel-epapers/" role="button">Compra este PCB en la tienda Tindie</a>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}

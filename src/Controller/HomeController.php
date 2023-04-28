@@ -1,10 +1,12 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\Display;
 use App\Repository\ApiRepository;
 use App\Repository\DisplayRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -45,18 +47,6 @@ class HomeController extends AbstractController
         return $this->render(
             $request->getLocale().'/about/3d-models.html.twig',
             ['title' => $translator->trans('nav_3d')]
-        );
-    }
-
-    public function einkDisplays(Request $request, DisplayRepository $displayRepository, TranslatorInterface $translator)
-    {
-        $displays = $displayRepository->findBy(['type' => 'eink'],['width' => 'DESC']);
-        return $this->render(
-            $request->getLocale().'/display/www-eink.html.twig',
-        [
-            'displays' => $displays,
-            'title' => $translator->trans('nav_displays')
-        ]
         );
     }
 
@@ -261,6 +251,74 @@ class HomeController extends AbstractController
     {
         return $this->render(
             $request->getLocale().'/'.$page.'.html.twig'
+        );
+    }
+
+    public function einkDisplays(Request $request, DisplayRepository $displayRepository, TranslatorInterface $translator)
+    {
+        $displaysList = $displayRepository->findBy(['type' => 'eink'],['width' => 'DESC']);
+        $displays = array();
+        // Cut only short description
+        foreach ($displaysList as $d) {
+            $pos = strpos($d->getHtmlDescription(), "<ld>");
+
+            $shortDescription = ($pos === false) ? $d->getHtmlDescription() : substr($d->getHtmlDescription(), 0, $pos);
+            if (is_null($shortDescription)) $shortDescription = '';
+            $d->setHtmlDescription($shortDescription);
+            $displays[] = $d;
+        }
+        return $this->render(
+            $request->getLocale().'/display/www-eink.html.twig',
+            [
+                'displays' => $displays,
+                'title' => $translator->trans('nav_displays')
+            ]
+        );
+    }
+
+    public function einkLanding($brand, $id, Request $request, DisplayRepository $displayRepository, TranslatorInterface $translator)
+    {
+        $display = $displayRepository->findOneBy(['type' => 'eink', 'brand' => $brand, 'id' => $id]);
+        if ($display instanceof Display === false) throw new NotFoundHttpException('Display #'.$id.' not found');
+        $brand = str_replace('_', ' ', $display->getBrand());
+        return $this->render(
+            $request->getLocale().'/display/www-eink-landing.html.twig',
+            [
+                'd' => $display,
+                'title' => $translator->trans('epaper_from').' '.$brand.' '.$display->getName()
+            ]
+        );
+    }
+
+    public function candlestickCharts(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/api/www-api-candlesticks.html.twig',
+            ['title' => $translator->trans('nav_api_crypto')]
+        );
+    }
+
+    public function productCinwrite(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/product/cinwrite.html.twig',
+            ['title' => $translator->trans('nav_pcb_cinwrite')]
+        );
+    }
+
+    public function productC3Epaper(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/product/c3-controller-24fpc.html.twig',
+            ['title' => $translator->trans('nav_pcb_c3_24')]
+        );
+    }
+
+    public function goodDisplay(Request $request, TranslatorInterface $translator)
+    {
+        return $this->render(
+            $request->getLocale().'/news/good-display.html.twig',
+            ['title' => $translator->trans('nav_good-display')]
         );
     }
 }

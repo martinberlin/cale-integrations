@@ -35,6 +35,13 @@ class Display
      */
     protected $name;
     /**
+     * WEB content: HTML links to resources as Cale-idf WiKi / Thingiverse
+     * @var string
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $htmlDescription;
+
+    /**
      * @var string
      * @ORM\Column(type="string", length=100)
      */
@@ -145,6 +152,23 @@ class Display
     {
         $this->name = $name;
     }
+
+    /**
+     * @return string
+     */
+    public function getHtmlDescription():?string
+    {
+        return $this->htmlDescription;
+    }
+
+    /**
+     * @param string $htmlDescription
+     */
+    public function setHtmlDescription(string $htmlDescription)
+    {
+        $this->htmlDescription = $htmlDescription;
+    }
+
     /**
      * @return string
      */

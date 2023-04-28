@@ -6,6 +6,7 @@
 /var/
 /vendor/
 /data/crypto/*.csv
+/data/crypto/log.txt
 
 # Test JSON for import
 /public/dev/demo-mantis-api.json

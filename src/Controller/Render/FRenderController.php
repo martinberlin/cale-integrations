@@ -48,7 +48,7 @@ EOT;
      * render CSV data using PHP plot
      * PHPlot Example: OHLC (Financial) plot, Filled Candlesticks plot, using
      * external data file, data-data format with date-formatted labels.
-     * @Route("/candlestick-png/{userId}/{intApiId}", name="render_crypto_candlesticks")
+     * @Route("/candlestick-img/{userId}/{intApiId}", name="render_crypto_candlesticks")
      * @param $userId
      * @param $intApiId
      * @param UserApiFinancialChartRepository $userFinancialRepository
@@ -106,13 +106,14 @@ EOT;
         // $user->getDateFormat() -> Not the right format  m.d.Y needs %d
         $plot->SetXLabelType('time', "%d.%m.%y".$appendHour);
         $plot->TuneYAutoRange('n', 'T');
-
+        $plot->SetFileFormat('jpg');
         //dump($financial,$cryptoSettings->downloadLocalPath,$cryptoSettings->datafiles);exit();
+        $image = $plot->DrawGraph();
 
         // Don't need a Symfony response, plot does this already
         $response = new Response();
-        $response->headers->set('Content-Type', 'image/png');
-        $response->setContent($plot->DrawGraph());
+        $response->headers->set('Content-Type', 'image/jpeg');
+        $response->setContent($image);
         return $response;
     }
 

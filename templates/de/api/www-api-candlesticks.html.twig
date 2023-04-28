@@ -1,0 +1,28 @@
+{% extends '/base.html.twig' %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top: -2em">
+
+        <h2>
+            <img src="/img/svg/candlestick.svg"> Candlestick charts
+        </h2>
+        <p>
+            Die Data-quelle für den Charts preis kommt von <a href="https://www.cryptodatadownload.com" target="_blank">cryptodatadownload.com</a>
+            Diese Charts sind keine Echtzeitdaten und zeigen die Preisschwankungen von gestern. Sie sind für nicht-kommerzielle Anwendungen frei verwendbar.
+
+            <h3>Demo für eine Schwartz-Weiß epaper</h3>
+          <img src="http://img.cale.es/bmp/cale_www/60bfc428dbf85">
+
+        <h3>Demo für eine 3 Farben display</h3>
+        <img src="http://img.cale.es/bmp/cale_www/60bfc53ec09c0">
+        </p>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}
