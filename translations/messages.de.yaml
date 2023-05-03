@@ -33,6 +33,7 @@ nav_digital_art: Epaper Bilderrahmen
 nav_pcb_cinwrite: Unsere ESP32S3 SPI master Regler
 nav_pcb_c3_24: Eine ESP32-C3 epaper mit touch Controller
 nav_good-display: Good Display partnershaft
+nav_sponsor_link: https://de.good-display.com
 # NAV BACKEND
 navb_api: Inhalten
 navb_user: Benutzer
