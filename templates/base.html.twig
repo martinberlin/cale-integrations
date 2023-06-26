@@ -81,8 +81,8 @@
                         &nbsp;&nbsp;&nbsp;<a href="{{ path('impressum') }}">{{ 'nav_legal'|trans }}</a><br>
                         <a href="{{ path('privacy-policy') }}">{{ 'nav_privacy'|trans }}</a> |
                         <a href="{{ path('apis') }}">{{ 'nav_apis'|trans }}</a> |
-                        <a href="{{ path('firmware') }}">ESP32 Firmware</a> |
-                        Sponsored by: <a href="{{ path('news_good-display') }}"><img src="/assets/good-display-small.png"></a>
+                        <a href="{{ path('firmware') }}">ESP32 Firmware</a>
+                        {#| Sponsored by: <a href="{{ path('news_good-display') }}"><img src="/assets/good-display-small.png"></a> #}
                     </p>
 
                     {% if app.user is null and the_route != 'home'
