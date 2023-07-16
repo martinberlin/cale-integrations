@@ -7,23 +7,25 @@ The [ESP32 firmware](https://github.com/martinberlin/eink-calendar/tree/cale) is
 If you are interested in building one E-Ink calendar you can find information to build one in the
 [CALE Hackaday project](https://hackaday.io/project/169086)
 
+### [YouTube video explaining how Cale concept works](https://www.youtube.com/watch?v=7Sal9Ii7H2U)
+
 ## API Pool includes
 
     Codename        | API
     cale-google     | Google calendar
     cale-timetree   | Shared calendar
-    weather-darksky | Darksky weather
+    weather-darksky | Darksky weather -> deprecated (Bought by Apply, public API dead)
     cale-iCal       | CALE iCal API
     cale-html       | CALE internal HTML editor
     
+Check the updated list of [supported APIs in the public website](https://cale.es/apis)
 
 ## Technologies used
 
-- PHP / Symfony 4.4 recipes 
+- PHP / Symfony 4.4
 - Doctrine Object relational mapping
 - native Bootstrap CSS / minimal use of jQuery 
 - Amazon AWS infrastructure (EC2/EBS/S3)
-
 
      A Screenshot microservice based on wk<html>toimage
 
@@ -48,5 +50,7 @@ Requires PHP extensions:
 - https://wkhtmltopdf.org
 - https://twitter.com/IoTPanic Samuel that helped with my basic know-how of C
 - https://summernote.org out HTML editor of choice (Sponsored their project)
-- All the first users that trusted in the project and send bug reports, emails, along with wishes and support. 
-Nothing would be possible without that feedback 
+- All the first users that trusted in the project and send bug reports, emails, along with wishes and support.
+- [UsefulElectronics](https://github.com/UsefulElectronics) who collaborated correcting openWeather API and also in the [Cale-idf epaper component repository](https://github.com/martinberlin/cale-idf/graphs/contributors)
+
+Nothing would be possible without that feedback and help!
