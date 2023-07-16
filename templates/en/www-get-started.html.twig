@@ -9,15 +9,18 @@
 {% endblock carousel %}
 
 {% block body %}
-    <div class="col-md-9" style="margin-top: -2em">
+    <div class="col-md-12" style="margin-top: -2em">
         <h3>
             <span class="glyphicon glyphicon-play-circle"></span>
             Get started
         </h3>
+        <h4>Watch this video below if you want to get a grasp from the Firmware and setup process</h4>
+        <iframe width="100%" height="560" src="https://www.youtube.com/embed/7Sal9Ii7H2U" title="YouTube video player"
+                frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-        <h4>Compile the latest Firmware in your ESP32 and send the configuration using Bluetooth</h4>
+        <h3><strong>Compile the latest Firmware using ESP-IDF</strong></h3>
 
-        <h4>1. <a href="{{ path('register') }}">Register on <span class="cale" style="font-weight: bolder">CALE</span></a> and create a demo Screen</h4>
+        <h3>1. <a href="{{ path('register') }}">Register on <span class="cale" style="font-weight: bolder">CALE</span></a> and create a demo Screen</h3>
         <p><ul>
             <li>Add one API like Google Calendar or HTML content that have easy configuration</li>
             <li>Add one Screen with some test display and render this to see your preview</li>
@@ -29,68 +32,22 @@
         test it fast without wiring just get an E-Ink with ESP32 module like TTGO T5 to easily test it without needing to build it.
         You can skip this point until having one and also try it out without display just on any ESP32</p>
 
-        <h4>3. Download and compile the Firmware</h4>
+        <h3>3. Download and <a href="{{ path('firmware-idf') }}">compile the Firmware in any Espressif chip</a></h3>
 
-        <h4>4. Connect the Android App with <span class="cale" style="font-weight: bolder">CALE.es</span> scanning a QR Code</h4>
-        <p>Install the <a href="https://play.google.com/store/apps/details?id=io.cordova.cale" target="_blank">CALE Android App</a>.
-            <ul>
-            <li>Scan the QR Code in CALE.es after login <b>User <span class="glyphicon glyphicon-arrow-right"></span> Api QR</b></li>
-            <li>Select your Screen</li>
-            <li>Choose the ESP32 bluetooth target and click on <b>Send Config</b></li>
-            </ul>
-            At this point your E-Ink client should be connected with our CALE server. Just
-        play around, add new sections/APIs, reset and test how it looks. In step 3 you can
-        decide what is the refresh time.</p>
+        Our preferred way to do so is to use Espressif IDF framework that is the official way to do it with most options and examples available.
+        We understand that it's not everyone cup of tea so there is also an Arduino-ESP32 version available in our Firmware section.
 
-        <a id="blue"></a><br>
-        <h3>
-            Install the Firmware
+        Make sure to follow the instructions and watch the video to be aware of the configuration. The Firmware needs to be aware of two important things:
+
+        <ul>
+            <li>1. Your WiFi credentials</li>
+            <li>2. The CALE image URL that you can get from our service once you generate your screen(s) and add some content to them</li>
+            <li>3. There is a Bearer token in case you need to make your screen more secure</li>
+        </ul>
         </h3>
-        <p>Repository:<br>
 
-        <h4><a href="https://github.com/martinberlin/eink-calendar">https://github.com/martinberlin/eink-calendar</a> - master branch</h4>
-<br>
-         It's an easy configuration. The most important is uncomment the right definition
-        for your E-Ink display model. That configuration is not sent per Bluetooth, but directly hardcoded on the Firmware,
-        so the controller knows how to send data to the Epaper display. What is sent per Bluetooth is the following:
-<br><br>
-        <ol>
-            <li>Screen Url</li>
-            <li>Bearer token</li>
-            <li>WiFi credentials (up to 2)</li>
-        </ol>
-
-        Once the firmware receives this configuration per Bluetooth, it stores is in the non-volatil memory of the ESP32
-        and it does not need to be sent again unless your WiFi is changed.
-
-        Please more about the configuration details in our
-        <a href="{{ path('firmware-blue') }}">configuring the Firmware with Bluetooth</a>
-        section.
+         It's an easy configuration. It just needs a bit of testing and to get familiar with it.
     </div>
-    <div class="col-md-3">
-        <div class="panel panel-default" style="margin-top: 1em">
-            <div class="panel-heading">Quick access:</div>
-            <div class="panel-body">
-                <ul>
-                    <li><a href="#blue">Configuring WiFi over Bluetooth</a></li>
-                </ul>
-            {% if adsense_active %}
-                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                <!-- Cale vertical -->
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="ca-pub-5919782356383484"
-                     data-ad-slot="6845528655"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
-                <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-            {% endif %}
-
-            </div></div>
-    </div>
-
 {% endblock %}
 
 {% block javascripts %}

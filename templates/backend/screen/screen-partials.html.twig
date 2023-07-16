@@ -15,7 +15,8 @@
                            {{ form_label(form.partials.vars.prototype.maxResults) }}
                        </div>
                        <div class="col-md-3 col-sm-6 col-xs-6">
-                           {{ form_widget(form.partials.vars.prototype.maxResults) }}
+                           {# Don't really understand why this does not came from FormType: #}
+                           {{ form_widget(form.partials.vars.prototype.maxResults, {'attr': {'maxlength': '2'}}) }}
                        </div>
                        <div class="col-md-3 col-sm-6 col-xs-6">
                            {{ form_label(form.partials.vars.prototype.sortPos) }}
@@ -120,7 +121,6 @@
         {# {{ form_widget(form.partials.vars.prototype)|e('html_attr') }} #}
         <div class="collection_holder row"
              data-prototype="{{ _self.rowPrototype(form)|e }}">
-
 
             {# Iterate over each existing partials #}
             {% for partial in form.partials %}
