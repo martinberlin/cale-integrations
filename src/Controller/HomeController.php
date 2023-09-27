@@ -313,12 +313,11 @@ class HomeController extends AbstractController
             ['title' => $translator->trans('nav_pcb_c3_24')]
         );
     }
-
-    public function goodDisplay(Request $request, TranslatorInterface $translator)
+    public function productEpdiy(Request $request, TranslatorInterface $translator)
     {
         return $this->render(
-            $request->getLocale().'/news/good-display.html.twig',
-            ['title' => $translator->trans('nav_good-display')]
+            $request->getLocale().'/product/epdiy-controller.html.twig',
+            ['title' => 'epdiy parallel controller']
         );
     }
 }
