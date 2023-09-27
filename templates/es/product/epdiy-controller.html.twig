@@ -1,0 +1,79 @@
+{% extends '/base.html.twig' %}
+{% set carousel_high = 150 %}
+
+{% block stylesheets %}
+    <style>
+        #myCarousel.carousel {
+            height: {{ carousel_high }}px;
+        }
+        #myCarousel .item {
+            height: {{ carousel_high }}px; width: 100%;
+            background-color: #333;
+        }
+    </style>
+
+{% endblock stylesheets %}
+
+{% block carousel %}
+    {% include "/partials/carousel.html.twig" %}
+{% endblock carousel %}
+
+{% block body %}
+    <h2>epdiy controlador para epapers industriales</h2>
+
+    <h3>Que es epdiy?</h3>
+    <h4><b>epdiy</b> es un controlador que se comunica por el protocolo LCD Module (Paralelo) con E-Papers (también llamados E-Ink) displays,
+        que se venden usualmente en eBay o Aliexpress para reparar lectores de e-books. </h4>
+
+    <h4>Que tipo de Epapers soporta epdiy v7</h4>
+
+    Estos displays usan unos FETs dentro que son medio duros y necesitan alto voltaje para dejar pasa los +15 and -15 Volts
+    que se usan para que las particulas de Eink floten arriba o abajo.
+    Asegurese de leer bien el datasheet del display que va a comprar y que el VGH (-22 V en este controlador) y VGL (+20 Volt)
+    sean los correctos. Si no lo encuentra o no tiene la hoja de datos solo use los modelos testeados en la <a href="https://github.com/vroland/epdiy" target="_blank">página Readme del proyecto epdiy</a>.
+    Teoricamente todos los parallel epapers tienen el mismo principio de funcionamiento. El detalle es que <b>epdiy</b> usa waveforms (Timings precisos) open source.
+    Y no todos los modelos se pueden ajustar a esto perfectamente bien. Los conectores FPC el la plaqueta son:
+<ul>
+    <li>ED133UT2 13.3", 8 bit, 1600 x 1200</li>
+    <li>33 pin 9.7", 8 bit, 1200 x 825</li>
+    <li>40 pin modern Eink.com / Waveshare / others, 16 bit, different resolutions. </li>
+    <li>Not all models are supported "out of the Firmware". You need to add configurations, in displays.c, for different resolutions not all come pre-configured.</li>
+</ul>
+<br>
+    <a class="btn btn-primary btn-empty" href="https://www.tindie.com/products/fasani/epdiy-v7-816-bit-parallel-epaper-controller/" role="button">▲ Buy this PCB in our Tindie store</a>
+    <a class="btn btn-default btn-empty" href="#features" role="button">▼ Check what it offers</a>
+    <a class="btn btn-default btn-empty" href="https://github.com/martinberlin/bistable-smart-switch" role="button">Open source Firmware demos</a>
+    <a class="btn btn-default" href="https://github.com/martinberlin/bistable-smart-switch/tree/master/Hardware/C3-27-epaper-touch/schematics" role="button">Electronic schematics</a>
+<br><br>
+    <center><img src="/img/www/product/epdiy/epdiy-pcb-fcu.png"></center>
+
+    <a name="features" id="features"></a><br><br>
+    <h3>Features offered:</h3>
+    <ul>
+       <li>WiFi</li>
+        <li>BLE. Important point: BLE, not Bluetooth classic (Only ESP32 has BT-classic)</li>
+        <li>8 MB PSRAM</li>
+        <li>PCF8563 Real-Time-Clock</li>
+        <li>Professional epaper high voltage PMIC: TPS65185</li>
+        <li>USB to UART chip CH340 with USB-C interface</li>
+        <li>3 different connectors supporting many parallel epaper displays</li>
+        <li>Many GPIO Outputs to control external devices: Just check the schematics!</li>
+    </ul>
+    It also includes the PCF8563 RTC real-time clock module, that will enable your Firmware to sleep at night, make a clock or simply
+    update the display every hour precisely at the time you want. Get this kit today and make your epaper kits, more convenient, and efficient!
+<br><br>
+    <a class="btn btn-primary btn-empty" href="https://www.tindie.com/products/fasani/epdiy-v7-816-bit-parallel-epaper-controller/" role="button">Buy the <b>epdiy</b> controller in our Tindie store</a>
+    <br><br>
+    <center><img src="/img/www/product/epdiy/epdiy-color.jpg"><br>
+    <small>Test with 40 pin parallel epaper with color filter (CFA)</small></center>
+    <br><br>
+    <center><img src="/img/www/product/epdiy/epdiy-10-enclosure.jpg"></center>
+    <small>Enclosure 3D-model design: Available per request</small>
+    <br><br>
+    <a class="btn btn-primary btn-empty" href="https://www.tindie.com/products/fasani/epdiy-v7-816-bit-parallel-epaper-controller/" role="button">Buy the <b>epdiy</b> controller in our Tindie store</a>
+    <br><br>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="/js/engine/common.js"></script>
+{% endblock %}
