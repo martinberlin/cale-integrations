@@ -270,10 +270,10 @@ www_product-c3-epaper:
   requirements:
     _locale: '%locales%'
 
-news_good-display:
-  path:       /collaboration/Good-Display/{_locale}
-  controller: App\Controller\HomeController::goodDisplay
-  defaults:
-    _locale: en
-  requirements:
-    _locale: '%locales%'
+#news_good-display:
+#  path:       /collaboration/Good-Display/{_locale}
+#  controller: App\Controller\HomeController::goodDisplay
+#  defaults:
+#    _locale: en
+#  requirements:
+#    _locale: '%locales%'
