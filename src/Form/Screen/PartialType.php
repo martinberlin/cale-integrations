@@ -94,7 +94,7 @@ class PartialType extends AbstractType
                     'required' => true,
                     'attr' => [
                         'size'      =>3,
-                        'maxlength' =>1
+                        'maxlength' =>2
                     ],
                     'constraints' => [
                         new NotBlank(),
