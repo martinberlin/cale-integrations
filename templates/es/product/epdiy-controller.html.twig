@@ -36,33 +36,40 @@
 <ul>
     <li>ED133UT2 13.3", 8 bit, 1600 x 1200</li>
     <li>33 pin 9.7", 8 bit, 1200 x 825</li>
-    <li>40 pin modern Eink.com / Waveshare / others, 16 bit, different resolutions. </li>
-    <li>Not all models are supported "out of the Firmware". You need to add configurations, in displays.c, for different resolutions not all come pre-configured.</li>
+    <li>40 pin modern Eink.com / Waveshare / <a href="http://en.wf-tech.com/pro_1341.html" target="_blank">en.wf-tech.com</a> y otros displays, 16 bit, diferentes resoluciones. </li>
 </ul>
 <br>
-    <a class="btn btn-primary btn-empty" href="https://www.tindie.com/products/fasani/epdiy-v7-816-bit-parallel-epaper-controller/" role="button">▲ Buy this PCB in our Tindie store</a>
-    <a class="btn btn-default btn-empty" href="#features" role="button">▼ Check what it offers</a>
-    <a class="btn btn-default btn-empty" href="https://github.com/martinberlin/bistable-smart-switch" role="button">Open source Firmware demos</a>
-    <a class="btn btn-default" href="https://github.com/martinberlin/bistable-smart-switch/tree/master/Hardware/C3-27-epaper-touch/schematics" role="button">Electronic schematics</a>
+    <a class="btn btn-primary btn-empty" href="https://www.tindie.com/products/fasani/epdiy-v7-816-bit-parallel-epaper-controller/" role="button">[ Compra este PCB en nuestra tienda Tindie ]</a>
+    <a class="btn btn-default btn-empty" href="#features" role="button">▼ Que es lo que ofrece</a>
+    <a class="btn btn-default btn-empty" href="https://github.com/vroland/epdiy/tree/s3_color_implementation" role="button">Ejemplos y libreria open-source</a>
+    <a class="btn btn-default" href="https://github.com/martinberlin/epdiy-rotation/blob/s3_big_epd_1.1/hardware/epdiy-v7/V7-mod-Schematics.pdf" role="button">Schematics de la electrónica</a>
 <br><br>
-    <center><img src="/img/www/product/epdiy/epdiy-pcb-fcu.png"></center>
+    <center><img alt="KiCad PCB" src="/img/www/product/epdiy/epdiy-pcb-fcu.png"></center>
 
+    <br><br>
+    <h2>Que puedes hacer con <b>epdiy v7</b></h2>
+    <ul style="font-size: 14pt">
+        <li>Señaletica digital para equipos industriales</li>
+        <li>Lectores de E-book</li>
+        <li>Equipos IOT industriales para leer sensores y mostrar información</li>
+        <li>Cuadros de foto dinámicos que leen la imagen de WiFi o BLE</li>
+        <li>Tiene soporte para <b>epapers a todo color (CFA)</b></li>
+    </ul>
+    <center><img alt="Dimensiones 55x100mm" src="/img/www/product/epdiy/epdiy-dimensions.jpg"></center>
     <a name="features" id="features"></a><br><br>
-    <h3>Features offered:</h3>
+    <h3>Que es lo que ofrece este controlador:</h3>
     <ul>
        <li>WiFi</li>
-        <li>BLE. Important point: BLE, not Bluetooth classic (Only ESP32 has BT-classic)</li>
-        <li>8 MB PSRAM</li>
+        <li>BLE. No tiene Bluetooth classic (Solo el ESP32 tiene BT-classic)</li>
+        <li>8 MB RAM externa</li>
         <li>PCF8563 Real-Time-Clock</li>
-        <li>Professional epaper high voltage PMIC: TPS65185</li>
-        <li>USB to UART chip CH340 with USB-C interface</li>
-        <li>3 different connectors supporting many parallel epaper displays</li>
-        <li>Many GPIO Outputs to control external devices: Just check the schematics!</li>
+        <li>Generador de alto voltage PMIC para epaper: TPS65185</li>
+        <li>USB a UART chip CH340 con USB-C interface</li>
+        <li>3 conectores diferentes que soportan muchos modelos de epaper displays</li>
+        <li>Muchos outputs GPIO para controlar perifericos: Chequea los Schematics!</li>
     </ul>
-    It also includes the PCF8563 RTC real-time clock module, that will enable your Firmware to sleep at night, make a clock or simply
-    update the display every hour precisely at the time you want. Get this kit today and make your epaper kits, more convenient, and efficient!
 <br><br>
-    <a class="btn btn-primary btn-empty" href="https://www.tindie.com/products/fasani/epdiy-v7-816-bit-parallel-epaper-controller/" role="button">Buy the <b>epdiy</b> controller in our Tindie store</a>
+    <a class="btn btn-primary btn-empty" href="https://www.tindie.com/products/fasani/epdiy-v7-816-bit-parallel-epaper-controller/" role="button">Compra este PCB en nuestra tienda Tindie</a>
     <br><br>
     <center><img src="/img/www/product/epdiy/epdiy-color.jpg"><br>
     <small>Test with 40 pin parallel epaper with color filter (CFA)</small></center>
@@ -70,7 +77,7 @@
     <center><img src="/img/www/product/epdiy/epdiy-10-enclosure.jpg"></center>
     <small>Enclosure 3D-model design: Available per request</small>
     <br><br>
-    <a class="btn btn-primary btn-empty" href="https://www.tindie.com/products/fasani/epdiy-v7-816-bit-parallel-epaper-controller/" role="button">Buy the <b>epdiy</b> controller in our Tindie store</a>
+    <a class="btn btn-primary btn-empty" href="https://www.tindie.com/products/fasani/epdiy-v7-816-bit-parallel-epaper-controller/" role="button">Compra este PCB en nuestra tienda Tindie</a>
     <br><br>
 {% endblock %}
 
