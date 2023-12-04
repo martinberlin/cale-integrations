@@ -81,7 +81,9 @@ class ScreenOutputType extends AbstractType
                     '10 minutes' => 600,
                     '30 minutes' => 1800,
                     '1 hour' => 3600,
-                    '2 hours' => 7200
+                    '2 hours' => 7200,
+                    '6 hours' => 21600,
+                    '12 hours'=> 43200
                     ],
                 'bitdepth' => [
                     '1 bit' => 1,
