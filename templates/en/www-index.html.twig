@@ -47,31 +47,13 @@
         <img src="{{ bmp_800_demo}}" style="border:1px solid #EEEEEE;margin-left:1px" width="98%"><br>
         <small style="font-size:9pt;color:#666666">800*600 bitmap preview (4 bits por pixel). Image generated dynamically each 2 hrs</small>
 
-        <a href="https://play.google.com/store/apps/details?id=io.cordova.cale" target="_blank" title="CALE Android application">
-            <img src="/assets/www/firmware/cale_app_1.jpg" style="margin-top:1.6em;margin-right:19px" alt="CALE Android app" class="pull-right"></a>
         <p style="margin-top:2em">
-            <h4><a href="{{ path('firmware-blue') }}">Our Firmware</a> is compatible with ESP32 / ESP8266 Espressif boards and it's ready to be configured with
-            <span class="cale" style="font-weight:bold">CALE Android Application</span></h4>
+            <h4><a href="{{ path('firmware-idf') }}">Our Firmware</a> is compatible with ESP32 (C3,S3) Espressif boards and it's ready to be configured with
+            <span class="cale" style="font-weight:bold">Rainmaker (Check feature/50-idf-v5-rainmaker branch)</span></h4>
         <br>
-        Both the Firmware and the Android application are fully open source.
+        Both Firmware and Cale website are open source.
         Enabling you to have full control of what is going on between your application and the display controller.
-        You can even fork it and customize it for your own project or use our working examples in your own Firmware implementation.<br><br>
-
-        <b>To sync your App to our web-service just create an account and follow this steps:</b><br><br>
-        <ol>
-            <li><a href="https://play.google.com/store/apps/details?id=io.cordova.cale" target="_blank">
-                    Download <span class="cale" style="font-weight:bold">CALE Android App</span></a></li>
-            <li>Configure a test Screen, associated to an Eink display, and one WiFi access point</li>
-            <li>Activate Bluetooth in your Android device and log in to <span class="cale" style="font-weight:bold">CALE BACKEND</span></li>
-            <li>Scan the QR Code you can see on <b>User <span class="glyphicon glyphicon-arrow-right"></span> My api QR code</b></li>
-            <li>Select the Screen you created previously, choose the ESP32 Bluetooth target, and send the configuration using Bluetooth</li>
-        </ol>
-        After the Espressif board receives his WiFi AP gets online and downloads the Screen image.
-        It should refresh the Epaper display and go to sleep,
-        remaining in low consumption mode, till next wake up.<br><br>
-        At this point you have a low energy display that is connected to <span class="cale" style="font-weight:bold">CALE BACKEND</span>
-        so you can change any part of the Screen, and in next refresh the Epaper display
-        will read the new image.
+        You can even fork it and customize it for your own project or use our working examples in your own Firmware implementation.
         </p>
     </div>
     </div>
