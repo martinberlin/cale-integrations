@@ -108,6 +108,24 @@ class User implements UserInterface, Language, Created
 
     /**
      * @var \DateTime
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $paidLast;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
+     */
+    protected $paidTill;
+
+    /**
+     * @var integer | EURO
+     * @ORM\Column(type="integer", options={"default" : 0})
+     */
+    protected $paidTotal;
+
+    /**
+     * @var \DateTime
      * @ORM\Column(type="datetime")
      */
     protected $created;
@@ -223,6 +241,37 @@ class User implements UserInterface, Language, Created
     public function setCreated(\DateTime $dateTime = null) {
         $this->created = $dateTime;
     }
+
+    public function getPaidLast() {
+        return $this->paidLast;
+    }
+    public function setPaidLast(\DateTime $dateTime = null) {
+        $this->paidLast = $dateTime;
+    }
+
+    public function getPaidTill() {
+        return $this->paidTill;
+    }
+    public function setPaidTill(\DateTime $dateTime = null) {
+        $this->paidTill = $dateTime;
+    }
+
+    public function getPaidTotal()
+    {
+        return $this->paidTotal;
+    }
+    public function setPaidTotal(int $paid) {
+        $this->paidTotal = $paid;
+    }
+
+    /**
+     * @param int $paid
+     * SUMs paid to the total value in DB column
+     */
+    public function sumPaid(int $paid) {
+        $this->paidTotal += $paid;
+    }
+
     /**
      * @return mixed
      */
