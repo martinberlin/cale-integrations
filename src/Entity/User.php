@@ -110,7 +110,7 @@ class User implements UserInterface, Language, Created
      * @var \DateTime
      * @ORM\Column(type="datetime", nullable=true)
      */
-    protected $paidLast;
+    protected $paidDate;
 
     /**
      * @var \DateTime
@@ -242,11 +242,11 @@ class User implements UserInterface, Language, Created
         $this->created = $dateTime;
     }
 
-    public function getPaidLast() {
-        return $this->paidLast;
+    public function getPaidDate() {
+        return $this->paidDate;
     }
-    public function setPaidLast(\DateTime $dateTime = null) {
-        $this->paidLast = $dateTime;
+    public function setPaidDate(\DateTime $dateTime = null) {
+        $this->paidDate = $dateTime;
     }
 
     public function getPaidTill() {
