@@ -125,6 +125,12 @@ class User implements UserInterface, Language, Created
     protected $paidTotal;
 
     /**
+     * @var string
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $paypalEmail;
+
+    /**
      * @var \DateTime
      * @ORM\Column(type="datetime")
      */
@@ -270,6 +276,14 @@ class User implements UserInterface, Language, Created
      */
     public function sumPaid(int $paid) {
         $this->paidTotal += $paid;
+    }
+
+    public function getPaypalEmail()
+    {
+        return $this->paypalEmail;
+    }
+    public function setPaypalEmail(string $email) {
+        $this->paypalEmail = $email;
     }
 
     /**

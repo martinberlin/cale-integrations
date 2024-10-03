@@ -1,0 +1,33 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+{% block body %}
+{{ 'subscription_description'|trans }}
+<br><br>
+<div class="row">
+   <div class="col-md-2">
+   <b>Subscription status:</b>
+   </div>
+
+   <div class="col-md-2">
+      {% if (subscription) %}
+      <span class="alert-primary">ACTIVE</span>
+      {% else %}
+      <span class="alert-danger">INACTIVE</span>
+      {% endif %}
+   </div>
+</div>
+
+   {% if (user.paypalEmail != '') %}
+<div class="row">
+   <div class="col-md-2">
+      <b>Paypal Email:</b>
+   </div>
+   <div class="col-md-2">
+      {{ user.paypalEmail }}
+   </div>
+</div>
+      <br>
+   {% else %}
+      <br>Your Paypal Email is not set. Please <a href="{{ path('b_paypal') }}">configure it here</a> so you can pay your subscription
+   {% endif %}
+   {% endblock %}
