@@ -31,7 +31,15 @@
       <br>Your Paypal Email is not set. Please <a href="{{ path('b_paypal') }}">configure it here</a> so you can pay your subscription
    {% endif %}
 
-   <br><br>
+   <br>
+   <script src="https://www.paypal.com/sdk/js?client-id=BAAqX5TILNQKMqWrZEAPBNpa5DBUc-8ZOaANIh4YoD-UMH7g7mosci0S3sLO94D_BuOsH4FJiesxOSjcGE&components=hosted-buttons&disable-funding=venmo&currency=EUR"></script>
+   <div id="paypal-container-WLN2X2NFCBYUL"></div>
+   <script>
+      paypal.HostedButtons({
+         hostedButtonId: "WLN2X2NFCBYUL",
+      }).render("#paypal-container-WLN2X2NFCBYUL")
+   </script>
+   <br>
    PayPal recurring payments will be set with Payum in the next days. Please set the paypal Email and send a <b>3 €</b> payment to <b>martin@cale.es</b> to activate
    your subscription till the end of November 2024. Your account will be credited in the next 6 hrs of receiving the payment.
    {#<a href="{{ path('b_paypal_agreement') }}">Start subscription service</a>#}
