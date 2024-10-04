@@ -17,6 +17,11 @@
         "google/apiclient": "^2.4",
         "gregwar/captcha-bundle": "2.1.4",
         "johngrogg/ics-parser": "^2",
+        "mike182uk/paypal-ipn-listener": "^9.0",
+        "payum/paypal-express-checkout-nvp": "^1.7",
+        "payum/payum-bundle": "2.4.2",
+        "php-http/guzzle7-adapter": "1.0.0",
+        "php-http/message-factory": "^1.1",
         "sensio/framework-extra-bundle": "^5.4",
         "symfony/console": "^4.4",
         "symfony/dotenv": "^4.4",
@@ -32,10 +37,7 @@
         "symfony/validator": "^4.4",
         "symfony/yaml": "^4.4",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0",
-        "payum/payum-bundle": "2.4.2",
-        "php-http/guzzle7-adapter": "1.0.0",
-        "payum/paypal-express-checkout-nvp": "^1.7"
+        "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.2",

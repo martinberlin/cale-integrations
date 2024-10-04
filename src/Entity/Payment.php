@@ -19,8 +19,4 @@ class Payment extends BasePayment
      */
     protected $id;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    protected $userId;
 }

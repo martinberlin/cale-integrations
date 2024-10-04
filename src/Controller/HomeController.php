@@ -2,8 +2,11 @@
 namespace App\Controller;
 
 use App\Entity\Display;
+use App\Entity\PaymentLog;
 use App\Repository\ApiRepository;
 use App\Repository\DisplayRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
