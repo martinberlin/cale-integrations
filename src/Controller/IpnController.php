@@ -40,12 +40,13 @@ class IpnController extends AbstractController
         );
 
         $paymentLog = new PaymentLog();
-        $paymentLog->setArrayStorage([1=>'none']);
+        $paymentLog->setArrayStorage($request->headers->all());
         $paymentLog->setNotes($request->getContent());
         $entityManager->persist($paymentLog);
         $entityManager->flush();
         $response = new Response();
-        $response->setContent("OK");
+        $response->setContent('OK');
+
         return $response;
     }
 }
