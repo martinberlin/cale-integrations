@@ -26,6 +26,24 @@
       {{ user.paypalEmail }}
    </div>
 </div>
+   {% if (subscription == 1) %}
+      <div class="row">
+         <div class="col-md-2">
+            <b>Subscription enabled till:</b>
+         </div>
+         <div class="col-md-2">
+            {{ user.paidTill|date('l j, F Y h:i') }}
+         </div>
+      </div>
+   {% endif %}
+      <div class="row">
+         <div class="col-md-2">
+            <b>Username:</b>
+         </div>
+         <div class="col-md-2">
+            {{ user.name }}
+         </div>
+      </div>
       <br>
    {% else %}
       <br>Your Paypal Email is not set. Please <a href="{{ path('b_paypal') }}">configure it here</a> so you can pay your subscription
