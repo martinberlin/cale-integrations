@@ -114,7 +114,7 @@ class User implements UserInterface, Language, Created
 
     /**
      * @var \DateTime
-     * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
+     * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"}, nullable=true)
      */
     protected $paidTill;
 
