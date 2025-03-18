@@ -10,6 +10,7 @@ use App\Form\Api\IntegrationAwsType;
 use App\Form\Api\IntegrationHtmlType;
 use App\Form\Api\IntegrationSharedCalendarApiType;
 use App\Form\Api\IntegrationWeatherApiType;
+use App\Form\Api\Sensor\SCD40Type;
 use App\Form\Api\Wizard\ApiDeleteConfirmationType;
 use App\Form\Api\Wizard\ApiTokenType;
 use App\Form\Api\Wizard\Google\GoogleCalendar1Type;
@@ -84,6 +85,7 @@ class BackendApiController extends AbstractController
     public function apiConfigure(Request $request, EntityManagerInterface $entityManager, ApiRepository $apiRepository)
     {
         $getApis = $apiRepository->findAll();
+
         $apis = [];
         foreach ($getApis as $api) {
             $apis[$api->getId()] = $api->getAuthNote();
@@ -724,4 +726,56 @@ class BackendApiController extends AbstractController
         return $r;
     }
 
+    /**
+     * @Route("/sensor/scd40/{uuid}/{intapi_uuid?}/{step?1}", name="b_api_sensor_scd40")
+     */
+    public function sensorScd40(
+        $uuid, $intapi_uuid, $step, Request $request,
+        UserApiRepository $userApiRepository,
+        IntegrationApiRepository $intApiRepository,
+        EntityManagerInterface $entityManager)
+    {
+        $userApi = $this->getUserApi($userApiRepository, $uuid);
+        $api = $this->getIntegrationApi($intApiRepository, $intapi_uuid);
+        if (is_null($api->getJsonSettings()) || $api->getJsonSettings() ==='') {
+            $api->setJsonSettings($userApi->getApi()->getDefaultJsonSettings());
+        }
+        $defaultJson = $userApi->getApi()->getDefaultJsonSettings();
+        $defaultJson = str_replace("KEY", $uuid, $defaultJson);
+
+        $form = $this->createForm(SCD40Type::class, $api);
+        $form->setData('jsonSettings', $defaultJson);
+        $form->handleRequest($request);
+        $error = "";
+        if ($form->isSubmitted() && $form->isValid()) {
+            $userApi->setIsConfigured(true);
+
+            $api->setUserApi($userApi);
+            try {
+                $entityManager->persist($api);
+                $entityManager->flush();
+            } catch (\Exception $e) {
+                $error = $e->getMessage();
+                $this->addFlash('error', $error);
+            }
+
+            if ($error === '') {
+                $this->addFlash('success',
+                    "Saved. Check documentation on how to log using IOT");
+                return $this->redirectToRoute('b_home_apis');
+            }
+        }
+
+        return $this->render(
+            'backend/api/sensor/scd40.html.twig',
+            [
+                'title' => 'Configure SCD40 sensor',
+                'form'  => $form->createView(),
+                'intapi_uuid' => $intapi_uuid,
+                'intapi'      => $api,
+                'userapi_id'  => $userApi->getId(),
+                'default_json' => $defaultJson,
+                'menu' => $this->menu
+            ]);
+    }
 }

@@ -1,0 +1,37 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        {{ form_start(form) }}
+        <div class="col-md-7">
+            This API shows the URL where your SCD40 IOT sensor should send the Request and how is the data format.
+
+            {{ form_errors(form) }}
+
+            {{ form_row(form.name) }}
+        </div>
+        <div class="col-md-3">
+            <label>Preview with dummy values</label>
+            Your IOT should send a POST request to the following URL:
+
+            http://cale.es/{{ path('api_scd40_log') }}
+
+            Data demo:
+            <code>
+                {{ default_json|raw }}
+            </code>
+
+        </div>
+    </div>
+
+            {% if intapi_uuid %}
+            <label style="margin-left: 1em">{{'api_response'|trans}}</label>
+            <div class="col-md-5" id="api_preview" style="height: 500px;overflow-y: auto">
+                Preview after saving configuration settings.
+            </div>
+            {% endif %}
+    {{ form_row(form.submit) }}
+
+            {{ form_end(form) }}
+        </div>
+{% endblock %}
