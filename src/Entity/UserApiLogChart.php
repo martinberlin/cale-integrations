@@ -53,7 +53,7 @@ class UserApiLogChart
      * @ORM\Column(type="string", length=7,nullable=true)
      */
     protected $color= 'black';
-
+    protected $color2= 'white';
     /**
      * Font trueType file
      *
@@ -167,6 +167,15 @@ class UserApiLogChart
     public function setColor(string $color): void
     {
         $this->color = $color;
+    }
+
+    public function getColor2(): string
+    {
+        return $this->color2;
+    }
+    public function setColor2(string $color): void
+    {
+        $this->color2 = $color;
     }
 
     /**
