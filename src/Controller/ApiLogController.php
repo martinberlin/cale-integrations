@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ApiLogController extends AbstractController {
 
     /**
-     * @Route("/log/scd40", name="api_scd40_log", methods={"POST"})
+     * @Route("/scd40/log", name="api_scd40_log", methods={"POST"})
      */
     public function log(Request $request, UserRepository $userRepository , IntegrationApiRepository $intApiRepository): Response {
         try {
@@ -40,7 +40,7 @@ class ApiLogController extends AbstractController {
             throw new NotFoundHttpException("API with key {$client['key']} not found");
         }
 
-        if ($parsed['temperature'] <= -30 || $parsed['humidity']<=0 || $parsed['co2'] <= 0) {
+        if ($parsed['temperature'] <= -40) {
             throw new NotFoundHttpException('Invalid sensor data');
         }
         // Log this into the database
@@ -67,6 +67,38 @@ class ApiLogController extends AbstractController {
         $response->setContent(json_encode([
             'status' => 'ok',
             'data' => $parsed,
+            ])
+        );
+        return $response;
+    }
+
+    /**
+     * @Route("/scd40/read/{key}/{length?100}", name="api_scd40_read")
+     */
+    public function logRead($key, $length, Request $request, IntegrationApiRepository $intApiRepository): Response {
+        $api = $intApiRepository->findOneBy(['uuid' => $key]);
+        if (! $api instanceof IntegrationApi) {
+            throw new NotFoundHttpException("API with key {$key} not found");
+        }
+
+        $length = (int) $length;
+        $length = $length > 1000 ? 1000 : $length;
+        $length = $length < 1 ? 1 : $length;
+        $em = $this->getDoctrine()->getManager();
+        $apiLogs = $em->getRepository(ApiLog::class)->findBy([], ['timestamp' => 'DESC'], $length);
+        $data = [];
+        foreach ($apiLogs as $apiLog) {
+            $data[] = [
+                'timestamp' => $apiLog->getTimestamp(),
+                'temperature' => $apiLog->getTemperature(),
+                'humidity' => $apiLog->getHumidity(),
+                'co2' => $apiLog->getCo2(),
+                'timezone' => $apiLog->getTimezone(),
+            ];
+        }
+        $response = new JsonResponse();
+        $response->setContent(json_encode([
+            'data' => $data,
             ])
         );
         return $response;

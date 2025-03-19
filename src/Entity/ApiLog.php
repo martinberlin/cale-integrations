@@ -105,11 +105,11 @@ class ApiLog
     {
         $this->co2 = $value;
     }
-    public function setTemperature($value): void
+    public function setTemperature(float $value): void
     {
         $this->temperature = $value;
     }
-    public function setHumidity(int $value): void
+    public function setHumidity(float $value): void
     {
         $this->humidity = $value;
     }
@@ -121,5 +121,26 @@ class ApiLog
     public function setTimestamp(int $value): void
     {
         $this->timestamp = $value;
+    }
+
+    public function getTimestamp(): int
+    {
+        return $this->timestamp;
+    }
+    public function getCo2(): int
+    {
+        return $this->co2;
+    }
+    public function getTemperature()
+    {
+        return $this->temperature;
+    }
+    public function getHumidity()
+    {
+        return $this->humidity;
+    }
+    public function getTimezone()
+    {
+        return $this->timezone;
     }
 }

@@ -742,6 +742,7 @@ class BackendApiController extends AbstractController
         }
         $defaultJson = $userApi->getApi()->getDefaultJsonSettings();
         $defaultJson = str_replace("KEY", $uuid, $defaultJson);
+        $defaultJson = str_replace("USERID", $userApi->getUser()->getId(), $defaultJson);
 
         $form = $this->createForm(SCD40Type::class, $api);
         $form->setData('jsonSettings', $defaultJson);
@@ -769,7 +770,7 @@ class BackendApiController extends AbstractController
         return $this->render(
             'backend/api/sensor/scd40.html.twig',
             [
-                'title' => 'Configure SCD40 sensor',
+                'title' => 'Configure SCD40 sensor logger',
                 'form'  => $form->createView(),
                 'intapi_uuid' => $intapi_uuid,
                 'intapi'      => $api,

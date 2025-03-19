@@ -12,24 +12,17 @@
         </div>
         <div class="col-md-3">
             <label>Preview with dummy values</label>
-            Your IOT should send a POST request to the following URL:
+            Your IOT should send a POST request to the following URL:<br>
+            <b>http://cale.es/{{ path('api_scd40_log') }}</b>
 
-            http://cale.es/{{ path('api_scd40_log') }}
-
-            Data demo:
+            <br>Data sample:
             <code>
                 {{ default_json|raw }}
             </code>
+            Make sure to add client information just as in sample above.
 
         </div>
     </div>
-
-            {% if intapi_uuid %}
-            <label style="margin-left: 1em">{{'api_response'|trans}}</label>
-            <div class="col-md-5" id="api_preview" style="height: 500px;overflow-y: auto">
-                Preview after saving configuration settings.
-            </div>
-            {% endif %}
     {{ form_row(form.submit) }}
 
             {{ form_end(form) }}
