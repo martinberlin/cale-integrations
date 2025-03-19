@@ -31,7 +31,6 @@ ALTER TABLE app_user_api_log ADD CONSTRAINT FK_563E2A7AA76ED395 FOREIGN KEY (use
 ALTER TABLE app_user_api_log ADD CONSTRAINT FK_563E2A7A31C42205 FOREIGN KEY (user_api_id) REFERENCES app_int_api (uuid);
 ALTER TABLE app_apilog CHANGE temperature temperature NUMERIC(2, 0) NOT NULL, CHANGE humidity humidity NUMERIC(2, 0) NOT NULL, CHANGE timezone timezone VARCHAR(10) DEFAULT NULL, CHANGE timestamp timestamp INT DEFAULT CURRENT_TIMESTAMP NOT NULL, CHANGE datestamp datestamp DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL');
         $this->addSql('ALTER TABLE app_apilog ADD CONSTRAINT FK_58EBF94DA76ED395 FOREIGN KEY (user_id) REFERENCES app_user (id)');
-        $this->addSql('ALTER TABLE app_user CHANGE paid_total paid_total INT DEFAULT 0 NOT NULL');
         $this->addSql('ALTER TABLE app_apilog ADD CONSTRAINT FK_58EBF94DAD05D80F FOREIGN KEY (api) REFERENCES app_int_api (uuid)');
         $this->addSql('CREATE INDEX IDX_58EBF94DAD05D80F ON app_apilog (api)');
         // Insert SCD40 API
