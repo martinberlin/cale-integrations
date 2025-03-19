@@ -46,6 +46,8 @@ ALTER TABLE app_apilog CHANGE temperature temperature NUMERIC(2, 0) NOT NULL, CH
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('DROP TABLE app_apilog');
+        $this->addSql('DROP TABLE app_user_api_log');
+        $this->addSql('DELETE FROM app_api WHERE id = 11');
         $this->addSql('ALTER TABLE app_user CHANGE paid_total paid_total INT DEFAULT 0');
     }
 }

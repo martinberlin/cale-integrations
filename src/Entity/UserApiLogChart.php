@@ -11,14 +11,14 @@ class UserApiLogChart
 {
     /**
      * @ORM\id
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="userFinanceCharts")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="UserApiLogChart")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     protected $user;
 
     /**
      * @ORM\id
-     * @ORM\ManyToOne(targetEntity="IntegrationApi", inversedBy="financeCharts")
+     * @ORM\ManyToOne(targetEntity="IntegrationApi", inversedBy="UserApiLogChart")
      * @ORM\JoinColumn(name="user_api_id", referencedColumnName="uuid")
      */
     protected $intApi;
@@ -57,13 +57,13 @@ class UserApiLogChart
     /**
      * Font trueType file
      *
-     * @ORM\Column(type="string", length=50,nullable=false)
+     * @ORM\Column(type="string", length=50,nullable=true)
      */
     protected $axisFontFile = 'digital-7.ttf';
 
     /**
      * @var integer
-     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $axisFontSize = 10;
 
@@ -199,5 +199,31 @@ class UserApiLogChart
     public function setAxisFontSize(int $axisFontSize): void
     {
         $this->axisFontSize = $axisFontSize;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDataRows(): int
+    {
+        return $this->dataRows;
+    }
+
+    /**
+     * @param int $dataRows
+     */
+    public function setDataRows(int $dataRows): void
+    {
+        $this->dataRows = $dataRows;
+    }
+    // Dummy
+    public function getJsonSettings():?string
+    {
+        return '';
+    }
+
+    // Dummy
+    public function setJsonSettings(string $jsonSettings=null)
+    {
     }
 }

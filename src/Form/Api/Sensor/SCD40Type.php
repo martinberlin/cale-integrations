@@ -4,6 +4,7 @@ namespace App\Form\Api\Sensor;
 use App\Form\Api\IntegrationApiType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -29,14 +30,10 @@ class SCD40Type extends IntegrationApiType
                         new Length(['min'=>3,'max'=>42])
                     ]
                 ])
-            ->add('jsonSettings', TextareaType::class,
+            ->add('jsonSettings', HiddenType::class,
                 [
                     'label' => 'Copy / paste the data demo',
                     'required' => false,
-                    'attr' => [
-                        'class' => 'form-control',
-                        'rows'  => 2
-                    ]
                 ])
             ->add('submit', SubmitType::class,
                 [

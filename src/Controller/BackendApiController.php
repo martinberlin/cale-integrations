@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Entity\IntegrationApi;
 use App\Entity\UserApi;
+use App\Entity\UserApiLogChart;
 use App\Form\Api\ApiConfigureSelectionType;
 use App\Form\Api\Crypto\IntegrationEtherscanType;
 use App\Form\Api\IntegrationAwsCloudwatchType;
@@ -10,12 +11,14 @@ use App\Form\Api\IntegrationAwsType;
 use App\Form\Api\IntegrationHtmlType;
 use App\Form\Api\IntegrationSharedCalendarApiType;
 use App\Form\Api\IntegrationWeatherApiType;
+use App\Form\Api\Sensor\SCD40ExtendedType;
 use App\Form\Api\Sensor\SCD40Type;
 use App\Form\Api\Wizard\ApiDeleteConfirmationType;
 use App\Form\Api\Wizard\ApiTokenType;
 use App\Form\Api\Wizard\Google\GoogleCalendar1Type;
 use App\Repository\ApiRepository;
 use App\Repository\IntegrationApiRepository;
+use App\Repository\UserApiLogChartRepository;
 use App\Repository\UserApiRepository;
 use Aws\CloudWatch\CloudWatchClient;
 use Aws\Exception\AwsException;
@@ -732,7 +735,7 @@ class BackendApiController extends AbstractController
     public function sensorScd40(
         $uuid, $intapi_uuid, $step, Request $request,
         UserApiRepository $userApiRepository,
-        IntegrationApiRepository $intApiRepository,
+        IntegrationApiRepository $intApiRepository, UserApiLogChartRepository $apiLogChartRepository,
         EntityManagerInterface $entityManager)
     {
         $userApi = $this->getUserApi($userApiRepository, $uuid);
@@ -741,19 +744,47 @@ class BackendApiController extends AbstractController
             $api->setJsonSettings($userApi->getApi()->getDefaultJsonSettings());
         }
         $defaultJson = $userApi->getApi()->getDefaultJsonSettings();
-        $defaultJson = str_replace("KEY", $uuid, $defaultJson);
+        $defaultJson = str_replace("KEY", $api->getId(), $defaultJson);
         $defaultJson = str_replace("USERID", $userApi->getUser()->getId(), $defaultJson);
 
-        $form = $this->createForm(SCD40Type::class, $api);
+        if (!$api instanceof IntegrationApi) {
+            $api = new IntegrationApi();
+        }
+        $logChart = $apiLogChartRepository->findOneBy([
+                'user' => $this->getUser(),
+                'intApi' => $api
+        ]);
+        if (!$logChart instanceof UserApiLogChart) {
+            $logChart = new UserApiLogChart();
+            $logChart->setIntApi($api);
+            $logChart->setUser($this->getUser());
+        }
+
+        $displays = [];
+        foreach ($this->getUser()->getScreens() as $screen) {
+            $display = $screen->getDisplay();
+            $displays[$display->getWidth().'x'.$display->getHeight()] = $display->getName();
+        }
+        if ($step == 1) {
+            $form = $this->createForm(SCD40Type::class, $api);
+        } else {
+            $form = $this->createForm(SCD40ExtendedType::class, $logChart,[
+                'apiName'  => $api->getName(),
+                'displays' => array_flip($displays)
+            ]);
+        }
         $form->setData('jsonSettings', $defaultJson);
         $form->handleRequest($request);
         $error = "";
         if ($form->isSubmitted() && $form->isValid()) {
             $userApi->setIsConfigured(true);
-
             $api->setUserApi($userApi);
+
             try {
                 $entityManager->persist($api);
+                if ($step == 2) {
+                    $entityManager->persist($logChart);
+                }
                 $entityManager->flush();
             } catch (\Exception $e) {
                 $error = $e->getMessage();
@@ -763,7 +794,18 @@ class BackendApiController extends AbstractController
             if ($error === '') {
                 $this->addFlash('success',
                     "Saved. Check documentation on how to log using IOT");
-                return $this->redirectToRoute('b_home_apis');
+                if ($step == 1) {
+                    $logChart->setWidth(400);
+                    $logChart->setHeight(300);
+                    $logChart->setDataRows(31);
+                    $entityManager->persist($logChart);
+                    $entityManager->flush();
+                return $this->redirectToRoute('b_api_sensor_scd40',
+                    ['uuid' => $userApi->getId(), 'intapi_uuid' => $api->getId(),
+                    'step' => 2]);
+                } else {
+                    return $this->redirectToRoute('b_home_apis');
+                }
             }
         }
 
@@ -771,6 +813,7 @@ class BackendApiController extends AbstractController
             'backend/api/sensor/scd40.html.twig',
             [
                 'title' => 'Configure SCD40 sensor logger',
+                'step' => $step,
                 'form'  => $form->createView(),
                 'intapi_uuid' => $intapi_uuid,
                 'intapi'      => $api,
