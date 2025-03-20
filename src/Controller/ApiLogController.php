@@ -52,7 +52,7 @@ class ApiLogController extends AbstractController {
         $apiLog->setHumidity($parsed['humidity']);
         $apiLog->setCo2($parsed['co2']);
         $apiLog->setTimezone($client['timezone']);
-
+        $apiLog->setDatestamp(new \DateTime());
         // Set IntegrationApi UUID
         //$apiLog->setTimestamp(time());
 
