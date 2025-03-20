@@ -123,10 +123,21 @@ class ApiLog
         $this->timestamp = $value;
     }
 
+    public function getDatestamp(): int
+    {
+        return $this->datestamp;
+    }
+
+    public function setDatestamp(int $value): void
+    {
+        $this->datestamp->setTimezone(new \DateTimeZone($this->timezone));
+    }
+
     public function getTimestamp(): int
     {
         return $this->timestamp;
     }
+
     public function getCo2(): int
     {
         return $this->co2;
