@@ -73,8 +73,8 @@ class ApiLog
     function __construct()
     {
         $this->co2 = 0;
-        $this->datestamp = new \DateTime();
         $this->timestamp = time();
+        $this->datestamp = new \DateTime();
     }
 
     /**
@@ -117,6 +117,10 @@ class ApiLog
     public function setTimezone(string $value): void
     {
         $this->timezone = $value;
+        if ($value) {
+            $this->datestamp->setTimezone(new \DateTimeZone($value));
+            $this->datestamp = new \DateTime();
+        }
     }
     public function setTimestamp(int $value): void
     {
@@ -130,7 +134,7 @@ class ApiLog
 
     public function setDatestamp(int $value): void
     {
-        $this->datestamp->setTimezone(new \DateTimeZone($this->timezone));
+        $this->datestamp = date('Y-m-d H:i:s', $value);
     }
 
     public function getTimestamp(): int
