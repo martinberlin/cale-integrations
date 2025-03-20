@@ -118,7 +118,7 @@ class ApiLog
     {
         $this->timezone = $value;
         if ($value) {
-            $this->datestamp = new \DateTime();
+            date_default_timezone_set($this->timezone);
         }
     }
     public function setTimestamp(int $value): void
@@ -134,7 +134,7 @@ class ApiLog
     public function setDatestamp(\DateTime $value): void
     {
         $this->datestamp->setTimezone(new \DateTimeZone($this->timezone));
-        $this->datestamp = $value;
+        $this->datestamp = new \DateTime();
     }
 
     public function getTimestamp(): int
