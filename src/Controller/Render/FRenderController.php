@@ -264,6 +264,12 @@ EOT;
 
         $plot->SetLegend($legends);
         $plot->SetDataColors($colors);
+        // If we add new boolean to show Y values
+        if (false) {
+            # Turn on Y data labels:
+            $plot->SetYDataLabelPos('plotin');
+        }
+        $plot->SetMarginsPixels(50, 50);
 
         $plot->SetXDataLabelAngle(45);
         $plot->SetLineWidths(3);
@@ -335,6 +341,10 @@ EOT;
 
         $plot->SetLegend($legends);
         $plot->SetDataColors($colors);
+        if (false) {
+            $plot->SetYDataLabelPos('plotin');
+        }
+        $plot->SetMarginsPixels(50, 50);
 
         $plot->SetXDataLabelAngle(45);
         $plot->SetLineWidths(3);
