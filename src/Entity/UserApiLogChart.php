@@ -45,15 +45,47 @@ class UserApiLogChart
      * @var string
      * @ORM\Column(type="string", length=20, nullable=true)
      */
-    protected $candleType = 'candlesticks';
+    protected $candleType = 'bars';
 
     /**
-     * HEXA Color of the ascending candle
-     *
+     * @var string
+     * @ORM\Column(type="string", length=20, nullable=true)
+     */
+    protected $co2ChartType = 'lines';
+
+    /**
+     * HEXA Color1
      * @ORM\Column(type="string", length=7,nullable=true)
      */
-    protected $color= 'black';
-    protected $color2= 'white';
+    protected $color1 = 'black';
+
+    /**
+     * HEXA Color2
+     * @ORM\Column(type="string", length=7,nullable=true)
+     */
+    protected $color2 = 'green';
+    /**
+     * HEXA Color3
+     * @ORM\Column(type="string", length=7,nullable=true)
+     */
+    protected $color3 = 'blue';
+
+    /**
+     * @ORM\Column(type="boolean", options={"default":"1"})
+     */
+    protected $exclude1 = true;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default":"0"})
+     */
+    protected $exclude2 = false;
+
+
+    /**
+     * @ORM\Column(type="boolean", options={"default":"0"})
+     */
+    protected $additionalChartCO2 = false;
+
     /**
      * Font trueType file
      *
@@ -153,29 +185,79 @@ class UserApiLogChart
         $this->candleType = $candleType;
     }
 
+    public function getCo2ChartType(): ?string
+    {
+        return $this->co2ChartType;
+    }
+
+    /**
+     * @param string $chart
+     */
+    public function setCo2ChartType(string $chart): void
+    {
+        $this->co2ChartType = $chart;
+    }
+
+
     /**
      * @return string
      */
-    public function getColor(): string
+    public function getColor1(): ?string
     {
-        return $this->color;
+        return $this->color1;
     }
 
     /**
      * @param string $color
      */
-    public function setColor(string $color): void
+    public function setColor1(string $color): void
     {
-        $this->color = $color;
+        $this->color1 = $color;
     }
 
-    public function getColor2(): string
+    public function getColor2(): ?string
     {
         return $this->color2;
     }
     public function setColor2(string $color): void
     {
         $this->color2 = $color;
+    }
+
+    public function getColor3(): ?string
+    {
+        return $this->color3;
+    }
+    public function setColor3(string $color): void
+    {
+        $this->color3 = $color;
+    }
+
+    public function getExclude1(): bool
+    {
+        return $this->exclude1;
+    }
+    public function setExclude1(bool $value): void
+    {
+        $this->exclude1 = $value;
+    }
+
+    public function getExclude2(): bool
+    {
+        return $this->exclude2;
+    }
+    public function setExclude2(bool $value): void
+    {
+        $this->exclude2 = $value;
+    }
+
+    public function getAdditionalChartCo2(): bool
+    {
+        return $this->additionalChartCO2;
+    }
+    public function setAdditionalChartCo2(bool $value): void
+    {
+        $this->additionalChartCO2 = $value;
     }
 
     /**

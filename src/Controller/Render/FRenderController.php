@@ -5,11 +5,14 @@ use App\Command\DownloadCryptoCommand;
 use App\Entity\IntegrationApi;
 use App\Entity\TemplatePartial;
 use App\Entity\UserApiFinancialChart;
+use App\Entity\UserApiLogChart;
 use App\Repository\IntegrationApiRepository;
 use App\Repository\UserApiFinancialChartRepository;
+use App\Repository\UserApiLogChartRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGenerator;
@@ -37,7 +40,6 @@ class FRenderController extends AbstractController
         $html = <<<EOT
         <img src="$imgSrc">
 EOT;
-
         // Render the content partial and return the composed HTML
         $response = new Response();
         $response->setContent($html);
@@ -159,4 +161,195 @@ EOT;
 
         return [$data, $count];
     }
+
+    /**
+     * render SCD40 data is internally called
+     * @Route("/render_scd40", name="render_int_scd40")
+     */
+    public function render_int_scd40(TemplatePartial $partial, UserApiLogChartRepository $logChartRepository)
+    {
+        $api = $partial->getIntegrationApi();
+        $intApiId = $api->getId();
+        $userId = $api->getUserApi()->getUser()->getId();
+        $imgSrc = $this->generateUrl('render_scd40_chart', [
+            'userId'   => $userId,
+            'intApiId' => $intApiId
+        ], UrlGenerator::ABSOLUTE_URL);
+        $html = <<<EOT
+        <img src="$imgSrc">
+EOT;
+        $logChartSettings = $logChartRepository->findOneBy([
+            'user' => $userId,
+            'intApi' => $intApiId
+        ]);
+        if ($logChartSettings instanceof UserApiLogChart) {
+            $imgSrc = $this->generateUrl('render_scd40_co2_chart', [
+                'userId'   => $userId,
+                'intApiId' => $intApiId
+            ], UrlGenerator::ABSOLUTE_URL);
+            $html .= <<<EOT
+<br><img src="$imgSrc">
+EOT;
+        }
+        // Render the content partial and return the composed HTML
+        $response = new Response();
+        $response->setContent($html);
+        return $response;
+    }
+
+    /**
+     * render CSV data using PHP plot
+     * @Route("/scd40-chart/{userId}/{intApiId}", name="render_scd40_chart")
+     * @param $userId
+     * @param $intApiId
+     * @param UserApiLogChartRepository $userApiLogChartRepository
+     * @param UserRepository $userRepository
+     */
+    public function phpPlotSCD40($userId, $intApiId, UserApiLogChartRepository $userApiLogChartRepository, UserRepository $userRepository)
+    {
+        $logChartSettings = $userApiLogChartRepository->findOneBy([
+            'user' => $userId,
+            'intApi' => $intApiId
+        ]);
+        $user = $userRepository->findOneBy(['id' => $userId]);
+        if (!$logChartSettings instanceof UserApiLogChart) {
+            // Drop plot error and exit
+            $plot = new \PHPlot(400, 300);
+            $plot->DrawMessage("SCD40 Chart settings not found");
+            exit();
+        }
+        $response = $this->forward("App\Controller\ApiLogController::logRead", [
+            'key' => $logChartSettings->getIntApi()->getId(),
+            'length' => $logChartSettings->getDataRows()
+        ]);
+
+        try {
+            $parsed = json_decode($response->getContent(), $associative=true, $depth=512, JSON_THROW_ON_ERROR);
+        } catch (\Exception $e) {
+            throw new NotFoundHttpException('Invalid JSON');
+        }
+        // Remove timezone for this chart
+        foreach ($parsed['data'] as $key => $value) {
+            unset($parsed['data'][$key]['timezone']);
+            if ($logChartSettings->getExclude2()) {
+                unset($parsed['data'][$key]['humidity']);
+            }
+            if ($logChartSettings->getExclude1()) {
+                unset($parsed['data'][$key]['co2']);
+            }
+        }
+        $data = $parsed['data'];
+        //dump($data);exit();
+
+        $plot = new \PHPlot($logChartSettings->getWidth(), $logChartSettings->getHeight());
+        $plot->setTitle($logChartSettings->getIntApi()->getName());
+        # Make a legend for the 3 data sets plotted:
+        $legends = ['Temp'];
+        $colors = [$logChartSettings->getColor1()];
+        if (! $logChartSettings->getExclude2()) {
+            array_push($legends, 'Humi');
+            array_push($colors, $logChartSettings->getColor2());
+        }
+        if (! $logChartSettings->getExclude1()) {
+            array_push($legends, 'CO2');
+            array_push($colors, $logChartSettings->getColor3());
+        }
+        // Set label fonts:
+        $elements = ['x_label','y_label'];
+        foreach ($elements as $element) {
+            $plot->SetFontTTF($element,
+                $_ENV["FONTS_BASEURL"].$logChartSettings->getAxisFontFile(),
+                $logChartSettings->getAxisFontSize());
+        }
+
+        $plot->SetLegend($legends);
+        $plot->SetDataColors($colors);
+
+        $plot->SetXDataLabelAngle(45);
+        $plot->SetLineWidths(3);
+        $plot->SetImageBorderType('plain');
+        $plot->SetPlotType($logChartSettings->getCandleType());
+        $plot->SetDataType('text-data'); // data-data-xyz
+        $plot->SetDataValues($data);
+        $plot->SetFileFormat('jpg');
+        $image = $plot->DrawGraph();
+
+        // Don't need a Symfony response, plot does this already
+        $response = new Response();
+        $response->headers->set('Content-Type', 'image/jpeg');
+        $response->setContent($image);
+        return $response;
+    }
+
+    /**
+     * render CO2 CSV data using PHP plot
+     * @Route("/scd40-co2-chart/{userId}/{intApiId}", name="render_scd40_co2_chart")
+     * @param $userId
+     * @param $intApiId
+     * @param UserApiLogChartRepository $userApiLogChartRepository
+     * @param UserRepository $userRepository
+     */
+    public function phpPlotSCD40co2($userId, $intApiId, UserApiLogChartRepository $userApiLogChartRepository, UserRepository $userRepository)
+    {
+        $logChartSettings = $userApiLogChartRepository->findOneBy([
+            'user' => $userId,
+            'intApi' => $intApiId
+        ]);
+        $user = $userRepository->findOneBy(['id' => $userId]);
+        if (!$logChartSettings instanceof UserApiLogChart) {
+            // Drop plot error and exit
+            $plot = new \PHPlot(400, 300);
+            $plot->DrawMessage("SCD40 Chart settings not found");
+            exit();
+        }
+        $response = $this->forward("App\Controller\ApiLogController::logRead", [
+            'key' => $logChartSettings->getIntApi()->getId(),
+            'length' => $logChartSettings->getDataRows()
+        ]);
+
+        try {
+            $parsed = json_decode($response->getContent(), $associative=true, $depth=512, JSON_THROW_ON_ERROR);
+        } catch (\Exception $e) {
+            throw new NotFoundHttpException('Invalid JSON');
+        }
+        // Remove timezone for this chart
+        foreach ($parsed['data'] as $key => $value) {
+            unset($parsed['data'][$key]['timezone']);
+            unset($parsed['data'][$key]['humidity']);
+            unset($parsed['data'][$key]['temperature']);
+        }
+        $data = $parsed['data'];
+        //dump($data);exit();
+        $plot = new \PHPlot($logChartSettings->getWidth(), $logChartSettings->getHeight());
+        $plot->setTitle($logChartSettings->getIntApi()->getName(). "(CO2)");
+        # Make a legend for the 3 data sets plotted:
+        $legends = ['Co2'];
+        $colors = [$logChartSettings->getColor3()];
+        // Set label fonts:
+        $elements = ['x_label','y_label'];
+        foreach ($elements as $element) {
+            $plot->SetFontTTF($element,
+                $_ENV["FONTS_BASEURL"].$logChartSettings->getAxisFontFile(),
+                $logChartSettings->getAxisFontSize());
+        }
+
+        $plot->SetLegend($legends);
+        $plot->SetDataColors($colors);
+
+        $plot->SetXDataLabelAngle(45);
+        $plot->SetLineWidths(3);
+        $plot->SetImageBorderType('plain');
+        $plot->SetPlotType($logChartSettings->getCo2ChartType());
+        $plot->SetDataType('text-data'); // data-data-xyz
+        $plot->SetDataValues($data);
+        $plot->SetFileFormat('jpg');
+        $image = $plot->DrawGraph();
+
+        // Don't need a Symfony response, plot does this already
+        $response = new Response();
+        $response->headers->set('Content-Type', 'image/jpeg');
+        $response->setContent($image);
+        return $response;
+    }
+
 }

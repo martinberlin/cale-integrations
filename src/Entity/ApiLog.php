@@ -33,12 +33,12 @@ class ApiLog
     protected $api;
 
     /**
-     * @ORM\Column(type="decimal", precision=2)
+     * @ORM\Column(type="float")
      */
     protected $temperature;
 
     /**
-     * @ORM\Column(type="decimal", precision=2)
+     * @ORM\Column(type="float")
      */
     protected $humidity;
 
@@ -49,24 +49,24 @@ class ApiLog
     protected $co2;
 
     /**
-     * @ORM\Column(type="decimal", precision=2, nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      */
     protected $light;
 
     /**
-     * @ORM\Column(type="string", length=10, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=true)
      */
     protected $timezone;
 
     /**
      * now()
-     * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
+     * @ORM\Column(type="datetime")
      */
     protected $datestamp;
 
     /**
      * now()
-     * @ORM\Column(type="integer", options={"default": "CURRENT_TIMESTAMP"})
+     * @ORM\Column(type="integer")
      */
     protected $timestamp;
 
@@ -126,7 +126,7 @@ class ApiLog
         $this->timestamp = $value;
     }
 
-    public function getDatestamp(): int
+    public function getDatestamp() : \DateTime
     {
         return $this->datestamp;
     }

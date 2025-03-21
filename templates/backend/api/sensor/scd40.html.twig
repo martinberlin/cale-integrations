@@ -14,7 +14,7 @@
             {{ form_row(form.name) }}
             {% if step == 2 %}
                 <div class="row">
-                    <div class="col-md-4" style="margin-top:1em">
+                    <div class="col-md-3" style="margin-top:1em">
                         {{ form_label(form.setDisplayDimensions) }}
                     </div>
                     <div class="col-md-8" style="margin-top:0.5em">
@@ -22,7 +22,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         {{ form_label(form.width) }}
                     </div>
                     <div class="col-md-2">
@@ -35,42 +35,87 @@
                         {{ form_widget(form.height) }}
                     </div>
                 </div>
+                <div class="row"><div class="col-md-12"> </div></div>
+
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         {{ form_label(form.dataRows) }}
                     </div>
                     <div class="col-md-8">
                         {{ form_widget(form.dataRows) }}
                     </div>
                 </div>
+                <div class="row"><div class="col-md-12"> </div></div>
+
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         {{ form_label(form.candleType) }}
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-2">
                         {{ form_widget(form.candleType) }}
                     </div>
+                    <div class="col-md-2">
+                        {{ form_label(form.co2ChartType) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_widget(form.co2ChartType) }}
+                    </div>
                 </div>
-            <div class="row">
-                <div class="col-md-4">
-                    {{ form_label(form.color) }}
-                </div>
-                <div class="col-md-2">
-                    {{ form_widget(form.color) }}
-                </div>
-            </div>
+                <div class="row"><div class="col-md-12"> </div></div>
+
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         {{ form_label(form.axisFontFile) }}
                     </div>
                     <div class="col-md-2">
                         {{ form_widget(form.axisFontFile) }}
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         {{ form_label(form.axisFontSize) }}
                     </div>
                     <div class="col-md-2">
                         {{ form_widget(form.axisFontSize) }}
+                    </div>
+                </div>
+
+            <div class="row">
+                <div class="col-md-1">
+                    {{ form_widget(form.exclude1) }}
+                </div>
+                <div class="col-md-3">
+                    {{ form_label(form.exclude1) }}
+                </div>
+                <div class="col-md-1">
+                    {{ form_widget(form.exclude2) }}
+                </div>
+                <div class="col-md-3">
+                    {{ form_label(form.exclude2) }}
+                </div>
+                <div class="col-md-1">
+                    {{ form_widget(form.additionalChartCo2) }}
+                </div>
+                <div class="col-md-3">
+                    {{ form_label(form.additionalChartCo2) }}
+                </div>
+            </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        {{ form_label(form.color1) }}
+                    </div>
+                    <div class="col-md-2">
+                        {{ form_widget(form.color1) }}
+                    </div>
+                    <div class="col-md-2">
+                        {{ form_label(form.color2) }}
+                    </div>
+                    <div class="col-md-2">
+                        {{ form_widget(form.color2) }}
+                    </div>
+                    <div class="col-md-2">
+                        {{ form_label(form.color3) }}
+                    </div>
+                    <div class="col-md-2">
+                        {{ form_widget(form.color3) }}
                     </div>
                 </div>
             {% endif %}

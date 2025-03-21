@@ -1,6 +1,7 @@
 <?php
 namespace App\Form\Api\Sensor;
 
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -77,20 +78,58 @@ class SCD40ExtendedType extends SCD40Type
 
             ->add('candleType', ChoiceType::class,
                 [
-                    'label' => 'Candlestick type',
+                    'label' => '1st Chart type',
                     'required' => true,
-                    "choices" => $options['candleTypes'],
+                    "choices" => $options['chartTypes1'],
                 ])
-            ->add('color', TextType::class,
+            ->add('co2ChartType', ChoiceType::class,
                 [
-                    'label' => 'Color',
+                    'label' => 'CO2 Chart',
+                    'required' => true,
+                    "choices" => $options['chartTypes2'],
+                ])
+            ->add('color1', TextType::class,
+                [
+                    'label' => 'Color Temp.',
                     'required' => true,
                     'attr' => [
                         'class' => 'form-control pickr',
                         'maxlength' => '7'
                     ]
                 ])
-
+            ->add('color2', TextType::class,
+                [
+                    'label' => 'Humidity',
+                    'required' => true,
+                    'attr' => [
+                        'class' => 'form-control pickr',
+                        'maxlength' => '7'
+                    ]
+                ])
+            ->add('color3', TextType::class,
+                [
+                    'label' => 'CO2',
+                    'required' => true,
+                    'attr' => [
+                        'class' => 'form-control pickr',
+                        'maxlength' => '7'
+                    ]
+                ])
+            ->add('exclude1', CheckboxType::class,
+                [
+                    'label' => 'Exclude CO2 (Chart1)',
+                    'required' => false
+                ])
+            ->add('exclude2', CheckboxType::class,
+                [
+                    'label' => 'Exclude Hum. (Chart1)',
+                    'required' => false
+                ])
+            ->add('additionalChartCo2', CheckboxType::class,
+                [
+                    'label' => 'Show CO2 in Chart2',
+                    'required' => false
+                ])
             ->add('axisFontFile', ChoiceType::class,
                 [
                     'label' => 'Font',
@@ -119,9 +158,17 @@ class SCD40ExtendedType extends SCD40Type
         $resolver->setDefaults([
             'allow_extra_fields' => true,
             'apiName' => '',
-            'candleTypes' => [
-                'Filled candles' => 'candlesticks2',
-                'Hollow candles' => 'candlesticks'
+            'chartTypes1' => [
+                'Bars' => 'bars',
+                'Lines' => 'lines',
+                'Area' => 'area',
+                'Points' => 'points',
+            ],
+            'chartTypes2' => [
+                'Bars' => 'bars',
+                'Lines' => 'lines',
+                'Area' => 'area',
+                'Points' => 'points',
             ],
             'fontSize' => [
                 '9' => 9,

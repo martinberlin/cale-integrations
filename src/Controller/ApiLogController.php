@@ -53,8 +53,7 @@ class ApiLogController extends AbstractController {
         $apiLog->setCo2($parsed['co2']);
         $apiLog->setTimezone($client['timezone']);
         $apiLog->setDatestamp(new \DateTime());
-        // Set IntegrationApi UUID
-        //$apiLog->setTimestamp(time());
+        // Set IntegrationApi UUID: Now set in the constructor
 
         try {
             $em->persist($apiLog);
@@ -89,7 +88,7 @@ class ApiLogController extends AbstractController {
         $data = [];
         foreach ($apiLogs as $apiLog) {
             $data[] = [
-                'timestamp' => $apiLog->getTimestamp(),
+                'datestamp' => $apiLog->getDatestamp()->format('d/m/y H:i'),
                 'temperature' => $apiLog->getTemperature(),
                 'humidity' => $apiLog->getHumidity(),
                 'co2' => $apiLog->getCo2(),
