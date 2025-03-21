@@ -781,10 +781,11 @@ class BackendApiController extends AbstractController
             $api->setUserApi($userApi);
 
             try {
-                $entityManager->persist($api);
                 if ($step == 2) {
                     $entityManager->persist($logChart);
+                    $api->setName($form->get('name')->getViewData());
                 }
+                $entityManager->persist($api);
                 $entityManager->flush();
             } catch (\Exception $e) {
                 $error = $e->getMessage();

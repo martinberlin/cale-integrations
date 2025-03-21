@@ -182,7 +182,7 @@ EOT;
             'user' => $userId,
             'intApi' => $intApiId
         ]);
-        if ($logChartSettings instanceof UserApiLogChart) {
+        if ($logChartSettings instanceof UserApiLogChart && $logChartSettings->getAdditionalChartCo2()) {
             $imgSrc = $this->generateUrl('render_scd40_co2_chart', [
                 'userId'   => $userId,
                 'intApiId' => $intApiId
