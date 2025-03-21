@@ -269,7 +269,7 @@ EOT;
             # Turn on Y data labels:
             $plot->SetYDataLabelPos('plotin');
         }
-        $plot->SetMarginsPixels(50, 50);
+        $plot->SetMarginsPixels(55, 50);
 
         $plot->SetXDataLabelAngle(45);
         $plot->SetLineWidths(3);
@@ -344,7 +344,7 @@ EOT;
         if (false) {
             $plot->SetYDataLabelPos('plotin');
         }
-        $plot->SetMarginsPixels(50, 50);
+        $plot->SetMarginsPixels(55, 50);
 
         $plot->SetXDataLabelAngle(45);
         $plot->SetLineWidths(3);
