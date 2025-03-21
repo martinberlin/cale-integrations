@@ -84,7 +84,7 @@ class ApiLogController extends AbstractController {
         $length = $length > 1000 ? 1000 : $length;
         $length = $length < 1 ? 1 : $length;
         $em = $this->getDoctrine()->getManager();
-        $apiLogs = $em->getRepository(ApiLog::class)->findBy([], ['timestamp' => 'ASC'], $length);
+        $apiLogs = $em->getRepository(ApiLog::class)->findBy([], ['timestamp' => 'DESC'], $length);
         $data = [];
         foreach ($apiLogs as $apiLog) {
             $data[] = [
@@ -95,6 +95,7 @@ class ApiLogController extends AbstractController {
                 'timezone' => $apiLog->getTimezone(),
             ];
         }
+        $data = array_reverse($data);
         $response = new JsonResponse();
         $response->setContent(json_encode([
             'data' => $data,
