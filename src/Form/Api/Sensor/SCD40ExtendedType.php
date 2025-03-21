@@ -160,6 +160,7 @@ class SCD40ExtendedType extends SCD40Type
             'apiName' => '',
             'chartTypes1' => [
                 'Bars' => 'bars',
+                'Stacked Bars' => 'stackedbars',
                 'Lines' => 'lines',
                 'Area' => 'area',
                 'Points' => 'points',
