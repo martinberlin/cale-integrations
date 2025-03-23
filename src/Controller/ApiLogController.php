@@ -52,22 +52,28 @@ class ApiLogController extends AbstractController {
         $apiLog->setHumidity($parsed['humidity']);
         $apiLog->setCo2($parsed['co2']);
         $apiLog->setTimezone($client['timezone']);
-        $apiLog->setDatestamp(new \DateTime());
+        if (isset($client['timestamp'])) {
+            $apiLog->setTimestamp(new \DateTime($parsed['timestamp']));
+        }
+        if (isset($client['ip'])) {
+            $apiLog->setClientIp($client['ip']);
+        }
         // Set IntegrationApi UUID: Now set in the constructor
-
+        $response = new JsonResponse();
         try {
             $em->persist($apiLog);
             $em->flush();
+            $response->setContent(json_encode([
+                    'status' => 'ok'
+                ])
+            );
         } catch (\Exception $e) {
-            throw new NotFoundHttpException('Error saving data. ERROR: ' . $e->getMessage());
+            $response->setContent(json_encode([
+                    'status' => 'error',
+                    'message' => 'Error saving data. ERROR: ' . $e->getMessage()
+                ])
+            );
         }
-
-        $response = new JsonResponse();
-        $response->setContent(json_encode([
-            'status' => 'ok',
-            'data' => $parsed,
-            ])
-        );
         return $response;
     }
 

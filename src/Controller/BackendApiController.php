@@ -20,20 +20,15 @@ use App\Repository\ApiRepository;
 use App\Repository\IntegrationApiRepository;
 use App\Repository\UserApiLogChartRepository;
 use App\Repository\UserApiRepository;
-use Aws\CloudWatch\CloudWatchClient;
-use Aws\Exception\AwsException;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -822,5 +817,17 @@ class BackendApiController extends AbstractController
                 'default_json' => $defaultJson,
                 'menu' => $this->menu
             ]);
+    }
+
+
+    /**
+     * @Route("/scd_sensor_api_doc", name="api_sensor_doc")
+     */
+    public function api_sensor_doc() {
+        return $this->render(
+            'backend/api/sensor/scd40_apidoc.html.twig', [
+            'title' => 'Ambient sensor API documentation',
+            'menu' => $this->menu
+        ]);
     }
 }
