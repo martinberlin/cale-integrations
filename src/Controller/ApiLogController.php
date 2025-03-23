@@ -91,7 +91,7 @@ class ApiLogController extends AbstractController {
         $length = $length > 1000 ? 1000 : $length;
         $length = $length < 1 ? 1 : $length;
         $em = $this->getDoctrine()->getManager();
-        $apiLogs = $em->getRepository(ApiLog::class)->findBy([], ['timestamp' => 'DESC'], $length);
+        $apiLogs = $em->getRepository(ApiLog::class)->findBy(['api' => $api], ['timestamp' => 'DESC'], $length);
         $data = [];
         foreach ($apiLogs as $apiLog) {
             $data[] = [
