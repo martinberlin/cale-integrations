@@ -55,6 +55,7 @@ class ApiLogController extends AbstractController {
         if (isset($client['timestamp'])) {
             $apiLog->setTimestamp(new \DateTime($parsed['timestamp']));
         }
+        $apiLog->setDatestamp(new \DateTime());
         if (isset($client['ip'])) {
             $apiLog->setClientIp($client['ip']);
         }
