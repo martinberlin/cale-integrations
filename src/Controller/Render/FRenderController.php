@@ -263,6 +263,7 @@ EOT;
         }
 
         $plot->SetLegend($legends);
+        $plot->SetLegendPixels(80,20);
         $plot->SetDataColors($colors);
         // If we add new boolean to show Y values
         if (false) {
@@ -343,6 +344,7 @@ EOT;
         }
 
         $plot->SetLegend($legends);
+        $plot->SetLegendPixels(80,20);
         $plot->SetDataColors($colors);
         if (false) {
             $plot->SetYDataLabelPos('plotin');
