@@ -247,7 +247,7 @@ EOT;
         $legends = ['Temp'];
         $colors = [$logChartSettings->getColor1()];
         if (! $logChartSettings->getExclude2()) {
-            array_push($legends, 'Humi');
+            array_push($legends, 'Hum');
             array_push($colors, $logChartSettings->getColor2());
         }
         if (! $logChartSettings->getExclude1()) {
@@ -269,8 +269,11 @@ EOT;
             # Turn on Y data labels:
             $plot->SetYDataLabelPos('plotin');
         }
+        if (! $logChartSettings->getShowXTickChart1()) {
+            $plot->setXDataLabelPos('none');
+            $plot->SetXTickLabelPos('none');
+        }
         $plot->SetMarginsPixels(55, 50);
-
         $plot->SetXDataLabelAngle(45);
         $plot->SetLineWidths(3);
         $plot->SetImageBorderType('plain');
@@ -343,6 +346,10 @@ EOT;
         $plot->SetDataColors($colors);
         if (false) {
             $plot->SetYDataLabelPos('plotin');
+        }
+        if (! $logChartSettings->getShowXTickChart2()) {
+            $plot->setXDataLabelPos('none');
+            $plot->SetXTickLabelPos('none');
         }
         $plot->SetMarginsPixels(55, 50);
 

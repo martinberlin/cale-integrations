@@ -87,6 +87,16 @@ class UserApiLogChart
     protected $additionalChartCO2 = false;
 
     /**
+     * @ORM\Column(type="boolean", options={"default":"1"})
+     */
+    protected $showXTickChart1 = true;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default":"1"})
+     */
+    protected $showXTickChart2 = true;
+
+    /**
      * Font trueType file
      *
      * @ORM\Column(type="string", length=50,nullable=true)
@@ -249,6 +259,25 @@ class UserApiLogChart
     public function setExclude2(bool $value): void
     {
         $this->exclude2 = $value;
+    }
+
+
+    public function getShowXTickChart1(): bool
+    {
+        return $this->showXTickChart1;
+    }
+    public function setShowXTickChart1(bool $value): void
+    {
+        $this->showXTickChart1 = $value;
+    }
+
+    public function getShowXTickChart2(): bool
+    {
+        return $this->showXTickChart2;
+    }
+    public function setShowXTickChart2(bool $value): void
+    {
+        $this->showXTickChart2 = $value;
     }
 
     public function getAdditionalChartCo2(): bool

@@ -70,6 +70,17 @@ class ApiLog
      */
     protected $timestamp;
 
+    /**
+     * Client IP
+     * @ORM\Column(type="string", length=15, nullable=true)
+     */
+    protected $clientIP;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $timesRead = 0;
+
     function __construct()
     {
         $this->co2 = 0;
@@ -135,6 +146,15 @@ class ApiLog
     {
         $this->datestamp->setTimezone(new \DateTimeZone($this->timezone));
         $this->datestamp = new \DateTime();
+    }
+
+    public function setClientIp(string $value): void
+    {
+        $this->clientIP = $value;
+    }
+    public function setTimesRead(int $value): void
+    {
+        $this->timesRead = $value;
     }
 
     public function getTimestamp(): int

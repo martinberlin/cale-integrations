@@ -125,6 +125,16 @@ class SCD40ExtendedType extends SCD40Type
                     'label' => 'Exclude Hum. (Chart1)',
                     'required' => false
                 ])
+            ->add('showXTickChart1', CheckboxType::class,
+                [
+                    'label' => 'Show X ticks in Chart1 (Temp,Hum)',
+                    'required' => false
+                ])
+            ->add('showXTickChart2', CheckboxType::class,
+                [
+                    'label' => 'Show X ticks in Chart2 (CO2)',
+                    'required' => false
+                ])
             ->add('additionalChartCo2', CheckboxType::class,
                 [
                     'label' => 'Show CO2 in Chart2',
