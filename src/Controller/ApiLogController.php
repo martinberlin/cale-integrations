@@ -6,6 +6,7 @@ use App\Entity\IntegrationApi;
 use App\Entity\User;
 use App\Repository\IntegrationApiRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -106,6 +107,43 @@ class ApiLogController extends AbstractController {
         $response = new JsonResponse();
         $response->setContent(json_encode([
             'data' => $data,
+            ])
+        );
+        return $response;
+    }
+
+    /**
+     * @Route("/scd40/readtimes/{key}/{length?100}/{times_read?0}", name="api_scd40_read_times")
+     */
+    public function logReadTimes($key, $length, $times_read, Request $request, IntegrationApiRepository $intApiRepository, EntityManagerInterface $em): Response {
+        $api = $intApiRepository->findOneBy(['uuid' => $key]);
+        if (! $api instanceof IntegrationApi) {
+            throw new NotFoundHttpException("API with key {$key} not found");
+        }
+
+        $length = (int) $length;
+        $length = $length > 1000 ? 1000 : $length;
+        $length = $length < 1 ? 1 : $length;
+
+        $apiLogs = $em->getRepository(ApiLog::class)->findBy(['api' => $api, 'timesRead' => $times_read], ['timestamp' => 'ASC'], $length);
+        $data = [];
+        foreach ($apiLogs as $apiLog) {
+            $data[] = [
+                'datestamp' => $apiLog->getDatestamp()->format('d/m/y H:i'),
+                'temperature' => $apiLog->getTemperature(),
+                'humidity' => $apiLog->getHumidity(),
+                'co2' => $apiLog->getCo2(),
+                'timezone' => $apiLog->getTimezone(),
+            ];
+            $apiLog->setTimesRead($apiLog->getTimesRead() + 1);
+            $em->persist($apiLog);
+        }
+        $em->flush();
+        //$data = array_reverse($data);
+
+        $response = new JsonResponse();
+        $response->setContent(json_encode([
+                'data' => $data,
             ])
         );
         return $response;

@@ -178,4 +178,13 @@ class ApiLog
     {
         return $this->timezone;
     }
+    public function getClientIp() : ?string
+    {
+        return $this->clientIP;
+    }
+    public function getTimesRead() : int
+    {
+        return $this->timesRead;
+    }
+
 }
