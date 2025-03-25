@@ -331,7 +331,7 @@ EOT;
         $data = $parsed['data'];
         //dump($data);exit();
         $plot = new \PHPlot($logChartSettings->getWidth(), $logChartSettings->getHeight());
-        $plot->setTitle($logChartSettings->getIntApi()->getName(). "(CO2)");
+        $plot->setTitle("CO2 concentration (ppm)");
         # Make a legend for the 3 data sets plotted:
         $legends = ['Co2'];
         $colors = [$logChartSettings->getColor3()];
