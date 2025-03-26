@@ -109,6 +109,52 @@ class UserApiLogChart
      */
     protected $axisFontSize = 10;
 
+    /**
+     * @var string  TELEMETRYHARBOR
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    protected $telemetryCargo;
+
+    /**
+    * @ORM\Column(type="string", length=50, nullable=true)
+    */
+    protected $telemetryDevice;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    protected $telemetryApiKey;
+
+    /**
+     * @ORM\Column(type="string", length=150, nullable=true)
+     */
+    protected $telemetryIngestUrl;
+
+    /**
+     * @var string  TELEMETRYHARBOR 2ND Value
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    protected $telemetryCargo2;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    protected $telemetryDevice2;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    protected $telemetryApiKey2;
+
+    /**
+     * @ORM\Column(type="string", length=150, nullable=true)
+     */
+    protected $telemetryIngestUrl2;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default":"0"})
+     */
+    protected $telemetryActive = false;
 
     public function __toString()
     {
@@ -336,6 +382,112 @@ class UserApiLogChart
     {
         $this->dataRows = $dataRows;
     }
+    /** TELEMETRYHARBOR */
+    public function setTelemetryActive(bool $v): void
+    {
+        $this->telemetryActive = $v;
+    }
+
+    public function getTelemetryActive(): bool
+    {
+        return $this->telemetryActive;
+    }
+
+    /**
+     * @param string $v
+     */
+    public function setTelemetryApiKey(?string $v): void
+    {
+        $this->telemetryApiKey = $v;
+    }
+
+    public function getTelemetryApiKey(): ?string
+    {
+        return $this->telemetryApiKey;
+    }
+
+    /**
+     * @param string $v
+     */
+    public function setTelemetryCargo(?string $v): void
+    {
+        $this->telemetryCargo = $v;
+    }
+
+    public function getTelemetryCargo(): ?string
+    {
+        return $this->telemetryCargo;
+    }
+
+    /**
+     * @param string $v
+     */
+    public function setTelemetryDevice(?string $v): void
+    {
+        $this->telemetryDevice = $v;
+    }
+
+    public function getTelemetryDevice(): ?string
+    {
+        return $this->telemetryDevice;
+    }
+
+    public function setTelemetryIngestUrl(?string $v): void
+    {
+        $this->telemetryIngestUrl = $v;
+    }
+
+    public function getTelemetryIngestUrl(): ?string
+    {
+        return $this->telemetryIngestUrl;
+    }
+    //2nd CARGO
+    public function setTelemetryApiKey2(?string $v): void
+    {
+        $this->telemetryApiKey = $v;
+    }
+
+    public function getTelemetryApiKey2(): ?string
+    {
+        return $this->telemetryApiKey;
+    }
+
+    /**
+     * @param string $v
+     */
+    public function setTelemetryCargo2(?string $v): void
+    {
+        $this->telemetryCargo = $v;
+    }
+
+    public function getTelemetryCargo2(): ?string
+    {
+        return $this->telemetryCargo;
+    }
+
+    /**
+     * @param string $v
+     */
+    public function setTelemetryDevice2(?string $v): void
+    {
+        $this->telemetryDevice = $v;
+    }
+
+    public function getTelemetryDevice2(): ?string
+    {
+        return $this->telemetryDevice;
+    }
+
+    public function setTelemetryIngestUrl2(?string $v): void
+    {
+        $this->telemetryIngestUrl = $v;
+    }
+
+    public function getTelemetryIngestUrl2(): ?string
+    {
+        return $this->telemetryIngestUrl;
+    }
+
     // Dummy
     public function getJsonSettings():?string
     {

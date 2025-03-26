@@ -134,9 +134,35 @@
                         {{ form_widget(form.color3) }}
                     </div>
                 </div>
+                <div class="row"><div class="col-md-12"></div></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">{{ form_widget(form.telemetryActive) }} enables <a href="https://telemetryharbor.com" target="_blank">TelemetryHarbor</a> data Push. Empty URL to discard cargo</div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        {{ form_row(form.telemetryIngestUrl) }}
+                                        {{ form_row(form.telemetryApiKey) }}
+                                        {{ form_row(form.telemetryDevice) }}
+                                        {{ form_row(form.telemetryCargo) }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{ form_row(form.telemetryIngestUrl2) }}
+                                        {{ form_row(form.telemetryApiKey2) }}
+                                        {{ form_row(form.telemetryDevice2) }}
+                                        {{ form_row(form.telemetryCargo2) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             {% endif %}
         </div>
         <div class="col-md-3">
+            <div class="row">
+                <div class="col-md-12">
             <label>Preview with dummy values</label>
             Your IOT should send a POST request to the following URL:<br>
             <b>http://cale.es/{{ path('api_scd40_log') }}</b>
@@ -145,8 +171,8 @@
             <code>
                 {{ default_json|raw }}
             </code>
-
-
+                </div>
+            </div>
         </div>
     </div>
     {{ form_row(form.submit) }}

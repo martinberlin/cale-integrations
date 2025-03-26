@@ -152,6 +152,96 @@ class SCD40ExtendedType extends SCD40Type
                     'required' => true,
                     "choices" => $options['fontSize'],
                 ])
+            // TELEMETRYHARBOR
+            ->add('telemetryActive', CheckboxType::class,
+                [
+                    'label' => false,
+                    'required' => false
+                ])
+            ->add('telemetryIngestUrl', TextType::class,
+                [
+                    'label' => 'CARGO1 Api URL',
+                    'required' => true,
+                    'attr' => [
+                        'class' => 'form-control',
+                        'maxlength' => '150'
+                    ]
+                ])
+            ->add('telemetryApiKey', TextType::class,
+                [
+                    'label' => 'CARGO1 Api key',
+                    'required' => true,
+                    'attr' => [
+                        'class' => 'form-control',
+                        'maxlength' => '50'
+                    ]
+                ])
+            ->add('telemetryDevice', TextType::class,
+                [
+                    'label' => 'CARGO1 device name (ship_id)',
+                    'required' => true,
+                    'attr' => [
+                        'class' => 'form-control',
+                        'maxlength' => '50'
+                    ]
+                ])
+            ->add('telemetryCargo', ChoiceType::class,
+                [
+                    'label' => 'CARGO1 type of data',
+                    'required' => true,
+                    'choices' => [
+                        'Temperature' => 'temperature',
+                        'Humidity' => 'humidity',
+                        'CO2' => 'co2',
+                        'Light' => 'light'
+                    ],
+                    'attr' => [
+                        'class' => 'form-control',
+                        'maxlength' => '50'
+                    ]
+                ])
+            ->add('telemetryIngestUrl2', TextType::class,
+                [
+                    'label' => 'CARGO2 Api URL',
+                    'required' => true,
+                    'attr' => [
+                        'class' => 'form-control',
+                        'maxlength' => '150'
+                    ]
+                ])
+            ->add('telemetryApiKey2', TextType::class,
+                [
+                    'label' => 'CARGO2 Api key',
+                    'required' => true,
+                    'attr' => [
+                        'class' => 'form-control',
+                        'maxlength' => '50'
+                    ]
+                ])
+            ->add('telemetryDevice2', TextType::class,
+                [
+                    'label' => 'CARGO2 device name (ship_id)',
+                    'required' => true,
+                    'attr' => [
+                        'class' => 'form-control',
+                        'maxlength' => '50'
+                    ]
+                ])
+            ->add('telemetryCargo2', ChoiceType::class,
+                [
+                    'label' => 'CARGO2 type of data',
+                    'required' => true,
+                    'choices' => [
+                        'Temperature' => 'temperature',
+                        'Humidity' => 'humidity',
+                        'CO2' => 'co2',
+                        'Light' => 'light'
+                    ],
+                    'attr' => [
+                        'class' => 'form-control',
+                        'maxlength' => '50'
+                    ]
+                ])
         ;
     }
 
