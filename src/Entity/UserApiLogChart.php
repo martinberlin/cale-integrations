@@ -480,12 +480,12 @@ class UserApiLogChart
 
     public function setTelemetryIngestUrl2(?string $v): void
     {
-        $this->telemetryIngestUrl = $v;
+        $this->telemetryIngestUrl2 = $v;
     }
 
     public function getTelemetryIngestUrl2(): ?string
     {
-        return $this->telemetryIngestUrl;
+        return $this->telemetryIngestUrl2;
     }
 
     // Dummy
