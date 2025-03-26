@@ -444,12 +444,12 @@ class UserApiLogChart
     //2nd CARGO
     public function setTelemetryApiKey2(?string $v): void
     {
-        $this->telemetryApiKey = $v;
+        $this->telemetryApiKey2 = $v;
     }
 
     public function getTelemetryApiKey2(): ?string
     {
-        return $this->telemetryApiKey;
+        return $this->telemetryApiKey2;
     }
 
     /**
@@ -457,12 +457,12 @@ class UserApiLogChart
      */
     public function setTelemetryCargo2(?string $v): void
     {
-        $this->telemetryCargo = $v;
+        $this->telemetryCargo2 = $v;
     }
 
     public function getTelemetryCargo2(): ?string
     {
-        return $this->telemetryCargo;
+        return $this->telemetryCargo2;
     }
 
     /**
@@ -470,12 +470,12 @@ class UserApiLogChart
      */
     public function setTelemetryDevice2(?string $v): void
     {
-        $this->telemetryDevice = $v;
+        $this->telemetryDevice2 = $v;
     }
 
     public function getTelemetryDevice2(): ?string
     {
-        return $this->telemetryDevice;
+        return $this->telemetryDevice2;
     }
 
     public function setTelemetryIngestUrl2(?string $v): void
