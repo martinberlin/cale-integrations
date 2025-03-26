@@ -161,7 +161,7 @@ class SCD40ExtendedType extends SCD40Type
             ->add('telemetryIngestUrl', TextType::class,
                 [
                     'label' => 'CARGO1 Api URL',
-                    'required' => true,
+                    'required' => false,
                     'attr' => [
                         'class' => 'form-control',
                         'maxlength' => '150'
@@ -170,7 +170,7 @@ class SCD40ExtendedType extends SCD40Type
             ->add('telemetryApiKey', TextType::class,
                 [
                     'label' => 'CARGO1 Api key',
-                    'required' => true,
+                    'required' => false,
                     'attr' => [
                         'class' => 'form-control',
                         'maxlength' => '50'
@@ -179,7 +179,7 @@ class SCD40ExtendedType extends SCD40Type
             ->add('telemetryDevice', TextType::class,
                 [
                     'label' => 'CARGO1 device name (ship_id)',
-                    'required' => true,
+                    'required' => false,
                     'attr' => [
                         'class' => 'form-control',
                         'maxlength' => '50'
@@ -188,7 +188,7 @@ class SCD40ExtendedType extends SCD40Type
             ->add('telemetryCargo', ChoiceType::class,
                 [
                     'label' => 'CARGO1 type of data',
-                    'required' => true,
+                    'required' => false,
                     'choices' => [
                         'Temperature' => 'temperature',
                         'Humidity' => 'humidity',
@@ -203,7 +203,7 @@ class SCD40ExtendedType extends SCD40Type
             ->add('telemetryIngestUrl2', TextType::class,
                 [
                     'label' => 'CARGO2 Api URL',
-                    'required' => true,
+                    'required' => false,
                     'attr' => [
                         'class' => 'form-control',
                         'maxlength' => '150'
@@ -212,7 +212,7 @@ class SCD40ExtendedType extends SCD40Type
             ->add('telemetryApiKey2', TextType::class,
                 [
                     'label' => 'CARGO2 Api key',
-                    'required' => true,
+                    'required' => false,
                     'attr' => [
                         'class' => 'form-control',
                         'maxlength' => '50'
@@ -221,7 +221,7 @@ class SCD40ExtendedType extends SCD40Type
             ->add('telemetryDevice2', TextType::class,
                 [
                     'label' => 'CARGO2 device name (ship_id)',
-                    'required' => true,
+                    'required' => false,
                     'attr' => [
                         'class' => 'form-control',
                         'maxlength' => '50'
@@ -230,7 +230,7 @@ class SCD40ExtendedType extends SCD40Type
             ->add('telemetryCargo2', ChoiceType::class,
                 [
                     'label' => 'CARGO2 type of data',
-                    'required' => true,
+                    'required' => false,
                     'choices' => [
                         'Temperature' => 'temperature',
                         'Humidity' => 'humidity',

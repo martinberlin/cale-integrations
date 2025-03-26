@@ -125,6 +125,11 @@ class ApiLog
         $this->humidity = $value;
     }
 
+    public function setLight(?float $value): void
+    {
+        $this->light = $value;
+    }
+
     public function setTimezone(string $value): void
     {
         $this->timezone = $value;
@@ -173,6 +178,10 @@ class ApiLog
     public function getHumidity()
     {
         return $this->humidity;
+    }
+    public function getLight()
+    {
+        return $this->light;
     }
     public function getTimezone()
     {

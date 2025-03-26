@@ -66,6 +66,10 @@ class ApiLogController extends AbstractController
         $apiLog->setHumidity($parsed['humidity']);
         $apiLog->setCo2($parsed['co2']);
         $apiLog->setTimezone($client['timezone']);
+
+        if (isset($parsed['light'])) {
+            $apiLog->setLight($parsed['light']);
+        }
         if (isset($client['timestamp'])) {
             $apiLog->setTimestamp(new \DateTime($parsed['timestamp']));
         }
