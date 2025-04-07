@@ -17,9 +17,11 @@
                     <div class="col-md-3" style="margin-top:1em">
                         {{ form_label(form.setDisplayDimensions) }}
                     </div>
-                    <div class="col-md-8" style="margin-top:0.5em">
+                    <div class="col-md-3" style="margin-top:0.5em">
                         {{ form_widget(form.setDisplayDimensions) }}
                     </div>
+                    <div class="col-md-2" style="margin-top:0.5em">{{ form_label(form.timezone) }}</div>
+                    <div class="col-md-3">{{ form_widget(form.timezone) }}</div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">

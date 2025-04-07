@@ -54,6 +54,12 @@ class UserApiAmpereSettings
     protected $candleType2 = 'lines';
 
     /**
+     * @var string
+     * @ORM\Column(type="string", length=200, nullable=true)
+     */
+    protected $timezone = 'Europe/Madrid';
+
+    /**
      * HEXA Color1
      * @ORM\Column(type="string", length=7,nullable=true)
      */
@@ -206,6 +212,15 @@ class UserApiAmpereSettings
     public function setColor2(string $color): void
     {
         $this->color2 = $color;
+    }
+
+    public function getTimezone(): ?string
+    {
+        return $this->timezone;
+    }
+    public function setTimezone(string $t): void
+    {
+        $this->timezone = $t;
     }
 
     public function getExclude1(): bool

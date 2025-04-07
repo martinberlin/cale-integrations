@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\ApiLog;
+use App\Entity\ApiLogAmpere;
 use App\Entity\IntegrationApi;
 use App\Entity\User;
 
 use App\Repository\IntegrationApiRepository;
+use App\Repository\UserApiAmpereSettingsRepository;
 use App\Repository\UserApiLogChartRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -265,6 +267,72 @@ class ApiLogController extends AbstractController
                 'data' => $data,
             ])
         );
+        return $response;
+    }
+
+    /**
+     * @Route("/energy-consumption/log", name="api_ampere_log", methods={"POST"})
+     */
+    public function logAmpere(Request $request, UserRepository $userRepository, IntegrationApiRepository $intApiRepository, UserApiAmpereSettingsRepository $userApiAmpereSettingsRepository): Response
+    {
+        try {
+            $parsed = json_decode($request->getContent(), $associative = true, $depth = 512, JSON_THROW_ON_ERROR);
+        } catch (\Exception $e) {
+            throw new NotFoundHttpException('Invalid JSON');
+        }
+        $client = $parsed['client'];
+        $userId = $client['id'];
+        $totalWatt = $client['total_wh'];
+        $user = $userRepository->findOneBy(['id' => $userId]);
+        if (!$user instanceof User) {
+            throw new NotFoundHttpException('User not found');
+        }
+        $api = $intApiRepository->findOneBy(['uuid' => $client['key']]);
+        if (!$api instanceof IntegrationApi) {
+            throw new NotFoundHttpException("API with key {$client['key']} not found");
+        }
+
+        $apiConfig = $userApiAmpereSettingsRepository->findOneBy(['intApi' => $api]);
+
+        $response = new JsonResponse();
+
+
+        foreach ($parsed['data'] as $data) {
+            if ($data['v'] <= 0) {
+                throw new NotFoundHttpException('Invalid voltage data');
+            }
+            // Log this into the database
+            $em = $this->getDoctrine()->getManager();
+            $apiLog = new ApiLogAmpere();
+            $apiLog->setUser($user);
+            $apiLog->setApi($api);
+            $apiLog->setFp($data['f']);
+            $apiLog->setTotalWh($totalWatt);
+            $apiLog->setVolt($data['v']);
+            $apiLog->setWatt($data['p']);
+            $apiLog->setHour($data['hr']);
+            //dump($data);exit();
+            $apiLog->setTimestamp($data['t']);
+            $apiLog->setTimezone($apiConfig->getTimezone());
+            //Timezone is now in API config  UserApiAmpereSettings
+            $dateString = date('Y-m-d H:i:s', $data['t']);
+            $apiLog->setDatestamp(new \DateTime($dateString));
+
+            try {
+                $em->persist($apiLog);
+                $em->flush();
+                $response->setContent(json_encode([
+                        'status' => 'ok'
+                    ])
+                );
+            } catch (\Exception $e) {
+                $response->setContent(json_encode([
+                        'status' => 'error',
+                        'message' => 'Error saving data. ERROR: ' . $e->getMessage()
+                    ])
+                );
+            }
+        }
         return $response;
     }
 }

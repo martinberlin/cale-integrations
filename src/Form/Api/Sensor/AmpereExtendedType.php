@@ -88,6 +88,14 @@ class AmpereExtendedType extends SCD40Type
                     'required' => true,
                     "choices" => $options['chartTypes2'],
                 ])
+            ->add('timezone', TextType::class,
+                [
+                    'label' => 'Your timezone',
+                    'attr' => [
+                        'placeholder' => 'Europe/Berlin',
+                        'class' => 'form-control'
+                    ]
+                ])
             ->add('color1', TextType::class,
                 [
                     'label' => 'Color Voltage',
