@@ -30,6 +30,18 @@ class AmpereExtendedType extends SCD40Type
                         new Length(array('max' => 130))
                     )
                 ])
+            ->add('resetCounterDay', NumberType::class,
+                [
+                    'label' => 'Reset counter (day of month)',
+                    'required' => true,
+                    'constraints' => [
+                        new Range([
+                            'min' => 1,
+                            'max' => 31
+                        ])
+                ],
+                    'attr' => ['style'=>'width:4em']
+                ])
             ->add('width', NumberType::class,
                 [
                     'label' => 'Width',

@@ -27,6 +27,12 @@ class UserApiAmpereSettings
      * @var int
      * @ORM\Column(type="integer", nullable=false)
      */
+    protected $resetCounterDay = 1;
+
+    /**
+     * @var int
+     * @ORM\Column(type="integer", nullable=false)
+     */
     protected $width = 400;
 
     /**
@@ -58,6 +64,12 @@ class UserApiAmpereSettings
      * @ORM\Column(type="string", length=200, nullable=true)
      */
     protected $timezone = 'Europe/Madrid';
+
+    /**
+     * @var \DateTime Represents the last reset date of energy consumption (resetCounterDay)
+     * @ORM\Column(type="datetime",nullable=true)
+     */
+    protected $datetimeLastReset = null;
 
     /**
      * HEXA Color1
@@ -125,6 +137,26 @@ class UserApiAmpereSettings
     public function setIntApi($intApi): void
     {
         $this->intApi = $intApi;
+    }
+
+    public function setDatestampLastReset(\DateTime $value): void
+    {
+        $this->datestamp->setTimezone(new \DateTimeZone($this->timezone));
+        $this->datestamp = $value;
+    }
+    public function getDatestampLastReset(): ?\DateTime
+    {
+        return $this->datestamp;
+    }
+
+    public function getResetCounterDay(): int
+    {
+        return $this->resetCounterDay;
+    }
+
+    public function setResetCounterDay(int $resetCounterDay): void
+    {
+        $this->resetCounterDay = $resetCounterDay;
     }
 
     /**
