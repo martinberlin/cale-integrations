@@ -13,6 +13,29 @@
             {{ form_errors(form) }}
             {{ form_row(form.name) }}
             {% if step == 2 %}
+            <div class="row">
+                <div class="col-md-3">
+                    {{ form_label(form.resetCounterDay) }}
+                </div>
+                <div class="col-md-1">
+                    {{ form_widget(form.resetCounterDay) }}
+                </div>
+                <div class="col-md-3 {% if form.resetCounterDay.vars.errors|length %}alert alert-danger{% endif %}">
+                    {{ form_errors(form.resetCounterDay) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    {{ form_label(form.costKilowattHour) }}
+                </div>
+                <div class="col-md-1">
+                    {{ form_widget(form.costKilowattHour) }}
+                </div>
+                <div class="col-md-3 {% if form.costKilowattHour.vars.errors|length %}alert alert-danger{% endif %}">
+                    {{ form_errors(form.costKilowattHour) }}
+                </div>
+            </div>
+
                 <div class="row">
                     <div class="col-md-3" style="margin-top:1em">
                         {{ form_label(form.setDisplayDimensions) }}

@@ -295,7 +295,10 @@ class ApiLogController extends AbstractController
         $apiConfig = $userApiAmpereSettingsRepository->findOneBy(['intApi' => $api]);
 
         $response = new JsonResponse();
-
+        $status = "ok";
+        $errorCnt = 0;
+        $errorLast = "";
+        $resetCounter = 0;
 
         foreach ($parsed['data'] as $data) {
             if ($data['v'] <= 0) {
@@ -321,18 +324,27 @@ class ApiLogController extends AbstractController
             try {
                 $em->persist($apiLog);
                 $em->flush();
-                $response->setContent(json_encode([
-                        'status' => 'ok'
-                    ])
-                );
+
             } catch (\Exception $e) {
-                $response->setContent(json_encode([
-                        'status' => 'error',
-                        'message' => 'Error saving data. ERROR: ' . $e->getMessage()
-                    ])
-                );
+                $errorCnt++;
+                $errorLast = $e->getMessage();
             }
         }
+        if ($apiConfig->getResetCounterDay() == date('d')) {
+            $resetCounter = 1;
+            $apiConfig->setDatestampLastReset(new \DateTime());
+            $em->persist($apiConfig);
+            $em->flush();
+        }
+        if ($errorCnt > 0) {
+            $status = "error";
+        }
+        $response->setContent(json_encode([
+                'reset' => $resetCounter,
+                'status' => $status,
+                'errors' => $errorCnt,
+            ])
+        );
         return $response;
     }
 }

@@ -30,6 +30,18 @@ class AmpereExtendedType extends SCD40Type
                         new Length(array('max' => 130))
                     )
                 ])
+            ->add('costKilowattHour', NumberType::class,
+                [
+                    'label' => 'Kw/h cost euros',
+                    'required' => true,
+                    'constraints' => [
+                        new Range([
+                            'min' => 0.13,
+                            'max' => 1
+                        ])
+                ],
+                    'attr' => ['style'=>'width:4em']
+                ])
             ->add('resetCounterDay', NumberType::class,
                 [
                     'label' => 'Reset counter (day of month)',
@@ -39,7 +51,7 @@ class AmpereExtendedType extends SCD40Type
                             'min' => 1,
                             'max' => 31
                         ])
-                ],
+                    ],
                     'attr' => ['style'=>'width:4em']
                 ])
             ->add('width', NumberType::class,

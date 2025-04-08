@@ -30,6 +30,11 @@ class UserApiAmpereSettings
     protected $resetCounterDay = 1;
 
     /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    protected $costKilowattHour = 0.13;
+
+    /**
      * @var int
      * @ORM\Column(type="integer", nullable=false)
      */
@@ -141,12 +146,24 @@ class UserApiAmpereSettings
 
     public function setDatestampLastReset(\DateTime $value): void
     {
-        $this->datestamp->setTimezone(new \DateTimeZone($this->timezone));
-        $this->datestamp = $value;
+        if ($this->datetimeLastReset instanceof \DateTime  == false) {
+            $this->datetimeLastReset = new \DateTime();
+        }
+        $this->datetimeLastReset->setTimezone(new \DateTimeZone($this->timezone));
+        $this->datetimeLastReset = $value;
     }
     public function getDatestampLastReset(): ?\DateTime
     {
-        return $this->datestamp;
+        return $this->datetimeLastReset;
+    }
+
+    public function getCostKilowattHour(): ?float
+    {
+        return $this->costKilowattHour;
+    }
+    public function setCostKilowattHour(?float $value): void
+    {
+        $this->costKilowattHour = $value;
     }
 
     public function getResetCounterDay(): int
