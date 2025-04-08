@@ -24,13 +24,15 @@ final class Version20250408083545 extends AbstractMigration
 
         $this->addSql('CREATE TABLE app_apilog_ampere (id INT AUTO_INCREMENT NOT NULL, user_id INT DEFAULT NULL, api VARCHAR(40) DEFAULT NULL, fp DOUBLE PRECISION NOT NULL, total_wh DOUBLE PRECISION NOT NULL, volt INT DEFAULT NULL, watt INT DEFAULT NULL, hour INT DEFAULT NULL, datestamp DATETIME NOT NULL, timestamp INT NOT NULL, times_read INT NOT NULL, INDEX IDX_A9F5833CA76ED395 (user_id), INDEX IDX_A9F5833CAD05D80F (api), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE app_apilog_ampere_daily (id INT AUTO_INCREMENT NOT NULL, user_id INT DEFAULT NULL, api VARCHAR(40) DEFAULT NULL, total_wh DOUBLE PRECISION NOT NULL, datestamp DATETIME NOT NULL, hour INT NOT NULL, timezone VARCHAR(100) DEFAULT NULL, INDEX IDX_E64ACA18A76ED395 (user_id), INDEX IDX_E64ACA18AD05D80F (api), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE app_user_ampere_settings (user_id INT NOT NULL, user_api_id VARCHAR(40) NOT NULL, reset_counter_day INT NOT NULL, cost_kilowatt_hour DOUBLE PRECISION DEFAULT NULL, width INT NOT NULL, height INT NOT NULL, data_rows INT NOT NULL, candle_type VARCHAR(20) DEFAULT NULL, candle_type2 VARCHAR(20) DEFAULT NULL, timezone VARCHAR(200) DEFAULT NULL, datetime_last_reset DATETIME DEFAULT NULL, color1 VARCHAR(7) DEFAULT NULL, color2 VARCHAR(7) DEFAULT NULL, exclude1 TINYINT(1) DEFAULT \'1\' NOT NULL, axis_font_file VARCHAR(50) DEFAULT NULL, axis_font_size INT DEFAULT NULL, INDEX IDX_58B43457A76ED395 (user_id), INDEX IDX_58B4345731C42205 (user_api_id), UNIQUE INDEX user_api_name_idx (user_id, user_api_id), PRIMARY KEY(user_id, user_api_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE app_user_ampere_settings (user_id INT NOT NULL, user_api_id VARCHAR(40) NOT NULL, reset_counter_day INT NOT NULL, cost_kilowatt_hour DOUBLE PRECISION DEFAULT NULL, width INT NOT NULL, height INT NOT NULL, data_rows INT NOT NULL, candle_type VARCHAR(20) DEFAULT NULL, candle_type2 VARCHAR(20) DEFAULT NULL, timezone VARCHAR(200) DEFAULT NULL, datetime_last_reset DATETIME DEFAULT NULL, color1 VARCHAR(7) DEFAULT NULL, color2 VARCHAR(7) DEFAULT NULL, exclude1 TINYINT(1) DEFAULT \'1\' NOT NULL,  additional_live_chart TINYINT(1) DEFAULT \'0\' NOT NULL, axis_font_file VARCHAR(50) DEFAULT NULL, axis_font_size INT DEFAULT NULL, INDEX IDX_58B43457A76ED395 (user_id), INDEX IDX_58B4345731C42205 (user_api_id), UNIQUE INDEX user_api_name_idx (user_id, user_api_id), PRIMARY KEY(user_id, user_api_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE app_apilog_ampere ADD CONSTRAINT FK_A9F5833CA76ED395 FOREIGN KEY (user_id) REFERENCES app_user (id)');
         $this->addSql('ALTER TABLE app_apilog_ampere ADD CONSTRAINT FK_A9F5833CAD05D80F FOREIGN KEY (api) REFERENCES app_int_api (uuid)');
         $this->addSql('ALTER TABLE app_apilog_ampere_daily ADD CONSTRAINT FK_E64ACA18A76ED395 FOREIGN KEY (user_id) REFERENCES app_user (id)');
         $this->addSql('ALTER TABLE app_apilog_ampere_daily ADD CONSTRAINT FK_E64ACA18AD05D80F FOREIGN KEY (api) REFERENCES app_int_api (uuid)');
         $this->addSql('ALTER TABLE app_user_ampere_settings ADD CONSTRAINT FK_58B43457A76ED395 FOREIGN KEY (user_id) REFERENCES app_user (id)');
         $this->addSql('ALTER TABLE app_user_ampere_settings ADD CONSTRAINT FK_58B4345731C42205 FOREIGN KEY (user_api_id) REFERENCES app_int_api (uuid)');
+        $this->addSql("INSERT INTO `app_api` (`id`, `api_cat_id`, `url_name`, `name`, `auth_note`, `url`, `request_parameters`, `response_type`, `is_location_api`, `documentation_url`, `default_json_settings`, `json_route`, `edit_route`) VALUES
+(12, 7, 'https://cale.es/', 'Energy consumption (Electricity)', 'Internal API Key', '', NULL, 'json', 0, NULL, '{\"data\":[],\"client\":{\"id\":USERID,\"key\":\"KEY\",\"total_wh\":\"ACCUMULATED_WATTS_HR\"}}', 'App\\Controller\\Render\\FRenderController::render_int_ampere', 'b_api_sensor_ampere')");
     }
 
     public function down(Schema $schema) : void
@@ -41,5 +43,6 @@ final class Version20250408083545 extends AbstractMigration
         $this->addSql('DROP TABLE app_apilog_ampere');
         $this->addSql('DROP TABLE app_apilog_ampere_daily');
         $this->addSql('DROP TABLE app_user_ampere_settings');
+        $this->addSql('DELETE FROM app_api WHERE id = 12');
     }
 }

@@ -93,6 +93,10 @@ class UserApiAmpereSettings
      */
     protected $exclude1 = true;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default":"0"})
+     */
+    protected $additionalLiveChart = false;
 
     /**
      * Font trueType file
@@ -279,6 +283,15 @@ class UserApiAmpereSettings
     public function setExclude1(bool $value): void
     {
         $this->exclude1 = $value;
+    }
+
+    public function getAdditionalLiveChart(): bool
+    {
+        return $this->additionalLiveChart;
+    }
+    public function setAdditionalLiveChart(bool $value): void
+    {
+        $this->additionalLiveChart = $value;
     }
 
     /**

@@ -4,9 +4,11 @@ namespace App\Controller\Render;
 use App\Command\DownloadCryptoCommand;
 use App\Entity\IntegrationApi;
 use App\Entity\TemplatePartial;
+use App\Entity\UserApiAmpereSettings;
 use App\Entity\UserApiFinancialChart;
 use App\Entity\UserApiLogChart;
 use App\Repository\IntegrationApiRepository;
+use App\Repository\UserApiAmpereSettingsRepository;
 use App\Repository\UserApiFinancialChartRepository;
 use App\Repository\UserApiLogChartRepository;
 use App\Repository\UserRepository;
@@ -239,7 +241,6 @@ EOT;
             }
         }
         $data = $parsed['data'];
-        //dump($data);exit();
 
         $plot = new \PHPlot($logChartSettings->getWidth(), $logChartSettings->getHeight());
         $plot->setTitle($logChartSettings->getIntApi()->getName());
@@ -371,4 +372,199 @@ EOT;
         return $response;
     }
 
+    // AMPERE
+    /**
+     * render Electricity Consumption using PZEM IOT
+     * @Route("/render_int_ampere", name="render_int_ampere")
+     */
+    public function render_int_ampere(TemplatePartial $partial, UserApiAmpereSettingsRepository $logChartRepository)
+    {
+        $api = $partial->getIntegrationApi();
+        $intApiId = $api->getId();
+        $userId = $api->getUserApi()->getUser()->getId();
+        $imgSrc = $this->generateUrl('render_ampere_daily_chart', [
+            'userId'   => $userId,
+            'intApiId' => $intApiId
+        ], UrlGenerator::ABSOLUTE_URL);
+        $html = <<<EOT
+        <img src="$imgSrc">
+EOT;
+        $logChartSettings = $logChartRepository->findOneBy([
+            'user' => $userId,
+            'intApi' => $intApiId
+        ]);
+        if ($logChartSettings instanceof UserApiAmpereSettings && $logChartSettings->getAdditionalLiveChart()) {
+            $imgSrc = $this->generateUrl('render_ampere_live_chart', [
+                'userId'   => $userId,
+                'intApiId' => $intApiId
+            ], UrlGenerator::ABSOLUTE_URL);
+            $html .= <<<EOT
+<br><img src="$imgSrc">
+EOT;
+        }
+        // Render the content partial and return the composed HTML
+        $response = new Response();
+        $response->setContent($html);
+        return $response;
+    }
+
+    /**
+     * render CSV data using PHP plot
+     * @Route("/amp-daily-chart/{userId}/{intApiId}", name="render_ampere_daily_chart")
+     * @param $userId
+     * @param $intApiId
+     * @param UserApiAmpereSettingsRepository $userApiLogChartRepository
+     * @param UserRepository $userRepository
+     */
+    public function phpPlotAmpDaily($userId, $intApiId, UserApiAmpereSettingsRepository $userApiLogChartRepository, UserRepository $userRepository)
+    {
+        $logChartSettings = $userApiLogChartRepository->findOneBy([
+            'user' => $userId,
+            'intApi' => $intApiId
+        ]);
+        /*dump(['user' => $userId,
+            'intApi' => $intApiId]);exit();*/
+        $user = $userRepository->findOneBy(['id' => $userId]);
+        if (!$logChartSettings instanceof UserApiAmpereSettings) {
+            // Drop plot error and exit
+            $plot = new \PHPlot(400, 300);
+            $plot->DrawMessage("AMPERE Chart settings not found");
+            exit();
+        }
+        $response = $this->forward("App\Controller\ApiLogController::logEnergyDailyRead", [
+            'key' => $logChartSettings->getIntApi()->getId(),
+            'length' => $logChartSettings->getDataRows()
+        ]);
+
+        try {
+            $parsed = json_decode($response->getContent(), $associative=true, $depth=512, JSON_THROW_ON_ERROR);
+        } catch (\Exception $e) {
+            throw new NotFoundHttpException('Invalid JSON');
+        }
+        $titleSuffix = "";
+        foreach ($parsed['data'] as $key => $value) {
+            $titleSuffix = $parsed['data'][$key]['datestamp'];
+            unset($parsed['data'][$key]['datestamp']);
+        }
+        $data = $parsed['data'];
+        //dump($data);exit();
+
+        $plot = new \PHPlot($logChartSettings->getWidth(), $logChartSettings->getHeight());
+        $plot->setTitle($logChartSettings->getIntApi()->getName().' per hour '."({$titleSuffix})");
+        # Make a legend for the 3 data sets plotted:
+        $legends = ['Watt/HR'];
+        $colors = [$logChartSettings->getColor1()];
+
+        // Set label fonts:
+        $elements = ['x_label','y_label'];
+        foreach ($elements as $element) {
+            $plot->SetFontTTF($element,
+                $_ENV["FONTS_BASEURL"].$logChartSettings->getAxisFontFile(),
+                $logChartSettings->getAxisFontSize());
+        }
+
+        $plot->SetLegend($legends);
+        $plot->SetLegendPixels(80,20);
+        $plot->SetDataColors($colors);
+
+        $plot->SetMarginsPixels(55, 50);
+        $plot->SetXDataLabelAngle(45);
+        $plot->SetLineWidths(3);
+        $plot->SetImageBorderType('plain');
+        $plot->SetPlotType($logChartSettings->getCandleType());
+        $plot->SetDataType('text-data'); // data-data-xyz
+        $plot->SetDataValues($data);
+        $plot->SetFileFormat('jpg');
+        $image = $plot->DrawGraph();
+
+        // Don't need a Symfony response, plot does this already
+        $response = new Response();
+        $response->headers->set('Content-Type', 'image/jpeg');
+        $response->setContent($image);
+        return $response;
+    }
+
+    /**
+     * render CSV data using PHP plot
+     * @Route("/amp-live-chart/{userId}/{intApiId}", name="render_ampere_live_chart")
+     * @param $userId
+     * @param $intApiId
+     * @param UserApiAmpereSettingsRepository $userApiLogChartRepository
+     * @param UserRepository $userRepository
+     */
+    public function phpPlotAmpLive($userId, $intApiId, UserApiAmpereSettingsRepository $userApiLogChartRepository, UserRepository $userRepository)
+    {
+        $logChartSettings = $userApiLogChartRepository->findOneBy([
+            'user' => $userId,
+            'intApi' => $intApiId
+        ]);
+        /*dump(['user' => $userId,
+            'intApi' => $intApiId]);exit();*/
+        $user = $userRepository->findOneBy(['id' => $userId]);
+        if (!$logChartSettings instanceof UserApiAmpereSettings) {
+            // Drop plot error and exit
+            $plot = new \PHPlot(400, 300);
+            $plot->DrawMessage("AMPERE Chart settings not found");
+            exit();
+        }
+        $response = $this->forward("App\Controller\ApiLogController::logEnergyLiveRead", [
+            'key' => $logChartSettings->getIntApi()->getId(),
+            'length' => $logChartSettings->getDataRows()
+        ]);
+
+        try {
+            $parsed = json_decode($response->getContent(), $associative=true, $depth=512, JSON_THROW_ON_ERROR);
+        } catch (\Exception $e) {
+            throw new NotFoundHttpException('Invalid JSON');
+        }
+        $titleSuffix = "";
+        foreach ($parsed['data'] as $key => $value) {
+            $titleSuffix = $parsed['data'][$key]['datestamp'];
+            $parsed['data'][$key]['fp'] = $parsed['data'][$key]['fp'] * 100;
+            unset($parsed['data'][$key]['hr']);
+            if ($logChartSettings->getExclude1()) {
+                unset($parsed['data'][$key]['v']);
+            }
+        }
+        $data = $parsed['data'];
+
+        //dump($data);exit();
+        $plot = new \PHPlot($logChartSettings->getWidth(), $logChartSettings->getHeight());
+        $plot->setTitle($logChartSettings->getIntApi()->getName().' per minute '."({$titleSuffix})");
+        # Make a legend for the 3 data sets plotted:
+        $legends = ['Watt'];
+        if (! $logChartSettings->getExclude1()) {
+            array_push($legends, 'Voltage');
+        }
+        array_push($legends, 'Power factor (*100)');
+        $colors = [$logChartSettings->getColor1(), $logChartSettings->getColor2()];
+
+        // Set label fonts:
+        $elements = ['x_label','y_label'];
+        foreach ($elements as $element) {
+            $plot->SetFontTTF($element,
+                $_ENV["FONTS_BASEURL"].$logChartSettings->getAxisFontFile(),
+                $logChartSettings->getAxisFontSize());
+        }
+
+        $plot->SetLegend($legends);
+        $plot->SetLegendPixels(80,20);
+        $plot->SetDataColors($colors);
+
+        $plot->SetMarginsPixels(55, 50);
+        $plot->SetXDataLabelAngle(45);
+        $plot->SetLineWidths(3);
+        $plot->SetImageBorderType('plain');
+        $plot->SetPlotType($logChartSettings->getCandleType());
+        $plot->SetDataType('text-data'); // data-data-xyz
+        $plot->SetDataValues($data);
+        $plot->SetFileFormat('jpg');
+        $image = $plot->DrawGraph();
+
+        // Don't need a Symfony response, plot does this already
+        $response = new Response();
+        $response->headers->set('Content-Type', 'image/jpeg');
+        $response->setContent($image);
+        return $response;
+    }
 }

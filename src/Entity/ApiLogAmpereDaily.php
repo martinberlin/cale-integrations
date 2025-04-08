@@ -52,8 +52,10 @@ class ApiLogAmpereDaily
      */
     protected $timezone;
 
-    function __construct() {
-        $this->datestamp = new \DateTime("Y-m-d");
+
+    function __construct()
+    {
+        $this->datestamp = new \DateTime();
     }
 
     /**
@@ -109,7 +111,7 @@ class ApiLogAmpereDaily
     public function setDatestamp(\DateTime $value): void
     {
         $this->datestamp->setTimezone(new \DateTimeZone($this->timezone));
-        $this->datestamp = new \DateTime('Y-m-d');
+        $this->datestamp = $value;
     }
     public function getTotalWh()
     {

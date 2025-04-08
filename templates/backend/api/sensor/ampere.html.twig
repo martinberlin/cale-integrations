@@ -110,6 +110,13 @@
                 <div class="col-md-3">
                     {{ form_label(form.exclude1) }}
                 </div>
+                <div class="col-md-1">
+                    {{ form_widget(form.additionalLiveChart) }}
+                </div>
+                <div class="col-md-3">
+                    {{ form_label(form.additionalLiveChart) }}
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-2">
                     {{ form_label(form.color1) }}<br>
@@ -125,20 +132,18 @@
             </div>
             {% endif %}
         </div>
-        <div class="col-md-3">
-            <div class="row">
-                <div class="col-md-12">
+        <div class="col-md-6">
+
             <label>Preview with dummy values</label>
             Your IOT should send a POST request to the following URL:<br>
-            <b>http://cale.es/{{ path('api_scd40_log') }}</b>
+            <b>http://cale.es{{ path('api_ampere_log') }}</b>
 
             <br>Data sample:
             <code>
                 {{ default_json|raw }}
             </code>
-                </div>
-            </div>
         </div>
+    </div>
     </div>
     {{ form_row(form.submit) }}
 

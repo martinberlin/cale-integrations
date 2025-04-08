@@ -140,7 +140,13 @@ class AmpereExtendedType extends SCD40Type
                 ])
             ->add('exclude1', CheckboxType::class,
                 [
-                    'label' => 'Exclude Power factor',
+                    'label' => 'Exclude Voltage',
+                    'required' => false
+                ])
+
+            ->add('additionalLiveChart', CheckboxType::class,
+                [
+                    'label' => 'Live chart',
                     'required' => false
                 ])
 

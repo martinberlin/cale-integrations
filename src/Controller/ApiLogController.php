@@ -4,9 +4,12 @@ namespace App\Controller;
 
 use App\Entity\ApiLog;
 use App\Entity\ApiLogAmpere;
+use App\Entity\ApiLogAmpereDaily;
 use App\Entity\IntegrationApi;
 use App\Entity\User;
 
+use App\Entity\UserApiAmpereSettings;
+use App\Repository\ApiLogAmpereDailyRepository;
 use App\Repository\IntegrationApiRepository;
 use App\Repository\UserApiAmpereSettingsRepository;
 use App\Repository\UserApiLogChartRepository;
@@ -273,7 +276,8 @@ class ApiLogController extends AbstractController
     /**
      * @Route("/energy-consumption/log", name="api_ampere_log", methods={"POST"})
      */
-    public function logAmpere(Request $request, UserRepository $userRepository, IntegrationApiRepository $intApiRepository, UserApiAmpereSettingsRepository $userApiAmpereSettingsRepository): Response
+    public function logAmpere(Request $request, UserRepository $userRepository, IntegrationApiRepository $intApiRepository,
+                              UserApiAmpereSettingsRepository $userApiAmpereSettingsRepository, ApiLogAmpereDailyRepository $ampereDailyRepository): Response
     {
         try {
             $parsed = json_decode($request->getContent(), $associative = true, $depth = 512, JSON_THROW_ON_ERROR);
@@ -299,7 +303,7 @@ class ApiLogController extends AbstractController
         $errorCnt = 0;
         $errorLast = "";
         $resetCounter = 0;
-
+        $hourTotal = array();
         foreach ($parsed['data'] as $data) {
             if ($data['v'] <= 0) {
                 throw new NotFoundHttpException('Invalid voltage data');
@@ -320,6 +324,7 @@ class ApiLogController extends AbstractController
             //Timezone is now in API config  UserApiAmpereSettings
             $dateString = date('Y-m-d H:i:s', $data['t']);
             $apiLog->setDatestamp(new \DateTime($dateString));
+            $hourTotal[$data['hr']] = $totalWatt;
 
             try {
                 $em->persist($apiLog);
@@ -336,6 +341,30 @@ class ApiLogController extends AbstractController
             $em->persist($apiConfig);
             $em->flush();
         }
+        // Save totals per hour in Daily table
+        foreach ($hourTotal as $hour => $total) {
+            $hourlyRowTotal = $ampereDailyRepository->findOneBy(['user' => $user, 'api' => $api, 'hour' => $hour]);
+            if ($hourlyRowTotal instanceof ApiLogAmpereDaily === false) {
+                $hourlyRowTotal =  new ApiLogAmpereDaily();
+                $hourlyRowTotal->setUser($user);
+                $hourlyRowTotal->setApi($api);
+            }
+            $hourlyRowTotal->setHour($hour);
+            $hourlyRowTotal->setTotalWh($total);
+            $hourlyRowTotal->setTimezone($apiConfig->getTimezone());
+            $hourlyRowTotal->setDatestamp(new \DateTime($dateString));
+
+            try {
+                $em->persist($hourlyRowTotal);
+                $em->flush();
+
+            } catch (\Exception $e) {
+                $errorCnt++;
+                $errorLast = $e->getMessage();
+            }
+        }
+
+
         if ($errorCnt > 0) {
             $status = "error";
         }
@@ -343,6 +372,72 @@ class ApiLogController extends AbstractController
                 'reset' => $resetCounter,
                 'status' => $status,
                 'errors' => $errorCnt,
+            ])
+        );
+        return $response;
+    }
+
+    /**
+     * @Route("/energy-live/read/{key}/{length?100}", name="api_energy_live_read")
+     */
+    public function logEnergyLiveRead($key, $length, Request $request, IntegrationApiRepository $intApiRepository): Response
+    {
+        $api = $intApiRepository->findOneBy(['uuid' => $key]);
+        if (!$api instanceof IntegrationApi) {
+            throw new NotFoundHttpException("API with key {$key} not found");
+        }
+
+        $length = (int)$length;
+        $length = $length > 1000 ? 1000 : $length;
+        $length = $length < 1 ? 1 : $length;
+        $em = $this->getDoctrine()->getManager();
+        $apiLogs = $em->getRepository(ApiLogAmpere::class)->findBy(['api' => $api], ['timestamp' => 'DESC'], $length);
+        $data = [];
+        foreach ($apiLogs as $apiLog) {
+            $data[] = [
+                'datestamp' => $apiLog->getDatestamp()->format('d/m/y H:i'),
+                'hr' => $apiLog->getHour(),
+                'w' => $apiLog->getWatt(),
+                'v' => $apiLog->getVolt(),
+                'fp' => $apiLog->getFp(),
+            ];
+        }
+        $data = array_reverse($data);
+        $response = new JsonResponse();
+        $response->setContent(json_encode([
+                'data' => $data,
+            ])
+        );
+        return $response;
+    }
+
+    /**
+     * @Route("/energy-daily/read/{key}/{length?100}", name="api_energy_daily_read")
+     */
+    public function logEnergyDailyRead($key, $length, Request $request, IntegrationApiRepository $intApiRepository): Response
+    {
+        $api = $intApiRepository->findOneBy(['uuid' => $key]);
+        if (!$api instanceof IntegrationApi) {
+            throw new NotFoundHttpException("API with key {$key} not found");
+        }
+
+        $length = (int)$length;
+        $length = $length > 1000 ? 1000 : $length;
+        $length = $length < 1 ? 1 : $length;
+        $em = $this->getDoctrine()->getManager();
+        $apiLogs = $em->getRepository(ApiLogAmpereDaily::class)->findBy(['api' => $api], ['datestamp' => 'DESC'], $length);
+        $data = [];
+        foreach ($apiLogs as $apiLog) {
+            $data[] = [
+                'datestamp' => $apiLog->getDatestamp()->format('d/m/y H:i'),
+                'hr' => $apiLog->getHour(),
+                'total_wh' => $apiLog->getTotalWh()
+            ];
+        }
+        $data = array_reverse($data);
+        $response = new JsonResponse();
+        $response->setContent(json_encode([
+                'data' => $data,
             ])
         );
         return $response;
