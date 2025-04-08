@@ -335,7 +335,16 @@ class ApiLogController extends AbstractController
                 $errorLast = $e->getMessage();
             }
         }
-        if ($apiConfig->getResetCounterDay() == date('d')) {
+
+        if ($apiConfig->getDatestampLastReset() instanceof \DateTime) {
+            $lastResetDatetime = $apiConfig->getDatestampLastReset();
+        } else {
+            $lastResetDatetime = new \DateTime();
+            $lastResetDatetime->sub(new \DateInterval('P1D'));
+        }
+        $interval = $lastResetDatetime->diff(new \DateTime());
+
+        if ($apiConfig->getResetCounterDay() == date('d')  && $interval->d > 0) {
             $resetCounter = 1;
             $apiConfig->setDatestampLastReset(new \DateTime());
             $em->persist($apiConfig);
@@ -363,7 +372,6 @@ class ApiLogController extends AbstractController
                 $errorLast = $e->getMessage();
             }
         }
-
 
         if ($errorCnt > 0) {
             $status = "error";
