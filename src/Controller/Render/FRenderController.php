@@ -452,7 +452,7 @@ EOT;
         $plot = new \PHPlot($logChartSettings->getWidth(), $logChartSettings->getHeight());
         $plot->setTitle($logChartSettings->getIntApi()->getName().' per hour '."({$titleSuffix})");
         # Make a legend for the 3 data sets plotted:
-        $legends = ['Watt/HR'];
+        $legends = ['kW/h'];
         $colors = [$logChartSettings->getColor1()];
 
         // Set label fonts:
