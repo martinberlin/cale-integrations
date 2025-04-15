@@ -183,6 +183,18 @@
     "ocramius/proxy-manager": {
         "version": "2.2.3"
     },
+    "payum/payum-bundle": {
+        "version": "2.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "2.4",
+            "ref": "518ac22defa04a8a1d82479ed362e2921487adf0"
+        },
+        "files": [
+            "config/packages/payum.yaml"
+        ]
+    },
     "php": {
         "version": "7.4"
     },

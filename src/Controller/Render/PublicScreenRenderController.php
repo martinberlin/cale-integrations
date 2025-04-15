@@ -33,6 +33,7 @@ class PublicScreenRenderController extends AbstractController
         if (!$user instanceof User) {
             throw $this->createNotFoundException("This user does not exist. Please check the URL");
         }
+
         try {
             date_default_timezone_set($user->getTimezone());
         } catch (\ErrorException $exception) {
@@ -84,10 +85,17 @@ class PublicScreenRenderController extends AbstractController
         $renderParams = [
             'template' => '/screen-templates/' . $template
         ];
+
         $htmlPerColumn['Header'] = '';
         $htmlPerColumn['Column_1st'] = '';
         $htmlPerColumn['Column_2nd'] = '';
         $htmlPerColumn['Column_3rd'] = '';
+
+        if (!$userRepository->hasSubscription($user)) {
+            $htmlPerColumn['Column_1st'] = '<div style="background-color:red;color:white;padding-left:1em">
+CALE service costs <b>3€/month</b>. Login in cale.es/backend to remove this banner</div>';
+        }
+
         foreach ($partials as $p) {
             if ($p instanceof TemplatePartial) {
                 $partialHtml = $this->forward($p->getIntegrationApi()->getUserApi()->getApi()->getJsonRoute(),

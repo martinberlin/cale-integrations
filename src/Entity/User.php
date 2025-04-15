@@ -108,6 +108,30 @@ class User implements UserInterface, Language, Created
 
     /**
      * @var \DateTime
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $paidDate;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"}, nullable=true)
+     */
+    protected $paidTill;
+
+    /**
+     * @var integer | EURO
+     * @ORM\Column(type="integer", options={"default" : 0})
+     */
+    protected $paidTotal;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $paypalEmail;
+
+    /**
+     * @var \DateTime
      * @ORM\Column(type="datetime")
      */
     protected $created;
@@ -223,6 +247,45 @@ class User implements UserInterface, Language, Created
     public function setCreated(\DateTime $dateTime = null) {
         $this->created = $dateTime;
     }
+
+    public function getPaidDate() {
+        return $this->paidDate;
+    }
+    public function setPaidDate(\DateTime $dateTime = null) {
+        $this->paidDate = $dateTime;
+    }
+
+    public function getPaidTill() {
+        return $this->paidTill;
+    }
+    public function setPaidTill(\DateTime $dateTime = null) {
+        $this->paidTill = $dateTime;
+    }
+
+    public function getPaidTotal()
+    {
+        return $this->paidTotal;
+    }
+    public function setPaidTotal(int $paid) {
+        $this->paidTotal = $paid;
+    }
+
+    /**
+     * @param int $paid
+     * SUMs paid to the total value in DB column
+     */
+    public function sumPaid(int $paid) {
+        $this->paidTotal += $paid;
+    }
+
+    public function getPaypalEmail()
+    {
+        return $this->paypalEmail;
+    }
+    public function setPaypalEmail(string $email) {
+        $this->paypalEmail = $email;
+    }
+
     /**
      * @return mixed
      */
