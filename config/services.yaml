@@ -34,7 +34,7 @@ parameters:
     screen_images_directory: /screenimg
     # gallery_max_size is used as File maxSize constraint (needs 'k' appended later in FormType)
     gallery_max_size: 699
-    gallery_max_size_total: 15000
+    gallery_max_size_total: 20000
 
     # Email config
     email_reset_password:   'dontreply@cale.es'

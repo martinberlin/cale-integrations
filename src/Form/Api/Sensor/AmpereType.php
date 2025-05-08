@@ -1,0 +1,46 @@
+<?php
+namespace App\Form\Api\Sensor;
+
+use App\Form\Api\IntegrationApiType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Length;
+
+class AmpereType extends IntegrationApiType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        parent::buildForm($builder, $options);
+        $builder
+            ->add('name', TextType::class,
+                [
+                    'label' => 'Sensor name',
+                    'required' => true,
+                    'attr' => [
+                        'placeholder' => 'My office name',
+                        'class' => 'form-control'
+                    ],
+                    'constraints' => [
+                        new Length(['min'=>3,'max'=>42])
+                    ]
+                ])
+            ->add('jsonSettings', HiddenType::class,
+                [
+                    'label' => 'Copy / paste the data demo',
+                    'required' => false,
+                ])
+            ->add('submit', SubmitType::class,
+                [
+                    'label' => 'Configure API',
+                    'attr' => ['class' => 'btn btn-primary form-control', 'style' => 'margin-top:2em']
+                ])
+        ;
+    }
+
+    public function getBlockPrefix()
+    {
+        return "";
+    }
+}
