@@ -33,7 +33,7 @@ parameters:
     # Notice that ../public is hardcoded in BackendApiController::apiInternalHtml
     screen_images_directory: /screenimg
     # gallery_max_size is used as File maxSize constraint (needs 'k' appended later in FormType)
-    gallery_max_size: 699
+    gallery_max_size: 899
     gallery_max_size_total: 20000
 
     # Email config
