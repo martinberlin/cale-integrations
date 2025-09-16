@@ -5,14 +5,17 @@
         let image_bytes = `{{ image_bytes }}`;
     </script>
         <div class="row">
+            {{ form_start(form) }}
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <h3>Envio de imagen por Bluetooth</h3>
-                <strong>1. Subir imagen</strong><br>
+                {{ form_widget(form.imageFile) }}
+                {{ form_widget(form.submit, {'attr': {'margin-top':'-2em'}}) }}
                 <strong>2. Conectarse al dispositivo (BLE_JPG_***)</strong><br>
                 <strong>3. Enviar al display</strong>
 
-                <small>Recuerde que solo funciona en Chrome y no en otro Navegador.</small>
+                <small>Recuerde que solo funciona en Chrome y no en otro Navegador. La imágen sera escalada a <strong>1872 * 1404</strong> pixeles sin perder el form-factor</small>
             </div>
+            {{ form_end(form) }}
         </div>
     <div class="row">
         <div class="col-md-7">
@@ -30,11 +33,12 @@
         <div class="col-md-7">
             <div class="row">
                 <div class="col-md-6">
-                <button id="connectbutton" type="button" onclick="connect()" class="btn btn-primary" style="font-size:18px"><strong>Conecta con BLE </strong><i class="fa fa-bluetooth"></i></button><br><br>
+                <button id="connectbutton" type="button" onclick="connect()" class="btn btn-primary" style="font-size:18px">
+                    <strong>2. Conecta con BLE </strong><i class="fa fa-bluetooth"></i></button><br><br>
                 </div>
                 <div class="col-md-6">
                 <button id="sendimage" type="button" onclick="sendimg(image_bytes)" class="btn btn-warning" style="font-size:18px"><i class="fa fa-arrow-right" ></i>
-                    <strong>Enviar imagen</strong></button>
+                    <strong>3. Enviar imagen</strong></button>
                 </div>
             </div>
         </div>
