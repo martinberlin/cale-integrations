@@ -2,6 +2,7 @@
 namespace App\Form\ble;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -14,6 +15,19 @@ class UploadType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('jpgCompression', ChoiceType::class,
+                [
+                    'label' => 'Compresión JPG',
+                    'choices' => [
+                        'Media' => '75',
+                        'Baja (menos calidad, más rápido)' => '60',
+                        'Alta (más calidad, mas tiempo)' => '90'
+                    ],
+                    'preferred_choices' => [75,60],
+                    'attr' => [
+                        'class' => 'form-control'
+                    ]
+                ])
             ->add('imageFile', FileType::class,
                 [
                     'label' => 'Seleccionar imagen (max. %max_kb% Kb)',

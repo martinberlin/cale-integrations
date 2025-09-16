@@ -9,6 +9,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <h3>Envio de imagen por Bluetooth</h3>
                 {{ form_widget(form.imageFile) }}
+                {{ form_widget(form.jpgCompression) }}
                 {{ form_widget(form.submit, {'attr': {'margin-top':'-2em'}}) }}
                 <strong>2. Conectarse al dispositivo (BLE_JPG_***)</strong><br>
                 <strong>3. Enviar al display</strong>

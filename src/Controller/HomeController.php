@@ -375,9 +375,10 @@ class HomeController extends AbstractController
      * Converts unknown formats to JPG.
      * @param string $src_path Path to the uploaded image
      * @param string $dest_path Where to save the resized image (the extension will be forced to .jpg if converted)
+     * @param int $jpg_quality JPEG quality for output (1-100), default 90
      * @return bool True on success, false on failure
      */
-    private function resize_image_gd($src_path, $dest_path, $target_width, $target_height)
+    private function resize_image_gd($src_path, $dest_path, $target_width, $target_height, $jpg_quality = 60)
     {
         // Get image info and type
         $img_info = getimagesize($src_path);
@@ -425,11 +426,11 @@ class HomeController extends AbstractController
         if ($convert_to_jpg) {
             // Make sure destination uses .jpg extension
             $dest_path = preg_replace('/\.\w+$/', '.jpg', $dest_path);
-            $result = imagejpeg($dst_img, $dest_path, 90);
+            $result = imagejpeg($dst_img, $dest_path, $jpg_quality);
         } else {
             switch ($img_type) {
                 case IMAGETYPE_JPEG:
-                    $result = imagejpeg($dst_img, $dest_path, 90);
+                    $result = imagejpeg($dst_img, $dest_path, $jpg_quality);
                     break;
                 case IMAGETYPE_PNG:
                     $result = imagepng($dst_img, $dest_path);
@@ -439,7 +440,7 @@ class HomeController extends AbstractController
                     break;
                 default:
                     // Fallback to jpg
-                    $result = imagejpeg($dst_img, $dest_path, 90);
+                    $result = imagejpeg($dst_img, $dest_path, $jpg_quality);
             }
         }
 
