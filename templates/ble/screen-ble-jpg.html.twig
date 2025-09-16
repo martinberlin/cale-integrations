@@ -1,11 +1,14 @@
 {% extends 'base-clean.html.twig' %}
 
 {% block body %}
+    <script>
+        let image_bytes = `{{ image_bytes }}`;
+    </script>
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <h3>Envio de imagen por Bluetooth</h3>
-                <strong>1. Conectarse al dispositivo (BLE_JPG_***)</strong><br>
-                <strong>2. Subir imagen</strong><br>
+                <strong>1. Subir imagen</strong><br>
+                <strong>2. Conectarse al dispositivo (BLE_JPG_***)</strong><br>
                 <strong>3. Enviar al display</strong>
 
                 <small>Recuerde que solo funciona en Chrome y no en otro Navegador.</small>
@@ -17,7 +20,7 @@
             <img id="img_proc" src="{{ jpgUrl }}" width="50%">
         </div>
         <div class="col-md-5">
-            <h4>Log viewer</h4>
+            <h4>Logs</h4>
             <div id="status" style="margin-top:10px;width: 100%;height: 20px;font-family:'Courier New', Courier, monospace"></div>
             <div id="log" style="font-family:'Courier New', Courier, monospace;height: 380px;overflow-y: auto"></div>
         </div>
@@ -27,25 +30,29 @@
         <div class="col-md-7">
             <div class="row">
                 <div class="col-md-6">
-                <button id="connectbutton" type="button" onclick="connect()" class="btn btn-primary" style="font-size:18px"><strong>Connect </strong><i class="fa fa-bluetooth"></i></button><br><br>
+                <button id="connectbutton" type="button" onclick="connect()" class="btn btn-primary" style="font-size:18px"><strong>Conecta con BLE </strong><i class="fa fa-bluetooth"></i></button><br><br>
                 </div>
                 <div class="col-md-6">
-                <button id="sendimage" type="button" onclick="sendimg(document.getElementById('cmdIMAGE').value)" class="btn btn-warning" style="font-size:18px"><i class="fa fa-arrow-right" ></i> <strong>Send image to Epaper</strong></button>
+                <button id="sendimage" type="button" onclick="sendimg(image_bytes)" class="btn btn-warning" style="font-size:18px"><i class="fa fa-arrow-right" ></i>
+                    <strong>Enviar imagen</strong></button>
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-7">
-           Imaze size: {{ image_size }} bytes<br>
-            <textarea id="cmdIMAGE" rows="30" cols="60" class="form-control">{{ image_bytes }}</textarea>
+           Tamaño de la imagen: {{ image_size }} bytes<br>
 
-            <input type="text" id="cmdTXT" value="01">
+            <code>
+                Para ACTIVAR Bluetooth en Chrome. Escriba en la barra de dirección:<br>
+                chrome://flags/<br><br>
+
+                y habilite el "Experimental Web Platform features"  --> Enabled
+            </code>
+            <!-- <input type="text" id="cmdTXT" value="01">
             <button type="button" onclick="sendcmd(document.getElementById('cmdTXT').value)" class="btn btn-default">SendCMD</button>
+            -->
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-9 card-footer">Disclaimer: This code to send the image via Bluetooth is an experimental test done by <a href="https://github.com/atc1441/ATC_TLSR_Paper" target="_blank">ATC1441</a> in his price labels hacking project. I modified it and adapted to ESP32 to receive and decompress a JPG file</div>
     </div>
 {% endblock %}
 
@@ -121,14 +128,10 @@
         }
 
         async function sendimg(cmdIMG) {
-            imgArray = cmdIMG.replace(/(?:\r\n|\r|\n|,|0x| )/g, '');
+            imgArray = cmdIMG;
             uploadPart = 0;
-
             // HEADERS like:  4 bytes (uint32) with content-length
             sendCommand(cmdUint32(0x01, image_size)).then(() => {
-                addLog('> 0x01 BLE header content-length')
-
-                sleep(100)
                 sendIMGpart()
             }).catch(handleError);
 
@@ -196,8 +199,8 @@
                             return Theservice.getCharacteristic(char_uuid);
                         })
                         .then(characteristic => {
-                            console.log('> Found write characteristic '+char_uuid);
-                            addLog('> Found write characteristic');
+                            //console.log('> Found write characteristic '+char_uuid);
+                            addLog('> Limpiando display. Enviando datos...');
                             document.getElementById("connectbutton").innerHTML = 'Disconnect';
                             document.getElementById("sendimage").className = 'btn btn-success';
                             writeCharacteristic = characteristic;

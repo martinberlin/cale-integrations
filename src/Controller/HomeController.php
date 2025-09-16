@@ -5,8 +5,6 @@ use App\Entity\Display;
 use App\Entity\PaymentLog;
 use App\Repository\ApiRepository;
 use App\Repository\DisplayRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -338,7 +336,8 @@ class HomeController extends AbstractController
             'ble/screen-ble-jpg.html.twig', [
             'image_bytes' => implode("", $hexImgArray), // image byte array
             'image_size'  => $image_size,
-            'jpgUrl' => $jpgUrl
+            'jpgUrl' => $jpgUrl,
+            'title' => 'Cliente BLE'
         ]);
 
     }
