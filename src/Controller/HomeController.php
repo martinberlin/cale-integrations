@@ -485,7 +485,7 @@ class HomeController extends AbstractController
                     $result = imagejpeg($dst_img, $dest_path, $jpg_quality);
             }
         }
-        $result = $this->fix_image_orientation($result, $dest_path);
+        $result = $this->fix_image_orientation($dest_path, $result);
         // Free memory
         imagedestroy($src_img);
         imagedestroy($dst_img);
@@ -540,7 +540,7 @@ class HomeController extends AbstractController
             }
         }
         // www image patch
-        $protocol = $request->isSecure() ? 'https' : 'http';
+        $protocol = $request->isSecure() ? 'http' : 'http';
         if ($fileUploaded) {
             $jpgUrl = "$protocol://".$request->getHost().$imgDir.'res_'.$safeFilename;
         } else {
