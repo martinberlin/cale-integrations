@@ -498,9 +498,9 @@ class HomeController extends AbstractController
         }
         // DEMO
         if ($fileUploaded) {
-            $jpgUrl = 'http://'.$request->getHost().$imgDir.'res_'.$safeFilename;
+            $jpgUrl = 'https://'.$request->getHost().$imgDir.'res_'.$safeFilename;
         } else {
-            $jpgUrl = 'http://'.$request->getHost().'/assets/ble/empty.jpg';
+            $jpgUrl = 'https://'.$request->getHost().'/assets/ble/empty.jpg';
         }
         $jpg = file_get_contents($jpgUrl);
 
