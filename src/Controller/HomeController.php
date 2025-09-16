@@ -454,7 +454,7 @@ class HomeController extends AbstractController
         // Target dimensions: In the future we could make a Dropdown to allow more displays
         $target_width = 1872;
         $target_height = 1404;
-
+        // Create and handle the form
         $form = $this->createForm(UploadType::class);
         $form->handleRequest($request);
         // Get current year and month
@@ -493,9 +493,9 @@ class HomeController extends AbstractController
         }
         // DEMO
         if ($fileUploaded) {
-            $jpgUrl = 'http://'.$request->getHost().$imgDir.'temp_'.$safeFilename;
+            $jpgUrl = 'https://'.$request->getHost().$imgDir.'temp_'.$safeFilename;
         } else {
-            $jpgUrl = 'http://'.$request->getHost().'/assets/ble/empty.jpg';
+            $jpgUrl = 'https://'.$request->getHost().'/assets/ble/empty.jpg';
         }
         $jpg = file_get_contents($jpgUrl);
 
