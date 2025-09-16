@@ -1,0 +1,244 @@
+{% extends 'base-clean.html.twig' %}
+
+{% block body %}
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <h3>Envio de imagen por Bluetooth</h3>
+                <strong>1. Conectarse al dispositivo (BLE_JPG_***)</strong><br>
+                <strong>2. Subir imagen</strong><br>
+                <strong>3. Enviar al display</strong>
+
+                <small>Recuerde que solo funciona en Chrome y no en otro Navegador.</small>
+            </div>
+        </div>
+    <div class="row">
+        <div class="col-md-7">
+            <h4>Previsualización</h4>
+            <img id="img_proc" src="{{ jpgUrl }}" width="50%">
+        </div>
+        <div class="col-md-5">
+            <h4>Log viewer</h4>
+            <div id="status" style="margin-top:10px;width: 100%;height: 20px;font-family:'Courier New', Courier, monospace"></div>
+            <div id="log" style="font-family:'Courier New', Courier, monospace;height: 380px;overflow-y: auto"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-7">
+            <div class="row">
+                <div class="col-md-6">
+                <button id="connectbutton" type="button" onclick="connect()" class="btn btn-primary" style="font-size:18px"><strong>Connect </strong><i class="fa fa-bluetooth"></i></button><br><br>
+                </div>
+                <div class="col-md-6">
+                <button id="sendimage" type="button" onclick="sendimg(document.getElementById('cmdIMAGE').value)" class="btn btn-warning" style="font-size:18px"><i class="fa fa-arrow-right" ></i> <strong>Send image to Epaper</strong></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-7">
+           Imaze size: {{ image_size }} bytes<br>
+            <textarea id="cmdIMAGE" rows="30" cols="60" class="form-control">{{ image_bytes }}</textarea>
+
+            <input type="text" id="cmdTXT" value="01">
+            <button type="button" onclick="sendcmd(document.getElementById('cmdTXT').value)" class="btn btn-default">SendCMD</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9 card-footer">Disclaimer: This code to send the image via Bluetooth is an experimental test done by <a href="https://github.com/atc1441/ATC_TLSR_Paper" target="_blank">ATC1441</a> in his price labels hacking project. I modified it and adapted to ESP32 to receive and decompress a JPG file</div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script>
+        let sendByteChunks = 896; // 128*6: 768 128*7: 896
+
+        // Regular expression to check if string is a valid UUID
+        const regexExp = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
+
+        let service_uuid = '0000180d-0000-1000-8000-00805f9b34fb';
+        let char_uuid = service_uuid;
+
+        let image_size = {{ image_size }};
+        let gattServer;
+        let Theservice;
+        let writeCharacteristic;
+        let busy = false;
+        let imgArray;
+        let uploadPart = 0;
+
+        function sleep(millis) {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve();
+                }, millis);
+            });
+        }
+
+        function resetVariables() {
+            uploadPart = 0;
+            busy = false;
+            gattServer = null;
+            Theservice = null;
+            writeCharacteristic = null;
+            document.getElementById("log").value = '';
+        }
+
+        function handleError(error) {
+            console.log(error);
+            resetVariables();
+        }
+
+        async function sendCommand(cmd) {
+            if (writeCharacteristic) {
+                if (busy) {
+                    return Promise.resolve();
+                }
+                busy = true;
+                return writeCharacteristic.writeValue(cmd).then(() => {
+                    busy = false;
+                });
+            } else {
+                return Promise.resolve();
+            }
+        }
+
+        function sendcmd(cmdTXT) {
+            console.log('SendCMDnow');
+            let cmd = hexToBytes(cmdTXT);
+            addLog('Send CMD: ' + cmdTXT);
+            console.log('Send CMD: ');
+            console.log(cmdTXT);
+            console.log('Send CMD bytes: ');
+            console.log(cmd);
+            sendCommand(cmd).then(() => {
+                console.log('CMD was Send');
+
+            })
+                .catch(handleError);
+        }
+
+        async function sendimg(cmdIMG) {
+            imgArray = cmdIMG.replace(/(?:\r\n|\r|\n|,|0x| )/g, '');
+            uploadPart = 0;
+
+            // HEADERS like:  4 bytes (uint32) with content-length
+            sendCommand(cmdUint32(0x01, image_size)).then(() => {
+                addLog('> 0x01 BLE header content-length')
+
+                sleep(100)
+                sendIMGpart()
+            }).catch(handleError);
+
+
+        }
+
+        async function sendIMGpart(){
+            //console.log(imgArray.length);
+
+            if(imgArray.length > 0){
+                let currentpart = imgArray.substring(0, sendByteChunks);
+                imgArray = imgArray.substring(sendByteChunks);
+
+                setStatus('Current part: '+ uploadPart++);
+                sendCommand(hexToBytes(currentpart)).then(() => {
+                    sendIMGpart();
+                })
+
+            } else {
+                console.log('Last Part: '+ imgArray);
+
+                addLog('> Full JPG was sent');
+                let update_display_cmd = "09";
+                sendCommand(hexToBytes(update_display_cmd)).then(() => {
+                    console.log('Update was sent');
+                })
+                addLog('> 0x'+update_display_cmd+' CMD send to update display');
+            }
+        }
+
+        function disconnect() {
+            resetVariables();
+
+            console.log('Disconnected.');
+            addLog('Disconnected. Click again to connect to a new device');
+            document.getElementById("connectbutton").innerHTML ='<strong>Connect </strong><i class="fa fa-bluetooth"></i>';
+            document.getElementById("sendimage").className = 'btn btn-warning';
+            document.getElementById("sendimageC").className = 'btn btn-warning';
+        }
+
+        function connect() {
+            if (gattServer != null && gattServer.connected) {
+                disconnect();
+            } else {
+                console.log('Connecting...');
+                addLog('Connecting...');
+                if (writeCharacteristic == null) {
+                    navigator.bluetooth.requestDevice({
+                        optionalServices: [service_uuid],
+                        acceptAllDevices: true
+                    })
+                        .then(device => {
+                            console.log('> ' + device.name);
+                            console.log('Connecting to GATT Servive '+service_uuid);
+                            return device.gatt.connect();
+                        })
+                        .then(server => {
+                            console.log('> Found GATT server');
+                            gattServer = server;
+                            return gattServer.getPrimaryService(service_uuid);
+                        })
+                        .then(service => {
+                            console.log('> Found service');
+                            Theservice = service;
+                            return Theservice.getCharacteristic(char_uuid);
+                        })
+                        .then(characteristic => {
+                            console.log('> Found write characteristic '+char_uuid);
+                            addLog('> Found write characteristic');
+                            document.getElementById("connectbutton").innerHTML = 'Disconnect';
+                            document.getElementById("sendimage").className = 'btn btn-success';
+                            writeCharacteristic = characteristic;
+                            return;
+                        })
+                        .catch(handleError);
+                } else {
+
+                }
+            }
+        }
+
+        function setStatus(statusText){
+            document.getElementById("status").innerHTML = statusText;
+        }
+
+        function addLog(logTXT){
+            document.getElementById("log").innerHTML += logTXT+ '<br>';
+        }
+
+        function hexToBytes(hex) {
+            for (var bytes = [], c = 0; c < hex.length; c += 2)
+                bytes.push(parseInt(hex.substr(c, 2), 16));
+            return new Uint8Array(bytes);
+        }
+
+        function bytesToHex(data) {
+            return new Uint8Array(data).reduce(function(memo, i) {
+                return memo + ("0" + i.toString(16)).slice(-2);
+            }, "");
+        }
+
+        function cmdUint32(cmd, number) {
+            console.log("Uint32:"+number)
+            var byte0 = cmd;
+            var byte1 = 0xff & number;
+            var byte2 = 0xff & (number >> 8);
+            var byte3 = 0xff & (number >> 16);
+            var byte4 = 0xff & (number >> 24);
+
+            return new Uint8Array([byte0,byte1,byte2,byte3,byte4]);
+        }
+    </script>
+{% endblock javascripts %}

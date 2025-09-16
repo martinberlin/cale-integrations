@@ -323,4 +323,23 @@ class HomeController extends AbstractController
             ['title' => 'epdiy parallel controller']
         );
     }
+
+    public function screenBleJpg(Request $request) {
+        // DEMO
+        $jpgUrl = 'http://'.$request->getHost().'/assets/ble/test.jpg';
+        $jpg = file_get_contents($jpgUrl);
+
+        // Convert that bytes
+        $hexStr = bin2hex($jpg);
+        $image_size = strlen($jpg);
+        $hexImgArray = str_split($hexStr,2);
+
+        return $this->render(
+            'ble/screen-ble-jpg.html.twig', [
+            'image_bytes' => implode("", $hexImgArray), // image byte array
+            'image_size'  => $image_size,
+            'jpgUrl' => $jpgUrl
+        ]);
+
+    }
 }
