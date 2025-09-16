@@ -437,6 +437,8 @@ class HomeController extends AbstractController
         switch ($img_type) {
             case IMAGETYPE_JPEG:
                 $src_img = imagecreatefromjpeg($src_path);
+                // Correct orientation based on EXIF **only** for JPEG
+                $src_img = $this->fix_image_orientation($src_path, $src_img);
                 break;
             case IMAGETYPE_PNG:
                 $src_img = imagecreatefrompng($src_path);
@@ -485,7 +487,6 @@ class HomeController extends AbstractController
                     $result = imagejpeg($dst_img, $dest_path, $jpg_quality);
             }
         }
-        $result = $this->fix_image_orientation($dest_path, $result);
         // Free memory
         imagedestroy($src_img);
         imagedestroy($dst_img);
@@ -540,7 +541,7 @@ class HomeController extends AbstractController
             }
         }
         // www image patch
-        $protocol = $request->isSecure() ? 'http' : 'http';
+        $protocol = $request->isSecure() ? 'https' : 'http';
         if ($fileUploaded) {
             $jpgUrl = "$protocol://".$request->getHost().$imgDir.'res_'.$safeFilename;
         } else {
