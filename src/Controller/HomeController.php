@@ -454,7 +454,7 @@ class HomeController extends AbstractController
         // Target dimensions: In the future we could make a Dropdown to allow more displays
         $target_width = 1872;
         $target_height = 1404;
-        // Create and handle the form
+
         $form = $this->createForm(UploadType::class);
         $form->handleRequest($request);
         // Get current year and month
@@ -474,17 +474,22 @@ class HomeController extends AbstractController
 
                 // Move the file to the directory where brochures are stored
                 try {
+                    $imageFile->move(
+                        $this->publicRelativePath.$imgDir,
+                        $safeFilename
+                    );
                     // Resize the original image and save it to the target directory
                     $this->resize_image_gd(
-                        $imageFile->getPathname(),
-                        $this->publicRelativePath.$imgDir.'temp_'.$safeFilename,
+                        $this->publicRelativePath.$imgDir.'/'.$safeFilename,
+                        $this->publicRelativePath.$imgDir.'res_'.$safeFilename,
                         $target_width,
                         $target_height
                     );
+                    unlink($this->publicRelativePath.$imgDir.'/'.$safeFilename);
 
                 } catch (\Exception $e) {
                     // ... handle exception if something happens during file upload
-                    $this->addFlash('danger', 'Error uploading or resizing file: '.$e->getMessage());
+                    $this->addFlash('danger', 'Error uploading file: '.$e->getMessage());
                     $fileUploaded = false;
                 }
 
@@ -493,9 +498,9 @@ class HomeController extends AbstractController
         }
         // DEMO
         if ($fileUploaded) {
-            $jpgUrl = 'https://'.$request->getHost().$imgDir.'temp_'.$safeFilename;
+            $jpgUrl = 'http://'.$request->getHost().$imgDir.'res_'.$safeFilename;
         } else {
-            $jpgUrl = 'https://'.$request->getHost().'/assets/ble/empty.jpg';
+            $jpgUrl = 'http://'.$request->getHost().'/assets/ble/empty.jpg';
         }
         $jpg = file_get_contents($jpgUrl);
 
