@@ -1,0 +1,107 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-12">
+        This API supports both http and https. The base URL is:
+        http://cale.es/api
+
+        <h4>POST: /scd40/log</h4>
+        <p>Example: <b>http://cale.es/api/scd40/log</b><br>
+            Log a new SCD40 sensor reading. IP is optional. Client ID and API key are mandatory and you can find them when you configure an SCD40 API endpoint.
+            Request body should be a valid JSON string.
+        </p>
+    </div>
+</div>
+    <div class="row">
+        <div class="col-md-6">
+        <h3>Request body:</h3>
+    <textarea class="form-control" rows="12" readonly>{
+        "co2": 200,
+        "temperature": 18.8,
+        "humidity": 40,
+         "client": {
+         "id": USER_ID,
+         "key": "KEY",
+         "timezone": "Europe/Madrid",
+         "ip": "127.0.0.1"
+        }
+}</textarea>
+    </div>
+    <div class="col-md-6">
+        <h3>JSON Response:</h3>
+        <textarea class="form-control" rows="2" readonly>{"status": "ok"}</textarea>
+    </div>
+</div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h4>GET or POST: /scd40/read/KEY/LENGTH</h4>
+            <p>Request body: empty in 1.0 version, we will add some filters later (Date and more)</p>
+        </div>
+
+    <div class="col-md-6">
+        <h3>Response:</h3>
+        <textarea class="form-control" rows="12" readonly>{
+    "data": [
+        {
+            "datestamp": "23/03/25 18:57",
+            "temperature": 17.757,
+            "humidity": 62.802,
+            "co2": 530,
+            "timezone": "Europe/Madrid"
+        },
+        {
+            "datestamp": "23/03/25 19:19",
+            "temperature": 18.8,
+            "humidity": 40,
+            "co2": 200,
+            "timezone": "Europe/Madrid"
+        }
+    ]
+}</textarea>
+    </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h4>GET or POST: /scd40/readtimes/KEY/LENGTH/TIMESREAD</h4>
+            <p>Request body: empty in 1.0 version, default values: length:100, times_read=0<br>
+                <b>times_read</b> is a field that increments 1 on each read. This starts reading the values Ascendant, so you start reading at the beginning of the feed</p>
+        </div>
+
+        <div class="col-md-6">
+            <h3>Response:</h3>
+            <textarea class="form-control" rows="12" readonly>{
+    "data": [
+        {
+            "datestamp": "20/03/25 14:02",
+            "temperature": 19,
+            "humidity": 55,
+            "co2": 645,
+            "timezone": "Europe\/Madrid"
+        },
+        {
+            "datestamp": "20/03/25 14:32",
+            "temperature": 20,
+            "humidity": 56,
+            "co2": 644,
+            "timezone": "Europe\/Madrid"
+        }
+    ]
+}</textarea>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">To illustrate how last call works, we will use the following example from mysql:<br>
+        <img src="/img/admin/api-log/api-log-table.png" class="img-fluid" alt="View from apilog table"><br>
+        Now if you want to repeat the last call and re-read values you can simply use the GET parameters:<br>
+            /scd40/readtimes/KEY/100/1
+            <br><br>
+            Then you will get the times_read 1 values all over again. The idea is that if you use this call with the default 0 times_read value
+            you will get always "fresh" data that was not read before and avoid duplicating data.
+        </div>
+        </div>
+    </div>
+{% endblock %}

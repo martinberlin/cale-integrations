@@ -3,6 +3,8 @@ namespace App\Controller;
 
 use App\Entity\IntegrationApi;
 use App\Entity\UserApi;
+use App\Entity\UserApiAmpereSettings;
+use App\Entity\UserApiLogChart;
 use App\Form\Api\ApiConfigureSelectionType;
 use App\Form\Api\Crypto\IntegrationEtherscanType;
 use App\Form\Api\IntegrationAwsCloudwatchType;
@@ -10,26 +12,27 @@ use App\Form\Api\IntegrationAwsType;
 use App\Form\Api\IntegrationHtmlType;
 use App\Form\Api\IntegrationSharedCalendarApiType;
 use App\Form\Api\IntegrationWeatherApiType;
+use App\Form\Api\Sensor\AmpereExtendedType;
+use App\Form\Api\Sensor\AmpereType;
+use App\Form\Api\Sensor\SCD40ExtendedType;
+use App\Form\Api\Sensor\SCD40Type;
 use App\Form\Api\Wizard\ApiDeleteConfirmationType;
 use App\Form\Api\Wizard\ApiTokenType;
 use App\Form\Api\Wizard\Google\GoogleCalendar1Type;
 use App\Repository\ApiRepository;
 use App\Repository\IntegrationApiRepository;
+use App\Repository\UserApiAmpereSettingsRepository;
+use App\Repository\UserApiLogChartRepository;
 use App\Repository\UserApiRepository;
-use Aws\CloudWatch\CloudWatchClient;
-use Aws\Exception\AwsException;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -84,6 +87,7 @@ class BackendApiController extends AbstractController
     public function apiConfigure(Request $request, EntityManagerInterface $entityManager, ApiRepository $apiRepository)
     {
         $getApis = $apiRepository->findAll();
+
         $apis = [];
         foreach ($getApis as $api) {
             $apis[$api->getId()] = $api->getAuthNote();
@@ -724,4 +728,206 @@ class BackendApiController extends AbstractController
         return $r;
     }
 
+    /**
+     * @Route("/sensor/scd40/{uuid}/{intapi_uuid?}/{step?1}", name="b_api_sensor_scd40")
+     */
+    public function sensorScd40(
+        $uuid, $intapi_uuid, $step, Request $request,
+        UserApiRepository $userApiRepository,
+        IntegrationApiRepository $intApiRepository, UserApiLogChartRepository $apiLogChartRepository,
+        EntityManagerInterface $entityManager)
+    {
+        $userApi = $this->getUserApi($userApiRepository, $uuid);
+        $api = $this->getIntegrationApi($intApiRepository, $intapi_uuid);
+        if (is_null($api->getJsonSettings()) || $api->getJsonSettings() ==='') {
+            $api->setJsonSettings($userApi->getApi()->getDefaultJsonSettings());
+        }
+        $defaultJson = $userApi->getApi()->getDefaultJsonSettings();
+        $defaultJson = str_replace("KEY", $api->getId(), $defaultJson);
+        $defaultJson = str_replace("USERID", $userApi->getUser()->getId(), $defaultJson);
+
+        if (!$api instanceof IntegrationApi) {
+            $api = new IntegrationApi();
+        }
+        $logChart = $apiLogChartRepository->findOneBy([
+                'user' => $this->getUser(),
+                'intApi' => $api
+        ]);
+        if (!$logChart instanceof UserApiLogChart) {
+            $logChart = new UserApiLogChart();
+            $logChart->setIntApi($api);
+            $logChart->setUser($this->getUser());
+        }
+
+        $displays = [];
+        foreach ($this->getUser()->getScreens() as $screen) {
+            $display = $screen->getDisplay();
+            $displays[$display->getWidth().'x'.$display->getHeight()] = $display->getName();
+        }
+        if ($step == 1) {
+            $form = $this->createForm(SCD40Type::class, $api);
+        } else {
+            $form = $this->createForm(SCD40ExtendedType::class, $logChart,[
+                'apiName'  => $api->getName(),
+                'displays' => array_flip($displays)
+            ]);
+        }
+        $form->setData('jsonSettings', $defaultJson);
+        $form->handleRequest($request);
+        $error = "";
+        if ($form->isSubmitted() && $form->isValid()) {
+            $userApi->setIsConfigured(true);
+            $api->setUserApi($userApi);
+
+            try {
+                if ($step == 2) {
+                    $entityManager->persist($logChart);
+                    $api->setName($form->get('name')->getViewData());
+                }
+                $entityManager->persist($api);
+                $entityManager->flush();
+            } catch (\Exception $e) {
+                $error = $e->getMessage();
+                $this->addFlash('error', $error);
+            }
+
+            if ($error === '') {
+                $this->addFlash('success',
+                    "Saved. Check documentation on how to log using IOT");
+                if ($step == 1) {
+                    $logChart->setWidth(400);
+                    $logChart->setHeight(300);
+                    $logChart->setDataRows(31);
+                    $entityManager->persist($logChart);
+                    $entityManager->flush();
+                return $this->redirectToRoute('b_api_sensor_scd40',
+                    ['uuid' => $userApi->getId(), 'intapi_uuid' => $api->getId(),
+                    'step' => 2]);
+                } else {
+                    return $this->redirectToRoute('b_home_apis');
+                }
+            }
+        }
+
+        return $this->render(
+            'backend/api/sensor/scd40.html.twig',
+            [
+                'title' => 'Configure SCD40 sensor logger',
+                'step' => $step,
+                'form'  => $form->createView(),
+                'intapi_uuid' => $intapi_uuid,
+                'intapi'      => $api,
+                'userapi_id'  => $userApi->getId(),
+                'default_json' => $defaultJson,
+                'menu' => $this->menu
+            ]);
+    }
+
+    /**
+     * @Route("/sensor/ampere/{uuid}/{intapi_uuid?}/{step?1}", name="b_api_sensor_ampere")
+     */
+    public function sensorAmpere(
+        $uuid, $intapi_uuid, $step, Request $request,
+        UserApiRepository $userApiRepository,
+        IntegrationApiRepository $intApiRepository, UserApiAmpereSettingsRepository $apiAmpereSettingsRepository,
+        EntityManagerInterface $entityManager)
+    {
+        $userApi = $this->getUserApi($userApiRepository, $uuid);
+        $api = $this->getIntegrationApi($intApiRepository, $intapi_uuid);
+        if (is_null($api->getJsonSettings()) || $api->getJsonSettings() === '') {
+            $api->setJsonSettings($userApi->getApi()->getDefaultJsonSettings());
+        }
+        $defaultJson = $userApi->getApi()->getDefaultJsonSettings();
+        $defaultJson = str_replace("KEY", $api->getId(), $defaultJson);
+        $defaultJson = str_replace("USERID", $userApi->getUser()->getId(), $defaultJson);
+
+        if (!$api instanceof IntegrationApi) {
+            $api = new IntegrationApi();
+        }
+        $ampSettings = $apiAmpereSettingsRepository->findOneBy([
+            'user' => $this->getUser(),
+            'intApi' => $api
+        ]);
+        if (!$ampSettings instanceof UserApiAmpereSettings) {
+            $ampSettings = new UserApiAmpereSettings();
+            $ampSettings->setIntApi($api);
+            $ampSettings->setUser($this->getUser());
+        }
+        // Make displays array (Repeated code, make internal function?)
+        $displays = [];
+        foreach ($this->getUser()->getScreens() as $screen) {
+            $display = $screen->getDisplay();
+            $displays[$display->getWidth().'x'.$display->getHeight()] = $display->getName();
+        }
+
+        if ($step == 1) {
+            $form = $this->createForm(AmpereType::class, $api);
+        } else {
+            $form = $this->createForm(AmpereExtendedType::class, $ampSettings,[
+                'apiName'  => $api->getName(),
+                'displays' => array_flip($displays)
+            ]);
+        }
+
+        $form->setData('jsonSettings', $defaultJson);
+        $form->handleRequest($request);
+        $error = "";
+        if ($form->isSubmitted() && $form->isValid()) {
+            $userApi->setIsConfigured(true);
+            $api->setUserApi($userApi);
+
+            try {
+                if ($step == 2) {
+                    $entityManager->persist($ampSettings);
+                    $api->setName($form->get('name')->getViewData());
+                }
+                $entityManager->persist($api);
+                $entityManager->flush();
+            } catch (\Exception $e) {
+                $error = $e->getMessage();
+                $this->addFlash('error', $error);
+            }
+
+            if ($error === '') {
+                $this->addFlash('success',
+                    "Saved. Check documentation on how to log using IOT");
+                if ($step == 1) {
+                    $ampSettings->setWidth(400);
+                    $ampSettings->setHeight(300);
+                    $ampSettings->setDataRows(31);
+                    $entityManager->persist($ampSettings);
+                    $entityManager->flush();
+                    return $this->redirectToRoute('b_api_sensor_ampere',
+                        ['uuid' => $userApi->getId(), 'intapi_uuid' => $api->getId(),
+                            'step' => 2]);
+                } else {
+                    return $this->redirectToRoute('b_home_apis');
+                }
+            }
+        }
+
+        return $this->render(
+            'backend/api/sensor/ampere.html.twig',
+            [
+                'title' => 'Configure electricity consumption sensor logger',
+                'step' => $step,
+                'form'  => $form->createView(),
+                'intapi_uuid' => $intapi_uuid,
+                'intapi'      => $api,
+                'userapi_id'  => $userApi->getId(),
+                'default_json' => $defaultJson,
+                'menu' => $this->menu
+            ]);
+    }
+
+    /**
+     * @Route("/scd_sensor_api_doc", name="api_sensor_doc")
+     */
+    public function api_sensor_doc() {
+        return $this->render(
+            'backend/api/sensor/scd40_apidoc.html.twig', [
+            'title' => 'Sensors API documentation',
+            'menu' => $this->menu
+        ]);
+    }
 }

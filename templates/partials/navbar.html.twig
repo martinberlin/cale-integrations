@@ -34,7 +34,6 @@
                     class="caret"></span></a>
         <ul class="dropdown-menu">
             <li><a href="{{ path('www_product-epdiy') }}">epdiy parallel controller</a></li>
-            <li><a href="{{ path('www_product-c3-epaper') }}">C3 epaper controller</a></li>
         </ul>
     </li>
  <li class="dropdown"><a href="#" data-toggle="dropdown" aria-expanded="false">
@@ -42,11 +41,7 @@
                  class="caret"></span></a>
      <ul class="dropdown-menu">
          <li><a href="{{ path('displays-eink') }}">Epaper displays</a></li>
-
-         <li><a href="{{ path('www_epapers-sale') }}">
-                 {{ 'nav_epapers_for_sale'|trans }}</a></li>
-         <li><a href="{{ path('www_service-pricing') }}">
-                 {{ 'nav_pricing'|trans }}</a></li>
+         <li><a href="{{ path('www_service-pricing') }}">{{ 'nav_pricing'|trans }}</a></li>
          <li><a href="{{ path('www_server-architecture') }}">{{ 'nav_server_architecture'|trans }}</a></li>
          <li><a href="{{ path('apis') }}">{{ 'nav_apis'|trans }}</a></li>
          <li><a href="{{ path('www_api-cloudwatch') }}">{{ 'nav_api_cloudwatch'|trans }}</a></li>

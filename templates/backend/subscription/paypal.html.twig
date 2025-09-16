@@ -1,0 +1,16 @@
+{% extends 'backend/backend-base.html.twig' %}
+
+{% block body %}
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+<p>This is the paypal Email you will use for your subscription Payment</p>
+    <div class="row">
+        <div class="col-md-3 col-sm-12 col-xs-12">
+            {{ form_row(form.paypalEmail) }}
+
+            {{ form_widget(form.submit) }}
+
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
