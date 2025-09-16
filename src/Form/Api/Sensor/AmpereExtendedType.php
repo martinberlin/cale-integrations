@@ -1,0 +1,211 @@
+<?php
+namespace App\Form\Api\Sensor;
+
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\Range;
+
+class AmpereExtendedType extends SCD40Type
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        parent::buildForm($builder, $options);
+        $builder
+            ->add('name', TextType::class,
+                [
+                    'label' => 'Sensor name',
+                    'data' => $options['apiName'],
+                    'required' => true,
+                    'mapped' => false,
+                    'attr' => [
+                        'placeholder' => 'Use a meaningful name to identify it in your list (Ex. BTCEUR hourly)',
+                        'class' => 'form-control'
+                    ],
+                    'constraints' => array(
+                        new Length(array('max' => 130))
+                    )
+                ])
+            ->add('costKilowattHour', NumberType::class,
+                [
+                    'label' => 'Kw/h cost euros',
+                    'required' => true,
+                    'constraints' => [
+                        new Range([
+                            'min' => 0.13,
+                            'max' => 1
+                        ])
+                ],
+                    'attr' => ['style'=>'width:4em']
+                ])
+            ->add('resetCounterDay', NumberType::class,
+                [
+                    'label' => 'Reset counter (day of month)',
+                    'required' => true,
+                    'constraints' => [
+                        new Range([
+                            'min' => 1,
+                            'max' => 31
+                        ])
+                    ],
+                    'attr' => ['style'=>'width:4em']
+                ])
+            ->add('width', NumberType::class,
+                [
+                    'label' => 'Width',
+                    'required' => true,
+                    'constraints' => [
+                        new Range([
+                            'min' => 200,
+                            'max' => 2000
+                        ])
+                    ],
+                    'attr' => ['style'=>'width:4em']
+                ])
+            ->add('height', NumberType::class,
+                [
+                    'label' => 'Height',
+                    'required' => true,
+                    'constraints' => [
+                        new Range([
+                            'min' => 200,
+                            'max' => 2000
+                        ])
+                    ],
+                    'attr' => ['style'=>'width:4em']
+                ])
+            ->add('dataRows', NumberType::class,
+                [
+                    'label' => 'Number of data rows',
+                    'required' => true,
+                    'constraints' => [
+                        new Range([
+                            'min' => 7,
+                            'max' => 730
+                        ])
+                    ]
+                ])
+
+            ->add('setDisplayDimensions', ChoiceType::class,
+                [
+                    'label' => 'Set width and height',
+                    'required' => false,
+                    'mapped'  => false,
+                    "choices" => $options['displays'],
+                    'placeholder' => 'Select one display',
+                    'attr' => ['onChange'=>'onSetDimension(this)', 'title'=>'Not saved: Just fills automatically width & height']
+                ])
+
+            ->add('candleType', ChoiceType::class,
+                [
+                    'label' => '1st Chart type',
+                    'required' => true,
+                    "choices" => $options['chartTypes1'],
+                ])
+            ->add('candleType2', ChoiceType::class,
+                [
+                    'label' => '2nd Chart type',
+                    'required' => true,
+                    "choices" => $options['chartTypes2'],
+                ])
+            ->add('timezone', TextType::class,
+                [
+                    'label' => 'Your timezone',
+                    'attr' => [
+                        'placeholder' => 'Europe/Berlin',
+                        'class' => 'form-control'
+                    ]
+                ])
+            ->add('color1', TextType::class,
+                [
+                    'label' => 'Color Voltage',
+                    'required' => true,
+                    'attr' => [
+                        'class' => 'form-control pickr',
+                        'maxlength' => '7'
+                    ]
+                ])
+            ->add('color2', TextType::class,
+                [
+                    'label' => 'Color Energy (Wh)',
+                    'required' => true,
+                    'attr' => [
+                        'class' => 'form-control pickr',
+                        'maxlength' => '7'
+                    ]
+                ])
+            ->add('exclude1', CheckboxType::class,
+                [
+                    'label' => 'Exclude Voltage',
+                    'required' => false
+                ])
+
+            ->add('additionalLiveChart', CheckboxType::class,
+                [
+                    'label' => 'Live chart',
+                    'required' => false
+                ])
+
+            ->add('axisFontFile', ChoiceType::class,
+                [
+                    'label' => 'Font',
+                    'required' => true,
+                    "choices" => $options['fontFile'],
+                ])
+            ->add('axisFontSize', ChoiceType::class,
+                [
+                    'label' => 'Font size',
+                    'required' => true,
+                    "choices" => $options['fontSize'],
+                ])
+        ;
+    }
+
+    public function getBlockPrefix()
+    {
+        return "";
+    }
+
+    /**
+     * This form has extra fields because of the summernote HTML editor
+     * @param OptionsResolver $resolver
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'allow_extra_fields' => true,
+            'apiName' => '',
+            'chartTypes1' => [
+                'Bars' => 'bars',
+                'Stacked Bars' => 'stackedbars',
+                'Lines' => 'lines',
+                'Area' => 'area',
+                'Points' => 'points',
+            ],
+            'chartTypes2' => [
+                'Bars' => 'bars',
+                'Lines' => 'lines',
+                'Area' => 'area',
+                'Points' => 'points',
+            ],
+            'fontSize' => [
+                '9' => 9,
+                '10' => 10,
+                '11' => 11,
+                '12' => 12,
+            ],
+            'fontFile' => [
+                'Digital 7'   => 'digital-7.ttf',
+                'Benjamin G.' => 'benjamingothic.ttf',
+                'Futura'      => 'futura.ttf',
+                'Varela'      => 'varela.ttf',
+                'IBM plex'    => 'ibm-plex.ttf',
+            ],
+            'displays' => []
+        ]);
+    }
+}

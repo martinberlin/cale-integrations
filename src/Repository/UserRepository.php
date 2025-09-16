@@ -17,4 +17,23 @@ class UserRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, User::class);
     }
+
+    /**
+     * @param User $user
+     * @return bool
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @brief HAS the user an active subscription (Has paid?)
+     */
+    public function hasSubscription(User $user) {
+        $query = $this->createQueryBuilder('u')
+            ->select('u.paidTill')
+            ->where('u.id = :userid')
+            ->setParameter('userid', $user->getId())
+            ->getQuery();
+
+        $paidTill = is_array($query->getSingleResult()) ? $query->getSingleResult()['paidTill'] : new \DateTime('yesterday');
+        $dateNow = new \DateTime();
+        return ($paidTill > $dateNow);
+    }
 }

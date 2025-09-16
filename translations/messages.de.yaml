@@ -27,7 +27,6 @@ nav_3d: Gehäuse 3D-Modelle
 nav_ethereum: Finanziert mit Ethereum-Kryptowährung
 nav_ethereum_short: Finanziert mit ♦
 nav_crypto_adv: Verdienen Sie mit Krypto von 4.5 bis zum 12% APR
-nav_epapers_for_sale: Epapers zu verkaufen
 nav_demo_display: Bilder generation Beispielen
 nav_digital_art: Epaper Bilderrahmen
 nav_pcb_cinwrite: Unsere ESP32S3 SPI master Regler
@@ -306,3 +305,6 @@ Photo credits: Bildnachweis
 
 #Displays
 epaper_from: Epaper von
+
+#Subscription
+subscription_description: Hier können Sie Ihren Abonnementstatus kontrollieren. Derzeit kostet die Nutzung des Dienstes 3€ monatlich

@@ -1,3 +1,6 @@
+api:
+  resource: App\Controller\ApiLogController
+  type:     annotation
 # Security
 login:
   path: /login/{_locale}
