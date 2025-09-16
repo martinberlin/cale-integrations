@@ -12,12 +12,11 @@
         <span class="cale" style="font-weight:bold">CALE</span> is a screen administrator where you can mix the content of different APIs
             and control the output.
     </h4>
+        <img src="https://img.cale.es/jpg/carlosfasani/5e5ab5953a441" alt="SCD40 sensor data chart">
+        <small>SCD40 ambient temperature, humidity and CO2. Arenys d'Mar</small><br>
 
-        {% if app.environment != 'dev' %}
-        <video id="index" title="Video: Convert your Screen into an Eink" width="100%" controls autoplay>
-            <source src="{{ cdn_s3 }}/v/c-converts-your-screens.mov">
-        </video>
-        {% endif %}
+        <img src="https://img.cale.es/jpg/fasani/67c703767eb68" alt="Electricity consumption chart">
+        <small>Electricity consumption, power factor and 10 minutes detailed chart (Home office)</small>
 
     </div>
     <h5>You can use it on any <b>WiFi display</b> like your tablet, mobile, or ultimately in a
@@ -55,6 +54,12 @@
         Enabling you to have full control of what is going on between your application and the display controller.
         You can even fork it and customize it for your own project or use our working examples in your own Firmware implementation.
         </p>
+
+        {% if app.environment != 'dev' %}
+            <video id="index" title="Video: Convert your Screen into an Eink" width="100%" controls autoplay>
+                <source src="{{ cdn_s3 }}/v/c-converts-your-screens.mov">
+            </video>
+        {% endif %}
     </div>
     </div>
 
