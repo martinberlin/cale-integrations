@@ -371,6 +371,48 @@ class HomeController extends AbstractController
     }
 
     /**
+     * Corrects orientation of a JPEG image using EXIF data.
+     * @param string $filename Path to the JPEG image file
+     * @param resource $image GD image resource (created with imagecreatefromjpeg)
+     * @return resource Rotated/flipped image resource
+     */
+    private function fix_image_orientation($filename, $image)
+    {
+        if (function_exists('exif_read_data')) {
+            $exif = @exif_read_data($filename);
+            if (!empty($exif['Orientation'])) {
+                switch ($exif['Orientation']) {
+                    case 2: // Mirror horizontally
+                        imageflip($image, IMG_FLIP_HORIZONTAL);
+                        break;
+                    case 3: // Rotate 180°
+                        $image = imagerotate($image, 180, 0);
+                        break;
+                    case 4: // Mirror vertically
+                        imageflip($image, IMG_FLIP_VERTICAL);
+                        break;
+                    case 5: // Mirror horizontally and rotate 270°
+                        imageflip($image, IMG_FLIP_HORIZONTAL);
+                        $image = imagerotate($image, 270, 0);
+                        break;
+                    case 6: // Rotate 90°
+                        $image = imagerotate($image, -90, 0);
+                        break;
+                    case 7: // Mirror horizontally and rotate 90°
+                        imageflip($image, IMG_FLIP_HORIZONTAL);
+                        $image = imagerotate($image, -90, 0);
+                        break;
+                    case 8: // Rotate 270°
+                        $image = imagerotate($image, -270, 0);
+                        break;
+                    // case 1: Normal - do nothing
+                }
+            }
+        }
+        return $image;
+    }
+
+    /**
      * Resize an image using PHP-GD to fit within 1872x1404, preserving aspect ratio.
      * Converts unknown formats to JPG.
      * @param string $src_path Path to the uploaded image
@@ -443,7 +485,7 @@ class HomeController extends AbstractController
                     $result = imagejpeg($dst_img, $dest_path, $jpg_quality);
             }
         }
-
+        $result = $this->fix_image_orientation($result, $dest_path);
         // Free memory
         imagedestroy($src_img);
         imagedestroy($dst_img);
@@ -497,11 +539,12 @@ class HomeController extends AbstractController
                 $fileUploaded = true;
             }
         }
-        // DEMO
+        // www image patch
+        $protocol = $request->isSecure() ? 'https' : 'http';
         if ($fileUploaded) {
-            $jpgUrl = 'https://'.$request->getHost().$imgDir.'res_'.$safeFilename;
+            $jpgUrl = "$protocol://".$request->getHost().$imgDir.'res_'.$safeFilename;
         } else {
-            $jpgUrl = 'https://'.$request->getHost().'/assets/ble/empty.jpg';
+            $jpgUrl = "$protocol://".$request->getHost().'/assets/ble/empty.jpg';
         }
         $jpg = file_get_contents($jpgUrl);
 
