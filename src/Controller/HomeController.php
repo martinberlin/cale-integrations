@@ -506,9 +506,11 @@ class HomeController extends AbstractController
         $month = date('m');  // e.g. 09
         $imgDir = $this->getParameter('screen_images_directory').'/ble/'.$year.'/'.$month.'/';
         $fileUploaded = false;
+        $imageCompression = 60;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('imageFile')->getData();
+            $imageCompression = $form->get('jpgCompression')->getData();
 
             if ($imageFile) {
                 // this is needed to safely include the file name as part of the URL
@@ -527,7 +529,8 @@ class HomeController extends AbstractController
                         $this->publicRelativePath.$imgDir.'/'.$safeFilename,
                         $this->publicRelativePath.$imgDir.'res_'.$safeFilename,
                         $target_width,
-                        $target_height
+                        $target_height,
+                        $imageCompression
                     );
                     unlink($this->publicRelativePath.$imgDir.'/'.$safeFilename);
 
@@ -541,7 +544,7 @@ class HomeController extends AbstractController
             }
         }
         // www image patch
-        $protocol = $request->isSecure() ? 'https' : 'http';
+        $protocol = $request->isSecure() ? 'http' : 'http';
         if ($fileUploaded) {
             $jpgUrl = "$protocol://".$request->getHost().$imgDir.'res_'.$safeFilename;
         } else {
