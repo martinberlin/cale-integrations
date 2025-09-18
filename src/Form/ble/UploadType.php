@@ -18,11 +18,11 @@ class UploadType extends AbstractType
                 [
                     'label' => 'Compresión JPG',
                     'choices' => [
-                        'Media calidad' => '75',
-                        'Baja (menos calidad, más rápido)' => '60',
-                        'Alta (más calidad, mas tiempo)' => '90'
+                        'Baja (menos calidad, envio rápido)' => '50',
+                        'Media calidad' => '70',
+                        'Alta (más calidad, envio lento)' => '90'
                     ],
-                    'preferred_choices' => [75,60],
+                    'preferred_choices' => [50],
                     'attr' => [
                         'class' => 'form-control'
                     ]
