@@ -544,7 +544,7 @@ class HomeController extends AbstractController
             }
         }
         // www image patch
-        $protocol = $request->isSecure() ? 'http' : 'http';
+        $protocol = $request->isSecure() ? 'https' : 'http';
         if ($fileUploaded) {
             $jpgUrl = "$protocol://".$request->getHost().$imgDir.'res_'.$safeFilename;
         } else {
