@@ -29,7 +29,7 @@ class UploadType extends AbstractType
                 ])
             ->add('imageFile', FileType::class,
                 [
-                    'label' => 'Seleccionar imagen (max. %max_kb% Kb)',
+                    'label' => '1. Seleccionar imagen (max. %max_kb% Kb)',
                     'label_translation_parameters' => [
                       '%max_kb%' => $options['max_size']
                     ],
@@ -52,11 +52,11 @@ class UploadType extends AbstractType
                         ])
                     ]
                 ])
-            ->add('upload', SubmitType::class,
+            /*->add('upload', SubmitType::class,
                 [
                     'label' => '1. Subir imagen',
                     'attr' => ['class' => 'btn btn-primary form-control', 'style' => 'margin-top:2em']
-                ])
+                ])*/
         ;
     }
 

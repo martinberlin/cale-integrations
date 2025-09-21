@@ -11,7 +11,7 @@
                 {{ form_widget(form.jpgCompression) }}
                 {{ form_widget(form.imageFile) }}
 
-                {{ form_widget(form.upload, {'attr': {'margin-top':'-2em'}}) }}
+                <strong>1. Subir imagen</strong><br>
                 <strong>2. Conectarse al dispositivo (BLE_JPG_***)</strong><br>
                 <strong>3. Enviar al display</strong>
 
@@ -37,11 +37,11 @@
             <div class="row">
                 <div class="col-md-6">
                 <button id="connectbutton" type="button" onclick="connect()" class="btn btn-primary" style="font-size:18px">
-                    <strong>2. Conecta con BLE </strong><i class="fa fa-bluetooth"></i></button><br><br>
+                    <strong>Conecta con BLE </strong><i class="fa fa-bluetooth"></i></button><br><br>
                 </div>
                 <div class="col-md-6">
                 <button id="sendimage" type="button" onclick="sendimg(image_bytes)" class="btn btn-warning" style="font-size:18px"><i class="fa fa-arrow-right" ></i>
-                    <strong>3. Enviar imagen</strong></button>
+                    <strong>Enviar imagen</strong></button>
                 </div>
             </div>
         </div>
