@@ -8,9 +8,10 @@
             {{ form_start(form) }}
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <h3>Envio de imagen por Bluetooth (<a href="javascript://" onclick="window.location.reload(true)">Reload</a>)</h3>
-                {{ form_widget(form.imageFile) }}
                 {{ form_widget(form.jpgCompression) }}
-                {{ form_widget(form.submit, {'attr': {'margin-top':'-2em'}}) }}
+                {{ form_widget(form.imageFile) }}
+
+                {{ form_widget(form.upload, {'attr': {'margin-top':'-2em'}}) }}
                 <strong>2. Conectarse al dispositivo (BLE_JPG_***)</strong><br>
                 <strong>3. Enviar al display</strong>
 
@@ -81,6 +82,12 @@
         let busy = false;
         let imgArray;
         let uploadPart = 0;
+
+        function handleFileSelect() {
+            document.forms[0].submit();
+        }
+
+        document.getElementById('imageFile').addEventListener('change', handleFileSelect, false);
 
         function sleep(millis) {
             return new Promise(resolve => {

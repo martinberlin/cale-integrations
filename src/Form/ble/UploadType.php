@@ -52,7 +52,7 @@ class UploadType extends AbstractType
                         ])
                     ]
                 ])
-            ->add('submit', SubmitType::class,
+            ->add('upload', SubmitType::class,
                 [
                     'label' => '1. Subir imagen',
                     'attr' => ['class' => 'btn btn-primary form-control', 'style' => 'margin-top:2em']
@@ -75,7 +75,8 @@ class UploadType extends AbstractType
             'allow_extra_fields' => true,
             'max_size' => '9000', // Kb
             'position' => null,
-            'img_caption' => null
+            'img_caption' => null,
+            'attr' => ['id' => 'select_image']
         ]);
     }
 }
