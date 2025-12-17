@@ -8,61 +8,17 @@
 {% block body %}
     <div class="text-center" style="margin-top: -2em">
     <h3><span class="cale">API Mashup creator for your WiFi displays</span></h3>
-    <h4>
-        <span class="cale" style="font-weight:bold">CALE</span> is a screen administrator where you can mix the content of different APIs
-            and control the output.
+    <h4 color="red">
+        <span class="cale" style="font-weight:bold">CALE</span> is stopping payment methods 20 Dec. 2025 and it's starting a close down service operations end of January.
     </h4>
         <img src="https://img.cale.es/jpg/carlosfasani/5e5ab5953a441" alt="SCD40 sensor data chart">
         <small>SCD40 ambient temperature, humidity and CO2. Arenys d'Mar</small><br>
 
-        <img src="https://img.cale.es/jpg/fasani/67c703767eb68" alt="Electricity consumption chart">
-        <small>Electricity consumption, power factor and 10 minutes detailed chart (Home office)</small>
+        <h2 style="text-weight:bold">
+            We strongly recommend you to use the professional service of our friends at <a href="https://usetrmnl.com">TRMNL</a> instead.
+        </h2>
 
     </div>
-    <h5>You can use it on any <b>WiFi display</b> like your tablet, mobile, or ultimately in a
-        WiFi E-Paper screen that is every hour fetching new content at minimum consumption.
-    </h5>
-
-    <div class="row">
-            <div class="col-md-2"></div>
-        <div class="col-md-4 col-sm-6 col-xs-12 text-center">
-            <button type="button" class="btn btn-primary form-control" onclick="window.location='{{ path('login') }}'">
-                Login</button>
-        </div>
-        <div class="col-md-4 col-sm-6 col-xs-12 text-center">
-        <button type="button" class="btn btn-success form-control" onclick="window.location='{{ path('register') }}'">
-            Create an account</button>
-        </div>
-            <div class="col-md-2"></div>
-    </div>
-
-    <br><br>
-    <div class="row">
-    <div class="col-md-12">
-        <h3>API integration example with Ethereum balance and Cloudwatch monitoring</h3>
-
-
-        <h4>800*600 pixels bitmap demo for an <a href="{{ path('displays-eink') }}">Epaper WiFi display</a></h4>
-        <img src="{{ bmp_800_demo}}" style="border:1px solid #EEEEEE;margin-left:1px" width="98%"><br>
-        <small style="font-size:9pt;color:#666666">800*600 bitmap preview (4 bits por pixel). Image generated dynamically each 2 hrs</small>
-
-        <p style="margin-top:2em">
-            <h4><a href="{{ path('firmware-idf') }}">Our Firmware</a> is compatible with ESP32 (C3,S3) Espressif boards and it's ready to be configured with
-            <span class="cale" style="font-weight:bold">Rainmaker (Check feature/50-idf-v5-rainmaker branch)</span></h4>
-        <br>
-        Both Firmware and Cale website are open source.
-        Enabling you to have full control of what is going on between your application and the display controller.
-        You can even fork it and customize it for your own project or use our working examples in your own Firmware implementation.
-        </p>
-
-        {% if app.environment != 'dev' %}
-            <video id="index" title="Video: Convert your Screen into an Eink" width="100%" controls autoplay>
-                <source src="{{ cdn_s3 }}/v/c-converts-your-screens.mov">
-            </video>
-        {% endif %}
-    </div>
-    </div>
-
 {% endblock %}
 
 {% block javascripts %}

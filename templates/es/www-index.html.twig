@@ -7,46 +7,19 @@
 
 {% block body %}
     <div class="text-center" style="margin-top: -2em">
-    <h3><span class="cale">bienvenidos a CALE</span></h3>
-    <h4>
-        <span class="cale">CALE</span> es un administrador que permite mezclar el contenido
-        de distintas APIs en tus pantallas con un diseño personalizado
-    </h4>
-        <img src="http://img.cale.es/jpg/fasani/67c703767eb68" alt="SCD40 sensor data">
-        <small>SCD40 temperatura, humedad, y concentración de CO2 logeados por CALE Sensor-API</small>
-    </div>
-    <h5>Puedes usarlo en tu tablet o en un display WiFi de tinta electrónica que cada cierto tiempo
-        se actualiza automáticamente con nuevos contenidos con un consumo de batería mínimo.
-    </h5>
+        <h3><span class="cale">API Mashup creador de displays WiFi</span></h3>
+        <h4 color="red">
+            <span class="cale" style="font-weight:bold">CALE</span> esta parando cualquier metodo de pago a partir de hoy y planea el cierre
+            de operaciones a fines de Enero 2026
+        </h4>
+        <img src="https://img.cale.es/jpg/carlosfasani/5e5ab5953a441" alt="SCD40 sensor data chart">
+        <small>SCD40 temperatura ambiente, humedad y CO2. Arenys d'Mar</small><br>
 
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-4 col-sm-6 col-xs-12 text-center">
-            <button type="button" class="btn btn-primary form-control" onclick="window.location='{{ path('login') }}'">
-                Login</button>
-        </div>
-        <div class="col-md-4 col-sm-6 col-xs-12 text-center">
-            <button type="button" class="btn btn-success form-control" onclick="window.location='{{ path('register') }}'">
-                Crea una cuenta</button>
-        </div>
-        <div class="col-md-2"></div>
-    </div>
+        <h2 style="text-weight:bold">
+            Sentimos las molestias ocasionadas por este cierre de operaciones.<br>
+           Le recomendamos usar el servicio de nuestros amigos en <a href="https://usetrmnl.com">TRMNL</a> a partir de ahora.
+        </h2>
 
-    <br><br>
-    <div class="row">
-        <div class="col-md-12">
-            <h3>Ejemplo con visualización con Etherscan y Cloudwatch monitoring API</h3>
-
-            <h4>Imágen renderizada para un <a href="{{ path('displays-eink') }}">Epaper display de 800*600 pixeles</a></h4>
-            <img src="{{ bmp_800_demo}}" style="border:1px solid #EEEEEE;margin-left:1px" width="98%"><br>
-            <small style="font-size:9pt;color:#666666">Bitmap de 800*600 pixeles. Generado cada 2 horas desde nuestro Web-Service</small><br>
-
-            <b>Nuestro Firmware es compatible con todos los boards Espressif ESP32 (C3,S3) y está listo para ser configurado con Rainmaker<br>
-                (Ver función/rama 50-idf-v5-rainmaker)</b>
-
-            Tanto el firmware como el sitio web de Cale son de código abierto. Permitiéndole tener control total de lo que sucede entre su aplicación y el controlador de pantalla.
-            Incluso puede clonarlo y personalizarlo para su propio proyecto o utilizar nuestros ejemplos de trabajo en su propia implementación de firmware.
-        </div>
     </div>
 {% endblock %}
 

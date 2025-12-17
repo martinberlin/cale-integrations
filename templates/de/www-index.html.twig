@@ -7,48 +7,18 @@
 
 {% block body %}
     <div class="text-center" style="margin-top: -2em">
-    <h3><span class="cale">API Mashup Creator für Ihre WiFi-Displays</span></h3>
-    <h4>
-        <span class="cale">CALE</span>  ist ein Bildschirmadministrator, mit dem Sie Inhalte verschiedener APIs mischen
-        und die Inhaltsausgabe steuern können.
-    </h4>
-        <img src="http://img.cale.es/jpg/fasani/67c703767eb68" alt="SCD40 sensor data">
-        <small>SCD40 Umgebungstemperatur-, Feuchtigkeits- und CO2-Daten mithilfe unserer neuen Sensor-API</small>
+        <h3><span class="cale">API Mashup creator für ihre WiFi displays</span></h3>
+        <h4 color="red">
+            <span class="cale" style="font-weight:bold">CALE</span> stellt die Zahlungsmethoden am 20. Dezember 2025 ein und beginnt Ende Januar mit der schrittweisen Einstellung des Servicebetriebs.
+        </h4>
+        <img src="https://img.cale.es/jpg/carlosfasani/5e5ab5953a441" alt="SCD40 sensor data chart">
+        <small>SCD40 ambient temperature, humidity and CO2. Arenys d'Mar</small><br>
+
+        <h2 style="text-weight:bold">
+            Wir empfehlen Ihnen dringend, stattdessen den professionellen Service unserer Freunde bei <a href="https://usetrmnl.com">TRMNL</a> in Anspruch zu nehmen.
+        </h2>
 
     </div>
-    <h5>Sie können es auf jedem WiFi-Display wie Ihrem Tablet, Handy oder letztendlich auf einem WiFi-E-Paper-Bildschirm verwenden,
-        auf dem stündlich neue Inhalte mit minimalem Verbrauch abgerufen werden
-    </h5>
-    <div class="row">
-            <div class="col-md-2"></div>
-        <div class="col-md-4 col-sm-6 col-xs-12 text-center">
-            <button type="button" class="btn btn-primary form-control" onclick="window.location='{{ path('login') }}'">
-                Anmelden</button>
-        </div>
-        <div class="col-md-4 col-sm-6 col-xs-12 text-center">
-        <button type="button" class="btn btn-success form-control" onclick="window.location='{{ path('register') }}'">
-            Account erstellen</button>
-        </div>
-            <div class="col-md-2"></div>
-    </div>
-
-    <br><br>
-    <div class="row">
-    <div class="col-md-12">
-        <h3>Beispiel für eine API-Integration mit Etherscan und AWS Cloudwatch-Überwachung</h3>
-
-        <h4>Screen generation für einem <a href="{{ path('displays-eink') }}">800*600 E-Ink WiFi display</a></h4>
-        <img src="{{ bmp_800_demo}}" style="border:1px solid #EEEEEE;margin-left:1px" width="98%"><br>
-        <small style="font-size:9pt;color:#666666">800*600 inches Epaper display preview. Generiert jede 2 Stunden mit unsere Web-Service</small><br>
-
-        <strong>Unsere Firmware ist mit alle ESP32 (C3, S3) Espressif-Boards kompatibel und kann mit Rainmaker konfiguriert werden
-            <br>(siehe Feature/50-idf-v5-rainmaker-Zweig).</strong><br>
-
-        Sowohl Firmware als auch die Cale-Website sind Open Source. So haben Sie die volle Kontrolle darüber, was zwischen Ihrer Anwendung und dem Display-Controller geschieht. Sie können es sogar forken und für Ihr eigenes Projekt anpassen oder unsere Arbeitsbeispiele in Ihrer eigenen Firmware-Implementierung verwenden.
-
-    </div>
-    </div>
-
 {% endblock %}
 
 {% block javascripts %}
