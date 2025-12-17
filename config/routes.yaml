@@ -280,3 +280,7 @@ www_product-epdiy:
     _locale: en
   requirements:
     _locale: '%locales%'
+
+ble:
+  path:       /ble
+  controller: App\Controller\HomeController::screenBleJpg

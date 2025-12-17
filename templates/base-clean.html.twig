@@ -1,0 +1,86 @@
+{% set http_host = app.request.getSchemeAndHttpHost()|replace({'www.': ''}) %}
+{% set the_route = app.request.attributes.get('_route') %}
+{% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params'))  %}
+
+<!DOCTYPE html>
+<!--[if gte IE 10 | !IE ]><!--> <html lang="en"> <!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ 'meta_description'|trans }}">
+
+    {% if the_route != 'reset_password_confirm' %}
+        {% set canonical = http_host ~ currentPath %}
+        <link rel=”canonical” href=”{{ canonical }}">
+    {% endif %}
+
+        <title>{% if title is defined %}{{title}} - CALE{% else %}CALE Screen manager{% endif %}</title>
+
+        {# Bootstrap 3 core CSS #}
+    {% if app.environment != 'dev' %}
+        <link href="{{ cdn_s3 }}/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-WPXS5ZLVRC"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-WPXS5ZLVRC');
+        </script>
+
+    {% else %}
+        <link href="/css/bootstrap.min.css" rel="stylesheet">
+    {% endif %}
+        <link href="/css/theme.css" rel="stylesheet">
+
+    {% block stylesheets %}{% endblock %}
+
+    <script src="/js/polyfill.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <![endif]-->
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Asap&display=swap');
+    </style>
+    </head>
+    <body>
+        <div id="main-container" class="container">
+            <div class="row">
+            <div id="container-content-column" class="col-sm-12">
+                <div style="background: #333333">
+                    <img src="/assets/cale-logo.svg" alt="CALE logo" style="height:30px;"/>
+                </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    {% for message in app.flashes('error') %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+        {% block body %}{% endblock %}
+                </div>
+            </div>
+            </div>
+
+        </div>
+    </div>
+
+    {% if app.environment != 'dev' %}
+        <script type="text/javascript" src="{{ cdn_s3 }}/js/bootstrap-native.js"></script>
+    {% else %}
+        <script type="text/javascript" src="/js/bootstrap-native.js"></script>
+    {% endif %}
+    <script type="text/javascript" src="/js/base.js"></script>
+
+    {% block javascripts %}{% endblock %}
+    </body>
+</html>
