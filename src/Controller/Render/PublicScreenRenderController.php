@@ -91,10 +91,10 @@ class PublicScreenRenderController extends AbstractController
         $htmlPerColumn['Column_2nd'] = '';
         $htmlPerColumn['Column_3rd'] = '';
 
-        if (!$userRepository->hasSubscription($user)) {
+        /*if (!$userRepository->hasSubscription($user)) {
             $htmlPerColumn['Column_1st'] = '<div style="background-color:red;color:white;padding-left:1em">
 CALE service costs <b>3€/month</b>. Login in cale.es/backend to remove this banner</div>';
-        }
+        }*/
 
         foreach ($partials as $p) {
             if ($p instanceof TemplatePartial) {
